@@ -1,0 +1,107 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,4
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "timer_conf.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .global scheduler_timer
+  20              	 .global scheduler_timer_config
+  21              	 .global tick_timer
+  22              	 .global tick_timer_config
+  23              	 .section .data.tick_timer,"aw",%progbits
+  24              	 .align 2
+  27              	tick_timer:
+  28 0000 A0860100 	 .word 100000
+  29 0004 3435E358 	 .word 1491285300
+  30 0008 0A000000 	 .word 10
+  31 000c 00500000 	 .word 20480
+  32 0010 00000000 	 .word GLOBAL_CCU4_0
+  33 0014 00040140 	 .word 1073808384
+  34 0018 03       	 .byte 3
+  35 0019 000000   	 .space 3
+  36 001c 00000000 	 .word tick_timer_config
+  37 0020 01       	 .byte 1
+  38 0021 00       	 .byte 0
+  39 0022 9F8C     	 .short -29537
+  40 0024 01       	 .byte 1
+  41 0025 01       	 .byte 1
+  42 0026 00       	 .byte 0
+  43 0027 00       	 .space 1
+  44              	 .section .data.scheduler_timer,"aw",%progbits
+  45              	 .align 2
+  48              	scheduler_timer:
+  49 0000 A0860100 	 .word 100000
+  50 0004 3435E358 	 .word 1491285300
+  51 0008 0A000000 	 .word 10
+  52 000c 00500000 	 .word 20480
+  53 0010 00000000 	 .word GLOBAL_CCU4_1
+  54 0014 00440048 	 .word 1207976960
+  55 0018 03       	 .byte 3
+  56 0019 000000   	 .space 3
+  57 001c 00000000 	 .word scheduler_timer_config
+  58 0020 01       	 .byte 1
+  59 0021 00       	 .byte 0
+  60 0022 9F8C     	 .short -29537
+  61 0024 00       	 .byte 0
+  62 0025 01       	 .byte 1
+  63 0026 00       	 .byte 0
+  64 0027 00       	 .space 1
+  65              	 .section .data.scheduler_timer_config,"aw",%progbits
+  66              	 .align 2
+  69              	scheduler_timer_config:
+  70 0000 00       	 .byte 0
+  71 0001 00       	 .byte 0
+  72 0002 00       	 .byte 0
+  73 0003 00       	 .byte 0
+  74 0004 02       	 .byte 2
+  75 0005 00       	 .byte 0
+  76 0006 0000     	 .space 2
+  77              	 .section .data.tick_timer_config,"aw",%progbits
+  78              	 .align 2
+  81              	tick_timer_config:
+  82 0000 00       	 .byte 0
+  83 0001 00       	 .byte 0
+  84 0002 00       	 .byte 0
+  85 0003 00       	 .byte 0
+  86 0004 02       	 .byte 2
+  87 0005 00       	 .byte 0
+  88 0006 0000     	 .space 2
+  89              	 .text
+  90              	.Letext0:
+  91              	 .file 1 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+  92              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+  93              	 .file 3 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+  94              	 .file 4 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/inc/xmc_ccu4.h"
+  95              	 .file 5 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/inc/xmc4_scu.h"
+  96              	 .file 6 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/GLOBAL_CCU4/global_ccu4.h"
+  97              	 .file 7 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/TIMER/timer.h"
+  98              	 .file 8 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/CMSIS/Include/core_cm4.h"
+  99              	 .file 9 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+ 100              	 .file 10 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/GLOBAL_CCU4/global_ccu4_extern.h"
+ 101              	 .file 11 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/TIMER/timer_conf.c"
+DEFINED SYMBOLS
+                            *ABS*:00000000 timer_conf.c
+    {standard input}:48     .data.scheduler_timer:00000000 scheduler_timer
+    {standard input}:69     .data.scheduler_timer_config:00000000 scheduler_timer_config
+    {standard input}:27     .data.tick_timer:00000000 tick_timer
+    {standard input}:81     .data.tick_timer_config:00000000 tick_timer_config
+    {standard input}:24     .data.tick_timer:00000000 $d
+    {standard input}:45     .data.scheduler_timer:00000000 $d
+    {standard input}:66     .data.scheduler_timer_config:00000000 $d
+    {standard input}:78     .data.tick_timer_config:00000000 $d
+
+UNDEFINED SYMBOLS
+GLOBAL_CCU4_0
+GLOBAL_CCU4_1

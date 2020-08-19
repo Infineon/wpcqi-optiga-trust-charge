@@ -1,0 +1,193 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,4
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "xmc_gpio.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.XMC_GPIO_SetMode,"ax",%progbits
+  20              	 .align 1
+  21              	 .global XMC_GPIO_SetMode
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	XMC_GPIO_SetMode:
+  26              	.LFB145:
+  27              	 .file 1 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src/xmc_gpio.c"
+   1:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** /**
+   2:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * @file xmc_gpio.c
+   3:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * @date 2015-06-20
+   4:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *
+   5:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * @cond
+   6:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  **************************************************************************************************
+   7:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * XMClib v2.1.20 - XMC Peripheral Driver Library 
+   8:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *
+   9:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * Copyright (c) 2015-2018, Infineon Technologies AG
+  10:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * All rights reserved.                        
+  11:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *                                             
+  12:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * Redistribution and use in source and binary forms, with or without modification,are permitted pr
+  13:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * following conditions are met:   
+  14:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *                                                                              
+  15:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * Redistributions of source code must retain the above copyright notice, this list of conditions a
+  16:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * disclaimer.                        
+  17:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * 
+  18:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * Redistributions in binary form must reproduce the above copyright notice, this list of condition
+  19:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * disclaimer in the documentation and/or other materials provided with the distribution.          
+  20:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * 
+  21:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * Neither the name of the copyright holders nor the names of its contributors may be used to endor
+  22:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * products derived from this software without specific prior written permission.                  
+  23:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *                                                                              
+  24:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR I
+  25:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTI
+  26:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE  FOR ANY DIRECT, IN
+  27:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBS
+  28:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THE
+  29:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * WHETHER IN CONTRACT, STRICT LIABILITY,OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+  30:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                            
+  31:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *                                                                              
+  32:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * To improve the quality of the software, users are encouraged to share modifications, enhancement
+  33:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * Infineon Technologies AG dave@infineon.com).                                                    
+  34:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  **************************************************************************************************
+  35:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *
+  36:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * Change History
+  37:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * --------------
+  38:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *
+  39:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * 2015-02-20:
+  40:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *     - Initial draft <br>
+  41:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *      
+  42:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * 2015-06-20:
+  43:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *     - Removed version macros and declaration of GetDriverVersion API
+  44:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *
+  45:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * @endcond
+  46:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *
+  47:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  */
+  48:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** 
+  49:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** /*******************************************************************************
+  50:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * HEADER FILES
+  51:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *******************************************************************************/
+  52:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** 
+  53:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** #include <xmc_gpio.h>
+  54:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** 
+  55:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** /*******************************************************************************
+  56:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * MACROS
+  57:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *******************************************************************************/
+  58:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** 
+  59:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** #define PORT_HWSEL_Msk PORT0_HWSEL_HW0_Msk
+  60:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** 
+  61:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** /*******************************************************************************
+  62:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  * API IMPLEMENTATION
+  63:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****  *******************************************************************************/
+  64:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** 
+  65:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** void XMC_GPIO_SetMode(XMC_GPIO_PORT_t *const port, const uint8_t pin, const XMC_GPIO_MODE_t mode)
+  66:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** {
+  28              	 .loc 1 66 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	.LVL0:
+  33 0000 01F0FC03 	 and r3,r1,#252
+  34 0004 1844     	 add r0,r0,r3
+  35              	.LVL1:
+  67:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****   XMC_ASSERT("XMC_GPIO_SetMode: Invalid port", XMC_GPIO_CHECK_PORT(port));
+  68:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****   XMC_ASSERT("XMC_GPIO_SetMode: Invalid mode", XMC_GPIO_IsModeValid(mode));
+  69:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** 
+  70:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****   port->IOCR[(uint32_t)pin >> 2U] &= ~(uint32_t)((uint32_t)PORT_IOCR_PC_Msk << ((uint32_t)PORT_IOCR
+  36              	 .loc 1 70 0
+  37 0006 01F00301 	 and r1,r1,#3
+  38              	.LVL2:
+  66:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****   XMC_ASSERT("XMC_GPIO_SetMode: Invalid port", XMC_GPIO_CHECK_PORT(port));
+  39              	 .loc 1 66 0
+  40 000a 10B5     	 push {r4,lr}
+  41              	.LCFI0:
+  42              	 .cfi_def_cfa_offset 8
+  43              	 .cfi_offset 4,-8
+  44              	 .cfi_offset 14,-4
+  45              	 .loc 1 70 0
+  46 000c C900     	 lsls r1,r1,#3
+  47 000e 0469     	 ldr r4,[r0,#16]
+  48 0010 F823     	 movs r3,#248
+  49 0012 8B40     	 lsls r3,r3,r1
+  50 0014 24EA0303 	 bic r3,r4,r3
+  51 0018 0361     	 str r3,[r0,#16]
+  71:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****   port->IOCR[(uint32_t)pin >> 2U] |= (uint32_t)mode << ((uint32_t)PORT_IOCR_PC_Size * ((uint32_t)pi
+  52              	 .loc 1 71 0
+  53 001a 0369     	 ldr r3,[r0,#16]
+  54 001c 8A40     	 lsls r2,r2,r1
+  55              	.LVL3:
+  56 001e 1343     	 orrs r3,r3,r2
+  57 0020 0361     	 str r3,[r0,#16]
+  58 0022 10BD     	 pop {r4,pc}
+  59              	 .cfi_endproc
+  60              	.LFE145:
+  62              	 .section .text.XMC_GPIO_SetHardwareControl,"ax",%progbits
+  63              	 .align 1
+  64              	 .global XMC_GPIO_SetHardwareControl
+  65              	 .thumb
+  66              	 .thumb_func
+  68              	XMC_GPIO_SetHardwareControl:
+  69              	.LFB146:
+  72:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** }
+  73:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** 
+  74:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** void XMC_GPIO_SetHardwareControl(XMC_GPIO_PORT_t *const port, const uint8_t pin, const XMC_GPIO_HWC
+  75:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** {
+  70              	 .loc 1 75 0
+  71              	 .cfi_startproc
+  72              	 
+  73              	 
+  74              	.LVL4:
+  76:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****   XMC_ASSERT("XMC_GPIO_SetHardwareControl: Invalid port", XMC_GPIO_CHECK_PORT(port));
+  77:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****   XMC_ASSERT("XMC_GPIO_SetHardwareControl: Invalid hwctrl", XMC_GPIO_CHECK_HWCTRL(hwctrl));
+  78:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c **** 
+  79:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****   port->HWSEL &= ~(uint32_t)((uint32_t)PORT_HWSEL_Msk << ((uint32_t)pin << 1U));
+  75              	 .loc 1 79 0
+  76 0000 436F     	 ldr r3,[r0,#116]
+  77 0002 4900     	 lsls r1,r1,#1
+  78              	.LVL5:
+  75:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****   XMC_ASSERT("XMC_GPIO_SetHardwareControl: Invalid port", XMC_GPIO_CHECK_PORT(port));
+  79              	 .loc 1 75 0
+  80 0004 10B5     	 push {r4,lr}
+  81              	.LCFI1:
+  82              	 .cfi_def_cfa_offset 8
+  83              	 .cfi_offset 4,-8
+  84              	 .cfi_offset 14,-4
+  85              	 .loc 1 79 0
+  86 0006 0324     	 movs r4,#3
+  87 0008 8C40     	 lsls r4,r4,r1
+  88 000a 23EA0403 	 bic r3,r3,r4
+  89 000e 4367     	 str r3,[r0,#116]
+  80:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc_gpio.c ****   port->HWSEL |= (uint32_t)hwctrl << ((uint32_t)pin << 1U);
+  90              	 .loc 1 80 0
+  91 0010 436F     	 ldr r3,[r0,#116]
+  92 0012 8A40     	 lsls r2,r2,r1
+  93              	.LVL6:
+  94 0014 1343     	 orrs r3,r3,r2
+  95 0016 4367     	 str r3,[r0,#116]
+  96 0018 10BD     	 pop {r4,pc}
+  97              	 .cfi_endproc
+  98              	.LFE146:
+ 100              	 .text
+ 101              	.Letext0:
+ 102              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 103              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 104              	 .file 4 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/inc/xmc_gpio.h"
+ 105              	 .file 5 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/inc/xmc4_gpio.h"
+ 106              	 .file 6 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/CMSIS/Include/core_cm4.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 xmc_gpio.c
+    {standard input}:20     .text.XMC_GPIO_SetMode:00000000 $t
+    {standard input}:25     .text.XMC_GPIO_SetMode:00000000 XMC_GPIO_SetMode
+    {standard input}:63     .text.XMC_GPIO_SetHardwareControl:00000000 $t
+    {standard input}:68     .text.XMC_GPIO_SetHardwareControl:00000000 XMC_GPIO_SetHardwareControl
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

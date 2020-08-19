@@ -1,0 +1,223 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,4
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "xmc4_eru.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.XMC_ERU_Enable,"ax",%progbits
+  20              	 .align 1
+  21              	 .global XMC_ERU_Enable
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	XMC_ERU_Enable:
+  26              	.LFB173:
+  27              	 .file 1 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src/xmc4_eru.c"
+   1:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** /**
+   2:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * @file xmc4_eru.c
+   3:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * @date 2015-02-20
+   4:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  *
+   5:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * @cond
+   6:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  **************************************************************************************************
+   7:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * XMClib v2.1.20 - XMC Peripheral Driver Library 
+   8:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  *
+   9:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * Copyright (c) 2015-2018, Infineon Technologies AG
+  10:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * All rights reserved.                        
+  11:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  *                                             
+  12:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * Redistribution and use in source and binary forms, with or without modification,are permitted pr
+  13:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * following conditions are met:   
+  14:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  *                                                                              
+  15:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * Redistributions of source code must retain the above copyright notice, this list of conditions a
+  16:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * disclaimer.                        
+  17:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * 
+  18:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * Redistributions in binary form must reproduce the above copyright notice, this list of condition
+  19:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * disclaimer in the documentation and/or other materials provided with the distribution.          
+  20:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * 
+  21:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * Neither the name of the copyright holders nor the names of its contributors may be used to endor
+  22:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * products derived from this software without specific prior written permission.                  
+  23:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  *                                                                              
+  24:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR I
+  25:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTI
+  26:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE  FOR ANY DIRECT, IN
+  27:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBS
+  28:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THE
+  29:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * WHETHER IN CONTRACT, STRICT LIABILITY,OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+  30:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                            
+  31:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  *                                                                              
+  32:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * To improve the quality of the software, users are encouraged to share modifications, enhancement
+  33:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * Infineon Technologies AG dave@infineon.com).                                                    
+  34:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  **************************************************************************************************
+  35:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  *
+  36:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * Change History
+  37:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * --------------
+  38:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  *
+  39:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * 2015-02-20:
+  40:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  *     - Initial <br>
+  41:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  *
+  42:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * @endcond
+  43:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  */
+  44:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** #include "xmc_eru.h"
+  45:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** 
+  46:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** #if UC_FAMILY == XMC4
+  47:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** #include "xmc_scu.h"
+  48:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** 
+  49:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** /**************************************************************************************************
+  50:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  * API IMPLEMENTATION
+  51:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****  **************************************************************************************************
+  52:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** /* Enable the clock and De-assert the ERU module from the reset state. */
+  53:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** void XMC_ERU_Enable(XMC_ERU_t *const eru)
+  54:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** {
+  28              	 .loc 1 54 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	.LVL0:
+  33 0000 08B5     	 push {r3,lr}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 8
+  36              	 .cfi_offset 3,-8
+  37              	 .cfi_offset 14,-4
+  55:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** #if defined(XMC_ERU1)
+  56:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****   if (eru == XMC_ERU1)
+  38              	 .loc 1 56 0
+  39 0002 074B     	 ldr r3,.L4
+  40 0004 9842     	 cmp r0,r3
+  41 0006 09D1     	 bne .L1
+  57:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****   {
+  58:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** #if defined(CLOCK_GATING_SUPPORTED)
+  59:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****     XMC_SCU_CLOCK_UngatePeripheralClock(XMC_SCU_PERIPHERAL_CLOCK_ERU1);
+  42              	 .loc 1 59 0
+  43 0008 4FF48030 	 mov r0,#65536
+  44              	.LVL1:
+  45 000c FFF7FEFF 	 bl XMC_SCU_CLOCK_UngatePeripheralClock
+  46              	.LVL2:
+  60:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** #endif
+  61:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****     XMC_SCU_RESET_DeassertPeripheralReset(XMC_SCU_PERIPHERAL_RESET_ERU1);
+  47              	 .loc 1 61 0
+  48 0010 4FF48030 	 mov r0,#65536
+  62:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****   }
+  63:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** #else
+  64:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****   XMC_UNUSED_ARG(eru);
+  65:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****   #endif
+  66:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** }
+  49              	 .loc 1 66 0
+  50 0014 BDE80840 	 pop {r3,lr}
+  51              	.LCFI1:
+  52              	 .cfi_remember_state
+  53              	 .cfi_restore 14
+  54              	 .cfi_restore 3
+  55              	 .cfi_def_cfa_offset 0
+  61:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****   }
+  56              	 .loc 1 61 0
+  57 0018 FFF7FEBF 	 b XMC_SCU_RESET_DeassertPeripheralReset
+  58              	.LVL3:
+  59              	.L1:
+  60              	.LCFI2:
+  61              	 .cfi_restore_state
+  62 001c 08BD     	 pop {r3,pc}
+  63              	.L5:
+  64 001e 00BF     	 .align 2
+  65              	.L4:
+  66 0020 00400440 	 .word 1074020352
+  67              	 .cfi_endproc
+  68              	.LFE173:
+  70              	 .section .text.XMC_ERU_Disable,"ax",%progbits
+  71              	 .align 1
+  72              	 .global XMC_ERU_Disable
+  73              	 .thumb
+  74              	 .thumb_func
+  76              	XMC_ERU_Disable:
+  77              	.LFB174:
+  67:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** 
+  68:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** /* Disable the clock and Reset the ERU module. */
+  69:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** void XMC_ERU_Disable(XMC_ERU_t *const eru)
+  70:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** {
+  78              	 .loc 1 70 0
+  79              	 .cfi_startproc
+  80              	 
+  81              	 
+  82              	.LVL4:
+  83 0000 08B5     	 push {r3,lr}
+  84              	.LCFI3:
+  85              	 .cfi_def_cfa_offset 8
+  86              	 .cfi_offset 3,-8
+  87              	 .cfi_offset 14,-4
+  71:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** #if defined(XMC_ERU1)
+  72:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****   if (eru == XMC_ERU1)
+  88              	 .loc 1 72 0
+  89 0002 074B     	 ldr r3,.L8
+  90 0004 9842     	 cmp r0,r3
+  91 0006 09D1     	 bne .L6
+  73:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****   {
+  74:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****     XMC_SCU_RESET_AssertPeripheralReset(XMC_SCU_PERIPHERAL_RESET_ERU1);
+  92              	 .loc 1 74 0
+  93 0008 4FF48030 	 mov r0,#65536
+  94              	.LVL5:
+  95 000c FFF7FEFF 	 bl XMC_SCU_RESET_AssertPeripheralReset
+  96              	.LVL6:
+  75:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** #if defined(CLOCK_GATING_SUPPORTED)
+  76:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****       XMC_SCU_CLOCK_GatePeripheralClock(XMC_SCU_PERIPHERAL_CLOCK_ERU1);
+  97              	 .loc 1 76 0
+  98 0010 4FF48030 	 mov r0,#65536
+  77:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****     #endif
+  78:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****   }
+  79:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** #else
+  80:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****   XMC_UNUSED_ARG(eru);
+  81:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** #endif
+  82:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c **** }
+  99              	 .loc 1 82 0
+ 100 0014 BDE80840 	 pop {r3,lr}
+ 101              	.LCFI4:
+ 102              	 .cfi_remember_state
+ 103              	 .cfi_restore 14
+ 104              	 .cfi_restore 3
+ 105              	 .cfi_def_cfa_offset 0
+  76:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/src\xmc4_eru.c ****     #endif
+ 106              	 .loc 1 76 0
+ 107 0018 FFF7FEBF 	 b XMC_SCU_CLOCK_GatePeripheralClock
+ 108              	.LVL7:
+ 109              	.L6:
+ 110              	.LCFI5:
+ 111              	 .cfi_restore_state
+ 112 001c 08BD     	 pop {r3,pc}
+ 113              	.L9:
+ 114 001e 00BF     	 .align 2
+ 115              	.L8:
+ 116 0020 00400440 	 .word 1074020352
+ 117              	 .cfi_endproc
+ 118              	.LFE174:
+ 120              	 .text
+ 121              	.Letext0:
+ 122              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 123              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 124              	 .file 4 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/inc/xmc_eru.h"
+ 125              	 .file 5 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/inc/xmc4_scu.h"
+ 126              	 .file 6 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/CMSIS/Include/core_cm4.h"
+ 127              	 .file 7 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+ 128              	 .file 8 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/inc/xmc_scu.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 xmc4_eru.c
+    {standard input}:20     .text.XMC_ERU_Enable:00000000 $t
+    {standard input}:25     .text.XMC_ERU_Enable:00000000 XMC_ERU_Enable
+    {standard input}:66     .text.XMC_ERU_Enable:00000020 $d
+    {standard input}:71     .text.XMC_ERU_Disable:00000000 $t
+    {standard input}:76     .text.XMC_ERU_Disable:00000000 XMC_ERU_Disable
+    {standard input}:116    .text.XMC_ERU_Disable:00000020 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+XMC_SCU_CLOCK_UngatePeripheralClock
+XMC_SCU_RESET_DeassertPeripheralReset
+XMC_SCU_RESET_AssertPeripheralReset
+XMC_SCU_CLOCK_GatePeripheralClock

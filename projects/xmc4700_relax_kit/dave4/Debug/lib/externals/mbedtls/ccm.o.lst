@@ -1,0 +1,1466 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,4
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "ccm.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.ccm_auth_crypt,"ax",%progbits
+  20              	 .align 1
+  21              	 .thumb
+  22              	 .thumb_func
+  24              	ccm_auth_crypt:
+  25              	.LFB10:
+  26              	 .file 1 "C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library/ccm.c"
+   1:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** /*
+   2:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  NIST SP800-38C compliant CCM implementation
+   3:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *
+   4:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
+   5:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  SPDX-License-Identifier: Apache-2.0
+   6:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *
+   7:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+   8:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  not use this file except in compliance with the License.
+   9:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  You may obtain a copy of the License at
+  10:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *
+  11:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  12:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *
+  13:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  Unless required by applicable law or agreed to in writing, software
+  14:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  15:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  16:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  See the License for the specific language governing permissions and
+  17:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  limitations under the License.
+  18:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *
+  19:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *  This file is part of mbed TLS (https://tls.mbed.org)
+  20:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  */
+  21:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  22:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** /*
+  23:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * Definition of CCM:
+  24:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * http://csrc.nist.gov/publications/nistpubs/800-38C/SP800-38C_updated-July20_2007.pdf
+  25:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * RFC 3610 "Counter with CBC-MAC (CCM)"
+  26:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  *
+  27:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * Related:
+  28:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * RFC 5116 "An Interface and Algorithms for Authenticated Encryption"
+  29:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  */
+  30:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  31:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  32:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #include "mbedtls/config.h"
+  33:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #else
+  34:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #include MBEDTLS_CONFIG_FILE
+  35:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #endif
+  36:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  37:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #if defined(MBEDTLS_CCM_C)
+  38:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  39:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #include "mbedtls/ccm.h"
+  40:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #include "mbedtls/platform_util.h"
+  41:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  42:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #include <string.h>
+  43:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  44:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #if defined(MBEDTLS_SELF_TEST) && defined(MBEDTLS_AES_C)
+  45:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #if defined(MBEDTLS_PLATFORM_C)
+  46:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #include "mbedtls/platform.h"
+  47:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #else
+  48:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #include <stdio.h>
+  49:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #define mbedtls_printf printf
+  50:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #endif /* MBEDTLS_PLATFORM_C */
+  51:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #endif /* MBEDTLS_SELF_TEST && MBEDTLS_AES_C */
+  52:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  53:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #if !defined(MBEDTLS_CCM_ALT)
+  54:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  55:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #define CCM_VALIDATE_RET( cond ) \
+  56:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     MBEDTLS_INTERNAL_VALIDATE_RET( cond, MBEDTLS_ERR_CCM_BAD_INPUT )
+  57:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #define CCM_VALIDATE( cond ) \
+  58:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     MBEDTLS_INTERNAL_VALIDATE( cond )
+  59:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  60:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #define CCM_ENCRYPT 0
+  61:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #define CCM_DECRYPT 1
+  62:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  63:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** /*
+  64:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * Initialize context
+  65:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  */
+  66:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** void mbedtls_ccm_init( mbedtls_ccm_context *ctx )
+  67:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** {
+  68:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE( ctx != NULL );
+  69:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     memset( ctx, 0, sizeof( mbedtls_ccm_context ) );
+  70:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** }
+  71:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  72:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** int mbedtls_ccm_setkey( mbedtls_ccm_context *ctx,
+  73:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                         mbedtls_cipher_id_t cipher,
+  74:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                         const unsigned char *key,
+  75:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                         unsigned int keybits )
+  76:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** {
+  77:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     int ret;
+  78:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     const mbedtls_cipher_info_t *cipher_info;
+  79:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  80:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( ctx != NULL );
+  81:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( key != NULL );
+  82:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  83:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     cipher_info = mbedtls_cipher_info_from_values( cipher, keybits, MBEDTLS_MODE_ECB );
+  84:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( cipher_info == NULL )
+  85:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_BAD_INPUT );
+  86:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  87:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( cipher_info->block_size != 16 )
+  88:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_BAD_INPUT );
+  89:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  90:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     mbedtls_cipher_free( &ctx->cipher_ctx );
+  91:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  92:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( ( ret = mbedtls_cipher_setup( &ctx->cipher_ctx, cipher_info ) ) != 0 )
+  93:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( ret );
+  94:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  95:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( ( ret = mbedtls_cipher_setkey( &ctx->cipher_ctx, key, keybits,
+  96:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                                MBEDTLS_ENCRYPT ) ) != 0 )
+  97:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     {
+  98:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( ret );
+  99:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     }
+ 100:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 101:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     return( 0 );
+ 102:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** }
+ 103:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 104:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** /*
+ 105:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * Free context
+ 106:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  */
+ 107:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** void mbedtls_ccm_free( mbedtls_ccm_context *ctx )
+ 108:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** {
+ 109:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( ctx == NULL )
+ 110:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return;
+ 111:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     mbedtls_cipher_free( &ctx->cipher_ctx );
+ 112:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     mbedtls_platform_zeroize( ctx, sizeof( mbedtls_ccm_context ) );
+ 113:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** }
+ 114:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 115:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** /*
+ 116:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * Macros for common operations.
+ 117:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * Results in smaller compiled code than static inline functions.
+ 118:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  */
+ 119:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 120:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** /*
+ 121:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * Update the CBC-MAC state in y using a block in b
+ 122:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * (Always using b as the source helps the compiler optimise a bit better.)
+ 123:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  */
+ 124:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #define UPDATE_CBC_MAC                                                      \
+ 125:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     for( i = 0; i < 16; i++ )                                               \
+ 126:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         y[i] ^= b[i];                                                       \
+ 127:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                                                                             \
+ 128:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( ( ret = mbedtls_cipher_update( &ctx->cipher_ctx, y, 16, y, &olen ) ) != 0 ) \
+ 129:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( ret );
+ 130:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 131:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** /*
+ 132:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * Encrypt or decrypt a partial block with CTR
+ 133:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * Warning: using b for temporary storage! src and dst must not be b!
+ 134:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * This avoids allocating one more 16 bytes buffer while allowing src == dst.
+ 135:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  */
+ 136:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** #define CTR_CRYPT( dst, src, len  )                                            \
+ 137:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( ( ret = mbedtls_cipher_update( &ctx->cipher_ctx, ctr, 16, b, &olen ) ) != 0 )  \
+ 138:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( ret );                                                         \
+ 139:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                                                                                \
+ 140:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     for( i = 0; i < len; i++ )                                                 \
+ 141:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         dst[i] = src[i] ^ b[i];
+ 142:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 143:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** /*
+ 144:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * Authenticated encryption or decryption
+ 145:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  */
+ 146:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** static int ccm_auth_crypt( mbedtls_ccm_context *ctx, int mode, size_t length,
+ 147:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                            const unsigned char *iv, size_t iv_len,
+ 148:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                            const unsigned char *add, size_t add_len,
+ 149:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                            const unsigned char *input, unsigned char *output,
+ 150:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                            unsigned char *tag, size_t tag_len )
+ 151:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** {
+  27              	 .loc 1 151 0
+  28              	 .cfi_startproc
+  29              	 
+  30              	 
+  31              	.LVL0:
+  32 0000 2DE9F04F 	 push {r4,r5,r6,r7,r8,r9,r10,fp,lr}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 36
+  35              	 .cfi_offset 4,-36
+  36              	 .cfi_offset 5,-32
+  37              	 .cfi_offset 6,-28
+  38              	 .cfi_offset 7,-24
+  39              	 .cfi_offset 8,-20
+  40              	 .cfi_offset 9,-16
+  41              	 .cfi_offset 10,-12
+  42              	 .cfi_offset 11,-8
+  43              	 .cfi_offset 14,-4
+  44 0004 95B0     	 sub sp,sp,#84
+  45              	.LCFI1:
+  46              	 .cfi_def_cfa_offset 120
+  47              	 .loc 1 151 0
+  48 0006 0646     	 mov r6,r0
+  49 0008 0493     	 str r3,[sp,#16]
+ 152:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     int ret;
+ 153:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     unsigned char i;
+ 154:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     unsigned char q;
+ 155:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     size_t len_left, olen;
+ 156:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     unsigned char b[16];
+ 157:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     unsigned char y[16];
+ 158:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     unsigned char ctr[16];
+ 159:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     const unsigned char *src;
+ 160:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     unsigned char *dst;
+ 161:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 162:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     /*
+ 163:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * Check length requirements: SP800-38C A.1
+ 164:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * Additional requirement: a < 2^16 - 2^8 to simplify the code.
+ 165:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * 'length' checked later (when writing it to the first block)
+ 166:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      *
+ 167:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * Also, loosen the requirements to enable support for CCM* (IEEE 802.15.4).
+ 168:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      */
+ 169:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( tag_len == 2 || tag_len > 16 || tag_len % 2 != 0 )
+  50              	 .loc 1 169 0
+  51 000a 249B     	 ldr r3,[sp,#144]
+  52              	.LVL1:
+ 151:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     int ret;
+  53              	 .loc 1 151 0
+  54 000c 1E9F     	 ldr r7,[sp,#120]
+  55 000e 209D     	 ldr r5,[sp,#128]
+  56              	 .loc 1 169 0
+  57 0010 022B     	 cmp r3,#2
+ 151:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     int ret;
+  58              	 .loc 1 151 0
+  59 0012 8B46     	 mov fp,r1
+  60 0014 9246     	 mov r10,r2
+  61              	 .loc 1 169 0
+  62 0016 02D1     	 bne .L2
+  63              	.LVL2:
+  64              	.L4:
+ 170:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_BAD_INPUT );
+  65              	 .loc 1 170 0
+  66 0018 6FF00C00 	 mvn r0,#12
+  67 001c 4EE1     	 b .L3
+  68              	.LVL3:
+  69              	.L2:
+ 169:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_BAD_INPUT );
+  70              	 .loc 1 169 0 discriminator 1
+  71 001e 249B     	 ldr r3,[sp,#144]
+  72 0020 102B     	 cmp r3,#16
+  73 0022 F9D8     	 bhi .L4
+ 169:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_BAD_INPUT );
+  74              	 .loc 1 169 0 is_stmt 0 discriminator 2
+  75 0024 DB07     	 lsls r3,r3,#31
+  76 0026 F7D4     	 bmi .L4
+ 171:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 172:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     /* Also implies q is within bounds */
+ 173:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( iv_len < 7 || iv_len > 13 )
+  77              	 .loc 1 173 0 is_stmt 1
+  78 0028 FB1F     	 subs r3,r7,#7
+  79 002a 062B     	 cmp r3,#6
+  80 002c F4D8     	 bhi .L4
+ 174:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_BAD_INPUT );
+ 175:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 176:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( add_len > 0xFF00 )
+  81              	 .loc 1 176 0
+  82 002e B5F57F4F 	 cmp r5,#65280
+  83 0032 F1D8     	 bhi .L4
+ 177:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_BAD_INPUT );
+ 178:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 179:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     q = 16 - 1 - (unsigned char) iv_len;
+  84              	 .loc 1 179 0
+  85 0034 FBB2     	 uxtb r3,r7
+  86 0036 C3F10F02 	 rsb r2,r3,#15
+  87              	.LVL4:
+ 180:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 181:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     /*
+ 182:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * First block B_0:
+ 183:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * 0        .. 0        flags
+ 184:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * 1        .. iv_len   nonce (aka iv)
+ 185:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * iv_len+1 .. 15       length
+ 186:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      *
+ 187:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * With flags as (bits):
+ 188:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * 7        0
+ 189:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * 6        add present?
+ 190:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * 5 .. 3   (t - 2) / 2
+ 191:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * 2 .. 0   q - 1
+ 192:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      */
+ 193:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     b[0] = 0;
+ 194:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     b[0] |= ( add_len > 0 ) << 6;
+ 195:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     b[0] |= ( ( tag_len - 2 ) / 2 ) << 3;
+ 196:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     b[0] |= q - 1;
+  88              	 .loc 1 196 0
+  89 003a C3F10E03 	 rsb r3,r3,#14
+  90 003e 5FFA83F8 	 uxtb r8,r3
+ 195:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     b[0] |= q - 1;
+  91              	 .loc 1 195 0
+  92 0042 249B     	 ldr r3,[sp,#144]
+ 197:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 198:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     memcpy( b + 1, iv, iv_len );
+  93              	 .loc 1 198 0
+  94 0044 0499     	 ldr r1,[sp,#16]
+  95              	.LVL5:
+ 179:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+  96              	 .loc 1 179 0
+  97 0046 D2B2     	 uxtb r2,r2
+ 194:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     b[0] |= ( ( tag_len - 2 ) / 2 ) << 3;
+  98              	 .loc 1 194 0
+  99 0048 002D     	 cmp r5,#0
+ 195:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     b[0] |= q - 1;
+ 100              	 .loc 1 195 0
+ 101 004a A3F10203 	 sub r3,r3,#2
+ 179:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 102              	 .loc 1 179 0
+ 103 004e 0592     	 str r2,[sp,#20]
+ 104              	.LVL6:
+ 195:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     b[0] |= q - 1;
+ 105              	 .loc 1 195 0
+ 106 0050 4FEA5303 	 lsr r3,r3,#1
+ 194:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     b[0] |= ( ( tag_len - 2 ) / 2 ) << 3;
+ 107              	 .loc 1 194 0
+ 108 0054 14BF     	 ite ne
+ 109 0056 4022     	 movne r2,#64
+ 110 0058 0022     	 moveq r2,#0
+ 196:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 111              	 .loc 1 196 0
+ 112 005a 14AC     	 add r4,sp,#80
+ 195:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     b[0] |= q - 1;
+ 113              	 .loc 1 195 0
+ 114 005c 42EAC303 	 orr r3,r2,r3,lsl#3
+ 196:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 115              	 .loc 1 196 0
+ 116 0060 43EA0803 	 orr r3,r3,r8
+ 117 0064 04F8303D 	 strb r3,[r4,#-48]!
+ 118              	 .loc 1 198 0
+ 119 0068 3A46     	 mov r2,r7
+ 120 006a 0DF12100 	 add r0,sp,#33
+ 121              	.LVL7:
+ 122 006e C8F10F09 	 rsb r9,r8,#15
+ 123 0072 FFF7FEFF 	 bl memcpy
+ 124              	.LVL8:
+ 125 0076 04EB0903 	 add r3,r4,r9
+ 126 007a 0CAA     	 add r2,sp,#48
+ 199:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 200:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     for( i = 0, len_left = length; i < q; i++, len_left >>= 8 )
+ 127              	 .loc 1 200 0
+ 128 007c 5446     	 mov r4,r10
+ 129              	.LVL9:
+ 130              	.L6:
+ 201:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         b[15-i] = (unsigned char)( len_left & 0xFF );
+ 131              	 .loc 1 201 0 discriminator 3
+ 132 007e 02F8014D 	 strb r4,[r2,#-1]!
+ 133              	.LVL10:
+ 200:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         b[15-i] = (unsigned char)( len_left & 0xFF );
+ 134              	 .loc 1 200 0 discriminator 3
+ 135 0082 9A42     	 cmp r2,r3
+ 136 0084 4FEA1424 	 lsr r4,r4,#8
+ 137              	.LVL11:
+ 138 0088 F9D1     	 bne .L6
+ 202:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 203:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( len_left > 0 )
+ 139              	 .loc 1 203 0
+ 140 008a 002C     	 cmp r4,#0
+ 141 008c C4D1     	 bne .L4
+ 204:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_BAD_INPUT );
+ 205:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 206:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 207:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     /* Start CBC-MAC with first block */
+ 208:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     memset( y, 0, 16 );
+ 142              	 .loc 1 208 0
+ 143 008e 0CA8     	 add r0,sp,#48
+ 144 0090 2146     	 mov r1,r4
+ 145 0092 1022     	 movs r2,#16
+ 146              	.LVL12:
+ 147 0094 FFF7FEFF 	 bl memset
+ 148              	.LVL13:
+ 149              	.L7:
+ 209:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     UPDATE_CBC_MAC;
+ 150              	 .loc 1 209 0 discriminator 3
+ 151 0098 0CA9     	 add r1,sp,#48
+ 152 009a 0DF1200C 	 add ip,sp,#32
+ 153 009e 635C     	 ldrb r3,[r4,r1]
+ 154 00a0 14F80C20 	 ldrb r2,[r4,ip]
+ 155 00a4 5340     	 eors r3,r3,r2
+ 156 00a6 6354     	 strb r3,[r4,r1]
+ 157              	.LVL14:
+ 158 00a8 0134     	 adds r4,r4,#1
+ 159              	.LVL15:
+ 160 00aa 102C     	 cmp r4,#16
+ 161 00ac F4D1     	 bne .L7
+ 162              	 .loc 1 209 0 is_stmt 0 discriminator 4
+ 163 00ae 07AB     	 add r3,sp,#28
+ 164 00b0 0093     	 str r3,[sp]
+ 165 00b2 3046     	 mov r0,r6
+ 166 00b4 0B46     	 mov r3,r1
+ 167 00b6 2246     	 mov r2,r4
+ 168 00b8 CDF80CC0 	 str ip,[sp,#12]
+ 169 00bc FFF7FEFF 	 bl mbedtls_cipher_update
+ 170              	.LVL16:
+ 171 00c0 0346     	 mov r3,r0
+ 172 00c2 0028     	 cmp r0,#0
+ 173 00c4 40F0FA80 	 bne .L3
+ 210:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 211:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     /*
+ 212:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * If there is additional data, update CBC-MAC with
+ 213:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * add_len, add, 0 (padding to a block boundary)
+ 214:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      */
+ 215:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( add_len > 0 )
+ 174              	 .loc 1 215 0 is_stmt 1
+ 175 00c8 DDF80CC0 	 ldr ip,[sp,#12]
+ 176 00cc 95B9     	 cbnz r5,.L8
+ 177              	.L14:
+ 216:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     {
+ 217:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         size_t use_len;
+ 218:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         len_left = add_len;
+ 219:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         src = add;
+ 220:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 221:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         memset( b, 0, 16 );
+ 222:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         b[0] = (unsigned char)( ( add_len >> 8 ) & 0xFF );
+ 223:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         b[1] = (unsigned char)( ( add_len      ) & 0xFF );
+ 224:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 225:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         use_len = len_left < 16 - 2 ? len_left : 16 - 2;
+ 226:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         memcpy( b + 2, src, use_len );
+ 227:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         len_left -= use_len;
+ 228:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         src += use_len;
+ 229:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 230:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         UPDATE_CBC_MAC;
+ 231:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 232:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         while( len_left > 0 )
+ 233:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         {
+ 234:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             use_len = len_left > 16 ? 16 : len_left;
+ 235:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 236:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             memset( b, 0, 16 );
+ 237:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             memcpy( b, src, use_len );
+ 238:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             UPDATE_CBC_MAC;
+ 239:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 240:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             len_left -= use_len;
+ 241:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             src += use_len;
+ 242:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         }
+ 243:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     }
+ 244:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 245:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     /*
+ 246:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * Prepare counter block for encryption:
+ 247:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * 0        .. 0        flags
+ 248:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * 1        .. iv_len   nonce (aka iv)
+ 249:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * iv_len+1 .. 15       counter (initially 1)
+ 250:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      *
+ 251:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * With flags as (bits):
+ 252:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * 7 .. 3   0
+ 253:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * 2 .. 0   q - 1
+ 254:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      */
+ 255:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     ctr[0] = q - 1;
+ 178              	 .loc 1 255 0
+ 179 00ce 14AC     	 add r4,sp,#80
+ 256:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     memcpy( ctr + 1, iv, iv_len );
+ 180              	 .loc 1 256 0
+ 181 00d0 0499     	 ldr r1,[sp,#16]
+ 255:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     memcpy( ctr + 1, iv, iv_len );
+ 182              	 .loc 1 255 0
+ 183 00d2 04F8108D 	 strb r8,[r4,#-16]!
+ 184              	 .loc 1 256 0
+ 185 00d6 3A46     	 mov r2,r7
+ 186 00d8 0DF14100 	 add r0,sp,#65
+ 187              	.LVL17:
+ 188 00dc FFF7FEFF 	 bl memcpy
+ 189              	.LVL18:
+ 257:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     memset( ctr + 1 + iv_len, 0, q );
+ 190              	 .loc 1 257 0
+ 191 00e0 781C     	 adds r0,r7,#1
+ 192 00e2 2044     	 add r0,r0,r4
+ 193 00e4 0021     	 movs r1,#0
+ 194 00e6 059A     	 ldr r2,[sp,#20]
+ 195 00e8 FFF7FEFF 	 bl memset
+ 196              	.LVL19:
+ 258:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     ctr[15] = 1;
+ 197              	 .loc 1 258 0
+ 198 00ec 0123     	 movs r3,#1
+ 199 00ee 8DF84F30 	 strb r3,[sp,#79]
+ 200              	.LVL20:
+ 259:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 260:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     /*
+ 261:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * Authenticate and {en,de}crypt the message.
+ 262:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      *
+ 263:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * The only difference between encryption and decryption is
+ 264:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * the respective order of authentication and {en,de}cryption.
+ 265:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      */
+ 266:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     len_left = length;
+ 267:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     src = input;
+ 268:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     dst = output;
+ 269:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 270:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     while( len_left > 0 )
+ 201              	 .loc 1 270 0
+ 202 00f2 84E0     	 b .L9
+ 203              	.LVL21:
+ 204              	.L8:
+ 205              	.LBB2:
+ 221:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         b[0] = (unsigned char)( ( add_len >> 8 ) & 0xFF );
+ 206              	 .loc 1 221 0
+ 207 00f4 1946     	 mov r1,r3
+ 208 00f6 2246     	 mov r2,r4
+ 209 00f8 6046     	 mov r0,ip
+ 210              	.LVL22:
+ 211 00fa 0393     	 str r3,[sp,#12]
+ 212 00fc FFF7FEFF 	 bl memset
+ 213              	.LVL23:
+ 225:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         memcpy( b + 2, src, use_len );
+ 214              	 .loc 1 225 0
+ 215 0100 0E2D     	 cmp r5,#14
+ 222:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         b[1] = (unsigned char)( ( add_len      ) & 0xFF );
+ 216              	 .loc 1 222 0
+ 217 0102 4FEA1522 	 lsr r2,r5,#8
+ 225:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         memcpy( b + 2, src, use_len );
+ 218              	 .loc 1 225 0
+ 219 0106 2C46     	 mov r4,r5
+ 220 0108 28BF     	 it cs
+ 221 010a 0E24     	 movcs r4,#14
+ 222              	.LVL24:
+ 222:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         b[1] = (unsigned char)( ( add_len      ) & 0xFF );
+ 223              	 .loc 1 222 0
+ 224 010c 8DF82020 	 strb r2,[sp,#32]
+ 226:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         len_left -= use_len;
+ 225              	 .loc 1 226 0
+ 226 0110 0DF12200 	 add r0,sp,#34
+ 227 0114 2246     	 mov r2,r4
+ 228 0116 1F99     	 ldr r1,[sp,#124]
+ 223:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 229              	 .loc 1 223 0
+ 230 0118 8DF82150 	 strb r5,[sp,#33]
+ 226:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         len_left -= use_len;
+ 231              	 .loc 1 226 0
+ 232 011c FFF7FEFF 	 bl memcpy
+ 233              	.LVL25:
+ 234 0120 039B     	 ldr r3,[sp,#12]
+ 235 0122 1A46     	 mov r2,r3
+ 236              	.LVL26:
+ 237              	.L10:
+ 230:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 238              	 .loc 1 230 0 discriminator 3
+ 239 0124 0CA9     	 add r1,sp,#48
+ 240 0126 08AB     	 add r3,sp,#32
+ 241 0128 D05C     	 ldrb r0,[r2,r3]
+ 242 012a 535C     	 ldrb r3,[r2,r1]
+ 243 012c 4340     	 eors r3,r3,r0
+ 244 012e 5354     	 strb r3,[r2,r1]
+ 245              	.LVL27:
+ 246 0130 0132     	 adds r2,r2,#1
+ 247              	.LVL28:
+ 248 0132 102A     	 cmp r2,#16
+ 249 0134 F6D1     	 bne .L10
+ 230:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 250              	 .loc 1 230 0 is_stmt 0 discriminator 4
+ 251 0136 07AB     	 add r3,sp,#28
+ 252 0138 0093     	 str r3,[sp]
+ 253 013a 3046     	 mov r0,r6
+ 254 013c 0B46     	 mov r3,r1
+ 255 013e FFF7FEFF 	 bl mbedtls_cipher_update
+ 256              	.LVL29:
+ 257 0142 0028     	 cmp r0,#0
+ 258 0144 40F0BA80 	 bne .L3
+ 228:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 259              	 .loc 1 228 0 is_stmt 1
+ 260 0148 1F9B     	 ldr r3,[sp,#124]
+ 227:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         src += use_len;
+ 261              	 .loc 1 227 0
+ 262 014a 2D1B     	 subs r5,r5,r4
+ 263              	.LVL30:
+ 264              	.L43:
+ 241:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         }
+ 265              	 .loc 1 241 0
+ 266 014c 1C44     	 add r4,r4,r3
+ 267              	.LVL31:
+ 232:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         {
+ 268              	 .loc 1 232 0
+ 269 014e 002D     	 cmp r5,#0
+ 270 0150 BDD0     	 beq .L14
+ 234:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 271              	 .loc 1 234 0
+ 272 0152 102D     	 cmp r5,#16
+ 273 0154 2B46     	 mov r3,r5
+ 236:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             memcpy( b, src, use_len );
+ 274              	 .loc 1 236 0
+ 275 0156 4FF00001 	 mov r1,#0
+ 234:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 276              	 .loc 1 234 0
+ 277 015a 28BF     	 it cs
+ 278 015c 1023     	 movcs r3,#16
+ 236:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             memcpy( b, src, use_len );
+ 279              	 .loc 1 236 0
+ 280 015e 1022     	 movs r2,#16
+ 281 0160 08A8     	 add r0,sp,#32
+ 282              	.LVL32:
+ 234:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 283              	 .loc 1 234 0
+ 284 0162 0393     	 str r3,[sp,#12]
+ 285              	.LVL33:
+ 236:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             memcpy( b, src, use_len );
+ 286              	 .loc 1 236 0
+ 287 0164 FFF7FEFF 	 bl memset
+ 288              	.LVL34:
+ 237:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             UPDATE_CBC_MAC;
+ 289              	 .loc 1 237 0
+ 290 0168 039A     	 ldr r2,[sp,#12]
+ 291 016a 08A8     	 add r0,sp,#32
+ 292 016c 2146     	 mov r1,r4
+ 293 016e FFF7FEFF 	 bl memcpy
+ 294              	.LVL35:
+ 295 0172 0022     	 movs r2,#0
+ 296              	.LVL36:
+ 297              	.L12:
+ 238:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 298              	 .loc 1 238 0 discriminator 3
+ 299 0174 0CA9     	 add r1,sp,#48
+ 300 0176 08AB     	 add r3,sp,#32
+ 301 0178 D05C     	 ldrb r0,[r2,r3]
+ 302 017a 535C     	 ldrb r3,[r2,r1]
+ 303 017c 4340     	 eors r3,r3,r0
+ 304 017e 5354     	 strb r3,[r2,r1]
+ 305              	.LVL37:
+ 306 0180 0132     	 adds r2,r2,#1
+ 307              	.LVL38:
+ 308 0182 102A     	 cmp r2,#16
+ 309 0184 F6D1     	 bne .L12
+ 238:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 310              	 .loc 1 238 0 is_stmt 0 discriminator 4
+ 311 0186 07AB     	 add r3,sp,#28
+ 312 0188 0093     	 str r3,[sp]
+ 313 018a 3046     	 mov r0,r6
+ 314 018c 0B46     	 mov r3,r1
+ 315 018e FFF7FEFF 	 bl mbedtls_cipher_update
+ 316              	.LVL39:
+ 317 0192 0028     	 cmp r0,#0
+ 318 0194 40F09280 	 bne .L3
+ 240:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             src += use_len;
+ 319              	 .loc 1 240 0 is_stmt 1
+ 320 0198 039B     	 ldr r3,[sp,#12]
+ 321 019a ED1A     	 subs r5,r5,r3
+ 322              	.LVL40:
+ 323 019c D6E7     	 b .L43
+ 324              	.LVL41:
+ 325              	.L47:
+ 326              	.LBE2:
+ 327              	.LBB3:
+ 271:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     {
+ 272:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         size_t use_len = len_left > 16 ? 16 : len_left;
+ 273:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 274:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         if( mode == CCM_ENCRYPT )
+ 275:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         {
+ 276:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             memset( b, 0, 16 );
+ 277:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             memcpy( b, src, use_len );
+ 278:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             UPDATE_CBC_MAC;
+ 279:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         }
+ 280:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 281:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         CTR_CRYPT( dst, src, use_len );
+ 282:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 283:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         if( mode == CCM_DECRYPT )
+ 328              	 .loc 1 283 0
+ 329 019e BBF1010F 	 cmp fp,#1
+ 330 01a2 1AD1     	 bne .L19
+ 284:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         {
+ 285:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             memset( b, 0, 16 );
+ 331              	 .loc 1 285 0
+ 332 01a4 0021     	 movs r1,#0
+ 333 01a6 1022     	 movs r2,#16
+ 334 01a8 2846     	 mov r0,r5
+ 335 01aa FFF7FEFF 	 bl memset
+ 336              	.LVL42:
+ 286:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             memcpy( b, dst, use_len );
+ 337              	 .loc 1 286 0
+ 338 01ae 3A46     	 mov r2,r7
+ 339 01b0 2846     	 mov r0,r5
+ 340 01b2 2299     	 ldr r1,[sp,#136]
+ 341 01b4 FFF7FEFF 	 bl memcpy
+ 342              	.LVL43:
+ 343 01b8 0022     	 movs r2,#0
+ 344              	.LVL44:
+ 345              	.L20:
+ 287:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             UPDATE_CBC_MAC;
+ 346              	 .loc 1 287 0 discriminator 3
+ 347 01ba 0CA9     	 add r1,sp,#48
+ 348 01bc A85C     	 ldrb r0,[r5,r2]
+ 349 01be 535C     	 ldrb r3,[r2,r1]
+ 350 01c0 4340     	 eors r3,r3,r0
+ 351 01c2 5354     	 strb r3,[r2,r1]
+ 352              	.LVL45:
+ 353 01c4 0132     	 adds r2,r2,#1
+ 354              	.LVL46:
+ 355 01c6 102A     	 cmp r2,#16
+ 356 01c8 F7D1     	 bne .L20
+ 357              	 .loc 1 287 0 is_stmt 0 discriminator 4
+ 358 01ca 07AB     	 add r3,sp,#28
+ 359 01cc 0093     	 str r3,[sp]
+ 360 01ce 3046     	 mov r0,r6
+ 361 01d0 0B46     	 mov r3,r1
+ 362 01d2 FFF7FEFF 	 bl mbedtls_cipher_update
+ 363              	.LVL47:
+ 364 01d6 0028     	 cmp r0,#0
+ 365 01d8 70D1     	 bne .L3
+ 366              	.LVL48:
+ 367              	.L19:
+ 288:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         }
+ 289:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 290:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         dst += use_len;
+ 368              	 .loc 1 290 0 is_stmt 1
+ 369 01da 229B     	 ldr r3,[sp,#136]
+ 370 01dc 3B44     	 add r3,r3,r7
+ 371 01de 2293     	 str r3,[sp,#136]
+ 372              	.LVL49:
+ 291:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         src += use_len;
+ 373              	 .loc 1 291 0
+ 374 01e0 219B     	 ldr r3,[sp,#132]
+ 375              	.LVL50:
+ 376 01e2 3B44     	 add r3,r3,r7
+ 377 01e4 2193     	 str r3,[sp,#132]
+ 378              	.LVL51:
+ 292:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         len_left -= use_len;
+ 379              	 .loc 1 292 0
+ 380 01e6 C7EB0A0A 	 rsb r10,r7,r10
+ 381              	.LVL52:
+ 382 01ea 14AA     	 add r2,sp,#80
+ 383 01ec 04EB0901 	 add r1,r4,r9
+ 384              	.LVL53:
+ 385              	.L22:
+ 293:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 294:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         /*
+ 295:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****          * Increment counter.
+ 296:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****          * No need to check for overflow thanks to the length check above.
+ 297:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****          */
+ 298:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         for( i = 0; i < q; i++ )
+ 299:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             if( ++ctr[15-i] != 0 )
+ 386              	 .loc 1 299 0
+ 387 01f0 12F8013D 	 ldrb r3,[r2,#-1]!
+ 388              	.LVL54:
+ 389 01f4 0133     	 adds r3,r3,#1
+ 390 01f6 DBB2     	 uxtb r3,r3
+ 391 01f8 1370     	 strb r3,[r2]
+ 392 01fa 002B     	 cmp r3,#0
+ 393 01fc 3DD0     	 beq .L45
+ 394              	.LVL55:
+ 395              	.L9:
+ 396              	.LBE3:
+ 270:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     {
+ 397              	 .loc 1 270 0
+ 398 01fe BAF1000F 	 cmp r10,#0
+ 399 0202 3DD0     	 beq .L46
+ 400              	.LBB4:
+ 272:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 401              	 .loc 1 272 0
+ 402 0204 5746     	 mov r7,r10
+ 403 0206 102F     	 cmp r7,#16
+ 404 0208 28BF     	 it cs
+ 405 020a 1027     	 movcs r7,#16
+ 406              	.LVL56:
+ 407 020c 08AD     	 add r5,sp,#32
+ 274:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         {
+ 408              	 .loc 1 274 0
+ 409 020e BBF1000F 	 cmp fp,#0
+ 410 0212 1AD1     	 bne .L15
+ 276:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             memcpy( b, src, use_len );
+ 411              	 .loc 1 276 0
+ 412 0214 5946     	 mov r1,fp
+ 413 0216 1022     	 movs r2,#16
+ 414 0218 2846     	 mov r0,r5
+ 415 021a FFF7FEFF 	 bl memset
+ 416              	.LVL57:
+ 277:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             UPDATE_CBC_MAC;
+ 417              	 .loc 1 277 0
+ 418 021e 3A46     	 mov r2,r7
+ 419 0220 2846     	 mov r0,r5
+ 420 0222 2199     	 ldr r1,[sp,#132]
+ 421 0224 FFF7FEFF 	 bl memcpy
+ 422              	.LVL58:
+ 423 0228 5A46     	 mov r2,fp
+ 424              	.LVL59:
+ 425              	.L16:
+ 278:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         }
+ 426              	 .loc 1 278 0 discriminator 3
+ 427 022a 0CA9     	 add r1,sp,#48
+ 428 022c A85C     	 ldrb r0,[r5,r2]
+ 429 022e 535C     	 ldrb r3,[r2,r1]
+ 430 0230 4340     	 eors r3,r3,r0
+ 431 0232 5354     	 strb r3,[r2,r1]
+ 432              	.LVL60:
+ 433 0234 0132     	 adds r2,r2,#1
+ 434              	.LVL61:
+ 435 0236 102A     	 cmp r2,#16
+ 436 0238 F7D1     	 bne .L16
+ 278:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         }
+ 437              	 .loc 1 278 0 is_stmt 0 discriminator 4
+ 438 023a 07AB     	 add r3,sp,#28
+ 439 023c 0093     	 str r3,[sp]
+ 440 023e 3046     	 mov r0,r6
+ 441 0240 0B46     	 mov r3,r1
+ 442 0242 FFF7FEFF 	 bl mbedtls_cipher_update
+ 443              	.LVL62:
+ 444 0246 0028     	 cmp r0,#0
+ 445 0248 38D1     	 bne .L3
+ 446              	.LVL63:
+ 447              	.L15:
+ 281:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 448              	 .loc 1 281 0 is_stmt 1
+ 449 024a 07AB     	 add r3,sp,#28
+ 450 024c 0093     	 str r3,[sp]
+ 451 024e 3046     	 mov r0,r6
+ 452 0250 2146     	 mov r1,r4
+ 453 0252 1022     	 movs r2,#16
+ 454 0254 2B46     	 mov r3,r5
+ 455 0256 FFF7FEFF 	 bl mbedtls_cipher_update
+ 456              	.LVL64:
+ 457 025a 78BB     	 cbnz r0,.L3
+ 458              	.LVL65:
+ 459              	.L17:
+ 281:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 460              	 .loc 1 281 0 is_stmt 0 discriminator 3
+ 461 025c C3B2     	 uxtb r3,r0
+ 462              	.LVL66:
+ 463 025e BB42     	 cmp r3,r7
+ 464 0260 00F10100 	 add r0,r0,#1
+ 465 0264 9BD2     	 bcs .L47
+ 281:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 466              	 .loc 1 281 0 discriminator 5
+ 467 0266 14AA     	 add r2,sp,#80
+ 468 0268 1A44     	 add r2,r2,r3
+ 469 026a 2199     	 ldr r1,[sp,#132]
+ 470 026c 12F8302C 	 ldrb r2,[r2,#-48]
+ 471 0270 C95C     	 ldrb r1,[r1,r3]
+ 472 0272 4A40     	 eors r2,r2,r1
+ 473 0274 2299     	 ldr r1,[sp,#136]
+ 474 0276 CA54     	 strb r2,[r1,r3]
+ 475              	.LVL67:
+ 476 0278 F0E7     	 b .L17
+ 477              	.LVL68:
+ 478              	.L45:
+ 298:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****             if( ++ctr[15-i] != 0 )
+ 479              	 .loc 1 298 0 is_stmt 1 discriminator 2
+ 480 027a 8A42     	 cmp r2,r1
+ 481 027c B8D1     	 bne .L22
+ 482 027e BEE7     	 b .L9
+ 483              	.LVL69:
+ 484              	.L46:
+ 485 0280 14AB     	 add r3,sp,#80
+ 486 0282 A144     	 add r9,r9,r4
+ 487              	.L24:
+ 488              	.LVL70:
+ 489              	.LBE4:
+ 300:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                 break;
+ 301:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     }
+ 302:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 303:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     /*
+ 304:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      * Authentication: reset counter and crypt/mask internal tag
+ 305:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****      */
+ 306:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     for( i = 0; i < q; i++ )
+ 307:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         ctr[15-i] = 0;
+ 490              	 .loc 1 307 0 discriminator 3
+ 491 0284 0022     	 movs r2,#0
+ 492 0286 03F8012D 	 strb r2,[r3,#-1]!
+ 493              	.LVL71:
+ 306:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         ctr[15-i] = 0;
+ 494              	 .loc 1 306 0 discriminator 3
+ 495 028a 4B45     	 cmp r3,r9
+ 496 028c FAD1     	 bne .L24
+ 308:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 309:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CTR_CRYPT( y, y, 16 );
+ 497              	 .loc 1 309 0
+ 498 028e 07AB     	 add r3,sp,#28
+ 499              	.LVL72:
+ 500 0290 08AD     	 add r5,sp,#32
+ 501 0292 0093     	 str r3,[sp]
+ 502 0294 3046     	 mov r0,r6
+ 503 0296 2146     	 mov r1,r4
+ 504 0298 1022     	 movs r2,#16
+ 505 029a 2B46     	 mov r3,r5
+ 506 029c FFF7FEFF 	 bl mbedtls_cipher_update
+ 507              	.LVL73:
+ 508 02a0 60B9     	 cbnz r0,.L3
+ 509              	.LVL74:
+ 510              	.L25:
+ 511              	 .loc 1 309 0 is_stmt 0 discriminator 5
+ 512 02a2 0CA9     	 add r1,sp,#48
+ 513 02a4 2A5C     	 ldrb r2,[r5,r0]
+ 514 02a6 435C     	 ldrb r3,[r0,r1]
+ 515 02a8 5340     	 eors r3,r3,r2
+ 516 02aa 4354     	 strb r3,[r0,r1]
+ 517              	.LVL75:
+ 518 02ac 0130     	 adds r0,r0,#1
+ 519              	.LVL76:
+ 520 02ae 1028     	 cmp r0,#16
+ 521 02b0 F7D1     	 bne .L25
+ 310:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     memcpy( tag, y, tag_len );
+ 522              	 .loc 1 310 0 is_stmt 1
+ 523 02b2 2398     	 ldr r0,[sp,#140]
+ 524 02b4 249A     	 ldr r2,[sp,#144]
+ 525 02b6 FFF7FEFF 	 bl memcpy
+ 526              	.LVL77:
+ 311:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 312:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     return( 0 );
+ 527              	 .loc 1 312 0
+ 528 02ba 0020     	 movs r0,#0
+ 529              	.LVL78:
+ 530              	.L3:
+ 313:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** }
+ 531              	 .loc 1 313 0
+ 532 02bc 15B0     	 add sp,sp,#84
+ 533              	.LCFI2:
+ 534              	 .cfi_def_cfa_offset 36
+ 535              	 
+ 536 02be BDE8F08F 	 pop {r4,r5,r6,r7,r8,r9,r10,fp,pc}
+ 537              	 .cfi_endproc
+ 538              	.LFE10:
+ 540              	 .section .text.mbedtls_ccm_init,"ax",%progbits
+ 541              	 .align 1
+ 542              	 .global mbedtls_ccm_init
+ 543              	 .thumb
+ 544              	 .thumb_func
+ 546              	mbedtls_ccm_init:
+ 547              	.LFB7:
+  67:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE( ctx != NULL );
+ 548              	 .loc 1 67 0
+ 549              	 .cfi_startproc
+ 550              	 
+ 551              	 
+ 552              	 
+ 553              	.LVL79:
+  69:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** }
+ 554              	 .loc 1 69 0
+ 555 0000 0021     	 movs r1,#0
+ 556 0002 3822     	 movs r2,#56
+ 557 0004 FFF7FEBF 	 b memset
+ 558              	.LVL80:
+ 559              	 .cfi_endproc
+ 560              	.LFE7:
+ 562              	 .section .text.mbedtls_ccm_setkey,"ax",%progbits
+ 563              	 .align 1
+ 564              	 .global mbedtls_ccm_setkey
+ 565              	 .thumb
+ 566              	 .thumb_func
+ 568              	mbedtls_ccm_setkey:
+ 569              	.LFB8:
+  76:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     int ret;
+ 570              	 .loc 1 76 0
+ 571              	 .cfi_startproc
+ 572              	 
+ 573              	 
+ 574              	.LVL81:
+ 575 0000 2DE9F041 	 push {r4,r5,r6,r7,r8,lr}
+ 576              	.LCFI3:
+ 577              	 .cfi_def_cfa_offset 24
+ 578              	 .cfi_offset 4,-24
+ 579              	 .cfi_offset 5,-20
+ 580              	 .cfi_offset 6,-16
+ 581              	 .cfi_offset 7,-12
+ 582              	 .cfi_offset 8,-8
+ 583              	 .cfi_offset 14,-4
+  76:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     int ret;
+ 584              	 .loc 1 76 0
+ 585 0004 0446     	 mov r4,r0
+ 586 0006 1746     	 mov r7,r2
+  83:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( cipher_info == NULL )
+ 587              	 .loc 1 83 0
+ 588 0008 0846     	 mov r0,r1
+ 589              	.LVL82:
+ 590 000a 0122     	 movs r2,#1
+ 591              	.LVL83:
+ 592 000c 1946     	 mov r1,r3
+ 593              	.LVL84:
+  76:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     int ret;
+ 594              	 .loc 1 76 0
+ 595 000e 1E46     	 mov r6,r3
+  83:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( cipher_info == NULL )
+ 596              	 .loc 1 83 0
+ 597 0010 FFF7FEFF 	 bl mbedtls_cipher_info_from_values
+ 598              	.LVL85:
+  84:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_BAD_INPUT );
+ 599              	 .loc 1 84 0
+ 600 0014 0546     	 mov r5,r0
+ 601 0016 90B1     	 cbz r0,.L52
+  87:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_BAD_INPUT );
+ 602              	 .loc 1 87 0
+ 603 0018 4369     	 ldr r3,[r0,#20]
+ 604 001a 102B     	 cmp r3,#16
+ 605 001c 0FD1     	 bne .L52
+  90:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 606              	 .loc 1 90 0
+ 607 001e 2046     	 mov r0,r4
+ 608              	.LVL86:
+ 609 0020 FFF7FEFF 	 bl mbedtls_cipher_free
+ 610              	.LVL87:
+  92:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( ret );
+ 611              	 .loc 1 92 0
+ 612 0024 2046     	 mov r0,r4
+ 613 0026 2946     	 mov r1,r5
+ 614 0028 FFF7FEFF 	 bl mbedtls_cipher_setup
+ 615              	.LVL88:
+ 616 002c 48B9     	 cbnz r0,.L50
+  95:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                                MBEDTLS_ENCRYPT ) ) != 0 )
+ 617              	 .loc 1 95 0
+ 618 002e 2046     	 mov r0,r4
+ 619              	.LVL89:
+ 620 0030 3946     	 mov r1,r7
+ 621 0032 3246     	 mov r2,r6
+ 622 0034 0123     	 movs r3,#1
+ 102:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 623              	 .loc 1 102 0
+ 624 0036 BDE8F041 	 pop {r4,r5,r6,r7,r8,lr}
+ 625              	.LCFI4:
+ 626              	 .cfi_remember_state
+ 627              	 .cfi_restore 14
+ 628              	 .cfi_restore 8
+ 629              	 .cfi_restore 7
+ 630              	 .cfi_restore 6
+ 631              	 .cfi_restore 5
+ 632              	 .cfi_restore 4
+ 633              	 .cfi_def_cfa_offset 0
+ 634              	.LVL90:
+  95:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                                MBEDTLS_ENCRYPT ) ) != 0 )
+ 635              	 .loc 1 95 0
+ 636 003a FFF7FEBF 	 b mbedtls_cipher_setkey
+ 637              	.LVL91:
+ 638              	.L52:
+ 639              	.LCFI5:
+ 640              	 .cfi_restore_state
+  85:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 641              	 .loc 1 85 0
+ 642 003e 6FF00C00 	 mvn r0,#12
+ 643              	.LVL92:
+ 644              	.L50:
+ 102:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 645              	 .loc 1 102 0
+ 646 0042 BDE8F081 	 pop {r4,r5,r6,r7,r8,pc}
+ 647              	 .cfi_endproc
+ 648              	.LFE8:
+ 650              	 .section .text.mbedtls_ccm_free,"ax",%progbits
+ 651              	 .align 1
+ 652              	 .global mbedtls_ccm_free
+ 653              	 .thumb
+ 654              	 .thumb_func
+ 656              	mbedtls_ccm_free:
+ 657              	.LFB9:
+ 108:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( ctx == NULL )
+ 658              	 .loc 1 108 0
+ 659              	 .cfi_startproc
+ 660              	 
+ 661              	 
+ 662              	.LVL93:
+ 663 0000 10B5     	 push {r4,lr}
+ 664              	.LCFI6:
+ 665              	 .cfi_def_cfa_offset 8
+ 666              	 .cfi_offset 4,-8
+ 667              	 .cfi_offset 14,-4
+ 109:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return;
+ 668              	 .loc 1 109 0
+ 669 0002 0446     	 mov r4,r0
+ 670 0004 38B1     	 cbz r0,.L54
+ 111:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     mbedtls_platform_zeroize( ctx, sizeof( mbedtls_ccm_context ) );
+ 671              	 .loc 1 111 0
+ 672 0006 FFF7FEFF 	 bl mbedtls_cipher_free
+ 673              	.LVL94:
+ 112:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** }
+ 674              	 .loc 1 112 0
+ 675 000a 2046     	 mov r0,r4
+ 676 000c 3821     	 movs r1,#56
+ 113:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 677              	 .loc 1 113 0
+ 678 000e BDE81040 	 pop {r4,lr}
+ 679              	.LCFI7:
+ 680              	 .cfi_remember_state
+ 681              	 .cfi_restore 14
+ 682              	 .cfi_restore 4
+ 683              	 .cfi_def_cfa_offset 0
+ 684              	.LVL95:
+ 112:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** }
+ 685              	 .loc 1 112 0
+ 686 0012 FFF7FEBF 	 b mbedtls_platform_zeroize
+ 687              	.LVL96:
+ 688              	.L54:
+ 689              	.LCFI8:
+ 690              	 .cfi_restore_state
+ 691 0016 10BD     	 pop {r4,pc}
+ 692              	 .cfi_endproc
+ 693              	.LFE9:
+ 695              	 .section .text.mbedtls_ccm_star_encrypt_and_tag,"ax",%progbits
+ 696              	 .align 1
+ 697              	 .global mbedtls_ccm_star_encrypt_and_tag
+ 698              	 .thumb
+ 699              	 .thumb_func
+ 701              	mbedtls_ccm_star_encrypt_and_tag:
+ 702              	.LFB11:
+ 314:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 315:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** /*
+ 316:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * Authenticated encryption
+ 317:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  */
+ 318:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** int mbedtls_ccm_star_encrypt_and_tag( mbedtls_ccm_context *ctx, size_t length,
+ 319:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                          const unsigned char *iv, size_t iv_len,
+ 320:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                          const unsigned char *add, size_t add_len,
+ 321:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                          const unsigned char *input, unsigned char *output,
+ 322:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                          unsigned char *tag, size_t tag_len )
+ 323:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** {
+ 703              	 .loc 1 323 0
+ 704              	 .cfi_startproc
+ 705              	 
+ 706              	 
+ 707              	.LVL97:
+ 708 0000 30B5     	 push {r4,r5,lr}
+ 709              	.LCFI9:
+ 710              	 .cfi_def_cfa_offset 12
+ 711              	 .cfi_offset 4,-12
+ 712              	 .cfi_offset 5,-8
+ 713              	 .cfi_offset 14,-4
+ 714 0002 89B0     	 sub sp,sp,#36
+ 715              	.LCFI10:
+ 716              	 .cfi_def_cfa_offset 48
+ 717              	 .loc 1 323 0
+ 718 0004 0D46     	 mov r5,r1
+ 324:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( ctx != NULL );
+ 325:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( iv != NULL );
+ 326:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( add_len == 0 || add != NULL );
+ 327:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( length == 0 || input != NULL );
+ 328:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( length == 0 || output != NULL );
+ 329:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( tag_len == 0 || tag != NULL );
+ 330:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     return( ccm_auth_crypt( ctx, CCM_ENCRYPT, length, iv, iv_len,
+ 719              	 .loc 1 330 0
+ 720 0006 0093     	 str r3,[sp]
+ 721 0008 0C9B     	 ldr r3,[sp,#48]
+ 722              	.LVL98:
+ 723 000a 0193     	 str r3,[sp,#4]
+ 724 000c 0D9B     	 ldr r3,[sp,#52]
+ 725 000e 0293     	 str r3,[sp,#8]
+ 726 0010 0E9B     	 ldr r3,[sp,#56]
+ 727 0012 0393     	 str r3,[sp,#12]
+ 728 0014 0F9B     	 ldr r3,[sp,#60]
+ 729 0016 0493     	 str r3,[sp,#16]
+ 730 0018 109B     	 ldr r3,[sp,#64]
+ 731 001a 0593     	 str r3,[sp,#20]
+ 323:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( ctx != NULL );
+ 732              	 .loc 1 323 0
+ 733 001c 1446     	 mov r4,r2
+ 734              	 .loc 1 330 0
+ 735 001e 119B     	 ldr r3,[sp,#68]
+ 736 0020 0693     	 str r3,[sp,#24]
+ 737 0022 0021     	 movs r1,#0
+ 738              	.LVL99:
+ 739 0024 2A46     	 mov r2,r5
+ 740              	.LVL100:
+ 741 0026 2346     	 mov r3,r4
+ 742 0028 FFF7FEFF 	 bl ccm_auth_crypt
+ 743              	.LVL101:
+ 331:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                             add, add_len, input, output, tag, tag_len ) );
+ 332:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** }
+ 744              	 .loc 1 332 0
+ 745 002c 09B0     	 add sp,sp,#36
+ 746              	.LCFI11:
+ 747              	 .cfi_def_cfa_offset 12
+ 748              	 
+ 749 002e 30BD     	 pop {r4,r5,pc}
+ 750              	 .cfi_endproc
+ 751              	.LFE11:
+ 753              	 .section .text.mbedtls_ccm_encrypt_and_tag,"ax",%progbits
+ 754              	 .align 1
+ 755              	 .global mbedtls_ccm_encrypt_and_tag
+ 756              	 .thumb
+ 757              	 .thumb_func
+ 759              	mbedtls_ccm_encrypt_and_tag:
+ 760              	.LFB12:
+ 333:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 334:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** int mbedtls_ccm_encrypt_and_tag( mbedtls_ccm_context *ctx, size_t length,
+ 335:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                          const unsigned char *iv, size_t iv_len,
+ 336:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                          const unsigned char *add, size_t add_len,
+ 337:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                          const unsigned char *input, unsigned char *output,
+ 338:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                          unsigned char *tag, size_t tag_len )
+ 339:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** {
+ 761              	 .loc 1 339 0
+ 762              	 .cfi_startproc
+ 763              	 
+ 764              	 
+ 765              	.LVL102:
+ 766 0000 F0B5     	 push {r4,r5,r6,r7,lr}
+ 767              	.LCFI12:
+ 768              	 .cfi_def_cfa_offset 20
+ 769              	 .cfi_offset 4,-20
+ 770              	 .cfi_offset 5,-16
+ 771              	 .cfi_offset 6,-12
+ 772              	 .cfi_offset 7,-8
+ 773              	 .cfi_offset 14,-4
+ 774              	 .loc 1 339 0
+ 775 0002 0A9C     	 ldr r4,[sp,#40]
+ 776 0004 DDF818E0 	 ldr lr,[sp,#24]
+ 340:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( ctx != NULL );
+ 341:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( iv != NULL );
+ 342:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( add_len == 0 || add != NULL );
+ 343:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( length == 0 || input != NULL );
+ 344:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( length == 0 || output != NULL );
+ 345:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( tag_len == 0 || tag != NULL );
+ 346:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( tag_len == 0 )
+ 777              	 .loc 1 346 0
+ 778 0008 1CB1     	 cbz r4,.L58
+ 347:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_BAD_INPUT );
+ 348:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 349:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     return( mbedtls_ccm_star_encrypt_and_tag( ctx, length, iv, iv_len, add,
+ 350:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                 add_len, input, output, tag, tag_len ) );
+ 351:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** }
+ 779              	 .loc 1 351 0
+ 780 000a BDE8F040 	 pop {r4,r5,r6,r7,lr}
+ 781              	.LCFI13:
+ 782              	 .cfi_remember_state
+ 783              	 .cfi_restore 14
+ 784              	 .cfi_restore 7
+ 785              	 .cfi_restore 6
+ 786              	 .cfi_restore 5
+ 787              	 .cfi_restore 4
+ 788              	 .cfi_def_cfa_offset 0
+ 789              	.LVL103:
+ 349:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                 add_len, input, output, tag, tag_len ) );
+ 790              	 .loc 1 349 0
+ 791 000e FFF7FEBF 	 b mbedtls_ccm_star_encrypt_and_tag
+ 792              	.LVL104:
+ 793              	.L58:
+ 794              	.LCFI14:
+ 795              	 .cfi_restore_state
+ 796              	 .loc 1 351 0
+ 797 0012 6FF00C00 	 mvn r0,#12
+ 798              	.LVL105:
+ 799 0016 F0BD     	 pop {r4,r5,r6,r7,pc}
+ 800              	 .cfi_endproc
+ 801              	.LFE12:
+ 803              	 .section .text.mbedtls_ccm_star_auth_decrypt,"ax",%progbits
+ 804              	 .align 1
+ 805              	 .global mbedtls_ccm_star_auth_decrypt
+ 806              	 .thumb
+ 807              	 .thumb_func
+ 809              	mbedtls_ccm_star_auth_decrypt:
+ 810              	.LFB13:
+ 352:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 353:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** /*
+ 354:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  * Authenticated decryption
+ 355:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****  */
+ 356:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** int mbedtls_ccm_star_auth_decrypt( mbedtls_ccm_context *ctx, size_t length,
+ 357:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                       const unsigned char *iv, size_t iv_len,
+ 358:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                       const unsigned char *add, size_t add_len,
+ 359:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                       const unsigned char *input, unsigned char *output,
+ 360:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                       const unsigned char *tag, size_t tag_len )
+ 361:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** {
+ 811              	 .loc 1 361 0
+ 812              	 .cfi_startproc
+ 813              	 
+ 814              	 
+ 815              	.LVL106:
+ 816 0000 F0B5     	 push {r4,r5,r6,r7,lr}
+ 817              	.LCFI15:
+ 818              	 .cfi_def_cfa_offset 20
+ 819              	 .cfi_offset 4,-20
+ 820              	 .cfi_offset 5,-16
+ 821              	 .cfi_offset 6,-12
+ 822              	 .cfi_offset 7,-8
+ 823              	 .cfi_offset 14,-4
+ 824 0002 8DB0     	 sub sp,sp,#52
+ 825              	.LCFI16:
+ 826              	 .cfi_def_cfa_offset 72
+ 827              	 .loc 1 361 0
+ 828 0004 0F46     	 mov r7,r1
+ 362:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     int ret;
+ 363:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     unsigned char check_tag[16];
+ 364:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     unsigned char i;
+ 365:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     int diff;
+ 366:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 367:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( ctx != NULL );
+ 368:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( iv != NULL );
+ 369:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( add_len == 0 || add != NULL );
+ 370:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( length == 0 || input != NULL );
+ 371:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( length == 0 || output != NULL );
+ 372:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( tag_len == 0 || tag != NULL );
+ 373:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 374:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( ( ret = ccm_auth_crypt( ctx, CCM_DECRYPT, length,
+ 829              	 .loc 1 374 0
+ 830 0006 0093     	 str r3,[sp]
+ 831 0008 129B     	 ldr r3,[sp,#72]
+ 832              	.LVL107:
+ 833 000a 0193     	 str r3,[sp,#4]
+ 834 000c 139B     	 ldr r3,[sp,#76]
+ 835 000e 0293     	 str r3,[sp,#8]
+ 836 0010 149B     	 ldr r3,[sp,#80]
+ 361:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     int ret;
+ 837              	 .loc 1 361 0
+ 838 0012 159D     	 ldr r5,[sp,#84]
+ 839 0014 179E     	 ldr r6,[sp,#92]
+ 840              	 .loc 1 374 0
+ 841 0016 0393     	 str r3,[sp,#12]
+ 361:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     int ret;
+ 842              	 .loc 1 361 0
+ 843 0018 9646     	 mov lr,r2
+ 844              	 .loc 1 374 0
+ 845 001a 08AB     	 add r3,sp,#32
+ 846 001c 0593     	 str r3,[sp,#20]
+ 847 001e 0495     	 str r5,[sp,#16]
+ 848 0020 0696     	 str r6,[sp,#24]
+ 849 0022 0121     	 movs r1,#1
+ 850              	.LVL108:
+ 851 0024 3A46     	 mov r2,r7
+ 852              	.LVL109:
+ 853 0026 7346     	 mov r3,lr
+ 361:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     int ret;
+ 854              	 .loc 1 361 0
+ 855 0028 169C     	 ldr r4,[sp,#88]
+ 856              	 .loc 1 374 0
+ 857 002a FFF7FEFF 	 bl ccm_auth_crypt
+ 858              	.LVL110:
+ 859 002e B8B9     	 cbnz r0,.L60
+ 860 0030 0346     	 mov r3,r0
+ 861              	.LVL111:
+ 862              	.L61:
+ 375:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                                 iv, iv_len, add, add_len,
+ 376:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                                 input, output, check_tag, tag_len ) ) != 0 )
+ 377:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     {
+ 378:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( ret );
+ 379:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     }
+ 380:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 381:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     /* Check tag in "constant-time" */
+ 382:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     for( diff = 0, i = 0; i < tag_len; i++ )
+ 863              	 .loc 1 382 0 discriminator 1
+ 864 0032 C2B2     	 uxtb r2,r0
+ 865              	.LVL112:
+ 866 0034 B242     	 cmp r2,r6
+ 867 0036 00F10100 	 add r0,r0,#1
+ 868 003a 08D2     	 bcs .L65
+ 383:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         diff |= tag[i] ^ check_tag[i];
+ 869              	 .loc 1 383 0 discriminator 3
+ 870 003c 0CA9     	 add r1,sp,#48
+ 871 003e 01EB020E 	 add lr,r1,r2
+ 872 0042 A15C     	 ldrb r1,[r4,r2]
+ 873 0044 1EF8102C 	 ldrb r2,[lr,#-16]
+ 874              	.LVL113:
+ 875 0048 4A40     	 eors r2,r2,r1
+ 876 004a 1343     	 orrs r3,r3,r2
+ 877              	.LVL114:
+ 878 004c F1E7     	 b .L61
+ 879              	.LVL115:
+ 880              	.L65:
+ 384:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 385:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( diff != 0 )
+ 881              	 .loc 1 385 0
+ 882 004e 33B1     	 cbz r3,.L64
+ 386:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     {
+ 387:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         mbedtls_platform_zeroize( output, length );
+ 883              	 .loc 1 387 0
+ 884 0050 2846     	 mov r0,r5
+ 885 0052 3946     	 mov r1,r7
+ 886 0054 FFF7FEFF 	 bl mbedtls_platform_zeroize
+ 887              	.LVL116:
+ 388:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_AUTH_FAILED );
+ 888              	 .loc 1 388 0
+ 889 0058 6FF00E00 	 mvn r0,#14
+ 890 005c 00E0     	 b .L60
+ 891              	.LVL117:
+ 892              	.L64:
+ 389:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     }
+ 390:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 391:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     return( 0 );
+ 893              	 .loc 1 391 0
+ 894 005e 1846     	 mov r0,r3
+ 895              	.LVL118:
+ 896              	.L60:
+ 392:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** }
+ 897              	 .loc 1 392 0
+ 898 0060 0DB0     	 add sp,sp,#52
+ 899              	.LCFI17:
+ 900              	 .cfi_def_cfa_offset 20
+ 901              	 
+ 902 0062 F0BD     	 pop {r4,r5,r6,r7,pc}
+ 903              	 .cfi_endproc
+ 904              	.LFE13:
+ 906              	 .section .text.mbedtls_ccm_auth_decrypt,"ax",%progbits
+ 907              	 .align 1
+ 908              	 .global mbedtls_ccm_auth_decrypt
+ 909              	 .thumb
+ 910              	 .thumb_func
+ 912              	mbedtls_ccm_auth_decrypt:
+ 913              	.LFB14:
+ 393:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 394:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** int mbedtls_ccm_auth_decrypt( mbedtls_ccm_context *ctx, size_t length,
+ 395:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                       const unsigned char *iv, size_t iv_len,
+ 396:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                       const unsigned char *add, size_t add_len,
+ 397:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                       const unsigned char *input, unsigned char *output,
+ 398:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                       const unsigned char *tag, size_t tag_len )
+ 399:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** {
+ 914              	 .loc 1 399 0
+ 915              	 .cfi_startproc
+ 916              	 
+ 917              	 
+ 918              	.LVL119:
+ 919 0000 F0B5     	 push {r4,r5,r6,r7,lr}
+ 920              	.LCFI18:
+ 921              	 .cfi_def_cfa_offset 20
+ 922              	 .cfi_offset 4,-20
+ 923              	 .cfi_offset 5,-16
+ 924              	 .cfi_offset 6,-12
+ 925              	 .cfi_offset 7,-8
+ 926              	 .cfi_offset 14,-4
+ 927              	 .loc 1 399 0
+ 928 0002 0A9C     	 ldr r4,[sp,#40]
+ 929 0004 DDF818E0 	 ldr lr,[sp,#24]
+ 400:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( ctx != NULL );
+ 401:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( iv != NULL );
+ 402:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( add_len == 0 || add != NULL );
+ 403:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( length == 0 || input != NULL );
+ 404:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( length == 0 || output != NULL );
+ 405:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     CCM_VALIDATE_RET( tag_len == 0 || tag != NULL );
+ 406:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 407:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     if( tag_len == 0 )
+ 930              	 .loc 1 407 0
+ 931 0008 1CB1     	 cbz r4,.L67
+ 408:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****         return( MBEDTLS_ERR_CCM_BAD_INPUT );
+ 409:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** 
+ 410:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****     return( mbedtls_ccm_star_auth_decrypt( ctx, length, iv, iv_len, add,
+ 411:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                 add_len, input, output, tag, tag_len ) );
+ 412:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c **** }
+ 932              	 .loc 1 412 0
+ 933 000a BDE8F040 	 pop {r4,r5,r6,r7,lr}
+ 934              	.LCFI19:
+ 935              	 .cfi_remember_state
+ 936              	 .cfi_restore 14
+ 937              	 .cfi_restore 7
+ 938              	 .cfi_restore 6
+ 939              	 .cfi_restore 5
+ 940              	 .cfi_restore 4
+ 941              	 .cfi_def_cfa_offset 0
+ 942              	.LVL120:
+ 410:C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/library\ccm.c ****                 add_len, input, output, tag, tag_len ) );
+ 943              	 .loc 1 410 0
+ 944 000e FFF7FEBF 	 b mbedtls_ccm_star_auth_decrypt
+ 945              	.LVL121:
+ 946              	.L67:
+ 947              	.LCFI20:
+ 948              	 .cfi_restore_state
+ 949              	 .loc 1 412 0
+ 950 0012 6FF00C00 	 mvn r0,#12
+ 951              	.LVL122:
+ 952 0016 F0BD     	 pop {r4,r5,r6,r7,pc}
+ 953              	 .cfi_endproc
+ 954              	.LFE14:
+ 956              	 .text
+ 957              	.Letext0:
+ 958              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\lib\\gcc\\arm-none-eabi\\4.9.3\\include\\stddef.h"
+ 959              	 .file 3 "C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/include/mbedtls/cipher.h"
+ 960              	 .file 4 "C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/include/mbedtls/ccm.h"
+ 961              	 .file 5 "C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/include/mbedtls/platform_util.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 ccm.c
+    {standard input}:20     .text.ccm_auth_crypt:00000000 $t
+    {standard input}:24     .text.ccm_auth_crypt:00000000 ccm_auth_crypt
+    {standard input}:541    .text.mbedtls_ccm_init:00000000 $t
+    {standard input}:546    .text.mbedtls_ccm_init:00000000 mbedtls_ccm_init
+    {standard input}:563    .text.mbedtls_ccm_setkey:00000000 $t
+    {standard input}:568    .text.mbedtls_ccm_setkey:00000000 mbedtls_ccm_setkey
+    {standard input}:651    .text.mbedtls_ccm_free:00000000 $t
+    {standard input}:656    .text.mbedtls_ccm_free:00000000 mbedtls_ccm_free
+    {standard input}:696    .text.mbedtls_ccm_star_encrypt_and_tag:00000000 $t
+    {standard input}:701    .text.mbedtls_ccm_star_encrypt_and_tag:00000000 mbedtls_ccm_star_encrypt_and_tag
+    {standard input}:754    .text.mbedtls_ccm_encrypt_and_tag:00000000 $t
+    {standard input}:759    .text.mbedtls_ccm_encrypt_and_tag:00000000 mbedtls_ccm_encrypt_and_tag
+    {standard input}:804    .text.mbedtls_ccm_star_auth_decrypt:00000000 $t
+    {standard input}:809    .text.mbedtls_ccm_star_auth_decrypt:00000000 mbedtls_ccm_star_auth_decrypt
+    {standard input}:907    .text.mbedtls_ccm_auth_decrypt:00000000 $t
+    {standard input}:912    .text.mbedtls_ccm_auth_decrypt:00000000 mbedtls_ccm_auth_decrypt
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memcpy
+memset
+mbedtls_cipher_update
+mbedtls_cipher_info_from_values
+mbedtls_cipher_free
+mbedtls_cipher_setup
+mbedtls_cipher_setkey
+mbedtls_platform_zeroize

@@ -1,0 +1,599 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,4
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "descriptors.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.USBD_VCOM_Event_GetDescriptor,"ax",%progbits
+  20              	 .align 1
+  21              	 .global USBD_VCOM_Event_GetDescriptor
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	USBD_VCOM_Event_GetDescriptor:
+  26              	.LFB187:
+  27              	 .file 1 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com/descriptors.c"
+   1:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /**
+   2:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * @file descriptors.c
+   3:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * @date 2015-10-08
+   4:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *
+   5:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * @cond
+   6:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  **************************************************************************************************
+   7:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * USBD_VCOM v4.0.8 - The USB virtual COM port driver for XMC4000 family of controllers.
+   8:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *
+   9:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * Copyright (c) 2015, Infineon Technologies AG
+  10:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * All rights reserved.                        
+  11:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *                                             
+  12:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * Redistribution and use in source and binary forms, with or without modification,are permitted pr
+  13:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * following conditions are met:   
+  14:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *                                                                              
+  15:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   Redistributions of source code must retain the above copyright notice, this list of conditions
+  16:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   disclaimer.                        
+  17:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * 
+  18:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   Redistributions in binary form must reproduce the above copyright notice, this list of conditi
+  19:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   following disclaimer in the documentation and/or other materials provided with the distributio
+  20:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *                         
+  21:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   Neither the name of the copyright holders nor the names of its contributors may be used to end
+  22:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   products derived from this software without specific prior written permission. 
+  23:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *                                             
+  24:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR I
+  25:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTI
+  26:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE  FOR ANY DIRECT, IN
+  27:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBS
+  28:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THE
+  29:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * WHETHER IN CONTRACT, STRICT LIABILITY,OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+  30:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.    
+  31:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *                                                                              
+  32:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * To improve the quality of the software, users are encouraged to share modifications, enhancement
+  33:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * with Infineon Technologies AG (dave@infineon.com).        
+  34:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  **************************************************************************************************
+  35:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *
+  36:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * Change History
+  37:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * --------------
+  38:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *
+  39:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * 2015-02-16:
+  40:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *     - Initial version.      
+  41:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * 2015-04-23:
+  42:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *     - Updated the review comments from AEs.
+  43:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * 2015-06-20:
+  44:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *     - Updated the file header.
+  45:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *     
+  46:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * @endcond 
+  47:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *
+  48:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+  49:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /*
+  50:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   Copyright 2014  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  51:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  52:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   Permission to use, copy, modify, distribute, and sell this
+  53:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   software and its documentation for any purpose is hereby granted
+  54:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   without fee, provided that the above copyright notice appear in
+  55:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   all copies and that both that the copyright notice and this
+  56:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   permission notice and warranty disclaimer appear in supporting
+  57:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   documentation, and that the name of the author not be used in
+  58:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   advertising or publicity pertaining to distribution of the
+  59:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   software without specific, written prior permission.
+  60:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  61:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   The author disclaim all warranties with regard to this
+  62:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   software, including all implied warranties of merchantability
+  63:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   and fitness.  In no event shall the author be liable for any
+  64:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   special, indirect or consequential damages or any damages
+  65:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   whatsoever resulting from loss of use, data or profits, whether
+  66:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   in an action of contract, negligence or other tortious action,
+  67:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   arising out of or in connection with the use or performance of
+  68:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   this software.
+  69:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** */
+  70:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  71:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  72:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /**************************************************************************************************
+  73:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * HEADER FILES                                                                                    
+  74:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  **************************************************************************************************
+  75:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** #include "descriptors.h"
+  76:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  77:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  
+  78:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  /*************************************************************************************************
+  79:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * GLOBAL DATA
+  80:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  **************************************************************************************************
+  81:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  82:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /** Device descriptor structure. This descriptor, located in FLASH memory,
+  83:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * describes the overall device characteristics, including the supported USB
+  84:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * version, control endpoint size and the number of device configurations.
+  85:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * The descriptor is read out by the USB host when the enumeration
+  86:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  process begins.
+  87:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+  88:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** #define PROGMEM
+  89:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** const USB_Descriptor_Device_t PROGMEM device_descriptor =
+  90:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** {
+  91:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Header                 = {
+  92:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Size = sizeof(USB_Descriptor_Device_t), .Type = DTYPE_Device},
+  93:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  94:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.USBSpecification       = USBD_VCOM_FS_SPEC,
+  95:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Class                  = CDC_CSCP_CDCClass,
+  96:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.SubClass               = CDC_CSCP_NoSpecificSubclass,
+  97:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Protocol               = CDC_CSCP_NoSpecificProtocol,
+  98:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  99:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Endpoint0Size          = USBD_VCOM_EP0_SIZE,
+ 100:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 101:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.VendorID               = IFX_USB_VENDOR_ID,
+ 102:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.ProductID              = USBD_VCOM_PRODUCT_ID,
+ 103:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.ReleaseNumber          = 0x0001,
+ 104:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 105:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.ManufacturerStrIndex   = USBD_VCOM_MANUF_STRING_INDEX,
+ 106:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.ProductStrIndex        = USBD_VCOM_PROD_STRING_INDEX,
+ 107:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.SerialNumStrIndex      = 0,
+ 108:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 109:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.NumberOfConfigurations = 1
+ 110:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** };
+ 111:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 112:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /** Configuration descriptor structure. This descriptor, located in FLASH
+ 113:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  memory, describes the usage of the device in one of its supported
+ 114:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  configurations, including information about any device interfaces and
+ 115:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  endpoints. The descriptor is read out by the USB host during the enumeration
+ 116:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   process when selecting a configuration so that the host may correctly
+ 117:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   communicate with the USB device.
+ 118:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+ 119:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** const USB_Descriptor_Configuration_t PROGMEM configuration_descriptor =
+ 120:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** {
+ 121:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.config =
+ 122:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 123:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 124:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_Descriptor_Configuration_Header_t),
+ 125:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_Configuration},
+ 126:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 127:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.TotalConfigurationSize = sizeof(USB_Descriptor_Configuration_t),
+ 128:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.TotalInterfaces        = 2,
+ 129:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 130:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.ConfigurationNumber    = 1,
+ 131:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.ConfigurationStrIndex  = NO_DESCRIPTOR,
+ 132:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 133:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.ConfigAttributes       = (USB_CONFIG_ATTR_RESERVED),
+ 134:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 135:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.MaxPowerConsumption    = USB_CONFIG_POWER_MA(100)
+ 136:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 137:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 138:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_cci_interface =
+ 139:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 140:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 141:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_Descriptor_Interface_t),
+ 142:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_Interface},
+ 143:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 144:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.InterfaceNumber        = 0,
+ 145:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.AlternateSetting       = 0,
+ 146:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 147:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.TotalEndpoints         = 1,
+ 148:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 149:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Class                  = CDC_CSCP_CDCClass,
+ 150:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.SubClass               = CDC_CSCP_ACMSubclass,
+ 151:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Protocol               = CDC_CSCP_ATCommandProtocol,
+ 152:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 153:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.InterfaceStrIndex      = NO_DESCRIPTOR
+ 154:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 155:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 156:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_functional_header =
+ 157:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 158:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 159:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_CDC_Descriptor_FunctionalHeader_t),
+ 160:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_CSInterface},
+ 161:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Subtype                = CDC_DSUBTYPE_CSInterface_Header,
+ 162:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 163:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.CDCSpecification       = USBD_VCOM_FS_SPEC,
+ 164:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 165:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 166:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_functional_acm =
+ 167:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 168:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 169:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_CDC_Descriptor_FunctionalACM_t),
+ 170:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_CSInterface},
+ 171:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Subtype                = CDC_DSUBTYPE_CSInterface_ACM,
+ 172:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 173:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Capabilities           = 0x06,
+ 174:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 175:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 176:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_functional_union =
+ 177:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 178:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 179:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_CDC_Descriptor_FunctionalUnion_t),
+ 180:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_CSInterface},
+ 181:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Subtype                = CDC_DSUBTYPE_CSInterface_Union,
+ 182:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 183:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.MasterInterfaceNumber  = 0,
+ 184:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.SlaveInterfaceNumber   = 1,
+ 185:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 186:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 187:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_notification_endpoint =
+ 188:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 189:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 190:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_Descriptor_Endpoint_t),
+ 191:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_Endpoint},
+ 192:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 193:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.EndpointAddress        = (ENDPOINT_DIR_IN| CDC_NOTIFICATION_EPNUM),
+ 194:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Attributes             = (EP_TYPE_INTERRUPT | ENDPOINT_ATTR_NO_SYNC
+ 195:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 											| ENDPOINT_USAGE_DATA),
+ 196:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.EndpointSize           = CDC_NOTIFICATION_EPSIZE,
+ 197:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.PollingIntervalMS      = 0xFF
+ 198:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 199:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 200:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_dci_interface =
+ 201:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 202:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 203:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_Descriptor_Interface_t),
+ 204:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_Interface},
+ 205:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 206:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.InterfaceNumber        = 1,
+ 207:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.AlternateSetting       = 0,
+ 208:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 209:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.TotalEndpoints         = 2,
+ 210:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 211:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Class                  = CDC_CSCP_CDCDataClass,
+ 212:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.SubClass               = CDC_CSCP_NoDataSubclass,
+ 213:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Protocol               = CDC_CSCP_NoDataProtocol,
+ 214:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 215:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.InterfaceStrIndex      = NO_DESCRIPTOR
+ 216:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 217:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 218:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_data_out_endpoint =
+ 219:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 220:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 221:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_Descriptor_Endpoint_t),
+ 222:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_Endpoint},
+ 223:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 224:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.EndpointAddress        = (ENDPOINT_DIR_OUT | CDC_RX_EPNUM),
+ 225:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Attributes             = (EP_TYPE_BULK | ENDPOINT_ATTR_NO_SYNC |
+ 226:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 														ENDPOINT_USAGE_DATA),
+ 227:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.EndpointSize           = CDC_TXRX_EPSIZE,
+ 228:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.PollingIntervalMS      = 0x01
+ 229:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 230:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 231:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_data_in_endpoint =
+ 232:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 233:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 234:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_Descriptor_Endpoint_t),
+ 235:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_Endpoint},
+ 236:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 237:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.EndpointAddress        = (ENDPOINT_DIR_IN | CDC_TX_EPNUM),
+ 238:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Attributes             = (EP_TYPE_BULK | ENDPOINT_ATTR_NO_SYNC |
+ 239:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 												ENDPOINT_USAGE_DATA),
+ 240:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.EndpointSize           = CDC_TXRX_EPSIZE,
+ 241:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.PollingIntervalMS      = 0x01
+ 242:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		}
+ 243:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** };
+ 244:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 245:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /** Language descriptor structure. This descriptor, located in FLASH memory, is
+ 246:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  returned when the host requests the string descriptor with index 0 (the
+ 247:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  first index). It is actually an array of 16-bit integers, which indicate
+ 248:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  via the language ID table available at USB.org what languages the device
+ 249:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  supports for its string descriptors.
+ 250:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+ 251:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** const USB_Descriptor_String_t PROGMEM language_string =
+ 252:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** {
+ 253:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Header                 = {.Size = USB_STRING_LEN(1), .Type = DTYPE_String},
+ 254:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 255:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.UnicodeString          = {LANGUAGE_ID_ENG}
+ 256:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** };
+ 257:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 258:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /** Manufacturer descriptor string. This is a Unicode string containing the
+ 259:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  manufacturer's details in human readable  form, and is read out upon request
+ 260:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   by the host when the appropriate string ID is requested, listed in the
+ 261:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   Device Descriptor.
+ 262:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+ 263:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** const USB_Descriptor_String_t PROGMEM manufacturer_string =
+ 264:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** {
+ 265:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Header                 =
+ 266:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 						{.Size = USB_STRING_LEN(8), .Type = DTYPE_String},
+ 267:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 268:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.UnicodeString          = { 'I','n','f','i','n','e','o','n'}
+ 269:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** };
+ 270:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 271:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /** Product descriptor string. This is a Unicode string containing the product's
+ 272:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  details in human readable form, and is read out upon request by the host
+ 273:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  when the appropriate string ID is requested, listed in the Device
+ 274:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  Descriptor.
+ 275:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+ 276:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** const USB_Descriptor_String_t PROGMEM product_string =
+ 277:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** {
+ 278:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Header                 =
+ 279:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 						{.Size = USB_STRING_LEN(7), .Type = DTYPE_String},
+ 280:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 281:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.UnicodeString          = {'I','F','X',' ','C','D','C'}
+ 282:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** };
+ 283:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 284:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /**************************************************************************************************
+ 285:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * API IMPLEMENTATION
+ 286:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  **************************************************************************************************
+ 287:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 288:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /*  This function is called by the library when in device mode, and must be
+ 289:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  overridden (see library "USB Descriptors" documentation) by the application
+ 290:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   code so that the address and size of a requested descriptor can be given
+ 291:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  to the USB library. When the device receives a Get Descriptor request on
+ 292:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  the control endpoint, this function is called so that the descriptor details
+ 293:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   can be passed back and the appropriate descriptor sent back to the USB
+ 294:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   host.
+ 295:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+ 296:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** uint16_t USBD_VCOM_Event_GetDescriptor(const uint16_t w_value,
+ 297:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****                                     const uint16_t w_index,
+ 298:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****                                     const void** const descriptor_address)
+ 299:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** {
+  28              	 .loc 1 299 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33              	.LVL0:
+ 300:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	const uint8_t  descriptor_type   = (w_value >> 8);
+ 301:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	const uint8_t  descriptor_number = (w_value & 0xFF);
+ 302:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	const void* address = NULL;
+ 303:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	uint16_t    size    = NO_DESCRIPTOR;
+ 304:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 305:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	switch (descriptor_type)
+  34              	 .loc 1 305 0
+  35 0000 030A     	 lsrs r3,r0,#8
+  36 0002 022B     	 cmp r3,#2
+  37 0004 06D0     	 beq .L3
+  38 0006 032B     	 cmp r3,#3
+  39 0008 07D0     	 beq .L4
+  40 000a 012B     	 cmp r3,#1
+  41 000c 0ED1     	 bne .L7
+ 306:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	{
+ 307:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		case DTYPE_Device:
+ 308:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			address = &device_descriptor;
+ 309:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			size    = sizeof(USB_Descriptor_Device_t);
+  42              	 .loc 1 309 0
+  43 000e 1220     	 movs r0,#18
+  44              	.LVL1:
+ 308:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			size    = sizeof(USB_Descriptor_Device_t);
+  45              	 .loc 1 308 0
+  46 0010 084B     	 ldr r3,.L10
+  47 0012 0DE0     	 b .L2
+  48              	.LVL2:
+  49              	.L3:
+ 310:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			break;
+ 311:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		case DTYPE_Configuration:
+ 312:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			address = &configuration_descriptor;
+ 313:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			size    = sizeof(USB_Descriptor_Configuration_t);
+  50              	 .loc 1 313 0
+  51 0014 3E20     	 movs r0,#62
+  52              	.LVL3:
+ 312:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			size    = sizeof(USB_Descriptor_Configuration_t);
+  53              	 .loc 1 312 0
+  54 0016 084B     	 ldr r3,.L10+4
+ 314:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			break;
+  55              	 .loc 1 314 0
+  56 0018 0AE0     	 b .L2
+  57              	.LVL4:
+  58              	.L4:
+ 301:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	const void* address = NULL;
+  59              	 .loc 1 301 0
+  60 001a C0B2     	 uxtb r0,r0
+  61              	.LVL5:
+  62 001c 0228     	 cmp r0,#2
+  63 001e 05D8     	 bhi .L7
+  64 0020 064B     	 ldr r3,.L10+8
+  65 0022 0749     	 ldr r1,.L10+12
+  66              	.LVL6:
+  67 0024 53F82030 	 ldr r3,[r3,r0,lsl#2]
+  68 0028 085C     	 ldrb r0,[r1,r0]
+  69              	.LVL7:
+  70 002a 01E0     	 b .L2
+  71              	.LVL8:
+  72              	.L7:
+  73 002c 0020     	 movs r0,#0
+  74 002e 0346     	 mov r3,r0
+  75              	.LVL9:
+  76              	.L2:
+ 315:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		case DTYPE_String:
+ 316:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			switch (descriptor_number)
+ 317:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			{
+ 318:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 				case 0x00:
+ 319:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					address = &language_string;
+ 320:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					size    = language_string.Header.Size;
+ 321:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					break;
+ 322:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 				case 0x01:
+ 323:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					address = &manufacturer_string;
+ 324:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					size    = manufacturer_string.Header.Size;
+ 325:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					break;
+ 326:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 				case 0x02:
+ 327:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					address = &product_string;
+ 328:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					size    = product_string.Header.Size;
+ 329:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					break;
+ 330:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			}
+ 331:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			break;
+ 332:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	}
+ 333:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 334:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	(void)w_index;
+ 335:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	*descriptor_address = address;
+  77              	 .loc 1 335 0
+  78 0030 1360     	 str r3,[r2]
+ 336:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	return size;
+ 337:C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** }
+  79              	 .loc 1 337 0
+  80 0032 7047     	 bx lr
+  81              	.L11:
+  82              	 .align 2
+  83              	.L10:
+  84 0034 00000000 	 .word .LANCHOR0
+  85 0038 00000000 	 .word .LANCHOR1
+  86 003c 00000000 	 .word .LANCHOR2
+  87 0040 00000000 	 .word .LANCHOR3
+  88              	 .cfi_endproc
+  89              	.LFE187:
+  91              	 .global product_string
+  92              	 .global manufacturer_string
+  93              	 .global language_string
+  94              	 .global configuration_descriptor
+  95              	 .global device_descriptor
+  96              	 .section .rodata.product_string,"a",%progbits
+  99              	product_string:
+ 100 0000 10       	 .byte 16
+ 101 0001 03       	 .byte 3
+ 102 0002 4900     	 .2byte 73
+ 103 0004 4600     	 .2byte 70
+ 104 0006 5800     	 .2byte 88
+ 105 0008 2000     	 .2byte 32
+ 106 000a 4300     	 .2byte 67
+ 107 000c 4400     	 .2byte 68
+ 108 000e 4300     	 .2byte 67
+ 109 0010 00000000 	 .space 86
+ 109      00000000 
+ 109      00000000 
+ 109      00000000 
+ 109      00000000 
+ 110              	 .section .rodata.device_descriptor,"a",%progbits
+ 111              	 .set .LANCHOR0,.+0
+ 114              	device_descriptor:
+ 115 0000 12       	 .byte 18
+ 116 0001 01       	 .byte 1
+ 117 0002 1001     	 .2byte 272
+ 118 0004 02       	 .byte 2
+ 119 0005 00       	 .byte 0
+ 120 0006 00       	 .byte 0
+ 121 0007 40       	 .byte 64
+ 122 0008 8B05     	 .2byte 1419
+ 123 000a 5800     	 .2byte 88
+ 124 000c 0100     	 .2byte 1
+ 125 000e 01       	 .byte 1
+ 126 000f 02       	 .byte 2
+ 127 0010 00       	 .byte 0
+ 128 0011 01       	 .byte 1
+ 129              	 .section .rodata.language_string,"a",%progbits
+ 132              	language_string:
+ 133 0000 04       	 .byte 4
+ 134 0001 03       	 .byte 3
+ 135 0002 0904     	 .2byte 1033
+ 136 0004 00000000 	 .space 98
+ 136      00000000 
+ 136      00000000 
+ 136      00000000 
+ 136      00000000 
+ 137              	 .section .rodata.manufacturer_string,"a",%progbits
+ 140              	manufacturer_string:
+ 141 0000 12       	 .byte 18
+ 142 0001 03       	 .byte 3
+ 143 0002 4900     	 .2byte 73
+ 144 0004 6E00     	 .2byte 110
+ 145 0006 6600     	 .2byte 102
+ 146 0008 6900     	 .2byte 105
+ 147 000a 6E00     	 .2byte 110
+ 148 000c 6500     	 .2byte 101
+ 149 000e 6F00     	 .2byte 111
+ 150 0010 6E00     	 .2byte 110
+ 151 0012 00000000 	 .space 84
+ 151      00000000 
+ 151      00000000 
+ 151      00000000 
+ 151      00000000 
+ 152              	 .section .rodata.CSWTCH.1,"a",%progbits
+ 153              	 .align 2
+ 154              	 .set .LANCHOR2,.+0
+ 157              	CSWTCH.1:
+ 158 0000 00000000 	 .word language_string
+ 159 0004 00000000 	 .word manufacturer_string
+ 160 0008 00000000 	 .word product_string
+ 161              	 .section .rodata.CSWTCH.2,"a",%progbits
+ 162              	 .set .LANCHOR3,.+0
+ 165              	CSWTCH.2:
+ 166 0000 04       	 .byte 4
+ 167 0001 12       	 .byte 18
+ 168 0002 10       	 .byte 16
+ 169              	 .section .rodata.configuration_descriptor,"a",%progbits
+ 170              	 .set .LANCHOR1,.+0
+ 173              	configuration_descriptor:
+ 174 0000 09       	 .byte 9
+ 175 0001 02       	 .byte 2
+ 176 0002 3E00     	 .2byte 62
+ 177 0004 02       	 .byte 2
+ 178 0005 01       	 .byte 1
+ 179 0006 00       	 .byte 0
+ 180 0007 80       	 .byte -128
+ 181 0008 32       	 .byte 50
+ 182 0009 09       	 .byte 9
+ 183 000a 04       	 .byte 4
+ 184 000b 00       	 .byte 0
+ 185 000c 00       	 .byte 0
+ 186 000d 01       	 .byte 1
+ 187 000e 02       	 .byte 2
+ 188 000f 02       	 .byte 2
+ 189 0010 01       	 .byte 1
+ 190 0011 00       	 .byte 0
+ 191 0012 05       	 .byte 5
+ 192 0013 24       	 .byte 36
+ 193 0014 00       	 .byte 0
+ 194 0015 1001     	 .2byte 272
+ 195 0017 04       	 .byte 4
+ 196 0018 24       	 .byte 36
+ 197 0019 02       	 .byte 2
+ 198 001a 06       	 .byte 6
+ 199 001b 05       	 .byte 5
+ 200 001c 24       	 .byte 36
+ 201 001d 06       	 .byte 6
+ 202 001e 00       	 .byte 0
+ 203 001f 01       	 .byte 1
+ 204 0020 07       	 .byte 7
+ 205 0021 05       	 .byte 5
+ 206 0022 81       	 .byte -127
+ 207 0023 03       	 .byte 3
+ 208 0024 0800     	 .2byte 8
+ 209 0026 FF       	 .byte -1
+ 210 0027 09       	 .byte 9
+ 211 0028 04       	 .byte 4
+ 212 0029 01       	 .byte 1
+ 213 002a 00       	 .byte 0
+ 214 002b 02       	 .byte 2
+ 215 002c 0A       	 .byte 10
+ 216 002d 00       	 .byte 0
+ 217 002e 00       	 .byte 0
+ 218 002f 00       	 .byte 0
+ 219 0030 07       	 .byte 7
+ 220 0031 05       	 .byte 5
+ 221 0032 03       	 .byte 3
+ 222 0033 02       	 .byte 2
+ 223 0034 4000     	 .2byte 64
+ 224 0036 01       	 .byte 1
+ 225 0037 07       	 .byte 7
+ 226 0038 05       	 .byte 5
+ 227 0039 82       	 .byte -126
+ 228 003a 02       	 .byte 2
+ 229 003b 4000     	 .2byte 64
+ 230 003d 01       	 .byte 1
+ 231              	 .text
+ 232              	.Letext0:
+ 233              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 234              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 235              	 .file 4 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+ 236              	 .file 5 "c:\\users\\yushev\\git\\optiga-trust-qi\\projects\\xmc4700_relax_kit\\common\\dave\\generated\\usbd\\usb\\core\\std_descriptors.h"
+ 237              	 .file 6 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/inc/xmc_usbd_regs.h"
+ 238              	 .file 7 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/XMCLib/inc/xmc_usbd.h"
+ 239              	 .file 8 "c:\\users\\yushev\\git\\optiga-trust-qi\\projects\\xmc4700_relax_kit\\common\\dave\\generated\\usbd\\usbd.h"
+ 240              	 .file 9 "c:\\users\\yushev\\git\\optiga-trust-qi\\projects\\xmc4700_relax_kit\\common\\dave\\generated\\usbd_vcom\\class_driver\\common\\cdc_class_common.h"
+ 241              	 .file 10 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Dave/Generated/USBD_VCOM/virtual_com/descriptors.h"
+ 242              	 .file 11 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/CMSIS/Include/core_cm4.h"
+ 243              	 .file 12 "C:/Users/Yushev/git/optiga-trust-qi/projects/xmc4700_relax_kit/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+ 244              	 .file 13 "c:\\users\\yushev\\git\\optiga-trust-qi\\projects\\xmc4700_relax_kit\\common\\dave\\generated\\usbd\\usbd_extern.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 descriptors.c
+    {standard input}:20     .text.USBD_VCOM_Event_GetDescriptor:00000000 $t
+    {standard input}:25     .text.USBD_VCOM_Event_GetDescriptor:00000000 USBD_VCOM_Event_GetDescriptor
+    {standard input}:84     .text.USBD_VCOM_Event_GetDescriptor:00000034 $d
+    {standard input}:99     .rodata.product_string:00000000 product_string
+    {standard input}:140    .rodata.manufacturer_string:00000000 manufacturer_string
+    {standard input}:132    .rodata.language_string:00000000 language_string
+    {standard input}:173    .rodata.configuration_descriptor:00000000 configuration_descriptor
+    {standard input}:114    .rodata.device_descriptor:00000000 device_descriptor
+    {standard input}:109    .rodata.product_string:00000010 $d
+    {standard input}:136    .rodata.language_string:00000004 $d
+    {standard input}:151    .rodata.manufacturer_string:00000012 $d
+    {standard input}:153    .rodata.CSWTCH.1:00000000 $d
+    {standard input}:157    .rodata.CSWTCH.1:00000000 CSWTCH.1
+    {standard input}:165    .rodata.CSWTCH.2:00000000 CSWTCH.2
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

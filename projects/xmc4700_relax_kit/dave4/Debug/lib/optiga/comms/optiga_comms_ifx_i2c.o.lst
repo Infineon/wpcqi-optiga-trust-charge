@@ -1,0 +1,805 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,4
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "optiga_comms_ifx_i2c.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.ifx_i2c_event_handler,"ax",%progbits
+  20              	 .align 1
+  21              	 .thumb
+  22              	 .thumb_func
+  24              	ifx_i2c_event_handler:
+  25              	.LFB9:
+  26              	 .file 1 "C:/Users/Yushev/git/optiga-trust-qi/optiga/comms/optiga_comms_ifx_i2c.c"
+   1:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** /**
+   2:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * \copyright
+   3:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * MIT License
+   4:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** *
+   5:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * Copyright (c) 2020 Infineon Technologies AG
+   6:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** *
+   7:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   8:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * of this software and associated documentation files (the "Software"), to deal
+   9:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * in the Software without restriction, including without limitation the rights
+  10:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  11:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * copies of the Software, and to permit persons to whom the Software is
+  12:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * furnished to do so, subject to the following conditions:
+  13:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** *
+  14:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * The above copyright notice and this permission notice shall be included in all
+  15:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * copies or substantial portions of the Software.
+  16:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** *
+  17:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  19:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  20:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  21:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  22:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  23:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * SOFTWARE
+  24:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** *
+  25:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * \endcopyright
+  26:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** *
+  27:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * \author Infineon Technologies AG
+  28:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** *
+  29:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * \file optiga_comms_ifx_i2c.c
+  30:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** *
+  31:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * \brief   This file implements optiga comms abstraction layer for IFX I2C Protocol.
+  32:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** *
+  33:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * \ingroup  grOptigaComms
+  34:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** *
+  35:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** * @{
+  36:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** */
+  37:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+  38:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #include "optiga/comms/optiga_comms.h"
+  39:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #include "optiga/common/optiga_lib_logger.h"
+  40:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #include "optiga/ifx_i2c/ifx_i2c.h"
+  41:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #include "optiga/pal/pal_os_event.h"
+  42:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+  43:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** /// @cond hidden
+  44:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+  45:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****  /// Optiga comms is in use
+  46:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****  #define OPTIGA_COMMS_INUSE     (0x01)
+  47:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****  /// Optiga comms is free
+  48:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****  #define OPTIGA_COMMS_FREE      (0x00)
+  49:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+  50:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** optiga_comms_t optiga_comms = {
+  51:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                (void *)&ifx_i2c_context_0,
+  52:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                NULL,
+  53:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                NULL,
+  54:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                0,
+  55:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                0,
+  56:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+  57:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                0,
+  58:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                0,
+  59:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                0,
+  60:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #endif
+  61:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                NULL};
+  62:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+  63:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** _STATIC_H optiga_lib_status_t check_optiga_comms_state(optiga_comms_t *p_ctx);
+  64:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** _STATIC_H void ifx_i2c_event_handler(void* p_ctx, optiga_lib_status_t event);
+  65:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+  66:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** optiga_comms_t * optiga_comms_create(callback_handler_t callback, void * context)
+  67:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** {
+  68:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     optiga_comms_t * p_optiga_comms = NULL;
+  69:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+  70:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     do
+  71:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     {
+  72:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         p_optiga_comms = &optiga_comms;
+  73:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+  74:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         if (FALSE == p_optiga_comms->instance_init_state)
+  75:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         {
+  76:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #ifdef OPTIGA_PAL_INIT_ENABLED
+  77:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             if (PAL_STATUS_SUCCESS != pal_init())
+  78:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             {
+  79:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                 p_optiga_comms = NULL;
+  80:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                 break;
+  81:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             }
+  82:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #endif
+  83:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             p_optiga_comms->upper_layer_handler = callback;
+  84:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             p_optiga_comms->p_upper_layer_ctx = context;
+  85:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             p_optiga_comms->instance_init_state = TRUE;
+  86:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         }
+  87:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     } while (FALSE);
+  88:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     return (p_optiga_comms);
+  89:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** }
+  90:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+  91:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** //lint --e{715} suppress "p_optiga_cmd is not used here as it is placeholder for future."
+  92:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** //lint --e{818} suppress "Not declared as pointer as nothing needs to be updated in the pointer."
+  93:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** void optiga_comms_destroy(optiga_comms_t * p_optiga_cmd)
+  94:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** {
+  95:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** }
+  96:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+  97:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** optiga_lib_status_t optiga_comms_set_callback_handler(optiga_comms_t * p_optiga_comms, callback_han
+  98:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** {
+  99:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     p_optiga_comms->upper_layer_handler = handler;
+ 100:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     return (0);
+ 101:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** }
+ 102:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 103:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** optiga_lib_status_t optiga_comms_set_callback_context(optiga_comms_t * p_optiga_comms, void * conte
+ 104:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** {
+ 105:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     p_optiga_comms->p_upper_layer_ctx = context;
+ 106:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     return (0);
+ 107:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** }
+ 108:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 109:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 110:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** /// @endcond
+ 111:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 112:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** optiga_lib_status_t optiga_comms_open(optiga_comms_t * p_ctx)
+ 113:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** {
+ 114:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     optiga_lib_status_t status = OPTIGA_COMMS_ERROR;
+ 115:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     if (OPTIGA_COMMS_SUCCESS == check_optiga_comms_state(p_ctx))
+ 116:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     {
+ 117:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->p_upper_layer_ctx = (void * )p_ctx;
+ 118:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->upper_layer_event_handler = ifx_i2c_event_han
+ 119:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 120:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->manage_context_operation = p_ctx->manage_cont
+ 121:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #endif
+ 122:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->pal_os_event_ctx = p_ctx->p_pal_os_event_ctx;
+ 123:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 124:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         status = ifx_i2c_open((ifx_i2c_context_t * )(p_ctx->p_comms_ctx));
+ 125:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         if (IFX_I2C_STACK_SUCCESS != status)
+ 126:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         {
+ 127:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             p_ctx->state = OPTIGA_COMMS_FREE;
+ 128:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         }
+ 129:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     }
+ 130:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     return (status);
+ 131:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** }
+ 132:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 133:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** optiga_lib_status_t optiga_comms_reset(optiga_comms_t * p_ctx, uint8_t reset_type)
+ 134:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** {
+ 135:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     optiga_lib_status_t status = OPTIGA_COMMS_ERROR;
+ 136:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     if (OPTIGA_COMMS_SUCCESS == check_optiga_comms_state(p_ctx))
+ 137:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     {
+ 138:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->p_upper_layer_ctx = (void * )p_ctx;
+ 139:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->upper_layer_event_handler = ifx_i2c_event_han
+ 140:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         status = ifx_i2c_reset((ifx_i2c_context_t * )(p_ctx->p_comms_ctx), (ifx_i2c_reset_type_t)re
+ 141:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         if (IFX_I2C_STACK_SUCCESS != status)
+ 142:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         {
+ 143:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             p_ctx->state = OPTIGA_COMMS_FREE;
+ 144:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         }
+ 145:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     }
+ 146:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     return (status);
+ 147:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** }
+ 148:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 149:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 150:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** optiga_lib_status_t optiga_comms_transceive(optiga_comms_t * p_ctx,
+ 151:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                             const uint8_t * p_tx_data,
+ 152:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                             uint16_t tx_data_length,
+ 153:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                             uint8_t * p_rx_data,
+ 154:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                             uint16_t * p_rx_data_len)
+ 155:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** {
+ 156:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     optiga_lib_status_t status = OPTIGA_COMMS_ERROR;
+ 157:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     if (OPTIGA_COMMS_SUCCESS == check_optiga_comms_state(p_ctx))
+ 158:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     {
+ 159:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->p_upper_layer_ctx = (void * )p_ctx;
+ 160:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->upper_layer_event_handler = ifx_i2c_event_han
+ 161:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 162:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->protection_level = p_ctx->protection_level;
+ 163:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->protocol_version = p_ctx->protocol_version;
+ 164:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->manage_context_operation = p_ctx->manage_cont
+ 165:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #endif
+ 166:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         status = (ifx_i2c_transceive((ifx_i2c_context_t * )(p_ctx->p_comms_ctx),
+ 167:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                      p_tx_data,
+ 168:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                      tx_data_length,
+ 169:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                      p_rx_data,
+ 170:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                      p_rx_data_len));
+ 171:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         if (IFX_I2C_STACK_SUCCESS != status)
+ 172:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         {
+ 173:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             p_ctx->state = OPTIGA_COMMS_FREE;
+ 174:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         }
+ 175:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     }
+ 176:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     return (status);
+ 177:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** }
+ 178:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 179:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 180:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** optiga_lib_status_t optiga_comms_close(optiga_comms_t * p_ctx)
+ 181:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** {
+ 182:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     optiga_lib_status_t status = OPTIGA_COMMS_ERROR;
+ 183:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     if (OPTIGA_COMMS_SUCCESS == check_optiga_comms_state(p_ctx))
+ 184:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     {
+ 185:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->p_upper_layer_ctx = (void * )p_ctx;
+ 186:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->upper_layer_event_handler = ifx_i2c_event_han
+ 187:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 188:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->manage_context_operation = p_ctx->manage_cont
+ 189:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #endif
+ 190:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         status = ifx_i2c_close((ifx_i2c_context_t * )(p_ctx->p_comms_ctx));
+ 191:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         if (IFX_I2C_STACK_SUCCESS != status)
+ 192:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         {
+ 193:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             p_ctx->state = OPTIGA_COMMS_FREE;
+ 194:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         }
+ 195:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     }
+ 196:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     return (status);
+ 197:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** }
+ 198:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 199:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** /// @cond hidden
+ 200:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** _STATIC_H optiga_lib_status_t check_optiga_comms_state(optiga_comms_t * p_ctx)
+ 201:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** {
+ 202:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     optiga_lib_status_t status = OPTIGA_COMMS_ERROR;
+ 203:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     if ((NULL != p_ctx) && (OPTIGA_COMMS_INUSE != p_ctx->state))
+ 204:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     {
+ 205:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         p_ctx->state = OPTIGA_COMMS_INUSE;
+ 206:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         status = OPTIGA_COMMS_SUCCESS;
+ 207:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     }
+ 208:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     return (status);
+ 209:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** }
+ 210:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 211:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** //lint --e{818} suppress "This is ignored as upper layer handler function prototype requires this a
+ 212:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** _STATIC_H void ifx_i2c_event_handler(void * p_upper_layer_ctx, optiga_lib_status_t event)
+ 213:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** {
+  27              	 .loc 1 213 0
+  28              	 .cfi_startproc
+  29              	 
+  30              	 
+  31              	.LVL0:
+  32 0000 10B5     	 push {r4,lr}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 8
+  35              	 .cfi_offset 4,-8
+  36              	 .cfi_offset 14,-4
+ 214:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     void * ctx = ((optiga_comms_t * )p_upper_layer_ctx)->p_upper_layer_ctx;
+ 215:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     ((optiga_comms_t * )p_upper_layer_ctx)->upper_layer_handler(ctx, event);
+  37              	 .loc 1 215 0
+  38 0002 8368     	 ldr r3,[r0,#8]
+ 213:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     void * ctx = ((optiga_comms_t * )p_upper_layer_ctx)->p_upper_layer_ctx;
+  39              	 .loc 1 213 0
+  40 0004 0446     	 mov r4,r0
+  41              	 .loc 1 215 0
+  42 0006 4068     	 ldr r0,[r0,#4]
+  43              	.LVL1:
+  44 0008 9847     	 blx r3
+  45              	.LVL2:
+ 216:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     ((optiga_comms_t * )p_upper_layer_ctx)->state = OPTIGA_COMMS_FREE;
+  46              	 .loc 1 216 0
+  47 000a 0023     	 movs r3,#0
+  48 000c 6373     	 strb r3,[r4,#13]
+  49 000e 10BD     	 pop {r4,pc}
+  50              	 .cfi_endproc
+  51              	.LFE9:
+  53              	 .section .text.optiga_comms_create,"ax",%progbits
+  54              	 .align 1
+  55              	 .global optiga_comms_create
+  56              	 .thumb
+  57              	 .thumb_func
+  59              	optiga_comms_create:
+  60              	.LFB0:
+  67:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     optiga_comms_t * p_optiga_comms = NULL;
+  61              	 .loc 1 67 0
+  62              	 .cfi_startproc
+  63              	 
+  64              	 
+  65              	.LVL3:
+  66 0000 F8B5     	 push {r3,r4,r5,r6,r7,lr}
+  67              	.LCFI1:
+  68              	 .cfi_def_cfa_offset 24
+  69              	 .cfi_offset 3,-24
+  70              	 .cfi_offset 4,-20
+  71              	 .cfi_offset 5,-16
+  72              	 .cfi_offset 6,-12
+  73              	 .cfi_offset 7,-8
+  74              	 .cfi_offset 14,-4
+  74:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         {
+  75              	 .loc 1 74 0
+  76 0002 084D     	 ldr r5,.L7
+  77 0004 2C7B     	 ldrb r4,[r5,#12]
+  67:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     optiga_comms_t * p_optiga_comms = NULL;
+  78              	 .loc 1 67 0
+  79 0006 0746     	 mov r7,r0
+  80 0008 0E46     	 mov r6,r1
+  74:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         {
+  81              	 .loc 1 74 0
+  82 000a 34B9     	 cbnz r4,.L4
+  77:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             {
+  83              	 .loc 1 77 0
+  84 000c FFF7FEFF 	 bl pal_init
+  85              	.LVL4:
+  86 0010 28B9     	 cbnz r0,.L5
+  85:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         }
+  87              	 .loc 1 85 0
+  88 0012 0123     	 movs r3,#1
+  83:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             p_optiga_comms->p_upper_layer_ctx = context;
+  89              	 .loc 1 83 0
+  90 0014 AF60     	 str r7,[r5,#8]
+  84:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****             p_optiga_comms->instance_init_state = TRUE;
+  91              	 .loc 1 84 0
+  92 0016 6E60     	 str r6,[r5,#4]
+  85:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         }
+  93              	 .loc 1 85 0
+  94 0018 2B73     	 strb r3,[r5,#12]
+  95              	.L4:
+  72:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+  96              	 .loc 1 72 0
+  97 001a 2846     	 mov r0,r5
+  98 001c F8BD     	 pop {r3,r4,r5,r6,r7,pc}
+  99              	.LVL5:
+ 100              	.L5:
+  79:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                 break;
+ 101              	 .loc 1 79 0
+ 102 001e 2046     	 mov r0,r4
+ 103              	.LVL6:
+  89:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 104              	 .loc 1 89 0
+ 105 0020 F8BD     	 pop {r3,r4,r5,r6,r7,pc}
+ 106              	.LVL7:
+ 107              	.L8:
+ 108 0022 00BF     	 .align 2
+ 109              	.L7:
+ 110 0024 00000000 	 .word .LANCHOR0
+ 111              	 .cfi_endproc
+ 112              	.LFE0:
+ 114              	 .section .text.optiga_comms_destroy,"ax",%progbits
+ 115              	 .align 1
+ 116              	 .global optiga_comms_destroy
+ 117              	 .thumb
+ 118              	 .thumb_func
+ 120              	optiga_comms_destroy:
+ 121              	.LFB1:
+  94:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** }
+ 122              	 .loc 1 94 0
+ 123              	 .cfi_startproc
+ 124              	 
+ 125              	 
+ 126              	 
+ 127              	.LVL8:
+ 128 0000 7047     	 bx lr
+ 129              	 .cfi_endproc
+ 130              	.LFE1:
+ 132              	 .section .text.optiga_comms_set_callback_handler,"ax",%progbits
+ 133              	 .align 1
+ 134              	 .global optiga_comms_set_callback_handler
+ 135              	 .thumb
+ 136              	 .thumb_func
+ 138              	optiga_comms_set_callback_handler:
+ 139              	.LFB2:
+  98:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     p_optiga_comms->upper_layer_handler = handler;
+ 140              	 .loc 1 98 0
+ 141              	 .cfi_startproc
+ 142              	 
+ 143              	 
+ 144              	 
+ 145              	.LVL9:
+  99:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     return (0);
+ 146              	 .loc 1 99 0
+ 147 0000 8160     	 str r1,[r0,#8]
+ 101:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 148              	 .loc 1 101 0
+ 149 0002 0020     	 movs r0,#0
+ 150              	.LVL10:
+ 151 0004 7047     	 bx lr
+ 152              	 .cfi_endproc
+ 153              	.LFE2:
+ 155              	 .section .text.optiga_comms_set_callback_context,"ax",%progbits
+ 156              	 .align 1
+ 157              	 .global optiga_comms_set_callback_context
+ 158              	 .thumb
+ 159              	 .thumb_func
+ 161              	optiga_comms_set_callback_context:
+ 162              	.LFB3:
+ 104:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     p_optiga_comms->p_upper_layer_ctx = context;
+ 163              	 .loc 1 104 0
+ 164              	 .cfi_startproc
+ 165              	 
+ 166              	 
+ 167              	 
+ 168              	.LVL11:
+ 105:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     return (0);
+ 169              	 .loc 1 105 0
+ 170 0000 4160     	 str r1,[r0,#4]
+ 107:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 171              	 .loc 1 107 0
+ 172 0002 0020     	 movs r0,#0
+ 173              	.LVL12:
+ 174 0004 7047     	 bx lr
+ 175              	 .cfi_endproc
+ 176              	.LFE3:
+ 178              	 .section .text.optiga_comms_open,"ax",%progbits
+ 179              	 .align 1
+ 180              	 .global optiga_comms_open
+ 181              	 .thumb
+ 182              	 .thumb_func
+ 184              	optiga_comms_open:
+ 185              	.LFB4:
+ 113:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     optiga_lib_status_t status = OPTIGA_COMMS_ERROR;
+ 186              	 .loc 1 113 0
+ 187              	 .cfi_startproc
+ 188              	 
+ 189              	 
+ 190              	.LVL13:
+ 191 0000 10B5     	 push {r4,lr}
+ 192              	.LCFI2:
+ 193              	 .cfi_def_cfa_offset 8
+ 194              	 .cfi_offset 4,-8
+ 195              	 .cfi_offset 14,-4
+ 196              	.LBB4:
+ 197              	.LBB5:
+ 203:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     {
+ 198              	 .loc 1 203 0
+ 199 0002 0446     	 mov r4,r0
+ 200 0004 A8B1     	 cbz r0,.L15
+ 201 0006 437B     	 ldrb r3,[r0,#13]
+ 202 0008 012B     	 cmp r3,#1
+ 203 000a 12D0     	 beq .L15
+ 205:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         status = OPTIGA_COMMS_SUCCESS;
+ 204              	 .loc 1 205 0
+ 205 000c 0123     	 movs r3,#1
+ 206 000e 4373     	 strb r3,[r0,#13]
+ 207              	.LVL14:
+ 208              	.LBE5:
+ 209              	.LBE4:
+ 117:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->upper_layer_event_handler = ifx_i2c_event_han
+ 210              	 .loc 1 117 0
+ 211 0010 0368     	 ldr r3,[r0]
+ 118:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 212              	 .loc 1 118 0
+ 213 0012 094A     	 ldr r2,.L19
+ 117:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->upper_layer_event_handler = ifx_i2c_event_han
+ 214              	 .loc 1 117 0
+ 215 0014 D861     	 str r0,[r3,#28]
+ 118:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 216              	 .loc 1 118 0
+ 217 0016 9A61     	 str r2,[r3,#24]
+ 120:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #endif
+ 218              	 .loc 1 120 0
+ 219 0018 027C     	 ldrb r2,[r0,#16]
+ 220 001a 83F83220 	 strb r2,[r3,#50]
+ 122:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 221              	 .loc 1 122 0
+ 222 001e 0068     	 ldr r0,[r0]
+ 223              	.LVL15:
+ 224 0020 6369     	 ldr r3,[r4,#20]
+ 225 0022 C0F8D034 	 str r3,[r0,#1232]
+ 124:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         if (IFX_I2C_STACK_SUCCESS != status)
+ 226              	 .loc 1 124 0
+ 227 0026 FFF7FEFF 	 bl ifx_i2c_open
+ 228              	.LVL16:
+ 125:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         {
+ 229              	 .loc 1 125 0
+ 230 002a 20B1     	 cbz r0,.L13
+ 127:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         }
+ 231              	 .loc 1 127 0
+ 232 002c 0023     	 movs r3,#0
+ 233 002e 6373     	 strb r3,[r4,#13]
+ 234 0030 10BD     	 pop {r4,pc}
+ 235              	.LVL17:
+ 236              	.L15:
+ 114:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     if (OPTIGA_COMMS_SUCCESS == check_optiga_comms_state(p_ctx))
+ 237              	 .loc 1 114 0
+ 238 0032 4FF48170 	 mov r0,#258
+ 239              	.LVL18:
+ 240              	.L13:
+ 131:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 241              	 .loc 1 131 0
+ 242 0036 10BD     	 pop {r4,pc}
+ 243              	.LVL19:
+ 244              	.L20:
+ 245              	 .align 2
+ 246              	.L19:
+ 247 0038 00000000 	 .word ifx_i2c_event_handler
+ 248              	 .cfi_endproc
+ 249              	.LFE4:
+ 251              	 .section .text.optiga_comms_reset,"ax",%progbits
+ 252              	 .align 1
+ 253              	 .global optiga_comms_reset
+ 254              	 .thumb
+ 255              	 .thumb_func
+ 257              	optiga_comms_reset:
+ 258              	.LFB5:
+ 134:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     optiga_lib_status_t status = OPTIGA_COMMS_ERROR;
+ 259              	 .loc 1 134 0
+ 260              	 .cfi_startproc
+ 261              	 
+ 262              	 
+ 263              	.LVL20:
+ 264 0000 10B5     	 push {r4,lr}
+ 265              	.LCFI3:
+ 266              	 .cfi_def_cfa_offset 8
+ 267              	 .cfi_offset 4,-8
+ 268              	 .cfi_offset 14,-4
+ 269              	.LBB8:
+ 270              	.LBB9:
+ 203:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     {
+ 271              	 .loc 1 203 0
+ 272 0002 0446     	 mov r4,r0
+ 273 0004 70B1     	 cbz r0,.L24
+ 274 0006 437B     	 ldrb r3,[r0,#13]
+ 275 0008 012B     	 cmp r3,#1
+ 276 000a 0BD0     	 beq .L24
+ 205:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         status = OPTIGA_COMMS_SUCCESS;
+ 277              	 .loc 1 205 0
+ 278 000c 0123     	 movs r3,#1
+ 279 000e 4373     	 strb r3,[r0,#13]
+ 280              	.LVL21:
+ 281              	.LBE9:
+ 282              	.LBE8:
+ 138:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->upper_layer_event_handler = ifx_i2c_event_han
+ 283              	 .loc 1 138 0
+ 284 0010 0068     	 ldr r0,[r0]
+ 285              	.LVL22:
+ 139:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         status = ifx_i2c_reset((ifx_i2c_context_t * )(p_ctx->p_comms_ctx), (ifx_i2c_reset_type_t)re
+ 286              	 .loc 1 139 0
+ 287 0012 064B     	 ldr r3,.L28
+ 138:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->upper_layer_event_handler = ifx_i2c_event_han
+ 288              	 .loc 1 138 0
+ 289 0014 C461     	 str r4,[r0,#28]
+ 139:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         status = ifx_i2c_reset((ifx_i2c_context_t * )(p_ctx->p_comms_ctx), (ifx_i2c_reset_type_t)re
+ 290              	 .loc 1 139 0
+ 291 0016 8361     	 str r3,[r0,#24]
+ 140:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         if (IFX_I2C_STACK_SUCCESS != status)
+ 292              	 .loc 1 140 0
+ 293 0018 FFF7FEFF 	 bl ifx_i2c_reset
+ 294              	.LVL23:
+ 141:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         {
+ 295              	 .loc 1 141 0
+ 296 001c 20B1     	 cbz r0,.L22
+ 143:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         }
+ 297              	 .loc 1 143 0
+ 298 001e 0023     	 movs r3,#0
+ 299 0020 6373     	 strb r3,[r4,#13]
+ 300 0022 10BD     	 pop {r4,pc}
+ 301              	.LVL24:
+ 302              	.L24:
+ 135:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     if (OPTIGA_COMMS_SUCCESS == check_optiga_comms_state(p_ctx))
+ 303              	 .loc 1 135 0
+ 304 0024 4FF48170 	 mov r0,#258
+ 305              	.LVL25:
+ 306              	.L22:
+ 147:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 307              	 .loc 1 147 0
+ 308 0028 10BD     	 pop {r4,pc}
+ 309              	.LVL26:
+ 310              	.L29:
+ 311 002a 00BF     	 .align 2
+ 312              	.L28:
+ 313 002c 00000000 	 .word ifx_i2c_event_handler
+ 314              	 .cfi_endproc
+ 315              	.LFE5:
+ 317              	 .section .text.optiga_comms_transceive,"ax",%progbits
+ 318              	 .align 1
+ 319              	 .global optiga_comms_transceive
+ 320              	 .thumb
+ 321              	 .thumb_func
+ 323              	optiga_comms_transceive:
+ 324              	.LFB6:
+ 155:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     optiga_lib_status_t status = OPTIGA_COMMS_ERROR;
+ 325              	 .loc 1 155 0
+ 326              	 .cfi_startproc
+ 327              	 
+ 328              	 
+ 329              	.LVL27:
+ 330 0000 37B5     	 push {r0,r1,r2,r4,r5,lr}
+ 331              	.LCFI4:
+ 332              	 .cfi_def_cfa_offset 24
+ 333              	 .cfi_offset 4,-12
+ 334              	 .cfi_offset 5,-8
+ 335              	 .cfi_offset 14,-4
+ 336              	.LBB12:
+ 337              	.LBB13:
+ 203:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     {
+ 338              	 .loc 1 203 0
+ 339 0002 0446     	 mov r4,r0
+ 340 0004 E0B1     	 cbz r0,.L33
+ 341 0006 407B     	 ldrb r0,[r0,#13]
+ 342              	.LVL28:
+ 343 0008 0128     	 cmp r0,#1
+ 344 000a 19D0     	 beq .L33
+ 205:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         status = OPTIGA_COMMS_SUCCESS;
+ 345              	 .loc 1 205 0
+ 346 000c 0120     	 movs r0,#1
+ 347 000e 6073     	 strb r0,[r4,#13]
+ 348              	.LVL29:
+ 349              	.LBE13:
+ 350              	.LBE12:
+ 159:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->upper_layer_event_handler = ifx_i2c_event_han
+ 351              	 .loc 1 159 0
+ 352 0010 2068     	 ldr r0,[r4]
+ 160:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 353              	 .loc 1 160 0
+ 354 0012 0D4D     	 ldr r5,.L37
+ 159:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->upper_layer_event_handler = ifx_i2c_event_han
+ 355              	 .loc 1 159 0
+ 356 0014 C461     	 str r4,[r0,#28]
+ 160:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 357              	 .loc 1 160 0
+ 358 0016 8561     	 str r5,[r0,#24]
+ 162:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->protocol_version = p_ctx->protocol_version;
+ 359              	 .loc 1 162 0
+ 360 0018 A57B     	 ldrb r5,[r4,#14]
+ 361 001a 80F83050 	 strb r5,[r0,#48]
+ 163:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->manage_context_operation = p_ctx->manage_cont
+ 362              	 .loc 1 163 0
+ 363 001e 2068     	 ldr r0,[r4]
+ 364 0020 E57B     	 ldrb r5,[r4,#15]
+ 365 0022 80F83150 	 strb r5,[r0,#49]
+ 164:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #endif
+ 366              	 .loc 1 164 0
+ 367 0026 2068     	 ldr r0,[r4]
+ 368 0028 257C     	 ldrb r5,[r4,#16]
+ 369 002a 80F83250 	 strb r5,[r0,#50]
+ 166:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****                                      p_tx_data,
+ 370              	 .loc 1 166 0
+ 371 002e 0698     	 ldr r0,[sp,#24]
+ 372 0030 0090     	 str r0,[sp]
+ 373 0032 2068     	 ldr r0,[r4]
+ 374 0034 FFF7FEFF 	 bl ifx_i2c_transceive
+ 375              	.LVL30:
+ 171:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         {
+ 376              	 .loc 1 171 0
+ 377 0038 20B1     	 cbz r0,.L31
+ 173:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         }
+ 378              	 .loc 1 173 0
+ 379 003a 0023     	 movs r3,#0
+ 380 003c 6373     	 strb r3,[r4,#13]
+ 381 003e 01E0     	 b .L31
+ 382              	.LVL31:
+ 383              	.L33:
+ 156:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     if (OPTIGA_COMMS_SUCCESS == check_optiga_comms_state(p_ctx))
+ 384              	 .loc 1 156 0
+ 385 0040 4FF48170 	 mov r0,#258
+ 386              	.LVL32:
+ 387              	.L31:
+ 177:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 388              	 .loc 1 177 0
+ 389 0044 03B0     	 add sp,sp,#12
+ 390              	.LCFI5:
+ 391              	 .cfi_def_cfa_offset 12
+ 392              	 
+ 393 0046 30BD     	 pop {r4,r5,pc}
+ 394              	.LVL33:
+ 395              	.L38:
+ 396              	 .align 2
+ 397              	.L37:
+ 398 0048 00000000 	 .word ifx_i2c_event_handler
+ 399              	 .cfi_endproc
+ 400              	.LFE6:
+ 402              	 .section .text.optiga_comms_close,"ax",%progbits
+ 403              	 .align 1
+ 404              	 .global optiga_comms_close
+ 405              	 .thumb
+ 406              	 .thumb_func
+ 408              	optiga_comms_close:
+ 409              	.LFB7:
+ 181:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     optiga_lib_status_t status = OPTIGA_COMMS_ERROR;
+ 410              	 .loc 1 181 0
+ 411              	 .cfi_startproc
+ 412              	 
+ 413              	 
+ 414              	.LVL34:
+ 415 0000 10B5     	 push {r4,lr}
+ 416              	.LCFI6:
+ 417              	 .cfi_def_cfa_offset 8
+ 418              	 .cfi_offset 4,-8
+ 419              	 .cfi_offset 14,-4
+ 420              	.LBB16:
+ 421              	.LBB17:
+ 203:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     {
+ 422              	 .loc 1 203 0
+ 423 0002 0446     	 mov r4,r0
+ 424 0004 90B1     	 cbz r0,.L42
+ 425 0006 437B     	 ldrb r3,[r0,#13]
+ 426 0008 012B     	 cmp r3,#1
+ 427 000a 0FD0     	 beq .L42
+ 205:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         status = OPTIGA_COMMS_SUCCESS;
+ 428              	 .loc 1 205 0
+ 429 000c 0123     	 movs r3,#1
+ 430 000e 4373     	 strb r3,[r0,#13]
+ 431              	.LVL35:
+ 432              	.LBE17:
+ 433              	.LBE16:
+ 185:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->upper_layer_event_handler = ifx_i2c_event_han
+ 434              	 .loc 1 185 0
+ 435 0010 0368     	 ldr r3,[r0]
+ 186:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 436              	 .loc 1 186 0
+ 437 0012 084A     	 ldr r2,.L46
+ 185:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         ((ifx_i2c_context_t * )(p_ctx->p_comms_ctx))->upper_layer_event_handler = ifx_i2c_event_han
+ 438              	 .loc 1 185 0
+ 439 0014 D861     	 str r0,[r3,#28]
+ 186:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 440              	 .loc 1 186 0
+ 441 0016 9A61     	 str r2,[r3,#24]
+ 188:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** #endif
+ 442              	 .loc 1 188 0
+ 443 0018 027C     	 ldrb r2,[r0,#16]
+ 444 001a 83F83220 	 strb r2,[r3,#50]
+ 190:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         if (IFX_I2C_STACK_SUCCESS != status)
+ 445              	 .loc 1 190 0
+ 446 001e 0068     	 ldr r0,[r0]
+ 447              	.LVL36:
+ 448 0020 FFF7FEFF 	 bl ifx_i2c_close
+ 449              	.LVL37:
+ 191:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         {
+ 450              	 .loc 1 191 0
+ 451 0024 20B1     	 cbz r0,.L40
+ 193:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****         }
+ 452              	 .loc 1 193 0
+ 453 0026 0023     	 movs r3,#0
+ 454 0028 6373     	 strb r3,[r4,#13]
+ 455 002a 10BD     	 pop {r4,pc}
+ 456              	.LVL38:
+ 457              	.L42:
+ 182:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c ****     if (OPTIGA_COMMS_SUCCESS == check_optiga_comms_state(p_ctx))
+ 458              	 .loc 1 182 0
+ 459 002c 4FF48170 	 mov r0,#258
+ 460              	.LVL39:
+ 461              	.L40:
+ 197:C:/Users/Yushev/git/optiga-trust-qi/optiga/comms\optiga_comms_ifx_i2c.c **** 
+ 462              	 .loc 1 197 0
+ 463 0030 10BD     	 pop {r4,pc}
+ 464              	.LVL40:
+ 465              	.L47:
+ 466 0032 00BF     	 .align 2
+ 467              	.L46:
+ 468 0034 00000000 	 .word ifx_i2c_event_handler
+ 469              	 .cfi_endproc
+ 470              	.LFE7:
+ 472              	 .global optiga_comms
+ 473              	 .section .data.optiga_comms,"aw",%progbits
+ 474              	 .align 2
+ 475              	 .set .LANCHOR0,.+0
+ 478              	optiga_comms:
+ 479 0000 00000000 	 .word ifx_i2c_context_0
+ 480 0004 00000000 	 .word 0
+ 481 0008 00000000 	 .word 0
+ 482 000c 00       	 .byte 0
+ 483 000d 00       	 .byte 0
+ 484 000e 00       	 .byte 0
+ 485 000f 00       	 .byte 0
+ 486 0010 00       	 .byte 0
+ 487 0011 000000   	 .space 3
+ 488 0014 00000000 	 .word 0
+ 489              	 .text
+ 490              	.Letext0:
+ 491              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 492              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 493              	 .file 4 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/common/optiga_lib_types.h"
+ 494              	 .file 5 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/comms/optiga_comms.h"
+ 495              	 .file 6 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/pal/pal.h"
+ 496              	 .file 7 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/pal/pal_i2c.h"
+ 497              	 .file 8 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/pal/pal_gpio.h"
+ 498              	 .file 9 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/ifx_i2c/ifx_i2c_config.h"
+ 499              	 .file 10 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/ifx_i2c/ifx_i2c.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 optiga_comms_ifx_i2c.c
+    {standard input}:20     .text.ifx_i2c_event_handler:00000000 $t
+    {standard input}:24     .text.ifx_i2c_event_handler:00000000 ifx_i2c_event_handler
+    {standard input}:54     .text.optiga_comms_create:00000000 $t
+    {standard input}:59     .text.optiga_comms_create:00000000 optiga_comms_create
+    {standard input}:110    .text.optiga_comms_create:00000024 $d
+    {standard input}:115    .text.optiga_comms_destroy:00000000 $t
+    {standard input}:120    .text.optiga_comms_destroy:00000000 optiga_comms_destroy
+    {standard input}:133    .text.optiga_comms_set_callback_handler:00000000 $t
+    {standard input}:138    .text.optiga_comms_set_callback_handler:00000000 optiga_comms_set_callback_handler
+    {standard input}:156    .text.optiga_comms_set_callback_context:00000000 $t
+    {standard input}:161    .text.optiga_comms_set_callback_context:00000000 optiga_comms_set_callback_context
+    {standard input}:179    .text.optiga_comms_open:00000000 $t
+    {standard input}:184    .text.optiga_comms_open:00000000 optiga_comms_open
+    {standard input}:247    .text.optiga_comms_open:00000038 $d
+    {standard input}:252    .text.optiga_comms_reset:00000000 $t
+    {standard input}:257    .text.optiga_comms_reset:00000000 optiga_comms_reset
+    {standard input}:313    .text.optiga_comms_reset:0000002c $d
+    {standard input}:318    .text.optiga_comms_transceive:00000000 $t
+    {standard input}:323    .text.optiga_comms_transceive:00000000 optiga_comms_transceive
+    {standard input}:398    .text.optiga_comms_transceive:00000048 $d
+    {standard input}:403    .text.optiga_comms_close:00000000 $t
+    {standard input}:408    .text.optiga_comms_close:00000000 optiga_comms_close
+    {standard input}:468    .text.optiga_comms_close:00000034 $d
+    {standard input}:478    .data.optiga_comms:00000000 optiga_comms
+    {standard input}:474    .data.optiga_comms:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+pal_init
+ifx_i2c_open
+ifx_i2c_reset
+ifx_i2c_transceive
+ifx_i2c_close
+ifx_i2c_context_0

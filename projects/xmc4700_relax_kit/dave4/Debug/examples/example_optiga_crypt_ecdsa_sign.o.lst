@@ -1,0 +1,383 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,4
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "example_optiga_crypt_ecdsa_sign.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.optiga_crypt_callback,"ax",%progbits
+  20              	 .align 1
+  21              	 .thumb
+  22              	 .thumb_func
+  24              	optiga_crypt_callback:
+  25              	.LFB0:
+  26              	 .file 1 "C:/Users/Yushev/git/optiga-trust-qi/examples/optiga/example_optiga_crypt_ecdsa_sign.c"
+   1:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** /**
+   2:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * \copyright
+   3:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * MIT License
+   4:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** *
+   5:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * Copyright (c) 2020 Infineon Technologies AG
+   6:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** *
+   7:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   8:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * of this software and associated documentation files (the "Software"), to deal
+   9:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * in the Software without restriction, including without limitation the rights
+  10:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  11:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * copies of the Software, and to permit persons to whom the Software is
+  12:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * furnished to do so, subject to the following conditions:
+  13:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** *
+  14:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * The above copyright notice and this permission notice shall be included in all
+  15:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * copies or substantial portions of the Software.
+  16:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** *
+  17:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  19:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  20:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  21:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  22:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  23:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * SOFTWARE
+  24:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** *
+  25:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * \endcopyright
+  26:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** *
+  27:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * \author Infineon Technologies AG
+  28:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** *
+  29:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * \file example_optiga_crypt_ecdsa_sign.c
+  30:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** *
+  31:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * \brief   This file provides the example for ECDSA Sign operation using #optiga_crypt_ecdsa_sign.
+  32:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** *
+  33:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * \ingroup grOptigaExamples
+  34:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** *
+  35:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** * @{
+  36:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** */
+  37:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** 
+  38:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** #include "optiga/optiga_crypt.h"
+  39:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** #include "optiga_example.h"
+  40:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** 
+  41:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** #ifdef OPTIGA_CRYPT_ECDSA_SIGN_ENABLED
+  42:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** 
+  43:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** /**
+  44:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****  * Callback when optiga_crypt_xxxx operation is completed asynchronously
+  45:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****  */
+  46:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** static volatile optiga_lib_status_t optiga_lib_status;
+  47:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** //lint --e{818} suppress "argument "context" is not used in the sample provided"
+  48:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** static void optiga_crypt_callback(void * context, optiga_lib_status_t return_status)
+  49:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** {
+  27              	 .loc 1 49 0
+  28              	 .cfi_startproc
+  29              	 
+  30              	 
+  31              	 
+  32              	.LVL0:
+  50:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     optiga_lib_status = return_status;
+  33              	 .loc 1 50 0
+  34 0000 014B     	 ldr r3,.L2
+  35 0002 1980     	 strh r1,[r3]
+  36 0004 7047     	 bx lr
+  37              	.L3:
+  38 0006 00BF     	 .align 2
+  39              	.L2:
+  40 0008 00000000 	 .word .LANCHOR0
+  41              	 .cfi_endproc
+  42              	.LFE0:
+  44              	 .section .text.example_optiga_crypt_ecdsa_sign,"ax",%progbits
+  45              	 .align 1
+  46              	 .global example_optiga_crypt_ecdsa_sign
+  47              	 .thumb
+  48              	 .thumb_func
+  50              	example_optiga_crypt_ecdsa_sign:
+  51              	.LFB1:
+  51:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     if (NULL != context)
+  52:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     {
+  53:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         // callback to upper layer here
+  54:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     }
+  55:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** }
+  56:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** //SHA-256 Digest to be signed
+  57:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** static const uint8_t digest [] =
+  58:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** {
+  59:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     // Size of digest to be chosen based on Curve
+  60:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     0x61, 0xC7, 0xDE, 0xF9, 0x0F, 0xD5, 0xCD, 0x7A,0x8B, 0x7A, 0x36, 0x41, 0x04, 0xE0, 0x0D, 0x82,
+  61:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     0x38, 0x46, 0xBF, 0xB7, 0x70, 0xEE, 0xBF, 0x8F,0x40, 0x25, 0x2E, 0x0A, 0x21, 0x42, 0xAF, 0x9C,
+  62:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** };
+  63:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** 
+  64:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** /**
+  65:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****  * The below example demonstrates the signing of digest using
+  66:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****  * the Private key in OPTIGA Key store.
+  67:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****  *
+  68:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****  * Example for #optiga_crypt_ecdsa_sign
+  69:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****  *
+  70:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****  */
+  71:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** void example_optiga_crypt_ecdsa_sign(void)
+  72:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** {
+  52              	 .loc 1 72 0
+  53              	 .cfi_startproc
+  54              	 
+  55              	 
+  56 0000 30B5     	 push {r4,r5,lr}
+  57              	.LCFI0:
+  58              	 .cfi_def_cfa_offset 12
+  59              	 .cfi_offset 4,-12
+  60              	 .cfi_offset 5,-8
+  61              	 .cfi_offset 14,-4
+  62 0002 99B0     	 sub sp,sp,#100
+  63              	.LCFI1:
+  64              	 .cfi_def_cfa_offset 112
+  73:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     //To store the signture generated
+  74:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     uint8_t signature [80];
+  75:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     uint16_t signature_length = sizeof(signature);
+  65              	 .loc 1 75 0
+  66 0004 5023     	 movs r3,#80
+  76:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** 
+  77:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     optiga_crypt_t * me = NULL;
+  78:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     optiga_lib_status_t return_status = !OPTIGA_LIB_SUCCESS;
+  79:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
+  67              	 .loc 1 79 0
+  68 0006 1F48     	 ldr r0,.L25
+  69 0008 1F49     	 ldr r1,.L25+4
+  70 000a 204A     	 ldr r2,.L25+8
+  75:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** 
+  71              	 .loc 1 75 0
+  72 000c ADF80E30 	 strh r3,[sp,#14]
+  73              	.LVL1:
+  74              	 .loc 1 79 0
+  75 0010 FFF7FEFF 	 bl optiga_lib_print_message
+  76              	.LVL2:
+  80:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** 
+  81:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     do
+  82:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     {
+  83:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         /**
+  84:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****          * 1. Create OPTIGA Crypt Instance
+  85:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****          */
+  86:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         me = optiga_crypt_create(0, optiga_crypt_callback, NULL);
+  77              	 .loc 1 86 0
+  78 0014 0020     	 movs r0,#0
+  79 0016 0246     	 mov r2,r0
+  80 0018 1D49     	 ldr r1,.L25+12
+  81 001a FFF7FEFF 	 bl optiga_crypt_create
+  82              	.LVL3:
+  83 001e 0122     	 movs r2,#1
+  87:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         if (NULL == me)
+  84              	 .loc 1 87 0
+  85 0020 0546     	 mov r5,r0
+  86 0022 C8B1     	 cbz r0,.L11
+  88:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         {
+  89:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****             break;
+  90:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         }
+  91:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** 
+  92:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         /**
+  93:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****          * 2. Sign the digest using Private key from Key Store ID E0F0
+  94:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****          */
+  95:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         optiga_lib_status = OPTIGA_LIB_BUSY;
+  96:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         return_status = optiga_crypt_ecdsa_sign(me,
+  87              	 .loc 1 96 0
+  88 0024 04AB     	 add r3,sp,#16
+  95:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         return_status = optiga_crypt_ecdsa_sign(me,
+  89              	 .loc 1 95 0
+  90 0026 1B4C     	 ldr r4,.L25+16
+  91              	 .loc 1 96 0
+  92 0028 0093     	 str r3,[sp]
+  93 002a 0DF10E03 	 add r3,sp,#14
+  95:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         return_status = optiga_crypt_ecdsa_sign(me,
+  94              	 .loc 1 95 0
+  95 002e 2280     	 strh r2,[r4]
+  96              	 .loc 1 96 0
+  97 0030 0193     	 str r3,[sp,#4]
+  98 0032 2022     	 movs r2,#32
+  99 0034 1849     	 ldr r1,.L25+20
+ 100 0036 4EF2F003 	 movw r3,#57584
+ 101 003a FFF7FEFF 	 bl optiga_crypt_ecdsa_sign
+ 102              	.LVL4:
+  97:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****                                                 digest,
+  98:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****                                                 sizeof(digest),
+  99:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****                                                 OPTIGA_KEY_ID_E0F0,
+ 100:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****                                                 signature,
+ 101:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****                                                 &signature_length);
+ 102:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** 
+ 103:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+ 103              	 .loc 1 103 0
+ 104 003e 0246     	 mov r2,r0
+ 105 0040 50B9     	 cbnz r0,.L11
+ 106              	.L6:
+ 107              	 .loc 1 103 0 is_stmt 0 discriminator 1
+ 108 0042 2388     	 ldrh r3,[r4]
+ 109 0044 134A     	 ldr r2,.L25+16
+ 110 0046 9BB2     	 uxth r3,r3
+ 111 0048 012B     	 cmp r3,#1
+ 112 004a FAD0     	 beq .L6
+ 113              	 .loc 1 103 0 discriminator 2
+ 114 004c 1388     	 ldrh r3,[r2]
+ 115 004e 9BB2     	 uxth r3,r3
+ 116 0050 43B1     	 cbz r3,.L7
+ 117              	 .loc 1 103 0 discriminator 3
+ 118 0052 1288     	 ldrh r2,[r2]
+ 119 0054 92B2     	 uxth r2,r2
+ 120              	.LVL5:
+ 104:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         return_status = OPTIGA_LIB_SUCCESS;
+ 105:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** 
+ 106:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     } while (FALSE);
+ 107:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+ 121              	 .loc 1 107 0 is_stmt 1 discriminator 3
+ 122 0056 2AB1     	 cbz r2,.L7
+ 123              	.LVL6:
+ 124              	.L11:
+ 125              	 .loc 1 107 0 is_stmt 0 discriminator 1
+ 126 0058 0B48     	 ldr r0,.L25+4
+ 127 005a 1049     	 ldr r1,.L25+24
+ 128 005c FFF7FEFF 	 bl optiga_lib_print_status
+ 129              	.LVL7:
+ 108:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     
+ 109:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     if (me)
+ 130              	 .loc 1 109 0 is_stmt 1 discriminator 1
+ 131 0060 2DB9     	 cbnz r5,.L8
+ 132 0062 0DE0     	 b .L4
+ 133              	.L7:
+ 107:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     
+ 134              	 .loc 1 107 0 discriminator 2
+ 135 0064 0848     	 ldr r0,.L25+4
+ 136 0066 0949     	 ldr r1,.L25+8
+ 137 0068 0022     	 movs r2,#0
+ 138 006a FFF7FEFF 	 bl optiga_lib_print_status
+ 139              	.LVL8:
+ 140              	.L8:
+ 110:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     {
+ 111:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         //Destroy the instance after the completion of usecase if not required.
+ 112:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         return_status = optiga_crypt_destroy(me);
+ 141              	 .loc 1 112 0
+ 142 006e 2846     	 mov r0,r5
+ 143 0070 FFF7FEFF 	 bl optiga_crypt_destroy
+ 144              	.LVL9:
+ 113:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         if(OPTIGA_LIB_SUCCESS != return_status)
+ 145              	 .loc 1 113 0
+ 146 0074 0246     	 mov r2,r0
+ 147 0076 18B1     	 cbz r0,.L4
+ 114:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         {
+ 115:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****             //lint --e{774} suppress This is a generic macro
+ 116:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****             OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+ 148              	 .loc 1 116 0 discriminator 1
+ 149 0078 0348     	 ldr r0,.L25+4
+ 150              	.LVL10:
+ 151 007a 0849     	 ldr r1,.L25+24
+ 152 007c FFF7FEFF 	 bl optiga_lib_print_status
+ 153              	.LVL11:
+ 154              	.L4:
+ 117:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****         }
+ 118:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c ****     }
+ 119:C:/Users/Yushev/git/optiga-trust-qi/examples/optiga\example_optiga_crypt_ecdsa_sign.c **** }
+ 155              	 .loc 1 119 0
+ 156 0080 19B0     	 add sp,sp,#100
+ 157              	.LCFI2:
+ 158              	 .cfi_def_cfa_offset 12
+ 159              	 
+ 160 0082 30BD     	 pop {r4,r5,pc}
+ 161              	.LVL12:
+ 162              	.L26:
+ 163              	 .align 2
+ 164              	.L25:
+ 165 0084 00000000 	 .word .LANCHOR1
+ 166 0088 00000000 	 .word .LC0
+ 167 008c 15000000 	 .word .LC1
+ 168 0090 00000000 	 .word optiga_crypt_callback
+ 169 0094 00000000 	 .word .LANCHOR0
+ 170 0098 00000000 	 .word .LANCHOR2
+ 171 009c 1A000000 	 .word .LC2
+ 172              	 .cfi_endproc
+ 173              	.LFE1:
+ 175              	 .section .rodata.digest,"a",%progbits
+ 176              	 .set .LANCHOR2,.+0
+ 179              	digest:
+ 180 0000 61       	 .byte 97
+ 181 0001 C7       	 .byte -57
+ 182 0002 DE       	 .byte -34
+ 183 0003 F9       	 .byte -7
+ 184 0004 0F       	 .byte 15
+ 185 0005 D5       	 .byte -43
+ 186 0006 CD       	 .byte -51
+ 187 0007 7A       	 .byte 122
+ 188 0008 8B       	 .byte -117
+ 189 0009 7A       	 .byte 122
+ 190 000a 36       	 .byte 54
+ 191 000b 41       	 .byte 65
+ 192 000c 04       	 .byte 4
+ 193 000d E0       	 .byte -32
+ 194 000e 0D       	 .byte 13
+ 195 000f 82       	 .byte -126
+ 196 0010 38       	 .byte 56
+ 197 0011 46       	 .byte 70
+ 198 0012 BF       	 .byte -65
+ 199 0013 B7       	 .byte -73
+ 200 0014 70       	 .byte 112
+ 201 0015 EE       	 .byte -18
+ 202 0016 BF       	 .byte -65
+ 203 0017 8F       	 .byte -113
+ 204 0018 40       	 .byte 64
+ 205 0019 25       	 .byte 37
+ 206 001a 2E       	 .byte 46
+ 207 001b 0A       	 .byte 10
+ 208 001c 21       	 .byte 33
+ 209 001d 42       	 .byte 66
+ 210 001e AF       	 .byte -81
+ 211 001f 9C       	 .byte -100
+ 212              	 .section .rodata.__FUNCTION__.5866,"a",%progbits
+ 213              	 .set .LANCHOR1,.+0
+ 216              	__FUNCTION__.5866:
+ 217 0000 6578616D 	 .ascii "example_optiga_crypt_ecdsa_sign\000"
+ 217      706C655F 
+ 217      6F707469 
+ 217      67615F63 
+ 217      72797074 
+ 218              	 .section .rodata.str1.1,"aMS",%progbits,1
+ 219              	.LC0:
+ 220 0000 5B6F7074 	 .ascii "[optiga example]  : \000"
+ 220      69676120 
+ 220      6578616D 
+ 220      706C655D 
+ 220      20203A20 
+ 221              	.LC1:
+ 222 0015 1B5B306D 	 .ascii "\033[0m\000"
+ 222      00
+ 223              	.LC2:
+ 224 001a 1B5B3331 	 .ascii "\033[31m\000"
+ 224      6D00
+ 225              	 .section .bss.optiga_lib_status,"aw",%nobits
+ 226              	 .align 1
+ 227              	 .set .LANCHOR0,.+0
+ 230              	optiga_lib_status:
+ 231 0000 0000     	 .space 2
+ 232              	 .text
+ 233              	.Letext0:
+ 234              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 235              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 236              	 .file 4 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/common/optiga_lib_types.h"
+ 237              	 .file 5 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/common/optiga_lib_common.h"
+ 238              	 .file 6 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/cmd/optiga_cmd.h"
+ 239              	 .file 7 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/optiga_crypt.h"
+ 240              	 .file 8 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/common/optiga_lib_logger.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 example_optiga_crypt_ecdsa_sign.c
+    {standard input}:20     .text.optiga_crypt_callback:00000000 $t
+    {standard input}:24     .text.optiga_crypt_callback:00000000 optiga_crypt_callback
+    {standard input}:40     .text.optiga_crypt_callback:00000008 $d
+    {standard input}:45     .text.example_optiga_crypt_ecdsa_sign:00000000 $t
+    {standard input}:50     .text.example_optiga_crypt_ecdsa_sign:00000000 example_optiga_crypt_ecdsa_sign
+    {standard input}:165    .text.example_optiga_crypt_ecdsa_sign:00000084 $d
+    {standard input}:179    .rodata.digest:00000000 digest
+    {standard input}:216    .rodata.__FUNCTION__.5866:00000000 __FUNCTION__.5866
+    {standard input}:226    .bss.optiga_lib_status:00000000 $d
+    {standard input}:230    .bss.optiga_lib_status:00000000 optiga_lib_status
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+optiga_lib_print_message
+optiga_crypt_create
+optiga_crypt_ecdsa_sign
+optiga_lib_print_status
+optiga_crypt_destroy

@@ -1,0 +1,249 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,4
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "pal_os_lock.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.pal_os_lock_create,"ax",%progbits
+  20              	 .align 1
+  21              	 .global pal_os_lock_create
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	pal_os_lock_create:
+  26              	.LFB0:
+  27              	 .file 1 "C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700/pal_os_lock.c"
+   1:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** /**
+   2:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * \copyright
+   3:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * MIT License
+   4:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** *
+   5:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * Copyright (c) 2020 Infineon Technologies AG
+   6:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** *
+   7:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   8:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * of this software and associated documentation files (the "Software"), to deal
+   9:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * in the Software without restriction, including without limitation the rights
+  10:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  11:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * copies of the Software, and to permit persons to whom the Software is
+  12:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * furnished to do so, subject to the following conditions:
+  13:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** *
+  14:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * The above copyright notice and this permission notice shall be included in all
+  15:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * copies or substantial portions of the Software.
+  16:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** *
+  17:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  19:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  20:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  21:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  22:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  23:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * SOFTWARE
+  24:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** *
+  25:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * \endcopyright
+  26:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** *
+  27:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * \author Infineon Technologies AG
+  28:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** *
+  29:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * \file pal_os_lock.c
+  30:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** *
+  31:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * \brief   This file implements the platform abstraction layer APIs for os locks (e.g. semaphore).
+  32:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** *
+  33:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * \ingroup  grPAL
+  34:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** *
+  35:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** * @{
+  36:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** */
+  37:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** 
+  38:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** #include "optiga/pal/pal_os_lock.h"
+  39:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** 
+  40:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** void pal_os_lock_create(pal_os_lock_t * p_lock, uint8_t lock_type)
+  41:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** {
+  28              	 .loc 1 41 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33              	.LVL0:
+  42:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****     p_lock->type = lock_type;
+  43:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****     p_lock->lock = 0;
+  34              	 .loc 1 43 0
+  35 0000 0023     	 movs r3,#0
+  42:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****     p_lock->type = lock_type;
+  36              	 .loc 1 42 0
+  37 0002 4170     	 strb r1,[r0,#1]
+  38              	 .loc 1 43 0
+  39 0004 0370     	 strb r3,[r0]
+  40 0006 7047     	 bx lr
+  41              	 .cfi_endproc
+  42              	.LFE0:
+  44              	 .section .text.pal_os_lock_destroy,"ax",%progbits
+  45              	 .align 1
+  46              	 .global pal_os_lock_destroy
+  47              	 .thumb
+  48              	 .thumb_func
+  50              	pal_os_lock_destroy:
+  51              	.LFB1:
+  44:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** }
+  45:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** 
+  46:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** //lint --e{715} suppress "p_lock is not used here as it is placeholder for future." 
+  47:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** //lint --e{818} suppress "Not declared as pointer as nothing needs to be updated in the pointer."
+  48:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** void pal_os_lock_destroy(pal_os_lock_t * p_lock)
+  49:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** {
+  52              	 .loc 1 49 0
+  53              	 .cfi_startproc
+  54              	 
+  55              	 
+  56              	 
+  57              	.LVL1:
+  58 0000 7047     	 bx lr
+  59              	 .cfi_endproc
+  60              	.LFE1:
+  62              	 .section .text.pal_os_lock_acquire,"ax",%progbits
+  63              	 .align 1
+  64              	 .global pal_os_lock_acquire
+  65              	 .thumb
+  66              	 .thumb_func
+  68              	pal_os_lock_acquire:
+  69              	.LFB2:
+  50:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****     
+  51:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** }
+  52:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** 
+  53:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** pal_status_t pal_os_lock_acquire(pal_os_lock_t * p_lock)
+  54:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** {
+  70              	 .loc 1 54 0
+  71              	 .cfi_startproc
+  72              	 
+  73              	 
+  74              	 
+  75              	.LVL2:
+  55:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****     pal_status_t return_status = PAL_STATUS_FAILURE;
+  56:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** 
+  57:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****     if (!(p_lock->lock))
+  76              	 .loc 1 57 0
+  77 0000 0278     	 ldrb r2,[r0]
+  78 0002 0123     	 movs r3,#1
+  79 0004 12B9     	 cbnz r2,.L5
+  58:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****     {
+  59:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****         p_lock->lock++;
+  80              	 .loc 1 59 0
+  81 0006 0370     	 strb r3,[r0]
+  60:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****         if (1 != p_lock->lock)
+  61:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****         {
+  62:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****             p_lock->lock--;
+  63:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****         }
+  64:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****         return_status = PAL_STATUS_SUCCESS;
+  82              	 .loc 1 64 0
+  83 0008 1046     	 mov r0,r2
+  84              	.LVL3:
+  85 000a 7047     	 bx lr
+  86              	.LVL4:
+  87              	.L5:
+  55:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** 
+  88              	 .loc 1 55 0
+  89 000c 1846     	 mov r0,r3
+  90              	.LVL5:
+  65:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****     }
+  66:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****     return return_status;
+  67:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** }
+  91              	 .loc 1 67 0
+  92 000e 7047     	 bx lr
+  93              	 .cfi_endproc
+  94              	.LFE2:
+  96              	 .section .text.pal_os_lock_release,"ax",%progbits
+  97              	 .align 1
+  98              	 .global pal_os_lock_release
+  99              	 .thumb
+ 100              	 .thumb_func
+ 102              	pal_os_lock_release:
+ 103              	.LFB3:
+  68:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** 
+  69:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** void pal_os_lock_release(pal_os_lock_t * p_lock)
+  70:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** {
+ 104              	 .loc 1 70 0
+ 105              	 .cfi_startproc
+ 106              	 
+ 107              	 
+ 108              	 
+ 109              	.LVL6:
+  71:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****     if (0 != p_lock->lock)
+ 110              	 .loc 1 71 0
+ 111 0000 0378     	 ldrb r3,[r0]
+ 112 0002 0BB1     	 cbz r3,.L7
+  72:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****     {
+  73:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****         p_lock->lock--;
+ 113              	 .loc 1 73 0
+ 114 0004 013B     	 subs r3,r3,#1
+ 115 0006 0370     	 strb r3,[r0]
+ 116              	.L7:
+ 117 0008 7047     	 bx lr
+ 118              	 .cfi_endproc
+ 119              	.LFE3:
+ 121              	 .section .text.pal_os_lock_enter_critical_section,"ax",%progbits
+ 122              	 .align 1
+ 123              	 .global pal_os_lock_enter_critical_section
+ 124              	 .thumb
+ 125              	 .thumb_func
+ 127              	pal_os_lock_enter_critical_section:
+ 128              	.LFB4:
+  74:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c ****     }
+  75:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** }
+  76:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** 
+  77:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** void pal_os_lock_enter_critical_section()
+  78:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** {
+ 129              	 .loc 1 78 0
+ 130              	 .cfi_startproc
+ 131              	 
+ 132              	 
+ 133              	 
+ 134 0000 7047     	 bx lr
+ 135              	 .cfi_endproc
+ 136              	.LFE4:
+ 138              	 .section .text.pal_os_lock_exit_critical_section,"ax",%progbits
+ 139              	 .align 1
+ 140              	 .global pal_os_lock_exit_critical_section
+ 141              	 .thumb
+ 142              	 .thumb_func
+ 144              	pal_os_lock_exit_critical_section:
+ 145              	.LFB5:
+  79:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** }
+  80:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** 
+  81:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** void pal_os_lock_exit_critical_section()
+  82:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal_os_lock.c **** {
+ 146              	 .loc 1 82 0
+ 147              	 .cfi_startproc
+ 148              	 
+ 149              	 
+ 150              	 
+ 151 0000 7047     	 bx lr
+ 152              	 .cfi_endproc
+ 153              	.LFE5:
+ 155              	 .text
+ 156              	.Letext0:
+ 157              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 158              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 159              	 .file 4 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/pal/pal.h"
+ 160              	 .file 5 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/pal/pal_os_lock.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 pal_os_lock.c
+    {standard input}:20     .text.pal_os_lock_create:00000000 $t
+    {standard input}:25     .text.pal_os_lock_create:00000000 pal_os_lock_create
+    {standard input}:45     .text.pal_os_lock_destroy:00000000 $t
+    {standard input}:50     .text.pal_os_lock_destroy:00000000 pal_os_lock_destroy
+    {standard input}:63     .text.pal_os_lock_acquire:00000000 $t
+    {standard input}:68     .text.pal_os_lock_acquire:00000000 pal_os_lock_acquire
+    {standard input}:97     .text.pal_os_lock_release:00000000 $t
+    {standard input}:102    .text.pal_os_lock_release:00000000 pal_os_lock_release
+    {standard input}:122    .text.pal_os_lock_enter_critical_section:00000000 $t
+    {standard input}:127    .text.pal_os_lock_enter_critical_section:00000000 pal_os_lock_enter_critical_section
+    {standard input}:139    .text.pal_os_lock_exit_critical_section:00000000 $t
+    {standard input}:144    .text.pal_os_lock_exit_critical_section:00000000 pal_os_lock_exit_critical_section
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

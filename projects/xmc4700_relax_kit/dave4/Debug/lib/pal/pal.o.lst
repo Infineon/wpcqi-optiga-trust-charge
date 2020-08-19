@@ -1,0 +1,118 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,4
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "pal.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.pal_init,"ax",%progbits
+  20              	 .align 1
+  21              	 .global pal_init
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	pal_init:
+  26              	.LFB0:
+  27              	 .file 1 "C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700/pal.c"
+   1:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** /**
+   2:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * \copyright
+   3:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * MIT License
+   4:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** *
+   5:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * Copyright (c) 2020 Infineon Technologies AG
+   6:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** *
+   7:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   8:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * of this software and associated documentation files (the "Software"), to deal
+   9:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * in the Software without restriction, including without limitation the rights
+  10:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  11:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * copies of the Software, and to permit persons to whom the Software is
+  12:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * furnished to do so, subject to the following conditions:
+  13:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** *
+  14:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * The above copyright notice and this permission notice shall be included in all
+  15:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * copies or substantial portions of the Software.
+  16:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** *
+  17:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  19:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  20:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  21:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  22:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  23:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * SOFTWARE
+  24:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** *
+  25:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * \endcopyright
+  26:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** *
+  27:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * \author Infineon Technologies AG
+  28:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** *
+  29:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * \file pal.c
+  30:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** *
+  31:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * \brief    This file implements the platform abstraction layer APIs.
+  32:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** *
+  33:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * \ingroup  grPAL
+  34:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** *
+  35:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** * @{
+  36:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** */
+  37:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** 
+  38:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** 
+  39:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** #include "optiga/pal/pal.h"
+  40:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** 
+  41:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** 
+  42:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** pal_status_t pal_init(void)
+  43:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** {
+  28              	 .loc 1 43 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  44:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c ****     return PAL_STATUS_SUCCESS;
+  45:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** }
+  33              	 .loc 1 45 0
+  34 0000 0020     	 movs r0,#0
+  35 0002 7047     	 bx lr
+  36              	 .cfi_endproc
+  37              	.LFE0:
+  39              	 .section .text.pal_deinit,"ax",%progbits
+  40              	 .align 1
+  41              	 .global pal_deinit
+  42              	 .thumb
+  43              	 .thumb_func
+  45              	pal_deinit:
+  46              	.LFB1:
+  46:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** 
+  47:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** 
+  48:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** pal_status_t pal_deinit(void)
+  49:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** {
+  47              	 .loc 1 49 0
+  48              	 .cfi_startproc
+  49              	 
+  50              	 
+  51              	 
+  50:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c ****     return PAL_STATUS_SUCCESS;
+  51:C:/Users/Yushev/git/optiga-trust-qi/pal/xmc4700\pal.c **** }
+  52              	 .loc 1 51 0
+  53 0000 0020     	 movs r0,#0
+  54 0002 7047     	 bx lr
+  55              	 .cfi_endproc
+  56              	.LFE1:
+  58              	 .text
+  59              	.Letext0:
+  60              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+  61              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+  62              	 .file 4 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/pal/pal.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 pal.c
+    {standard input}:20     .text.pal_init:00000000 $t
+    {standard input}:25     .text.pal_init:00000000 pal_init
+    {standard input}:40     .text.pal_deinit:00000000 $t
+    {standard input}:45     .text.pal_deinit:00000000 pal_deinit
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

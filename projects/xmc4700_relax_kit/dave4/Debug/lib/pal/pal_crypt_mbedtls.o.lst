@@ -1,0 +1,895 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,4
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "pal_crypt_mbedtls.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.pal_crypt_tls_prf_sha256,"ax",%progbits
+  20              	 .align 1
+  21              	 .global pal_crypt_tls_prf_sha256
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	pal_crypt_tls_prf_sha256:
+  26              	.LFB12:
+  27              	 .file 1 "C:/Users/Yushev/git/optiga-trust-qi/pal/pal_crypt_mbedtls.c"
+   1:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** /**
+   2:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * \copyright
+   3:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * MIT License
+   4:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** *
+   5:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * Copyright (c) 2020 Infineon Technologies AG
+   6:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** *
+   7:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   8:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * of this software and associated documentation files (the "Software"), to deal
+   9:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * in the Software without restriction, including without limitation the rights
+  10:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  11:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * copies of the Software, and to permit persons to whom the Software is
+  12:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * furnished to do so, subject to the following conditions:
+  13:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** *
+  14:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * The above copyright notice and this permission notice shall be included in all
+  15:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * copies or substantial portions of the Software.
+  16:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** *
+  17:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  19:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  20:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  21:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  22:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  23:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * SOFTWARE
+  24:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** *
+  25:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * \endcopyright
+  26:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** *
+  27:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * \author Infineon Technologies AG
+  28:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** *
+  29:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * \file pal_crypt_mbedtls.c
+  30:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** *
+  31:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * \brief   This file implements the platform abstraction layer APIs for cryptographic functions usi
+  32:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** *
+  33:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * \ingroup  grPAL
+  34:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** *
+  35:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** * @{
+  36:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** */
+  37:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+  38:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #include "optiga/common/optiga_lib_common.h"
+  39:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #include "optiga/pal/pal_crypt.h"
+  40:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #include "optiga/pal/pal_os_memory.h"
+  41:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #include "mbedtls/ccm.h"
+  42:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #include "mbedtls/md.h"
+  43:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #include "mbedtls/ssl.h"
+  44:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #include "mbedtls/version.h"
+  45:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+  46:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #define PAL_CRYPT_MAX_LABEL_SEED_LENGTH     (96U)
+  47:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** //lint --e{818, 715, 830} suppress "argument "p_pal_crypt" is not used in the implementation but ke
+  48:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** pal_status_t pal_crypt_tls_prf_sha256(pal_crypt_t* p_pal_crypt,
+  49:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                       const uint8_t * p_secret,
+  50:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                       uint16_t secret_length,
+  51:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                       const uint8_t * p_label,
+  52:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                       uint16_t label_length,
+  53:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                       const uint8_t * p_seed,
+  54:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                       uint16_t seed_length,
+  55:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                       uint8_t * p_derived_key,
+  56:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                       uint16_t derived_key_length)
+  57:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** {
+  28              	 .loc 1 57 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	.LVL0:
+  33 0000 2DE9F04F 	 push {r4,r5,r6,r7,r8,r9,r10,fp,lr}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 36
+  36              	 .cfi_offset 4,-36
+  37              	 .cfi_offset 5,-32
+  38              	 .cfi_offset 6,-28
+  39              	 .cfi_offset 7,-24
+  40              	 .cfi_offset 8,-20
+  41              	 .cfi_offset 9,-16
+  42              	 .cfi_offset 10,-12
+  43              	 .cfi_offset 11,-8
+  44              	 .cfi_offset 14,-4
+  45 0004 ADB0     	 sub sp,sp,#180
+  46              	.LCFI1:
+  47              	 .cfi_def_cfa_offset 216
+  48              	 .loc 1 57 0
+  49 0006 8846     	 mov r8,r1
+  58:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     #define PAL_CRYPT_DIGEST_MAX_SIZE    (32U)
+  59:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+  60:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     pal_status_t return_value = PAL_STATUS_FAILURE;
+  61:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     uint8_t message_digest_length = PAL_CRYPT_DIGEST_MAX_SIZE;
+  62:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     uint16_t derive_key_len_index, hmac_checksum_result_index;
+  63:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     uint16_t hmac_result_length;
+  64:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     uint8_t md_hmac_temp_array[PAL_CRYPT_MAX_LABEL_SEED_LENGTH + PAL_CRYPT_DIGEST_MAX_SIZE];
+  65:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     uint8_t hmac_checksum_result[PAL_CRYPT_DIGEST_MAX_SIZE];
+  66:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     const mbedtls_md_info_t *message_digest_info;
+  67:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     mbedtls_md_context_t message_digest_context;
+  68:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     uint16_t final_seed_length = 0;
+  69:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****        
+  70:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     mbedtls_md_init(&message_digest_context);
+  50              	 .loc 1 70 0
+  51 0008 01A8     	 add r0,sp,#4
+  52              	.LVL1:
+  57:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     #define PAL_CRYPT_DIGEST_MAX_SIZE    (32U)
+  53              	 .loc 1 57 0
+  54 000a 9346     	 mov fp,r2
+  55 000c 9A46     	 mov r10,r3
+  56 000e BDF8D870 	 ldrh r7,[sp,#216]
+  57 0012 BDF8E040 	 ldrh r4,[sp,#224]
+  58 0016 BDF8E850 	 ldrh r5,[sp,#232]
+  59              	 .loc 1 70 0
+  60 001a FFF7FEFF 	 bl mbedtls_md_init
+  61              	.LVL2:
+  71:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     
+  72:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     do
+  73:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     {
+  74:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+  75:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if ((NULL == p_secret) || (NULL == p_label) || (NULL == p_seed) || (NULL == p_derived_key))
+  62              	 .loc 1 75 0
+  63 001e B8F1000F 	 cmp r8,#0
+  64 0022 01D1     	 bne .L2
+  65              	.LVL3:
+  66              	.L4:
+  60:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     uint8_t message_digest_length = PAL_CRYPT_DIGEST_MAX_SIZE;
+  67              	 .loc 1 60 0
+  68 0024 0124     	 movs r4,#1
+  69 0026 7BE0     	 b .L3
+  70              	.LVL4:
+  71              	.L2:
+  72              	 .loc 1 75 0 discriminator 1
+  73 0028 BAF1000F 	 cmp r10,#0
+  74 002c FAD0     	 beq .L4
+  75              	 .loc 1 75 0 is_stmt 0 discriminator 2
+  76 002e 379B     	 ldr r3,[sp,#220]
+  77 0030 002B     	 cmp r3,#0
+  78 0032 F7D0     	 beq .L4
+  79              	 .loc 1 75 0 discriminator 3
+  80 0034 399B     	 ldr r3,[sp,#228]
+  81 0036 002B     	 cmp r3,#0
+  82 0038 F4D0     	 beq .L4
+  76:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+  77:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+  78:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+  79:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #endif  //OPTIGA_LIB_DEBUG_NULL_CHECK
+  80:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+  81:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if (sizeof(md_hmac_temp_array ) < (uint32_t)(message_digest_length + label_length + seed_le
+  83              	 .loc 1 81 0 is_stmt 1
+  84 003a 07F12006 	 add r6,r7,#32
+  85 003e 3219     	 adds r2,r6,r4
+  86 0040 802A     	 cmp r2,#128
+  87 0042 01DD     	 ble .L5
+  88              	.LVL5:
+  89              	.L6:
+  82:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+  83:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             return_value = PAL_STATUS_INVALID_INPUT;
+  90              	 .loc 1 83 0
+  91 0044 0424     	 movs r4,#4
+  92 0046 6BE0     	 b .L3
+  93              	.LVL6:
+  94              	.L5:
+  84:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+  85:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+  86:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+  87:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         message_digest_info = mbedtls_md_info_from_type(MBEDTLS_MD_SHA256);
+  95              	 .loc 1 87 0
+  96 0048 0620     	 movs r0,#6
+  97 004a FFF7FEFF 	 bl mbedtls_md_info_from_type
+  98              	.LVL7:
+  88:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+  89:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         memcpy(md_hmac_temp_array + message_digest_length, p_label, label_length);
+  99              	 .loc 1 89 0
+ 100 004e 5146     	 mov r1,r10
+  87:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 101              	 .loc 1 87 0
+ 102 0050 8146     	 mov r9,r0
+ 103              	.LVL8:
+ 104              	 .loc 1 89 0
+ 105 0052 3A46     	 mov r2,r7
+ 106 0054 14A8     	 add r0,sp,#80
+ 107              	.LVL9:
+ 108 0056 FFF7FEFF 	 bl memcpy
+ 109              	.LVL10:
+  90:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         memcpy(md_hmac_temp_array + message_digest_length + label_length, p_seed, seed_length);
+ 110              	 .loc 1 90 0
+ 111 005a 0CAB     	 add r3,sp,#48
+ 112 005c 3799     	 ldr r1,[sp,#220]
+ 113 005e 2246     	 mov r2,r4
+ 114 0060 9819     	 adds r0,r3,r6
+ 115 0062 FFF7FEFF 	 bl memcpy
+ 116              	.LVL11:
+  91:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         final_seed_length = label_length + seed_length;
+  92:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+  93:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if (0 != (mbedtls_md_setup(&message_digest_context,message_digest_info,1)))
+ 117              	 .loc 1 93 0
+ 118 0066 01A8     	 add r0,sp,#4
+ 119 0068 4946     	 mov r1,r9
+ 120 006a 0122     	 movs r2,#1
+ 121 006c FFF7FEFF 	 bl mbedtls_md_setup
+ 122              	.LVL12:
+ 123 0070 0028     	 cmp r0,#0
+ 124 0072 E7D1     	 bne .L6
+  94:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+  95:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             return_value = PAL_STATUS_INVALID_INPUT;
+  96:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+  97:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+  98:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+  99:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if (0 != mbedtls_md_hmac_starts(&message_digest_context, p_secret, secret_length))
+ 125              	 .loc 1 99 0
+ 126 0074 01A8     	 add r0,sp,#4
+ 127 0076 4146     	 mov r1,r8
+ 128 0078 5A46     	 mov r2,fp
+ 129 007a FFF7FEFF 	 bl mbedtls_md_hmac_starts
+ 130              	.LVL13:
+ 131 007e 0028     	 cmp r0,#0
+ 132 0080 D0D1     	 bne .L4
+  91:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         final_seed_length = label_length + seed_length;
+ 133              	 .loc 1 91 0
+ 134 0082 3A19     	 adds r2,r7,r4
+ 135 0084 97B2     	 uxth r7,r2
+ 136              	.LVL14:
+ 100:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 101:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+ 102:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+ 103:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****        
+ 104:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if (0 != mbedtls_md_hmac_update(&message_digest_context, md_hmac_temp_array + message_diges
+ 137              	 .loc 1 104 0
+ 138 0086 01A8     	 add r0,sp,#4
+ 139 0088 14A9     	 add r1,sp,#80
+ 140 008a 3A46     	 mov r2,r7
+ 141 008c FFF7FEFF 	 bl mbedtls_md_hmac_update
+ 142              	.LVL15:
+ 143 0090 0028     	 cmp r0,#0
+ 144 0092 C7D1     	 bne .L4
+ 105:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 106:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+ 107:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+ 108:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         
+ 109:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if (0 != mbedtls_md_hmac_finish(&message_digest_context, md_hmac_temp_array))
+ 145              	 .loc 1 109 0
+ 146 0094 01A8     	 add r0,sp,#4
+ 147 0096 0CA9     	 add r1,sp,#48
+ 148 0098 FFF7FEFF 	 bl mbedtls_md_hmac_finish
+ 149              	.LVL16:
+ 150 009c 0028     	 cmp r0,#0
+ 151 009e C1D1     	 bne .L4
+ 152 00a0 0446     	 mov r4,r0
+ 153              	.LVL17:
+ 154              	.L7:
+ 110:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 111:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+ 112:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+ 113:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 114:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         for (derive_key_len_index = 0; derive_key_len_index < derived_key_length; 
+ 155              	 .loc 1 114 0 discriminator 1
+ 156 00a2 AC42     	 cmp r4,r5
+ 157 00a4 36D2     	 bcs .L24
+ 115:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****              derive_key_len_index += message_digest_length)
+ 116:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 117:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             if (0 != mbedtls_md_hmac_reset(&message_digest_context))
+ 158              	 .loc 1 117 0
+ 159 00a6 01A8     	 add r0,sp,#4
+ 160 00a8 FFF7FEFF 	 bl mbedtls_md_hmac_reset
+ 161              	.LVL18:
+ 162 00ac 0028     	 cmp r0,#0
+ 163 00ae 33D1     	 bne .L8
+ 118:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             {
+ 119:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                 break;
+ 120:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             }
+ 121:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             if (0 != mbedtls_md_hmac_update(&message_digest_context, md_hmac_temp_array, 
+ 164              	 .loc 1 121 0
+ 165 00b0 01A8     	 add r0,sp,#4
+ 166 00b2 0CA9     	 add r1,sp,#48
+ 167 00b4 07F12002 	 add r2,r7,#32
+ 168 00b8 FFF7FEFF 	 bl mbedtls_md_hmac_update
+ 169              	.LVL19:
+ 170 00bc 60BB     	 cbnz r0,.L8
+ 122:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                             message_digest_length + final_seed_length))
+ 123:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             {
+ 124:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                 break;                
+ 125:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             }
+ 126:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             if (0 != mbedtls_md_hmac_finish(&message_digest_context, hmac_checksum_result))
+ 171              	 .loc 1 126 0
+ 172 00be 0DF11008 	 add r8,sp,#16
+ 173 00c2 01A8     	 add r0,sp,#4
+ 174 00c4 4146     	 mov r1,r8
+ 175 00c6 FFF7FEFF 	 bl mbedtls_md_hmac_finish
+ 176              	.LVL20:
+ 177 00ca 28BB     	 cbnz r0,.L8
+ 127:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             {
+ 128:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                 break;                                
+ 129:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             }
+ 130:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 131:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             if (0 != mbedtls_md_hmac_reset(&message_digest_context))
+ 178              	 .loc 1 131 0
+ 179 00cc 01A8     	 add r0,sp,#4
+ 180 00ce FFF7FEFF 	 bl mbedtls_md_hmac_reset
+ 181              	.LVL21:
+ 182 00d2 08BB     	 cbnz r0,.L8
+ 132:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             {
+ 133:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                 break;                
+ 134:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             }
+ 135:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             if (0 != mbedtls_md_hmac_update(&message_digest_context, md_hmac_temp_array, message_di
+ 183              	 .loc 1 135 0
+ 184 00d4 01A8     	 add r0,sp,#4
+ 185 00d6 0CA9     	 add r1,sp,#48
+ 186 00d8 2022     	 movs r2,#32
+ 187 00da FFF7FEFF 	 bl mbedtls_md_hmac_update
+ 188              	.LVL22:
+ 189 00de D8B9     	 cbnz r0,.L8
+ 136:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             {
+ 137:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                 break;                                
+ 138:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             }
+ 139:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             if (0 != mbedtls_md_hmac_finish(&message_digest_context, md_hmac_temp_array))
+ 190              	 .loc 1 139 0
+ 191 00e0 01A8     	 add r0,sp,#4
+ 192 00e2 0CA9     	 add r1,sp,#48
+ 193 00e4 FFF7FEFF 	 bl mbedtls_md_hmac_finish
+ 194              	.LVL23:
+ 195 00e8 B0B9     	 cbnz r0,.L8
+ 140:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             {
+ 141:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                 break;                                
+ 142:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             }
+ 143:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 144:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             hmac_result_length = ((derive_key_len_index + message_digest_length) > derived_key_leng
+ 196              	 .loc 1 144 0
+ 197 00ea 04F12002 	 add r2,r4,#32
+ 198 00ee AA42     	 cmp r2,r5
+ 145:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                   (derived_key_length % message_digest_length) : (message_digest_le
+ 199              	 .loc 1 145 0
+ 200 00f0 CCBF     	 ite gt
+ 201 00f2 05F01F01 	 andgt r1,r5,#31
+ 144:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                   (derived_key_length % message_digest_length) : (message_digest_le
+ 202              	 .loc 1 144 0
+ 203 00f6 2021     	 movle r1,#32
+ 204              	.LVL24:
+ 146:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 147:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             for (hmac_checksum_result_index = 0; hmac_checksum_result_index < hmac_result_length; 
+ 205              	 .loc 1 147 0
+ 206 00f8 0023     	 movs r3,#0
+ 207              	.LVL25:
+ 208              	.L10:
+ 209              	 .loc 1 147 0 is_stmt 0 discriminator 1
+ 210 00fa 98B2     	 uxth r0,r3
+ 211 00fc 8842     	 cmp r0,r1
+ 212 00fe 07D2     	 bcs .L25
+ 213 0100 3998     	 ldr r0,[sp,#228]
+ 148:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                  hmac_checksum_result_index++)
+ 149:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             {
+ 150:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                 p_derived_key[derive_key_len_index + hmac_checksum_result_index] = 
+ 214              	 .loc 1 150 0 is_stmt 1
+ 215 0102 18F803E0 	 ldrb lr,[r8,r3]
+ 216 0106 2044     	 add r0,r0,r4
+ 217 0108 00F803E0 	 strb lr,[r0,r3]
+ 218              	.LVL26:
+ 219 010c 0133     	 adds r3,r3,#1
+ 220              	.LVL27:
+ 221 010e F4E7     	 b .L10
+ 222              	.LVL28:
+ 223              	.L25:
+ 115:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 224              	 .loc 1 115 0
+ 225 0110 94B2     	 uxth r4,r2
+ 226              	.LVL29:
+ 227 0112 C6E7     	 b .L7
+ 228              	.LVL30:
+ 229              	.L24:
+ 151:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                                                     hmac_checksum_result[hmac_check
+ 152:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             }
+ 153:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+ 154:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if (derive_key_len_index >= derived_key_length)
+ 155:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 156:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             return_value = PAL_STATUS_SUCCESS;
+ 230              	 .loc 1 156 0
+ 231 0114 0024     	 movs r4,#0
+ 232              	.LVL31:
+ 233 0116 03E0     	 b .L3
+ 234              	.LVL32:
+ 235              	.L8:
+  60:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     uint8_t message_digest_length = PAL_CRYPT_DIGEST_MAX_SIZE;
+ 236              	 .loc 1 60 0
+ 237 0118 AC42     	 cmp r4,r5
+ 238 011a 2CBF     	 ite cs
+ 239 011c 0024     	 movcs r4,#0
+ 240              	.LVL33:
+ 241 011e 0124     	 movcc r4,#1
+ 242              	.LVL34:
+ 243              	.L3:
+ 157:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+ 158:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     } while (FALSE);
+ 159:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     
+ 160:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     mbedtls_md_free(&message_digest_context);
+ 244              	 .loc 1 160 0
+ 245 0120 01A8     	 add r0,sp,#4
+ 246 0122 FFF7FEFF 	 bl mbedtls_md_free
+ 247              	.LVL35:
+ 161:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 162:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     memset(md_hmac_temp_array, 0x00, sizeof(md_hmac_temp_array));
+ 248              	 .loc 1 162 0
+ 249 0126 0CA8     	 add r0,sp,#48
+ 250 0128 0021     	 movs r1,#0
+ 251 012a 8022     	 movs r2,#128
+ 252 012c FFF7FEFF 	 bl memset
+ 253              	.LVL36:
+ 163:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     memset(hmac_checksum_result, 0x00, sizeof(hmac_checksum_result));    
+ 254              	 .loc 1 163 0
+ 255 0130 04A8     	 add r0,sp,#16
+ 256 0132 0021     	 movs r1,#0
+ 257 0134 2022     	 movs r2,#32
+ 258 0136 FFF7FEFF 	 bl memset
+ 259              	.LVL37:
+ 164:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     #undef PAL_CRYPT_DIGEST_MAX_SIZE
+ 165:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     return return_value;
+ 166:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** }
+ 260              	 .loc 1 166 0
+ 261 013a 2046     	 mov r0,r4
+ 262 013c 2DB0     	 add sp,sp,#180
+ 263              	.LCFI2:
+ 264              	 .cfi_def_cfa_offset 36
+ 265              	 
+ 266 013e BDE8F08F 	 pop {r4,r5,r6,r7,r8,r9,r10,fp,pc}
+ 267              	 .cfi_endproc
+ 268              	.LFE12:
+ 270              	 .section .text.pal_crypt_encrypt_aes128_ccm,"ax",%progbits
+ 271              	 .align 1
+ 272              	 .global pal_crypt_encrypt_aes128_ccm
+ 273              	 .thumb
+ 274              	 .thumb_func
+ 276              	pal_crypt_encrypt_aes128_ccm:
+ 277              	.LFB13:
+ 167:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 168:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** //lint --e{818, 715, 830} suppress "argument "p_pal_crypt" is not used in the implementation but ke
+ 169:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** pal_status_t pal_crypt_encrypt_aes128_ccm(pal_crypt_t* p_pal_crypt,
+ 170:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           const uint8_t * p_plain_text,
+ 171:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           uint16_t plain_text_length,
+ 172:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           const uint8_t * p_encrypt_key,
+ 173:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           const uint8_t * p_nonce,
+ 174:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           uint16_t nonce_length,
+ 175:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           const uint8_t * p_associated_data,
+ 176:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           uint16_t associated_data_length,
+ 177:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           uint8_t mac_size,
+ 178:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           uint8_t * p_cipher_text)
+ 179:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** {
+ 278              	 .loc 1 179 0
+ 279              	 .cfi_startproc
+ 280              	 
+ 281              	 
+ 282              	.LVL38:
+ 283 0000 2DE9F047 	 push {r4,r5,r6,r7,r8,r9,r10,lr}
+ 284              	.LCFI3:
+ 285              	 .cfi_def_cfa_offset 32
+ 286              	 .cfi_offset 4,-32
+ 287              	 .cfi_offset 5,-28
+ 288              	 .cfi_offset 6,-24
+ 289              	 .cfi_offset 7,-20
+ 290              	 .cfi_offset 8,-16
+ 291              	 .cfi_offset 9,-12
+ 292              	 .cfi_offset 10,-8
+ 293              	 .cfi_offset 14,-4
+ 294 0004 98B0     	 sub sp,sp,#96
+ 295              	.LCFI4:
+ 296              	 .cfi_def_cfa_offset 128
+ 180:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     #define AES128_KEY_BITS_SIZE    (16U)
+ 181:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     #define MAC_TAG_BUFFER_SIZE     (16U)
+ 182:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     
+ 183:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     pal_status_t return_status = PAL_STATUS_FAILURE;
+ 184:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     uint8_t mac_output[MAC_TAG_BUFFER_SIZE];
+ 185:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     mbedtls_ccm_context sEncrypt;
+ 186:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 187:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     mbedtls_ccm_init(&sEncrypt);
+ 297              	 .loc 1 187 0
+ 298 0006 0AA8     	 add r0,sp,#40
+ 299              	.LVL39:
+ 179:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     #define AES128_KEY_BITS_SIZE    (16U)
+ 300              	 .loc 1 179 0
+ 301 0008 259D     	 ldr r5,[sp,#148]
+ 302 000a 209C     	 ldr r4,[sp,#128]
+ 303 000c DDF88890 	 ldr r9,[sp,#136]
+ 304 0010 9DF89060 	 ldrb r6,[sp,#144]
+ 305 0014 0F46     	 mov r7,r1
+ 306 0016 9046     	 mov r8,r2
+ 307 0018 9A46     	 mov r10,r3
+ 308              	 .loc 1 187 0
+ 309 001a FFF7FEFF 	 bl mbedtls_ccm_init
+ 310              	.LVL40:
+ 188:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 189:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     do
+ 190:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     {
+ 191:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 192:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if ((NULL == p_cipher_text) || (NULL == p_plain_text) ||
+ 311              	 .loc 1 192 0
+ 312 001e 0DB9     	 cbnz r5,.L27
+ 313              	.LVL41:
+ 314              	.L29:
+ 183:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     uint8_t mac_output[MAC_TAG_BUFFER_SIZE];
+ 315              	 .loc 1 183 0
+ 316 0020 0124     	 movs r4,#1
+ 317 0022 2BE0     	 b .L28
+ 318              	.LVL42:
+ 319              	.L27:
+ 320              	 .loc 1 192 0 discriminator 1
+ 321 0024 002F     	 cmp r7,#0
+ 322 0026 FBD0     	 beq .L29
+ 323              	 .loc 1 192 0 is_stmt 0 discriminator 2
+ 324 0028 002C     	 cmp r4,#0
+ 325 002a F9D0     	 beq .L29
+ 193:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             (NULL == p_nonce) || (NULL == p_associated_data) || (NULL == p_encrypt_key))
+ 326              	 .loc 1 193 0 is_stmt 1
+ 327 002c B9F1000F 	 cmp r9,#0
+ 328 0030 F6D0     	 beq .L29
+ 329              	 .loc 1 193 0 is_stmt 0 discriminator 1
+ 330 0032 BAF1000F 	 cmp r10,#0
+ 331 0036 F3D0     	 beq .L29
+ 194:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 195:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+ 196:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+ 197:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #endif
+ 198:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 199:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if (0 != mbedtls_ccm_setkey(&sEncrypt, MBEDTLS_CIPHER_ID_AES, p_encrypt_key, 8 * AES128_KEY
+ 332              	 .loc 1 199 0 is_stmt 1
+ 333 0038 0AA8     	 add r0,sp,#40
+ 334 003a 0221     	 movs r1,#2
+ 335 003c 5246     	 mov r2,r10
+ 336 003e 8023     	 movs r3,#128
+ 337 0040 FFF7FEFF 	 bl mbedtls_ccm_setkey
+ 338              	.LVL43:
+ 339 0044 0028     	 cmp r0,#0
+ 340 0046 EBD1     	 bne .L29
+ 200:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 201:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+ 202:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+ 203:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         
+ 204:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if (0 != mbedtls_ccm_encrypt_and_tag(&sEncrypt,
+ 341              	 .loc 1 204 0
+ 342 0048 BDF88C30 	 ldrh r3,[sp,#140]
+ 343 004c 0297     	 str r7,[sp,#8]
+ 344 004e 06AF     	 add r7,sp,#24
+ 345              	.LVL44:
+ 346 0050 0193     	 str r3,[sp,#4]
+ 347 0052 2246     	 mov r2,r4
+ 348 0054 CDF80090 	 str r9,[sp]
+ 349 0058 0395     	 str r5,[sp,#12]
+ 350 005a 0497     	 str r7,[sp,#16]
+ 351 005c 0596     	 str r6,[sp,#20]
+ 352 005e 0AA8     	 add r0,sp,#40
+ 353 0060 4146     	 mov r1,r8
+ 354 0062 BDF88430 	 ldrh r3,[sp,#132]
+ 355 0066 FFF7FEFF 	 bl mbedtls_ccm_encrypt_and_tag
+ 356              	.LVL45:
+ 357 006a 0446     	 mov r4,r0
+ 358 006c 0028     	 cmp r0,#0
+ 359 006e D7D1     	 bne .L29
+ 205:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                               plain_text_length,
+ 206:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                               p_nonce,
+ 207:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                               nonce_length,
+ 208:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                               p_associated_data,
+ 209:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                               associated_data_length,
+ 210:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                               p_plain_text,
+ 211:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                               p_cipher_text,
+ 212:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                               mac_output,
+ 213:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                               mac_size))
+ 214:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         
+ 215:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 216:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+ 217:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+ 218:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 219:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         memcpy((p_cipher_text + plain_text_length), mac_output, mac_size);
+ 360              	 .loc 1 219 0
+ 361 0070 05EB0800 	 add r0,r5,r8
+ 362 0074 3946     	 mov r1,r7
+ 363 0076 3246     	 mov r2,r6
+ 364 0078 FFF7FEFF 	 bl memcpy
+ 365              	.LVL46:
+ 366              	.L28:
+ 220:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         return_status = PAL_STATUS_SUCCESS;
+ 221:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     } while (FALSE);
+ 222:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     mbedtls_ccm_free(&sEncrypt);
+ 367              	 .loc 1 222 0
+ 368 007c 0AA8     	 add r0,sp,#40
+ 369 007e FFF7FEFF 	 bl mbedtls_ccm_free
+ 370              	.LVL47:
+ 223:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     #undef AES128_KEY_BITS_SIZE
+ 224:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     #undef MAC_TAG_BUFFER_SIZE    
+ 225:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     return return_status;
+ 226:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** }
+ 371              	 .loc 1 226 0
+ 372 0082 2046     	 mov r0,r4
+ 373 0084 18B0     	 add sp,sp,#96
+ 374              	.LCFI5:
+ 375              	 .cfi_def_cfa_offset 32
+ 376              	 
+ 377 0086 BDE8F087 	 pop {r4,r5,r6,r7,r8,r9,r10,pc}
+ 378              	 .cfi_endproc
+ 379              	.LFE13:
+ 381              	 .section .text.pal_crypt_decrypt_aes128_ccm,"ax",%progbits
+ 382              	 .align 1
+ 383              	 .global pal_crypt_decrypt_aes128_ccm
+ 384              	 .thumb
+ 385              	 .thumb_func
+ 387              	pal_crypt_decrypt_aes128_ccm:
+ 388              	.LFB14:
+ 227:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 228:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** //lint --e{818, 715, 830} suppress "argument "p_pal_crypt" is not used in the implementation but ke
+ 229:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** pal_status_t pal_crypt_decrypt_aes128_ccm(pal_crypt_t* p_pal_crypt,
+ 230:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           const uint8_t * p_cipher_text,
+ 231:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           uint16_t cipher_text_length,
+ 232:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           const uint8_t * p_decrypt_key,
+ 233:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           const uint8_t * p_nonce,
+ 234:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           uint16_t nonce_length,
+ 235:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           const uint8_t * p_associated_data,
+ 236:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           uint16_t associated_data_length,
+ 237:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           uint8_t mac_size,
+ 238:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           uint8_t * p_plain_text)
+ 239:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** {
+ 389              	 .loc 1 239 0
+ 390              	 .cfi_startproc
+ 391              	 
+ 392              	 
+ 393              	.LVL48:
+ 394 0000 2DE9F047 	 push {r4,r5,r6,r7,r8,r9,r10,lr}
+ 395              	.LCFI6:
+ 396              	 .cfi_def_cfa_offset 32
+ 397              	 .cfi_offset 4,-32
+ 398              	 .cfi_offset 5,-28
+ 399              	 .cfi_offset 6,-24
+ 400              	 .cfi_offset 7,-20
+ 401              	 .cfi_offset 8,-16
+ 402              	 .cfi_offset 9,-12
+ 403              	 .cfi_offset 10,-8
+ 404              	 .cfi_offset 14,-4
+ 405 0004 94B0     	 sub sp,sp,#80
+ 406              	.LCFI7:
+ 407              	 .cfi_def_cfa_offset 112
+ 240:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     #define AES128_KEY_BITS_SIZE    (16U)
+ 241:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     pal_status_t return_status = PAL_STATUS_FAILURE;
+ 242:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     mbedtls_ccm_context sDecrypt;
+ 243:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 244:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     mbedtls_ccm_init(&sDecrypt);
+ 408              	 .loc 1 244 0
+ 409 0006 06A8     	 add r0,sp,#24
+ 410              	.LVL49:
+ 239:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     #define AES128_KEY_BITS_SIZE    (16U)
+ 411              	 .loc 1 239 0
+ 412 0008 DDF88480 	 ldr r8,[sp,#132]
+ 413 000c 1C9E     	 ldr r6,[sp,#112]
+ 414 000e DDF87890 	 ldr r9,[sp,#120]
+ 415 0012 9DF88070 	 ldrb r7,[sp,#128]
+ 416 0016 0C46     	 mov r4,r1
+ 417 0018 1546     	 mov r5,r2
+ 418 001a 9A46     	 mov r10,r3
+ 419              	 .loc 1 244 0
+ 420 001c FFF7FEFF 	 bl mbedtls_ccm_init
+ 421              	.LVL50:
+ 245:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 246:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     do
+ 247:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     {
+ 248:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 249:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if ((NULL == p_plain_text) || (NULL == p_cipher_text) ||
+ 422              	 .loc 1 249 0
+ 423 0020 B8F1000F 	 cmp r8,#0
+ 424 0024 01D1     	 bne .L43
+ 425              	.L45:
+ 241:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     mbedtls_ccm_context sDecrypt;
+ 426              	 .loc 1 241 0
+ 427 0026 0124     	 movs r4,#1
+ 428              	.LVL51:
+ 429 0028 26E0     	 b .L44
+ 430              	.LVL52:
+ 431              	.L43:
+ 432              	 .loc 1 249 0 discriminator 1
+ 433 002a 002C     	 cmp r4,#0
+ 434 002c FBD0     	 beq .L45
+ 435              	 .loc 1 249 0 is_stmt 0 discriminator 2
+ 436 002e 002E     	 cmp r6,#0
+ 437 0030 F9D0     	 beq .L45
+ 250:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             (NULL == p_nonce) || (NULL == p_associated_data) || (NULL == p_decrypt_key))
+ 438              	 .loc 1 250 0 is_stmt 1
+ 439 0032 B9F1000F 	 cmp r9,#0
+ 440 0036 F6D0     	 beq .L45
+ 441              	 .loc 1 250 0 is_stmt 0 discriminator 1
+ 442 0038 BAF1000F 	 cmp r10,#0
+ 443 003c F3D0     	 beq .L45
+ 251:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 252:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+ 253:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+ 254:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** #endif
+ 255:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 256:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if (0 != mbedtls_ccm_setkey(&sDecrypt, MBEDTLS_CIPHER_ID_AES, p_decrypt_key, 8 * AES128_KEY
+ 444              	 .loc 1 256 0 is_stmt 1
+ 445 003e 06A8     	 add r0,sp,#24
+ 446 0040 0221     	 movs r1,#2
+ 447 0042 5246     	 mov r2,r10
+ 448 0044 8023     	 movs r3,#128
+ 449 0046 FFF7FEFF 	 bl mbedtls_ccm_setkey
+ 450              	.LVL53:
+ 451 004a 0028     	 cmp r0,#0
+ 452 004c EBD1     	 bne .L45
+ 257:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 258:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+ 259:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+ 260:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 261:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if (0 != mbedtls_ccm_auth_decrypt(&sDecrypt,
+ 262:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           (cipher_text_length - mac_size),
+ 453              	 .loc 1 262 0
+ 454 004e E91B     	 subs r1,r5,r7
+ 261:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           (cipher_text_length - mac_size),
+ 455              	 .loc 1 261 0
+ 456 0050 BDF87C30 	 ldrh r3,[sp,#124]
+ 457 0054 0294     	 str r4,[sp,#8]
+ 458 0056 0C44     	 add r4,r4,r1
+ 459              	.LVL54:
+ 460 0058 0193     	 str r3,[sp,#4]
+ 461 005a 0494     	 str r4,[sp,#16]
+ 462 005c CDF80090 	 str r9,[sp]
+ 463 0060 CDF80C80 	 str r8,[sp,#12]
+ 464 0064 0597     	 str r7,[sp,#20]
+ 465 0066 06A8     	 add r0,sp,#24
+ 466 0068 3246     	 mov r2,r6
+ 467 006a BDF87430 	 ldrh r3,[sp,#116]
+ 468 006e FFF7FEFF 	 bl mbedtls_ccm_auth_decrypt
+ 469              	.LVL55:
+ 241:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     mbedtls_ccm_context sDecrypt;
+ 470              	 .loc 1 241 0
+ 471 0072 041C     	 adds r4,r0,#0
+ 472 0074 18BF     	 it ne
+ 473 0076 0124     	 movne r4,#1
+ 474              	.L44:
+ 475              	.LVL56:
+ 263:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           p_nonce,
+ 264:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           nonce_length,
+ 265:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           p_associated_data,
+ 266:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           associated_data_length,
+ 267:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           p_cipher_text,
+ 268:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           p_plain_text, 
+ 269:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           &p_cipher_text[cipher_text_length - mac_size],
+ 270:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****                                           mac_size))
+ 271:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 272:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+ 273:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+ 274:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         return_status = PAL_STATUS_SUCCESS;
+ 275:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     } while (FALSE);
+ 276:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     mbedtls_ccm_free(&sDecrypt);
+ 476              	 .loc 1 276 0
+ 477 0078 06A8     	 add r0,sp,#24
+ 478 007a FFF7FEFF 	 bl mbedtls_ccm_free
+ 479              	.LVL57:
+ 277:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     #undef AES128_KEY_BITS_SIZE
+ 278:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     return return_status;
+ 279:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** }
+ 480              	 .loc 1 279 0
+ 481 007e 2046     	 mov r0,r4
+ 482 0080 14B0     	 add sp,sp,#80
+ 483              	.LCFI8:
+ 484              	 .cfi_def_cfa_offset 32
+ 485              	 
+ 486 0082 BDE8F087 	 pop {r4,r5,r6,r7,r8,r9,r10,pc}
+ 487              	 .cfi_endproc
+ 488              	.LFE14:
+ 490              	 .section .text.pal_crypt_version,"ax",%progbits
+ 491              	 .align 1
+ 492              	 .global pal_crypt_version
+ 493              	 .thumb
+ 494              	 .thumb_func
+ 496              	pal_crypt_version:
+ 497              	.LFB15:
+ 280:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 281:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** pal_status_t pal_crypt_version(uint8_t * p_crypt_lib_version_info, uint16_t * length)
+ 282:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** {
+ 498              	 .loc 1 282 0
+ 499              	 .cfi_startproc
+ 500              	 
+ 501              	 
+ 502              	.LVL58:
+ 283:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     pal_status_t return_value  = PAL_STATUS_FAILURE;    
+ 284:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     uint8_t sizeof_version_number  = (uint8_t)strlen(MBEDTLS_VERSION_STRING);
+ 285:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 286:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     do
+ 287:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     {
+ 288:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         if (sizeof_version_number > *length)
+ 503              	 .loc 1 288 0
+ 504 0000 0B88     	 ldrh r3,[r1]
+ 505 0002 052B     	 cmp r3,#5
+ 282:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     pal_status_t return_value  = PAL_STATUS_FAILURE;    
+ 506              	 .loc 1 282 0
+ 507 0004 10B5     	 push {r4,lr}
+ 508              	.LCFI9:
+ 509              	 .cfi_def_cfa_offset 8
+ 510              	 .cfi_offset 4,-8
+ 511              	 .cfi_offset 14,-4
+ 282:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     pal_status_t return_value  = PAL_STATUS_FAILURE;    
+ 512              	 .loc 1 282 0
+ 513 0006 0C46     	 mov r4,r1
+ 514              	 .loc 1 288 0
+ 515 0008 07D9     	 bls .L60
+ 289:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         {
+ 290:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****             break;
+ 291:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         }
+ 292:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 293:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         pal_os_memcpy(p_crypt_lib_version_info, MBEDTLS_VERSION_STRING, sizeof_version_number);
+ 516              	 .loc 1 293 0
+ 517 000a 0549     	 ldr r1,.L61
+ 518              	.LVL59:
+ 519 000c 0622     	 movs r2,#6
+ 520 000e FFF7FEFF 	 bl pal_os_memcpy
+ 521              	.LVL60:
+ 294:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         *length = sizeof_version_number;
+ 522              	 .loc 1 294 0
+ 523 0012 0623     	 movs r3,#6
+ 524 0014 2380     	 strh r3,[r4]
+ 525              	.LVL61:
+ 295:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 296:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****         return_value = PAL_STATUS_SUCCESS;
+ 526              	 .loc 1 296 0
+ 527 0016 0020     	 movs r0,#0
+ 528 0018 10BD     	 pop {r4,pc}
+ 529              	.LVL62:
+ 530              	.L60:
+ 283:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     uint8_t sizeof_version_number  = (uint8_t)strlen(MBEDTLS_VERSION_STRING);
+ 531              	 .loc 1 283 0
+ 532 001a 0120     	 movs r0,#1
+ 533              	.LVL63:
+ 297:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** 
+ 298:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     } while (0);
+ 299:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c ****     return return_value;
+ 300:C:/Users/Yushev/git/optiga-trust-qi/pal\pal_crypt_mbedtls.c **** }
+ 534              	 .loc 1 300 0
+ 535 001c 10BD     	 pop {r4,pc}
+ 536              	.L62:
+ 537 001e 00BF     	 .align 2
+ 538              	.L61:
+ 539 0020 00000000 	 .word .LC0
+ 540              	 .cfi_endproc
+ 541              	.LFE15:
+ 543              	 .section .rodata.str1.1,"aMS",%progbits,1
+ 544              	.LC0:
+ 545 0000 322E3136 	 .ascii "2.16.0\000"
+ 545      2E3000
+ 546              	 .text
+ 547              	.Letext0:
+ 548              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 549              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\lib\\gcc\\arm-none-eabi\\4.9.3\\include\\stddef.h"
+ 550              	 .file 4 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 551              	 .file 5 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/pal/pal.h"
+ 552              	 .file 6 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/pal/pal_crypt.h"
+ 553              	 .file 7 "C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/include/mbedtls/cipher.h"
+ 554              	 .file 8 "C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/include/mbedtls/ccm.h"
+ 555              	 .file 9 "C:/Users/Yushev/git/optiga-trust-qi/externals/mbedtls/include/mbedtls/md.h"
+ 556              	 .file 10 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/pal/pal_os_memory.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 pal_crypt_mbedtls.c
+    {standard input}:20     .text.pal_crypt_tls_prf_sha256:00000000 $t
+    {standard input}:25     .text.pal_crypt_tls_prf_sha256:00000000 pal_crypt_tls_prf_sha256
+    {standard input}:271    .text.pal_crypt_encrypt_aes128_ccm:00000000 $t
+    {standard input}:276    .text.pal_crypt_encrypt_aes128_ccm:00000000 pal_crypt_encrypt_aes128_ccm
+    {standard input}:382    .text.pal_crypt_decrypt_aes128_ccm:00000000 $t
+    {standard input}:387    .text.pal_crypt_decrypt_aes128_ccm:00000000 pal_crypt_decrypt_aes128_ccm
+    {standard input}:491    .text.pal_crypt_version:00000000 $t
+    {standard input}:496    .text.pal_crypt_version:00000000 pal_crypt_version
+    {standard input}:539    .text.pal_crypt_version:00000020 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+mbedtls_md_init
+mbedtls_md_info_from_type
+memcpy
+mbedtls_md_setup
+mbedtls_md_hmac_starts
+mbedtls_md_hmac_update
+mbedtls_md_hmac_finish
+mbedtls_md_hmac_reset
+mbedtls_md_free
+memset
+mbedtls_ccm_init
+mbedtls_ccm_setkey
+mbedtls_ccm_encrypt_and_tag
+mbedtls_ccm_free
+mbedtls_ccm_auth_decrypt
+pal_os_memcpy

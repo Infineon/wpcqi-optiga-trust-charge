@@ -1,0 +1,2100 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,4
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "optiga_util.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.optiga_util_generic_event_handler,"ax",%progbits
+  20              	 .align 1
+  21              	 .thumb
+  22              	 .thumb_func
+  24              	optiga_util_generic_event_handler:
+  25              	.LFB0:
+  26              	 .file 1 "C:/Users/Yushev/git/optiga-trust-qi/optiga/util/optiga_util.c"
+   1:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** /**
+   2:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * \copyright
+   3:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * MIT License
+   4:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** *
+   5:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * Copyright (c) 2020 Infineon Technologies AG
+   6:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** *
+   7:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   8:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * of this software and associated documentation files (the "Software"), to deal
+   9:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * in the Software without restriction, including without limitation the rights
+  10:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  11:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * copies of the Software, and to permit persons to whom the Software is
+  12:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * furnished to do so, subject to the following conditions:
+  13:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** *
+  14:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * The above copyright notice and this permission notice shall be included in all
+  15:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * copies or substantial portions of the Software.
+  16:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** *
+  17:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  19:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  20:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  21:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  22:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  23:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * SOFTWARE
+  24:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** *
+  25:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * \endcopyright
+  26:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** *
+  27:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * \author Infineon Technologies AG
+  28:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** *
+  29:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * \file optiga_util.c
+  30:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** *
+  31:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * \brief   This file implements the OPTIGA utility module functionalities
+  32:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** *
+  33:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * \ingroup  grOptigaUtil
+  34:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** *
+  35:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** * @{
+  36:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** */
+  37:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  38:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #include "optiga/optiga_util.h"
+  39:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #include "optiga/common/optiga_lib_logger.h"
+  40:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #include "optiga/common/optiga_lib_common_internal.h"
+  41:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #include "optiga/pal/pal_os_memory.h"
+  42:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  43:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #if defined (OPTIGA_LIB_ENABLE_LOGGING) && defined (OPTIGA_LIB_ENABLE_UTIL_LOGGING)
+  44:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  45:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** //Logs the message provided from Util layer
+  46:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #define OPTIGA_UTIL_LOG_MESSAGE(msg) \
+  47:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {\
+  48:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_print_message(msg,OPTIGA_UTIL_SERVICE,OPTIGA_UTIL_SERVICE_COLOR);\
+  49:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+  50:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  51:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** //Logs the byte array buffer provided from Util layer in hexadecimal format
+  52:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** //lint --e{750} suppress "The unused OPTIGA_UTIL_LOG_HEX_DATA macro is kept for future enhancements
+  53:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #define OPTIGA_UTIL_LOG_HEX_DATA(array,array_len) \
+  54:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {\
+  55:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_print_array_hex_format(array,array_len,OPTIGA_UNPROTECTED_DATA_COLOR);\
+  56:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+  57:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  58:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** //Logs the status info provided from Util layer
+  59:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** //lint --e{750} suppress "The unused OPTIGA_UTIL_LOG_STATUS macro is kept for future enhancements"
+  60:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #define OPTIGA_UTIL_LOG_STATUS(return_value) \
+  61:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** { \
+  62:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     if (OPTIGA_LIB_SUCCESS != return_value) \
+  63:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     { \
+  64:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         optiga_lib_print_status(OPTIGA_UTIL_SERVICE,OPTIGA_ERROR_COLOR,return_value); \
+  65:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } \
+  66:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     else\
+  67:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     { \
+  68:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         optiga_lib_print_status(OPTIGA_UTIL_SERVICE,OPTIGA_UTIL_SERVICE_COLOR,return_value); \
+  69:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } \
+  70:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+  71:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #else
+  72:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  73:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #define OPTIGA_UTIL_LOG_MESSAGE(msg) {}
+  74:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** //lint --e{750} suppress "The unused OPTIGA_UTIL_LOG_HEX_DATA macro is kept for future enhancements
+  75:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #define OPTIGA_UTIL_LOG_HEX_DATA(array, array_len) {}
+  76:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** //lint --e{750} suppress "The unused OPTIGA_UTIL_LOG_STATUS macro is kept for future enhancements"
+  77:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #define OPTIGA_UTIL_LOG_STATUS(return_value) {}
+  78:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  79:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+  80:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  81:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** extern void optiga_cmd_set_shielded_connection_option(optiga_cmd_t * me, uint8_t value,
+  82:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                       uint8_t shielded_connection_option);
+  83:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  84:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  85:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  86:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** _STATIC_H void optiga_util_generic_event_handler(void * me,
+  87:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                  optiga_lib_status_t event)
+  88:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+  27              	 .loc 1 88 0
+  28              	 .cfi_startproc
+  29              	 
+  30              	 
+  31              	 
+  32              	.LVL0:
+  89:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_util_t * p_optiga_util = (optiga_util_t *)me;
+  90:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  91:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     p_optiga_util->instance_state = OPTIGA_LIB_INSTANCE_FREE;
+  33              	 .loc 1 91 0
+  34 0000 0023     	 movs r3,#0
+  35 0002 0384     	 strh r3,[r0,#32]
+  92:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     p_optiga_util->handler(p_optiga_util->caller_context, event);
+  36              	 .loc 1 92 0
+  37 0004 C369     	 ldr r3,[r0,#28]
+  38 0006 8069     	 ldr r0,[r0,#24]
+  39              	.LVL1:
+  40 0008 1847     	 bx r3
+  41              	.LVL2:
+  42              	 .cfi_endproc
+  43              	.LFE0:
+  45              	 .section .text.optiga_util_reset_protection_level,"ax",%progbits
+  46              	 .align 1
+  47              	 .thumb
+  48              	 .thumb_func
+  50              	optiga_util_reset_protection_level:
+  51              	.LFB1:
+  93:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+  94:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+  95:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** _STATIC_H void optiga_util_reset_protection_level(optiga_util_t * me)
+  96:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+  52              	 .loc 1 96 0
+  53              	 .cfi_startproc
+  54              	 
+  55              	 
+  56              	 
+  57              	.LVL3:
+  97:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+  98:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     if (NULL != me)
+  58              	 .loc 1 98 0
+  59 0000 10B1     	 cbz r0,.L2
+  60              	.LVL4:
+  61              	.LBB4:
+  62              	.LBB5:
+  99:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 100:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 101:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_UTIL_SET_COMMS_PROTECTION_LEVEL(me, OPTIGA_COMMS_DEFAULT_PROTECTION_LEVEL);
+ 102:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     }
+ 103:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 104:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 105:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** _STATIC_H optiga_lib_status_t optiga_util_write_data_wrapper(optiga_util_t * me,
+ 106:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                              uint16_t optiga_oid,
+ 107:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                              uint8_t write_type,
+ 108:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                              uint16_t offset,
+ 109:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                              const uint8_t * p_buffer,
+ 110:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                              uint16_t length)
+ 111:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 112:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR;
+ 113:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_set_data_object_params_t * p_params;
+ 114:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 115:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 116:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 117:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 118:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if ((NULL == me) || (NULL == me->my_cmd) || (NULL == p_buffer))
+ 119:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 120:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INVALID_INPUT;
+ 121:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 122:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 123:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 124:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 125:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_INSTANCE_BUSY == me->instance_state)
+ 126:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 127:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INSTANCE_IN_USE;
+ 128:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 129:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 130:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 131:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->instance_state = OPTIGA_LIB_INSTANCE_BUSY;
+ 132:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params = (optiga_set_data_object_params_t *)&(me->params.optiga_set_data_object_params);
+ 133:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         pal_os_memset(&me->params,0x00,sizeof(optiga_util_params_t));
+ 134:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 135:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_UTIL_COUNT_DATA_OBJECT == write_type)
+ 136:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 137:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             p_params->count = p_buffer[0];
+ 138:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             p_params->buffer = NULL;
+ 139:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 140:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         else
+ 141:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 142:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             p_params->count = 0;
+ 143:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             p_params->buffer = p_buffer;
+ 144:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 145:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->oid = optiga_oid;
+ 146:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->offset = offset;
+ 147:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->data_or_metadata = 0;//for Data
+ 148:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->size = length;
+ 149:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->written_size = 0;
+ 150:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->write_type = write_type;
+ 151:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 152:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_ENABLE(me->my_cmd, me);
+ 153:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_SET_VERSION(me->my_cmd, me);
+ 154:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 155:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         return_value = optiga_cmd_set_data_object(me->my_cmd, write_type, (optiga_set_data_object_p
+ 156:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_SUCCESS != return_value)
+ 157:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 158:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             me->instance_state = OPTIGA_LIB_INSTANCE_FREE;
+ 159:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 160:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 161:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_util_reset_protection_level(me);
+ 162:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 163:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (return_value);
+ 164:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 165:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 166:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 167:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** void optiga_util_set_comms_params(optiga_util_t * me,
+ 168:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                   uint8_t parameter_type,
+ 169:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                   uint8_t value)
+ 170:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 171:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     switch (parameter_type)
+ 172:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 173:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         case OPTIGA_COMMS_PROTECTION_LEVEL:
+ 174:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 175:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             me->protection_level = value;
+  63              	 .loc 1 175 0
+  64 0002 0023     	 movs r3,#0
+  65 0004 80F82230 	 strb r3,[r0,#34]
+  66              	.LVL5:
+  67              	.L2:
+  68 0008 7047     	 bx lr
+  69              	.LBE5:
+  70              	.LBE4:
+  71              	 .cfi_endproc
+  72              	.LFE1:
+  74              	 .section .text.optiga_util_write_data_wrapper,"ax",%progbits
+  75              	 .align 1
+  76              	 .thumb
+  77              	 .thumb_func
+  79              	optiga_util_write_data_wrapper:
+  80              	.LFB2:
+ 111:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR;
+  81              	 .loc 1 111 0
+  82              	 .cfi_startproc
+  83              	 
+  84              	 
+  85              	.LVL6:
+  86 0000 2DE9F041 	 push {r4,r5,r6,r7,r8,lr}
+  87              	.LCFI0:
+  88              	 .cfi_def_cfa_offset 24
+  89              	 .cfi_offset 4,-24
+  90              	 .cfi_offset 5,-20
+  91              	 .cfi_offset 6,-16
+  92              	 .cfi_offset 7,-12
+  93              	 .cfi_offset 8,-8
+  94              	 .cfi_offset 14,-4
+ 111:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR;
+  95              	 .loc 1 111 0
+  96 0004 069E     	 ldr r6,[sp,#24]
+  97 0006 8846     	 mov r8,r1
+  98 0008 1546     	 mov r5,r2
+  99 000a 1F46     	 mov r7,r3
+ 118:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 100              	 .loc 1 118 0
+ 101 000c 0446     	 mov r4,r0
+ 102 000e 0028     	 cmp r0,#0
+ 103 0010 37D0     	 beq .L14
+ 118:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 104              	 .loc 1 118 0 is_stmt 0 discriminator 1
+ 105 0012 4369     	 ldr r3,[r0,#20]
+ 106              	.LVL7:
+ 107 0014 002B     	 cmp r3,#0
+ 108 0016 34D0     	 beq .L14
+ 118:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 109              	 .loc 1 118 0 discriminator 2
+ 110 0018 002E     	 cmp r6,#0
+ 111 001a 32D0     	 beq .L14
+ 125:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 112              	 .loc 1 125 0 is_stmt 1
+ 113 001c 038C     	 ldrh r3,[r0,#32]
+ 114 001e 012B     	 cmp r3,#1
+ 115 0020 32D0     	 beq .L15
+ 131:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params = (optiga_set_data_object_params_t *)&(me->params.optiga_set_data_object_params);
+ 116              	 .loc 1 131 0
+ 117 0022 0123     	 movs r3,#1
+ 118 0024 0384     	 strh r3,[r0,#32]
+ 119              	.LVL8:
+ 133:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 120              	 .loc 1 133 0
+ 121 0026 0021     	 movs r1,#0
+ 122              	.LVL9:
+ 123 0028 1422     	 movs r2,#20
+ 124              	.LVL10:
+ 125 002a FFF7FEFF 	 bl pal_os_memset
+ 126              	.LVL11:
+ 135:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 127              	 .loc 1 135 0
+ 128 002e 022D     	 cmp r5,#2
+ 137:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             p_params->buffer = NULL;
+ 129              	 .loc 1 137 0
+ 130 0030 06BF     	 itte eq
+ 131 0032 3378     	 ldrbeq r3,[r6]
+ 132 0034 A373     	 strbeq r3,[r4,#14]
+ 143:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 133              	 .loc 1 143 0
+ 134 0036 A660     	 strne r6,[r4,#8]
+ 148:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->written_size = 0;
+ 135              	 .loc 1 148 0
+ 136 0038 BDF81C30 	 ldrh r3,[sp,#28]
+ 137 003c A380     	 strh r3,[r4,#4]
+ 138 003e 4FF00002 	 mov r2,#0
+ 147:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->size = length;
+ 139              	 .loc 1 147 0
+ 140 0042 4FF00006 	 mov r6,#0
+ 138:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 141              	 .loc 1 138 0
+ 142 0046 0CBF     	 ite eq
+ 143 0048 A260     	 streq r2,[r4,#8]
+ 142:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             p_params->buffer = p_buffer;
+ 144              	 .loc 1 142 0
+ 145 004a A273     	 strbne r2,[r4,#14]
+ 150:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 146              	 .loc 1 150 0
+ 147 004c 6573     	 strb r5,[r4,#13]
+ 152:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_SET_VERSION(me->my_cmd, me);
+ 148              	 .loc 1 152 0
+ 149 004e 6069     	 ldr r0,[r4,#20]
+ 150 0050 94F82210 	 ldrb r1,[r4,#34]
+ 145:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->offset = offset;
+ 151              	 .loc 1 145 0
+ 152 0054 A4F80080 	 strh r8,[r4]
+ 152:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_SET_VERSION(me->my_cmd, me);
+ 153              	 .loc 1 152 0
+ 154 0058 3246     	 mov r2,r6
+ 146:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->data_or_metadata = 0;//for Data
+ 155              	 .loc 1 146 0
+ 156 005a 6780     	 strh r7,[r4,#2]
+ 147:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->size = length;
+ 157              	 .loc 1 147 0
+ 158 005c 2673     	 strb r6,[r4,#12]
+ 149:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->write_type = write_type;
+ 159              	 .loc 1 149 0
+ 160 005e E680     	 strh r6,[r4,#6]
+ 152:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_SET_VERSION(me->my_cmd, me);
+ 161              	 .loc 1 152 0
+ 162 0060 FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 163              	.LVL12:
+ 153:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 164              	 .loc 1 153 0
+ 165 0064 6069     	 ldr r0,[r4,#20]
+ 166 0066 94F82310 	 ldrb r1,[r4,#35]
+ 167 006a 0122     	 movs r2,#1
+ 168 006c FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 169              	.LVL13:
+ 155:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_SUCCESS != return_value)
+ 170              	 .loc 1 155 0
+ 171 0070 2946     	 mov r1,r5
+ 172 0072 6069     	 ldr r0,[r4,#20]
+ 173 0074 2246     	 mov r2,r4
+ 174 0076 FFF7FEFF 	 bl optiga_cmd_set_data_object
+ 175              	.LVL14:
+ 156:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 176              	 .loc 1 156 0
+ 177 007a 0546     	 mov r5,r0
+ 178 007c 30B1     	 cbz r0,.L9
+ 158:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 179              	 .loc 1 158 0
+ 180 007e 2684     	 strh r6,[r4,#32]
+ 181 0080 04E0     	 b .L9
+ 182              	.LVL15:
+ 183              	.L14:
+ 120:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 184              	 .loc 1 120 0
+ 185 0082 40F20335 	 movw r5,#771
+ 186 0086 01E0     	 b .L9
+ 187              	.L15:
+ 127:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 188              	 .loc 1 127 0
+ 189 0088 40F20535 	 movw r5,#773
+ 190              	.LVL16:
+ 191              	.L9:
+ 161:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 192              	 .loc 1 161 0
+ 193 008c 2046     	 mov r0,r4
+ 194 008e FFF7FEFF 	 bl optiga_util_reset_protection_level
+ 195              	.LVL17:
+ 164:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 196              	 .loc 1 164 0
+ 197 0092 2846     	 mov r0,r5
+ 198 0094 BDE8F081 	 pop {r4,r5,r6,r7,r8,pc}
+ 199              	 .cfi_endproc
+ 200              	.LFE2:
+ 202              	 .section .text.optiga_util_set_comms_params,"ax",%progbits
+ 203              	 .align 1
+ 204              	 .global optiga_util_set_comms_params
+ 205              	 .thumb
+ 206              	 .thumb_func
+ 208              	optiga_util_set_comms_params:
+ 209              	.LFB3:
+ 170:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     switch (parameter_type)
+ 210              	 .loc 1 170 0
+ 211              	 .cfi_startproc
+ 212              	 
+ 213              	 
+ 214              	 
+ 215              	.LVL18:
+ 171:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 216              	 .loc 1 171 0
+ 217 0000 0129     	 cmp r1,#1
+ 218 0002 02D0     	 beq .L21
+ 219 0004 0229     	 cmp r1,#2
+ 220 0006 03D0     	 beq .L22
+ 221 0008 7047     	 bx lr
+ 222              	.L21:
+ 223              	 .loc 1 175 0
+ 224 000a 80F82220 	 strb r2,[r0,#34]
+ 176:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 225              	 .loc 1 176 0
+ 226 000e 7047     	 bx lr
+ 227              	.L22:
+ 177:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 178:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         case OPTIGA_COMMS_PROTOCOL_VERSION:
+ 179:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 180:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             me->protocol_version = value;
+ 228              	 .loc 1 180 0
+ 229 0010 80F82320 	 strb r2,[r0,#35]
+ 230 0014 7047     	 bx lr
+ 231              	 .cfi_endproc
+ 232              	.LFE3:
+ 234              	 .section .text.optiga_util_create,"ax",%progbits
+ 235              	 .align 1
+ 236              	 .global optiga_util_create
+ 237              	 .thumb
+ 238              	 .thumb_func
+ 240              	optiga_util_create:
+ 241              	.LFB4:
+ 181:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 182:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 183:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         default:
+ 184:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 185:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 186:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 187:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     }
+ 188:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 189:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 190:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 191:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** optiga_util_t * optiga_util_create(uint8_t optiga_instance_id,
+ 192:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                    callback_handler_t handler,
+ 193:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                    void * caller_context)
+ 194:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 242              	 .loc 1 194 0
+ 243              	 .cfi_startproc
+ 244              	 
+ 245              	 
+ 246              	.LVL19:
+ 247 0000 F8B5     	 push {r3,r4,r5,r6,r7,lr}
+ 248              	.LCFI1:
+ 249              	 .cfi_def_cfa_offset 24
+ 250              	 .cfi_offset 3,-24
+ 251              	 .cfi_offset 4,-20
+ 252              	 .cfi_offset 5,-16
+ 253              	 .cfi_offset 6,-12
+ 254              	 .cfi_offset 7,-8
+ 255              	 .cfi_offset 14,-4
+ 256              	 .loc 1 194 0
+ 257 0002 0646     	 mov r6,r0
+ 258 0004 1746     	 mov r7,r2
+ 195:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_util_t * me = NULL;
+ 196:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 197:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 198:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 199:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 200:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (NULL == handler)
+ 259              	 .loc 1 200 0
+ 260 0006 0D46     	 mov r5,r1
+ 261 0008 09B9     	 cbnz r1,.L24
+ 262              	.LVL20:
+ 263              	.L26:
+ 195:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_util_t * me = NULL;
+ 264              	 .loc 1 195 0
+ 265 000a 0024     	 movs r4,#0
+ 266 000c 1BE0     	 b .L25
+ 267              	.LVL21:
+ 268              	.L24:
+ 201:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 202:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 203:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 204:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 205:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me = (optiga_util_t *)pal_os_calloc(1, sizeof(optiga_util_t));
+ 269              	 .loc 1 205 0
+ 270 000e 0120     	 movs r0,#1
+ 271              	.LVL22:
+ 272 0010 2421     	 movs r1,#36
+ 273              	.LVL23:
+ 274 0012 FFF7FEFF 	 bl pal_os_calloc
+ 275              	.LVL24:
+ 206:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (NULL == me)
+ 276              	 .loc 1 206 0
+ 277 0016 0446     	 mov r4,r0
+ 278 0018 0028     	 cmp r0,#0
+ 279 001a F6D0     	 beq .L26
+ 207:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 208:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 209:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 210:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 211:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->handler = handler;
+ 212:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->caller_context = caller_context;
+ 213:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->instance_state = OPTIGA_LIB_SUCCESS;
+ 280              	 .loc 1 213 0
+ 281 001c 0023     	 movs r3,#0
+ 214:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 215:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->protocol_version = OPTIGA_COMMS_PROTOCOL_VERSION_PRE_SHARED_SECRET;
+ 282              	 .loc 1 215 0
+ 283 001e 0122     	 movs r2,#1
+ 211:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->caller_context = caller_context;
+ 284              	 .loc 1 211 0
+ 285 0020 C561     	 str r5,[r0,#28]
+ 286              	 .loc 1 215 0
+ 287 0022 80F82320 	 strb r2,[r0,#35]
+ 212:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->instance_state = OPTIGA_LIB_SUCCESS;
+ 288              	 .loc 1 212 0
+ 289 0026 8761     	 str r7,[r0,#24]
+ 213:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 290              	 .loc 1 213 0
+ 291 0028 0384     	 strh r3,[r0,#32]
+ 216:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->protection_level = OPTIGA_COMMS_DEFAULT_PROTECTION_LEVEL;
+ 292              	 .loc 1 216 0
+ 293 002a 80F82230 	 strb r3,[r0,#34]
+ 217:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 218:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->my_cmd = optiga_cmd_create(optiga_instance_id, optiga_util_generic_event_handler, me);
+ 294              	 .loc 1 218 0
+ 295 002e 0749     	 ldr r1,.L30
+ 296 0030 3046     	 mov r0,r6
+ 297              	.LVL25:
+ 298 0032 2246     	 mov r2,r4
+ 299 0034 FFF7FEFF 	 bl optiga_cmd_create
+ 300              	.LVL26:
+ 301 0038 0546     	 mov r5,r0
+ 302              	.LVL27:
+ 303 003a 6061     	 str r0,[r4,#20]
+ 219:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (NULL == me->my_cmd)
+ 304              	 .loc 1 219 0
+ 305 003c 18B9     	 cbnz r0,.L25
+ 220:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 221:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             pal_os_free(me);
+ 306              	 .loc 1 221 0
+ 307 003e 2046     	 mov r0,r4
+ 308 0040 FFF7FEFF 	 bl pal_os_free
+ 309              	.LVL28:
+ 222:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             me = NULL;
+ 310              	 .loc 1 222 0
+ 311 0044 2C46     	 mov r4,r5
+ 312              	.LVL29:
+ 313              	.L25:
+ 223:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 224:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 225:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 226:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (me);
+ 227:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 314              	 .loc 1 227 0
+ 315 0046 2046     	 mov r0,r4
+ 316 0048 F8BD     	 pop {r3,r4,r5,r6,r7,pc}
+ 317              	.LVL30:
+ 318              	.L31:
+ 319 004a 00BF     	 .align 2
+ 320              	.L30:
+ 321 004c 00000000 	 .word optiga_util_generic_event_handler
+ 322              	 .cfi_endproc
+ 323              	.LFE4:
+ 325              	 .section .text.optiga_util_destroy,"ax",%progbits
+ 326              	 .align 1
+ 327              	 .global optiga_util_destroy
+ 328              	 .thumb
+ 329              	 .thumb_func
+ 331              	optiga_util_destroy:
+ 332              	.LFB5:
+ 228:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 229:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** optiga_lib_status_t optiga_util_destroy(optiga_util_t * me)
+ 230:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 333              	 .loc 1 230 0
+ 334              	 .cfi_startproc
+ 335              	 
+ 336              	 
+ 337              	.LVL31:
+ 338 0000 38B5     	 push {r3,r4,r5,lr}
+ 339              	.LCFI2:
+ 340              	 .cfi_def_cfa_offset 16
+ 341              	 .cfi_offset 3,-16
+ 342              	 .cfi_offset 4,-12
+ 343              	 .cfi_offset 5,-8
+ 344              	 .cfi_offset 14,-4
+ 231:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value;
+ 232:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 233:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 234:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 235:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 236:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (NULL == me)
+ 345              	 .loc 1 236 0
+ 346 0002 0446     	 mov r4,r0
+ 347 0004 50B1     	 cbz r0,.L34
+ 237:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 238:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INVALID_INPUT;
+ 239:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 240:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 241:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 242:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_INSTANCE_BUSY == me->instance_state)
+ 348              	 .loc 1 242 0
+ 349 0006 038C     	 ldrh r3,[r0,#32]
+ 350 0008 012B     	 cmp r3,#1
+ 351 000a 0AD0     	 beq .L35
+ 243:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 244:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INSTANCE_IN_USE;
+ 245:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 246:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 247:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         return_value = optiga_cmd_destroy(me->my_cmd);
+ 352              	 .loc 1 247 0
+ 353 000c 4069     	 ldr r0,[r0,#20]
+ 354              	.LVL32:
+ 355 000e FFF7FEFF 	 bl optiga_cmd_destroy
+ 356              	.LVL33:
+ 357 0012 0546     	 mov r5,r0
+ 358              	.LVL34:
+ 248:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         pal_os_free(me);
+ 359              	 .loc 1 248 0
+ 360 0014 2046     	 mov r0,r4
+ 361 0016 FFF7FEFF 	 bl pal_os_free
+ 362              	.LVL35:
+ 363 001a 04E0     	 b .L33
+ 364              	.LVL36:
+ 365              	.L34:
+ 238:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 366              	 .loc 1 238 0
+ 367 001c 40F20335 	 movw r5,#771
+ 368 0020 01E0     	 b .L33
+ 369              	.L35:
+ 244:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 370              	 .loc 1 244 0
+ 371 0022 40F20535 	 movw r5,#773
+ 372              	.LVL37:
+ 373              	.L33:
+ 249:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 250:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (return_value);
+ 251:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 374              	 .loc 1 251 0
+ 375 0026 2846     	 mov r0,r5
+ 376 0028 38BD     	 pop {r3,r4,r5,pc}
+ 377              	 .cfi_endproc
+ 378              	.LFE5:
+ 380              	 .section .text.optiga_util_open_application,"ax",%progbits
+ 381              	 .align 1
+ 382              	 .global optiga_util_open_application
+ 383              	 .thumb
+ 384              	 .thumb_func
+ 386              	optiga_util_open_application:
+ 387              	.LFB6:
+ 252:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 253:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** optiga_lib_status_t optiga_util_open_application(optiga_util_t * me,
+ 254:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                  bool_t perform_restore)
+ 255:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 388              	 .loc 1 255 0
+ 389              	 .cfi_startproc
+ 390              	 
+ 391              	 
+ 392              	.LVL38:
+ 393 0000 70B5     	 push {r4,r5,r6,lr}
+ 394              	.LCFI3:
+ 395              	 .cfi_def_cfa_offset 16
+ 396              	 .cfi_offset 4,-16
+ 397              	 .cfi_offset 5,-12
+ 398              	 .cfi_offset 6,-8
+ 399              	 .cfi_offset 14,-4
+ 400              	 .loc 1 255 0
+ 401 0002 0D46     	 mov r5,r1
+ 256:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR;
+ 257:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 258:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     OPTIGA_UTIL_LOG_MESSAGE(__FUNCTION__);
+ 259:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 260:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 261:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 262:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if ((NULL == me) || (NULL == me->my_cmd))
+ 402              	 .loc 1 262 0
+ 403 0004 0446     	 mov r4,r0
+ 404 0006 18B3     	 cbz r0,.L41
+ 405              	 .loc 1 262 0 is_stmt 0 discriminator 1
+ 406 0008 4069     	 ldr r0,[r0,#20]
+ 407              	.LVL39:
+ 408 000a 08B3     	 cbz r0,.L41
+ 263:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 264:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INVALID_INPUT;
+ 265:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 266:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 267:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 268:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 269:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_INSTANCE_BUSY == me->instance_state)
+ 409              	 .loc 1 269 0 is_stmt 1
+ 410 000c 238C     	 ldrh r3,[r4,#32]
+ 411 000e 012B     	 cmp r3,#1
+ 412 0010 21D0     	 beq .L42
+ 270:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 271:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INSTANCE_IN_USE;
+ 272:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 273:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 274:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 275:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->instance_state = OPTIGA_LIB_INSTANCE_BUSY;
+ 413              	 .loc 1 275 0
+ 414 0012 0126     	 movs r6,#1
+ 276:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_ENABLE(me->my_cmd, me);
+ 415              	 .loc 1 276 0
+ 416 0014 94F82210 	 ldrb r1,[r4,#34]
+ 417              	.LVL40:
+ 275:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_ENABLE(me->my_cmd, me);
+ 418              	 .loc 1 275 0
+ 419 0018 2684     	 strh r6,[r4,#32]
+ 420              	 .loc 1 276 0
+ 421 001a 0022     	 movs r2,#0
+ 422 001c FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 423              	.LVL41:
+ 277:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_SET_VERSION(me->my_cmd, me);
+ 424              	 .loc 1 277 0
+ 425 0020 6069     	 ldr r0,[r4,#20]
+ 426 0022 94F82310 	 ldrb r1,[r4,#35]
+ 427 0026 3246     	 mov r2,r6
+ 428 0028 FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 429              	.LVL42:
+ 278:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 279:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (FALSE == perform_restore)
+ 280:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 281:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             OPTIGA_PROTECTION_MANAGE_CONTEXT(me->my_cmd, OPTIGA_COMMS_SESSION_CONTEXT_NONE);
+ 430              	 .loc 1 281 0
+ 431 002c 6069     	 ldr r0,[r4,#20]
+ 279:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 432              	 .loc 1 279 0
+ 433 002e 0DB9     	 cbnz r5,.L38
+ 434              	 .loc 1 281 0
+ 435 0030 3321     	 movs r1,#51
+ 436 0032 00E0     	 b .L46
+ 437              	.L38:
+ 282:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 283:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         else
+ 284:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 285:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****              OPTIGA_PROTECTION_MANAGE_CONTEXT(me->my_cmd, OPTIGA_COMMS_SESSION_CONTEXT_RESTORE);
+ 438              	 .loc 1 285 0
+ 439 0034 1121     	 movs r1,#17
+ 440              	.L46:
+ 441 0036 0222     	 movs r2,#2
+ 442 0038 FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 443              	.LVL43:
+ 286:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 287:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif //OPTIGA_COMMS_SHIELDED_CONNECTION
+ 288:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 289:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         return_value = optiga_cmd_open_application(me->my_cmd, perform_restore, NULL);
+ 444              	 .loc 1 289 0
+ 445 003c 2946     	 mov r1,r5
+ 446 003e 6069     	 ldr r0,[r4,#20]
+ 447 0040 0022     	 movs r2,#0
+ 448 0042 FFF7FEFF 	 bl optiga_cmd_open_application
+ 449              	.LVL44:
+ 290:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_SUCCESS != return_value)
+ 450              	 .loc 1 290 0
+ 451 0046 0546     	 mov r5,r0
+ 452 0048 38B1     	 cbz r0,.L37
+ 291:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 292:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             me->instance_state = OPTIGA_LIB_INSTANCE_FREE;
+ 453              	 .loc 1 292 0
+ 454 004a 0023     	 movs r3,#0
+ 455 004c 2384     	 strh r3,[r4,#32]
+ 456 004e 04E0     	 b .L37
+ 457              	.LVL45:
+ 458              	.L41:
+ 264:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 459              	 .loc 1 264 0
+ 460 0050 40F20335 	 movw r5,#771
+ 461 0054 01E0     	 b .L37
+ 462              	.L42:
+ 271:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 463              	 .loc 1 271 0
+ 464 0056 40F20535 	 movw r5,#773
+ 465              	.LVL46:
+ 466              	.L37:
+ 293:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 294:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 295:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 296:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_util_reset_protection_level(me);
+ 467              	 .loc 1 296 0
+ 468 005a 2046     	 mov r0,r4
+ 469 005c FFF7FEFF 	 bl optiga_util_reset_protection_level
+ 470              	.LVL47:
+ 297:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 298:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (return_value);
+ 299:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 471              	 .loc 1 299 0
+ 472 0060 2846     	 mov r0,r5
+ 473 0062 70BD     	 pop {r4,r5,r6,pc}
+ 474              	 .cfi_endproc
+ 475              	.LFE6:
+ 477              	 .section .text.optiga_util_close_application,"ax",%progbits
+ 478              	 .align 1
+ 479              	 .global optiga_util_close_application
+ 480              	 .thumb
+ 481              	 .thumb_func
+ 483              	optiga_util_close_application:
+ 484              	.LFB7:
+ 300:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 301:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** optiga_lib_status_t optiga_util_close_application(optiga_util_t * me,
+ 302:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                   bool_t perform_hibernate)
+ 303:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 485              	 .loc 1 303 0
+ 486              	 .cfi_startproc
+ 487              	 
+ 488              	 
+ 489              	.LVL48:
+ 490 0000 70B5     	 push {r4,r5,r6,lr}
+ 491              	.LCFI4:
+ 492              	 .cfi_def_cfa_offset 16
+ 493              	 .cfi_offset 4,-16
+ 494              	 .cfi_offset 5,-12
+ 495              	 .cfi_offset 6,-8
+ 496              	 .cfi_offset 14,-4
+ 497              	 .loc 1 303 0
+ 498 0002 0D46     	 mov r5,r1
+ 304:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR;
+ 305:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     OPTIGA_UTIL_LOG_MESSAGE(__FUNCTION__);
+ 306:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 307:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 308:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 309:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 310:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if ((NULL == me) || (NULL == me->my_cmd))
+ 499              	 .loc 1 310 0
+ 500 0004 0446     	 mov r4,r0
+ 501 0006 18B3     	 cbz r0,.L52
+ 502              	 .loc 1 310 0 is_stmt 0 discriminator 1
+ 503 0008 4069     	 ldr r0,[r0,#20]
+ 504              	.LVL49:
+ 505 000a 08B3     	 cbz r0,.L52
+ 311:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 312:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INVALID_INPUT;
+ 313:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 314:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 315:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 316:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 317:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_INSTANCE_BUSY == me->instance_state)
+ 506              	 .loc 1 317 0 is_stmt 1
+ 507 000c 238C     	 ldrh r3,[r4,#32]
+ 508 000e 012B     	 cmp r3,#1
+ 509 0010 21D0     	 beq .L53
+ 318:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 319:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INSTANCE_IN_USE;
+ 320:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 321:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 322:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 323:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->instance_state = OPTIGA_LIB_INSTANCE_BUSY;
+ 510              	 .loc 1 323 0
+ 511 0012 0126     	 movs r6,#1
+ 324:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_ENABLE(me->my_cmd, me);
+ 512              	 .loc 1 324 0
+ 513 0014 94F82210 	 ldrb r1,[r4,#34]
+ 514              	.LVL50:
+ 323:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_ENABLE(me->my_cmd, me);
+ 515              	 .loc 1 323 0
+ 516 0018 2684     	 strh r6,[r4,#32]
+ 517              	 .loc 1 324 0
+ 518 001a 0022     	 movs r2,#0
+ 519 001c FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 520              	.LVL51:
+ 325:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_SET_VERSION(me->my_cmd, me);
+ 521              	 .loc 1 325 0
+ 522 0020 6069     	 ldr r0,[r4,#20]
+ 523 0022 94F82310 	 ldrb r1,[r4,#35]
+ 524 0026 3246     	 mov r2,r6
+ 525 0028 FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 526              	.LVL52:
+ 326:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 327:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+ 328:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (FALSE == perform_hibernate)
+ 329:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 330:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             OPTIGA_PROTECTION_MANAGE_CONTEXT(me->my_cmd, OPTIGA_COMMS_SESSION_CONTEXT_NONE);
+ 527              	 .loc 1 330 0
+ 528 002c 6069     	 ldr r0,[r4,#20]
+ 328:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 529              	 .loc 1 328 0
+ 530 002e 0DB9     	 cbnz r5,.L49
+ 531              	 .loc 1 330 0
+ 532 0030 3321     	 movs r1,#51
+ 533 0032 00E0     	 b .L57
+ 534              	.L49:
+ 331:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 332:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         else
+ 333:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 334:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             OPTIGA_PROTECTION_MANAGE_CONTEXT(me->my_cmd, OPTIGA_COMMS_SESSION_CONTEXT_SAVE);
+ 535              	 .loc 1 334 0
+ 536 0034 2221     	 movs r1,#34
+ 537              	.L57:
+ 538 0036 0222     	 movs r2,#2
+ 539 0038 FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 540              	.LVL53:
+ 335:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 336:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif //OPTIGA_COMMS_SHIELDED_CONNECTION
+ 337:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 338:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         return_value = optiga_cmd_close_application(me->my_cmd, perform_hibernate, NULL);
+ 541              	 .loc 1 338 0
+ 542 003c 2946     	 mov r1,r5
+ 543 003e 6069     	 ldr r0,[r4,#20]
+ 544 0040 0022     	 movs r2,#0
+ 545 0042 FFF7FEFF 	 bl optiga_cmd_close_application
+ 546              	.LVL54:
+ 339:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_SUCCESS != return_value)
+ 547              	 .loc 1 339 0
+ 548 0046 0546     	 mov r5,r0
+ 549 0048 38B1     	 cbz r0,.L48
+ 340:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 341:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             me->instance_state = OPTIGA_LIB_INSTANCE_FREE;
+ 550              	 .loc 1 341 0
+ 551 004a 0023     	 movs r3,#0
+ 552 004c 2384     	 strh r3,[r4,#32]
+ 553 004e 04E0     	 b .L48
+ 554              	.LVL55:
+ 555              	.L52:
+ 312:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 556              	 .loc 1 312 0
+ 557 0050 40F20335 	 movw r5,#771
+ 558 0054 01E0     	 b .L48
+ 559              	.L53:
+ 319:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 560              	 .loc 1 319 0
+ 561 0056 40F20535 	 movw r5,#773
+ 562              	.LVL56:
+ 563              	.L48:
+ 342:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 343:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 344:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 345:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_util_reset_protection_level(me);
+ 564              	 .loc 1 345 0
+ 565 005a 2046     	 mov r0,r4
+ 566 005c FFF7FEFF 	 bl optiga_util_reset_protection_level
+ 567              	.LVL57:
+ 346:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 347:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (return_value);
+ 348:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 568              	 .loc 1 348 0
+ 569 0060 2846     	 mov r0,r5
+ 570 0062 70BD     	 pop {r4,r5,r6,pc}
+ 571              	 .cfi_endproc
+ 572              	.LFE7:
+ 574              	 .section .text.optiga_util_read_data,"ax",%progbits
+ 575              	 .align 1
+ 576              	 .global optiga_util_read_data
+ 577              	 .thumb
+ 578              	 .thumb_func
+ 580              	optiga_util_read_data:
+ 581              	.LFB8:
+ 349:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 350:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** optiga_lib_status_t optiga_util_read_data(optiga_util_t * me,
+ 351:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                           uint16_t optiga_oid,
+ 352:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                           uint16_t offset,
+ 353:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                           uint8_t * buffer,
+ 354:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                           uint16_t * length)
+ 355:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 582              	 .loc 1 355 0
+ 583              	 .cfi_startproc
+ 584              	 
+ 585              	 
+ 586              	.LVL58:
+ 587 0000 2DE9F843 	 push {r3,r4,r5,r6,r7,r8,r9,lr}
+ 588              	.LCFI5:
+ 589              	 .cfi_def_cfa_offset 32
+ 590              	 .cfi_offset 3,-32
+ 591              	 .cfi_offset 4,-28
+ 592              	 .cfi_offset 5,-24
+ 593              	 .cfi_offset 6,-20
+ 594              	 .cfi_offset 7,-16
+ 595              	 .cfi_offset 8,-12
+ 596              	 .cfi_offset 9,-8
+ 597              	 .cfi_offset 14,-4
+ 598              	 .loc 1 355 0
+ 599 0004 089D     	 ldr r5,[sp,#32]
+ 600 0006 8946     	 mov r9,r1
+ 601 0008 1646     	 mov r6,r2
+ 602 000a 9846     	 mov r8,r3
+ 356:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR;
+ 357:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_get_data_object_params_t * p_params;
+ 358:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     OPTIGA_UTIL_LOG_MESSAGE(__FUNCTION__);
+ 359:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 360:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 361:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 362:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if ((NULL == me) || (NULL == me->my_cmd) ||
+ 603              	 .loc 1 362 0
+ 604 000c 0446     	 mov r4,r0
+ 605 000e 78B3     	 cbz r0,.L63
+ 606              	 .loc 1 362 0 is_stmt 0 discriminator 1
+ 607 0010 4369     	 ldr r3,[r0,#20]
+ 608              	.LVL59:
+ 609 0012 6BB3     	 cbz r3,.L63
+ 610              	 .loc 1 362 0 discriminator 2
+ 611 0014 B8F1000F 	 cmp r8,#0
+ 612 0018 2AD0     	 beq .L63
+ 363:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             (NULL == buffer) || (NULL == length))
+ 613              	 .loc 1 363 0 is_stmt 1
+ 614 001a 4DB3     	 cbz r5,.L63
+ 364:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 365:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INVALID_INPUT;
+ 366:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 367:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 368:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 369:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 370:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_INSTANCE_BUSY == me->instance_state)
+ 615              	 .loc 1 370 0
+ 616 001c 038C     	 ldrh r3,[r0,#32]
+ 617 001e 012B     	 cmp r3,#1
+ 618 0020 29D0     	 beq .L64
+ 371:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 372:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INSTANCE_IN_USE;
+ 373:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 374:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 375:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 376:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->instance_state = OPTIGA_LIB_INSTANCE_BUSY;
+ 619              	 .loc 1 376 0
+ 620 0022 0127     	 movs r7,#1
+ 621 0024 0784     	 strh r7,[r0,#32]
+ 622              	.LVL60:
+ 377:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params = (optiga_get_data_object_params_t *)&(me->params.optiga_get_data_object_params);
+ 378:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         pal_os_memset(&me->params,0x00,sizeof(optiga_util_params_t));
+ 623              	 .loc 1 378 0
+ 624 0026 0021     	 movs r1,#0
+ 625              	.LVL61:
+ 626 0028 1422     	 movs r2,#20
+ 627              	.LVL62:
+ 628 002a FFF7FEFF 	 bl pal_os_memset
+ 629              	.LVL63:
+ 379:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 380:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->oid = optiga_oid;
+ 381:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->offset = offset;
+ 630              	 .loc 1 381 0
+ 631 002e 6680     	 strh r6,[r4,#2]
+ 382:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         // set option to read data
+ 383:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->data_or_metadata = 0;
+ 632              	 .loc 1 383 0
+ 633 0030 0026     	 movs r6,#0
+ 380:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->offset = offset;
+ 634              	 .loc 1 380 0
+ 635 0032 A4F80090 	 strh r9,[r4]
+ 636              	 .loc 1 383 0
+ 637 0036 A672     	 strb r6,[r4,#10]
+ 384:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->buffer = buffer;
+ 385:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->bytes_to_read = *length;
+ 638              	 .loc 1 385 0
+ 639 0038 2B88     	 ldrh r3,[r5]
+ 640 003a A380     	 strh r3,[r4,#4]
+ 386:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->ref_bytes_to_read = length;
+ 641              	 .loc 1 386 0
+ 642 003c E560     	 str r5,[r4,#12]
+ 387:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->accumulated_size = 0;
+ 388:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->last_read_size = 0;
+ 389:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 390:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_ENABLE(me->my_cmd, me);
+ 643              	 .loc 1 390 0
+ 644 003e 6069     	 ldr r0,[r4,#20]
+ 645 0040 94F82210 	 ldrb r1,[r4,#34]
+ 384:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->bytes_to_read = *length;
+ 646              	 .loc 1 384 0
+ 647 0044 C4F81080 	 str r8,[r4,#16]
+ 648              	 .loc 1 390 0
+ 649 0048 3246     	 mov r2,r6
+ 387:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->accumulated_size = 0;
+ 650              	 .loc 1 387 0
+ 651 004a E680     	 strh r6,[r4,#6]
+ 388:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 652              	 .loc 1 388 0
+ 653 004c 2681     	 strh r6,[r4,#8]
+ 654              	 .loc 1 390 0
+ 655 004e FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 656              	.LVL64:
+ 391:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_SET_VERSION(me->my_cmd, me);
+ 657              	 .loc 1 391 0
+ 658 0052 6069     	 ldr r0,[r4,#20]
+ 659 0054 94F82310 	 ldrb r1,[r4,#35]
+ 660 0058 3A46     	 mov r2,r7
+ 661 005a FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 662              	.LVL65:
+ 392:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 393:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         return_value = optiga_cmd_get_data_object(me->my_cmd, p_params->data_or_metadata, p_params)
+ 663              	 .loc 1 393 0
+ 664 005e 6069     	 ldr r0,[r4,#20]
+ 665 0060 A17A     	 ldrb r1,[r4,#10]
+ 666 0062 2246     	 mov r2,r4
+ 667 0064 FFF7FEFF 	 bl optiga_cmd_get_data_object
+ 668              	.LVL66:
+ 394:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_SUCCESS != return_value)
+ 669              	 .loc 1 394 0
+ 670 0068 0546     	 mov r5,r0
+ 671 006a 30B1     	 cbz r0,.L59
+ 395:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 396:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             me->instance_state = OPTIGA_LIB_INSTANCE_FREE;
+ 672              	 .loc 1 396 0
+ 673 006c 2684     	 strh r6,[r4,#32]
+ 674 006e 04E0     	 b .L59
+ 675              	.LVL67:
+ 676              	.L63:
+ 365:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 677              	 .loc 1 365 0
+ 678 0070 40F20335 	 movw r5,#771
+ 679 0074 01E0     	 b .L59
+ 680              	.L64:
+ 372:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 681              	 .loc 1 372 0
+ 682 0076 40F20535 	 movw r5,#773
+ 683              	.LVL68:
+ 684              	.L59:
+ 397:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 398:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 399:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 400:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_util_reset_protection_level(me);
+ 685              	 .loc 1 400 0
+ 686 007a 2046     	 mov r0,r4
+ 687 007c FFF7FEFF 	 bl optiga_util_reset_protection_level
+ 688              	.LVL69:
+ 401:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 402:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (return_value);
+ 403:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 689              	 .loc 1 403 0
+ 690 0080 2846     	 mov r0,r5
+ 691 0082 BDE8F883 	 pop {r3,r4,r5,r6,r7,r8,r9,pc}
+ 692              	 .cfi_endproc
+ 693              	.LFE8:
+ 695              	 .section .text.optiga_util_read_metadata,"ax",%progbits
+ 696              	 .align 1
+ 697              	 .global optiga_util_read_metadata
+ 698              	 .thumb
+ 699              	 .thumb_func
+ 701              	optiga_util_read_metadata:
+ 702              	.LFB9:
+ 404:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 405:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** optiga_lib_status_t optiga_util_read_metadata(optiga_util_t * me,
+ 406:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                               uint16_t optiga_oid,
+ 407:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                               uint8_t * buffer,
+ 408:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                               uint16_t * length)
+ 409:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 703              	 .loc 1 409 0
+ 704              	 .cfi_startproc
+ 705              	 
+ 706              	 
+ 707              	.LVL70:
+ 708 0000 2DE9F041 	 push {r4,r5,r6,r7,r8,lr}
+ 709              	.LCFI6:
+ 710              	 .cfi_def_cfa_offset 24
+ 711              	 .cfi_offset 4,-24
+ 712              	 .cfi_offset 5,-20
+ 713              	 .cfi_offset 6,-16
+ 714              	 .cfi_offset 7,-12
+ 715              	 .cfi_offset 8,-8
+ 716              	 .cfi_offset 14,-4
+ 717              	 .loc 1 409 0
+ 718 0004 0E46     	 mov r6,r1
+ 719 0006 9046     	 mov r8,r2
+ 720 0008 1F46     	 mov r7,r3
+ 410:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR;
+ 411:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_get_data_object_params_t * p_params;
+ 412:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     OPTIGA_UTIL_LOG_MESSAGE(__FUNCTION__);
+ 413:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 414:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 415:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 416:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if ((NULL == me) || (NULL == me->my_cmd) ||
+ 721              	 .loc 1 416 0
+ 722 000a 0446     	 mov r4,r0
+ 723 000c 60B3     	 cbz r0,.L73
+ 724              	 .loc 1 416 0 is_stmt 0 discriminator 1
+ 725 000e 4369     	 ldr r3,[r0,#20]
+ 726              	.LVL71:
+ 727 0010 53B3     	 cbz r3,.L73
+ 728              	 .loc 1 416 0 discriminator 2
+ 729 0012 4AB3     	 cbz r2,.L73
+ 417:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             (NULL == buffer) || (NULL == length))
+ 730              	 .loc 1 417 0 is_stmt 1
+ 731 0014 47B3     	 cbz r7,.L73
+ 418:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 419:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INVALID_INPUT;
+ 420:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 421:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 422:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 423:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 424:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_INSTANCE_BUSY == me->instance_state)
+ 732              	 .loc 1 424 0
+ 733 0016 038C     	 ldrh r3,[r0,#32]
+ 734 0018 012B     	 cmp r3,#1
+ 735 001a 28D0     	 beq .L74
+ 425:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 426:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INSTANCE_IN_USE;
+ 427:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 428:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 429:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 430:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->instance_state = OPTIGA_LIB_INSTANCE_BUSY;
+ 736              	 .loc 1 430 0
+ 737 001c 0125     	 movs r5,#1
+ 738 001e 0584     	 strh r5,[r0,#32]
+ 739              	.LVL72:
+ 431:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params = (optiga_get_data_object_params_t *)&(me->params.optiga_get_data_object_params);
+ 432:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         pal_os_memset(&me->params,0x00,sizeof(optiga_util_params_t));
+ 740              	 .loc 1 432 0
+ 741 0020 0021     	 movs r1,#0
+ 742              	.LVL73:
+ 743 0022 1422     	 movs r2,#20
+ 744              	.LVL74:
+ 745 0024 FFF7FEFF 	 bl pal_os_memset
+ 746              	.LVL75:
+ 433:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 434:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->oid = optiga_oid;
+ 747              	 .loc 1 434 0
+ 748 0028 2680     	 strh r6,[r4]
+ 435:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->offset = 0;
+ 749              	 .loc 1 435 0
+ 750 002a 0026     	 movs r6,#0
+ 436:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         // set option to read metadata
+ 437:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->data_or_metadata = 1;//for metadata
+ 751              	 .loc 1 437 0
+ 752 002c A572     	 strb r5,[r4,#10]
+ 435:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->offset = 0;
+ 753              	 .loc 1 435 0
+ 754 002e 6680     	 strh r6,[r4,#2]
+ 438:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->buffer = buffer;
+ 439:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->bytes_to_read = *length;
+ 755              	 .loc 1 439 0
+ 756 0030 3B88     	 ldrh r3,[r7]
+ 757 0032 A380     	 strh r3,[r4,#4]
+ 440:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->ref_bytes_to_read = length;
+ 441:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->accumulated_size = 0;
+ 442:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->last_read_size = 0;
+ 443:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_ENABLE(me->my_cmd, me);
+ 758              	 .loc 1 443 0
+ 759 0034 6069     	 ldr r0,[r4,#20]
+ 760 0036 94F82210 	 ldrb r1,[r4,#34]
+ 438:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->buffer = buffer;
+ 761              	 .loc 1 438 0
+ 762 003a C4F81080 	 str r8,[r4,#16]
+ 763              	 .loc 1 443 0
+ 764 003e 3246     	 mov r2,r6
+ 440:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->ref_bytes_to_read = length;
+ 765              	 .loc 1 440 0
+ 766 0040 E760     	 str r7,[r4,#12]
+ 441:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->last_read_size = 0;
+ 767              	 .loc 1 441 0
+ 768 0042 E680     	 strh r6,[r4,#6]
+ 442:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_ENABLE(me->my_cmd, me);
+ 769              	 .loc 1 442 0
+ 770 0044 2681     	 strh r6,[r4,#8]
+ 771              	 .loc 1 443 0
+ 772 0046 FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 773              	.LVL76:
+ 444:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_SET_VERSION(me->my_cmd, me);
+ 774              	 .loc 1 444 0
+ 775 004a 2A46     	 mov r2,r5
+ 776 004c 6069     	 ldr r0,[r4,#20]
+ 777 004e 94F82310 	 ldrb r1,[r4,#35]
+ 778 0052 FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 779              	.LVL77:
+ 445:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 446:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         return_value = optiga_cmd_get_data_object(me->my_cmd, p_params->data_or_metadata,
+ 780              	 .loc 1 446 0
+ 781 0056 6069     	 ldr r0,[r4,#20]
+ 782 0058 A17A     	 ldrb r1,[r4,#10]
+ 783 005a 2246     	 mov r2,r4
+ 784 005c FFF7FEFF 	 bl optiga_cmd_get_data_object
+ 785              	.LVL78:
+ 447:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                   (optiga_get_data_object_params_t *)p_params);
+ 448:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_SUCCESS != return_value)
+ 786              	 .loc 1 448 0
+ 787 0060 0546     	 mov r5,r0
+ 788 0062 30B1     	 cbz r0,.L69
+ 449:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 450:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             me->instance_state = OPTIGA_LIB_INSTANCE_FREE;
+ 789              	 .loc 1 450 0
+ 790 0064 2684     	 strh r6,[r4,#32]
+ 791 0066 04E0     	 b .L69
+ 792              	.LVL79:
+ 793              	.L73:
+ 419:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 794              	 .loc 1 419 0
+ 795 0068 40F20335 	 movw r5,#771
+ 796 006c 01E0     	 b .L69
+ 797              	.L74:
+ 426:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 798              	 .loc 1 426 0
+ 799 006e 40F20535 	 movw r5,#773
+ 800              	.LVL80:
+ 801              	.L69:
+ 451:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 452:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 453:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_util_reset_protection_level(me);
+ 802              	 .loc 1 453 0
+ 803 0072 2046     	 mov r0,r4
+ 804 0074 FFF7FEFF 	 bl optiga_util_reset_protection_level
+ 805              	.LVL81:
+ 454:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 455:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (return_value);
+ 456:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 806              	 .loc 1 456 0
+ 807 0078 2846     	 mov r0,r5
+ 808 007a BDE8F081 	 pop {r4,r5,r6,r7,r8,pc}
+ 809              	 .cfi_endproc
+ 810              	.LFE9:
+ 812              	 .section .text.optiga_util_write_data,"ax",%progbits
+ 813              	 .align 1
+ 814              	 .global optiga_util_write_data
+ 815              	 .thumb
+ 816              	 .thumb_func
+ 818              	optiga_util_write_data:
+ 819              	.LFB10:
+ 457:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 458:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** optiga_lib_status_t optiga_util_write_data(optiga_util_t * me,
+ 459:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                            uint16_t optiga_oid,
+ 460:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                            uint8_t write_type,
+ 461:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                            uint16_t offset,
+ 462:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                            const uint8_t * buffer,
+ 463:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                            uint16_t length)
+ 464:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 820              	 .loc 1 464 0
+ 821              	 .cfi_startproc
+ 822              	 
+ 823              	 
+ 824              	.LVL82:
+ 825 0000 30B5     	 push {r4,r5,lr}
+ 826              	.LCFI7:
+ 827              	 .cfi_def_cfa_offset 12
+ 828              	 .cfi_offset 4,-12
+ 829              	 .cfi_offset 5,-8
+ 830              	 .cfi_offset 14,-4
+ 465:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR_INVALID_INPUT;
+ 466:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     OPTIGA_UTIL_LOG_MESSAGE(__FUNCTION__);
+ 467:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 468:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 469:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if ((OPTIGA_UTIL_WRITE_ONLY != write_type) && (OPTIGA_UTIL_ERASE_AND_WRITE != write_type))
+ 831              	 .loc 1 469 0
+ 832 0002 12F0BF0F 	 tst r2,#191
+ 464:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR_INVALID_INPUT;
+ 833              	 .loc 1 464 0
+ 834 0006 BDF81040 	 ldrh r4,[sp,#16]
+ 835              	 .loc 1 469 0
+ 836 000a 04D1     	 bne .L79
+ 470:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 471:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 472:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 473:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         return_value =  optiga_util_write_data_wrapper(me,
+ 837              	 .loc 1 473 0
+ 838 000c 0494     	 str r4,[sp,#16]
+ 839              	.LVL83:
+ 474:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                        optiga_oid,
+ 475:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                        write_type,
+ 476:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                        offset,
+ 477:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                        buffer,
+ 478:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                        length);
+ 479:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 480:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (return_value);
+ 481:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 840              	 .loc 1 481 0
+ 841 000e BDE83040 	 pop {r4,r5,lr}
+ 842              	.LCFI8:
+ 843              	 .cfi_remember_state
+ 844              	 .cfi_restore 14
+ 845              	 .cfi_restore 5
+ 846              	 .cfi_restore 4
+ 847              	 .cfi_def_cfa_offset 0
+ 848              	.LVL84:
+ 473:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                        optiga_oid,
+ 849              	 .loc 1 473 0
+ 850 0012 FFF7FEBF 	 b optiga_util_write_data_wrapper
+ 851              	.LVL85:
+ 852              	.L79:
+ 853              	.LCFI9:
+ 854              	 .cfi_restore_state
+ 855              	 .loc 1 481 0
+ 856 0016 40F20330 	 movw r0,#771
+ 857              	.LVL86:
+ 858 001a 30BD     	 pop {r4,r5,pc}
+ 859              	 .cfi_endproc
+ 860              	.LFE10:
+ 862              	 .section .text.optiga_util_write_metadata,"ax",%progbits
+ 863              	 .align 1
+ 864              	 .global optiga_util_write_metadata
+ 865              	 .thumb
+ 866              	 .thumb_func
+ 868              	optiga_util_write_metadata:
+ 869              	.LFB11:
+ 482:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 483:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** optiga_lib_status_t optiga_util_write_metadata(optiga_util_t * me,
+ 484:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                uint16_t optiga_oid,
+ 485:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                const uint8_t * buffer,
+ 486:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                uint8_t length)
+ 487:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 870              	 .loc 1 487 0
+ 871              	 .cfi_startproc
+ 872              	 
+ 873              	 
+ 874              	.LVL87:
+ 875 0000 2DE9F041 	 push {r4,r5,r6,r7,r8,lr}
+ 876              	.LCFI10:
+ 877              	 .cfi_def_cfa_offset 24
+ 878              	 .cfi_offset 4,-24
+ 879              	 .cfi_offset 5,-20
+ 880              	 .cfi_offset 6,-16
+ 881              	 .cfi_offset 7,-12
+ 882              	 .cfi_offset 8,-8
+ 883              	 .cfi_offset 14,-4
+ 884              	 .loc 1 487 0
+ 885 0004 0E46     	 mov r6,r1
+ 886 0006 1746     	 mov r7,r2
+ 887 0008 9846     	 mov r8,r3
+ 488:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR;
+ 489:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_set_data_object_params_t * p_params;
+ 490:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     OPTIGA_UTIL_LOG_MESSAGE(__FUNCTION__);
+ 491:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 492:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 493:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 494:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if ((NULL == me) || (NULL == me->my_cmd) || (NULL == buffer))
+ 888              	 .loc 1 494 0
+ 889 000a 0446     	 mov r4,r0
+ 890 000c 48B3     	 cbz r0,.L84
+ 891              	 .loc 1 494 0 is_stmt 0 discriminator 1
+ 892 000e 4369     	 ldr r3,[r0,#20]
+ 893              	.LVL88:
+ 894 0010 3BB3     	 cbz r3,.L84
+ 895              	 .loc 1 494 0 discriminator 2
+ 896 0012 32B3     	 cbz r2,.L84
+ 495:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 496:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INVALID_INPUT;
+ 497:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 498:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 499:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 500:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 501:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_INSTANCE_BUSY == me->instance_state)
+ 897              	 .loc 1 501 0 is_stmt 1
+ 898 0014 038C     	 ldrh r3,[r0,#32]
+ 899 0016 012B     	 cmp r3,#1
+ 900 0018 26D0     	 beq .L85
+ 502:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 503:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INSTANCE_IN_USE;
+ 504:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 505:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 506:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 507:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->instance_state = OPTIGA_LIB_INSTANCE_BUSY;
+ 901              	 .loc 1 507 0
+ 902 001a 0125     	 movs r5,#1
+ 903 001c 0584     	 strh r5,[r0,#32]
+ 904              	.LVL89:
+ 508:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params = (optiga_set_data_object_params_t *)&(me->params.optiga_set_data_object_params);
+ 509:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         pal_os_memset(&me->params,0x00,sizeof(optiga_util_params_t));
+ 905              	 .loc 1 509 0
+ 906 001e 0021     	 movs r1,#0
+ 907              	.LVL90:
+ 908 0020 1422     	 movs r2,#20
+ 909              	.LVL91:
+ 910 0022 FFF7FEFF 	 bl pal_os_memset
+ 911              	.LVL92:
+ 510:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 511:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->oid = optiga_oid;
+ 912              	 .loc 1 511 0
+ 913 0026 2680     	 strh r6,[r4]
+ 512:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->offset = 0;
+ 914              	 .loc 1 512 0
+ 915 0028 0026     	 movs r6,#0
+ 513:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         //for Metadata
+ 514:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->data_or_metadata = 1;
+ 916              	 .loc 1 514 0
+ 917 002a 2573     	 strb r5,[r4,#12]
+ 515:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->buffer = buffer;
+ 516:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->size = length;
+ 517:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->write_type = 1;
+ 918              	 .loc 1 517 0
+ 919 002c 6573     	 strb r5,[r4,#13]
+ 518:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->written_size = 0;
+ 519:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_ENABLE(me->my_cmd, me);
+ 920              	 .loc 1 519 0
+ 921 002e 6069     	 ldr r0,[r4,#20]
+ 922 0030 94F82210 	 ldrb r1,[r4,#34]
+ 512:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         //for Metadata
+ 923              	 .loc 1 512 0
+ 924 0034 6680     	 strh r6,[r4,#2]
+ 925              	 .loc 1 519 0
+ 926 0036 3246     	 mov r2,r6
+ 515:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->buffer = buffer;
+ 927              	 .loc 1 515 0
+ 928 0038 A760     	 str r7,[r4,#8]
+ 516:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->write_type = 1;
+ 929              	 .loc 1 516 0
+ 930 003a A4F80480 	 strh r8,[r4,#4]
+ 518:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->written_size = 0;
+ 931              	 .loc 1 518 0
+ 932 003e E680     	 strh r6,[r4,#6]
+ 933              	 .loc 1 519 0
+ 934 0040 FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 935              	.LVL93:
+ 520:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         OPTIGA_PROTECTION_SET_VERSION(me->my_cmd, me);
+ 936              	 .loc 1 520 0
+ 937 0044 2A46     	 mov r2,r5
+ 938 0046 6069     	 ldr r0,[r4,#20]
+ 939 0048 94F82310 	 ldrb r1,[r4,#35]
+ 940 004c FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 941              	.LVL94:
+ 521:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 522:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         return_value = optiga_cmd_set_data_object(me->my_cmd, p_params->write_type,
+ 942              	 .loc 1 522 0
+ 943 0050 6069     	 ldr r0,[r4,#20]
+ 944 0052 617B     	 ldrb r1,[r4,#13]
+ 945 0054 2246     	 mov r2,r4
+ 946 0056 FFF7FEFF 	 bl optiga_cmd_set_data_object
+ 947              	.LVL95:
+ 523:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                   (optiga_set_data_object_params_t *)p_params);
+ 524:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_SUCCESS != return_value)
+ 948              	 .loc 1 524 0
+ 949 005a 0546     	 mov r5,r0
+ 950 005c 30B1     	 cbz r0,.L81
+ 525:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 526:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             me->instance_state = OPTIGA_LIB_INSTANCE_FREE;
+ 951              	 .loc 1 526 0
+ 952 005e 2684     	 strh r6,[r4,#32]
+ 953 0060 04E0     	 b .L81
+ 954              	.LVL96:
+ 955              	.L84:
+ 496:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 956              	 .loc 1 496 0
+ 957 0062 40F20335 	 movw r5,#771
+ 958 0066 01E0     	 b .L81
+ 959              	.L85:
+ 503:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 960              	 .loc 1 503 0
+ 961 0068 40F20535 	 movw r5,#773
+ 962              	.LVL97:
+ 963              	.L81:
+ 527:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 528:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 529:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_util_reset_protection_level(me);
+ 964              	 .loc 1 529 0
+ 965 006c 2046     	 mov r0,r4
+ 966 006e FFF7FEFF 	 bl optiga_util_reset_protection_level
+ 967              	.LVL98:
+ 530:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 531:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (return_value);
+ 532:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 968              	 .loc 1 532 0
+ 969 0072 2846     	 mov r0,r5
+ 970 0074 BDE8F081 	 pop {r4,r5,r6,r7,r8,pc}
+ 971              	 .cfi_endproc
+ 972              	.LFE11:
+ 974              	 .section .text.optiga_util_protected_update_start,"ax",%progbits
+ 975              	 .align 1
+ 976              	 .global optiga_util_protected_update_start
+ 977              	 .thumb
+ 978              	 .thumb_func
+ 980              	optiga_util_protected_update_start:
+ 981              	.LFB13:
+ 533:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 534:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** _STATIC_H optiga_lib_status_t optiga_util_protected_update(optiga_util_t * me,
+ 535:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                            uint8_t manifest_version,
+ 536:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                            const uint8_t * p_buffer,
+ 537:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                            uint16_t buffer_length,
+ 538:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                            optiga_set_obj_protected_tag_t set_obj_t
+ 539:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 540:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR;
+ 541:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_set_object_protected_params_t * p_params;
+ 542:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 543:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 544:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 545:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_INSTANCE_BUSY == me->instance_state)
+ 546:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 547:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INSTANCE_IN_USE;
+ 548:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 549:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 550:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 551:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         me->instance_state = OPTIGA_LIB_INSTANCE_BUSY;
+ 552:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params = (optiga_set_object_protected_params_t *)&(me->params.optiga_set_object_protected
+ 553:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 554:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if(OPTIGA_SET_PROTECTED_UPDATE_START == set_obj_tag)
+ 555:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 556:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             pal_os_memset(&me->params,0x00,sizeof(optiga_util_params_t));
+ 557:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             p_params->manifest_version = manifest_version;
+ 558:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             OPTIGA_PROTECTION_ENABLE(me->my_cmd, me);
+ 559:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             OPTIGA_PROTECTION_SET_VERSION(me->my_cmd, me);
+ 560:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 561:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 562:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->p_protected_update_buffer = p_buffer;
+ 563:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->p_protected_update_buffer_length = buffer_length;
+ 564:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->set_obj_protected_tag = set_obj_tag;
+ 565:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 566:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         return_value = optiga_cmd_set_object_protected(me->my_cmd, p_params->manifest_version,p_par
+ 567:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_SUCCESS != return_value)
+ 568:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 569:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             me->instance_state = OPTIGA_LIB_INSTANCE_FREE;
+ 570:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 571:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 572:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 573:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (return_value);
+ 574:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 575:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 576:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** optiga_lib_status_t optiga_util_protected_update_start(optiga_util_t * me,
+ 577:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                        uint8_t manifest_version,
+ 578:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                        const uint8_t * manifest,
+ 579:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                        uint16_t manifest_length)
+ 580:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 982              	 .loc 1 580 0
+ 983              	 .cfi_startproc
+ 984              	 
+ 985              	 
+ 986              	.LVL99:
+ 987 0000 2DE9F041 	 push {r4,r5,r6,r7,r8,lr}
+ 988              	.LCFI11:
+ 989              	 .cfi_def_cfa_offset 24
+ 990              	 .cfi_offset 4,-24
+ 991              	 .cfi_offset 5,-20
+ 992              	 .cfi_offset 6,-16
+ 993              	 .cfi_offset 7,-12
+ 994              	 .cfi_offset 8,-8
+ 995              	 .cfi_offset 14,-4
+ 996              	 .loc 1 580 0
+ 997 0004 8846     	 mov r8,r1
+ 998 0006 1546     	 mov r5,r2
+ 999 0008 1F46     	 mov r7,r3
+ 581:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR;
+ 582:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     OPTIGA_UTIL_LOG_MESSAGE(__FUNCTION__);
+ 583:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 584:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 585:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 586:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 587:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if ((NULL == me) || (NULL == me->my_cmd) || (NULL == manifest))
+ 1000              	 .loc 1 587 0
+ 1001 000a 0446     	 mov r4,r0
+ 1002 000c 30B3     	 cbz r0,.L93
+ 1003              	 .loc 1 587 0 is_stmt 0 discriminator 1
+ 1004 000e 4369     	 ldr r3,[r0,#20]
+ 1005              	.LVL100:
+ 1006 0010 23B3     	 cbz r3,.L93
+ 1007              	 .loc 1 587 0 discriminator 2
+ 1008 0012 1AB3     	 cbz r2,.L93
+ 1009              	.LVL101:
+ 1010              	.LBB10:
+ 1011              	.LBB11:
+ 545:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 1012              	 .loc 1 545 0 is_stmt 1
+ 1013 0014 038C     	 ldrh r3,[r0,#32]
+ 1014 0016 012B     	 cmp r3,#1
+ 1015 0018 23D0     	 beq .L94
+ 1016              	.LVL102:
+ 1017              	.LBB12:
+ 1018              	.LBB13:
+ 551:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params = (optiga_set_object_protected_params_t *)&(me->params.optiga_set_object_protected
+ 1019              	 .loc 1 551 0
+ 1020 001a 0126     	 movs r6,#1
+ 1021 001c 0684     	 strh r6,[r0,#32]
+ 1022              	.LVL103:
+ 556:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             p_params->manifest_version = manifest_version;
+ 1023              	 .loc 1 556 0
+ 1024 001e 0021     	 movs r1,#0
+ 1025              	.LVL104:
+ 1026 0020 1422     	 movs r2,#20
+ 1027              	.LVL105:
+ 1028 0022 FFF7FEFF 	 bl pal_os_memset
+ 1029              	.LVL106:
+ 558:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             OPTIGA_PROTECTION_SET_VERSION(me->my_cmd, me);
+ 1030              	 .loc 1 558 0
+ 1031 0026 6069     	 ldr r0,[r4,#20]
+ 1032 0028 94F82210 	 ldrb r1,[r4,#34]
+ 557:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             OPTIGA_PROTECTION_ENABLE(me->my_cmd, me);
+ 1033              	 .loc 1 557 0
+ 1034 002c 84F80780 	 strb r8,[r4,#7]
+ 558:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             OPTIGA_PROTECTION_SET_VERSION(me->my_cmd, me);
+ 1035              	 .loc 1 558 0
+ 1036 0030 0022     	 movs r2,#0
+ 1037 0032 FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 1038              	.LVL107:
+ 559:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 1039              	 .loc 1 559 0
+ 1040 0036 3246     	 mov r2,r6
+ 1041 0038 6069     	 ldr r0,[r4,#20]
+ 1042 003a 94F82310 	 ldrb r1,[r4,#35]
+ 564:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 1043              	 .loc 1 564 0
+ 1044 003e 0026     	 movs r6,#0
+ 559:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 1045              	 .loc 1 559 0
+ 1046 0040 FFF7FEFF 	 bl optiga_cmd_set_shielded_connection_option
+ 1047              	.LVL108:
+ 562:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->p_protected_update_buffer_length = buffer_length;
+ 1048              	 .loc 1 562 0
+ 1049 0044 2560     	 str r5,[r4]
+ 563:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->set_obj_protected_tag = set_obj_tag;
+ 1050              	 .loc 1 563 0
+ 1051 0046 A780     	 strh r7,[r4,#4]
+ 564:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 1052              	 .loc 1 564 0
+ 1053 0048 A671     	 strb r6,[r4,#6]
+ 566:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_SUCCESS != return_value)
+ 1054              	 .loc 1 566 0
+ 1055 004a 6069     	 ldr r0,[r4,#20]
+ 1056 004c E179     	 ldrb r1,[r4,#7]
+ 1057 004e 2246     	 mov r2,r4
+ 1058 0050 FFF7FEFF 	 bl optiga_cmd_set_object_protected
+ 1059              	.LVL109:
+ 567:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 1060              	 .loc 1 567 0
+ 1061 0054 0546     	 mov r5,r0
+ 1062              	.LVL110:
+ 1063 0056 30B1     	 cbz r0,.L90
+ 569:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 1064              	 .loc 1 569 0
+ 1065 0058 2684     	 strh r6,[r4,#32]
+ 1066 005a 04E0     	 b .L90
+ 1067              	.LVL111:
+ 1068              	.L93:
+ 1069              	.LBE13:
+ 1070              	.LBE12:
+ 1071              	.LBE11:
+ 1072              	.LBE10:
+ 588:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 589:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INVALID_INPUT;
+ 1073              	 .loc 1 589 0
+ 1074 005c 40F20335 	 movw r5,#771
+ 1075 0060 01E0     	 b .L90
+ 1076              	.LVL112:
+ 1077              	.L94:
+ 1078              	.LBB15:
+ 1079              	.LBB14:
+ 547:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 1080              	 .loc 1 547 0
+ 1081 0062 40F20535 	 movw r5,#773
+ 1082              	.LVL113:
+ 1083              	.L90:
+ 1084              	.LBE14:
+ 1085              	.LBE15:
+ 590:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 591:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 592:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 593:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 594:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         return_value = optiga_util_protected_update(me,
+ 595:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                     manifest_version,
+ 596:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                     manifest,
+ 597:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                     manifest_length,
+ 598:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                     OPTIGA_SET_PROTECTED_UPDATE_START);
+ 599:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 600:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_util_reset_protection_level(me);
+ 1086              	 .loc 1 600 0
+ 1087 0066 2046     	 mov r0,r4
+ 1088 0068 FFF7FEFF 	 bl optiga_util_reset_protection_level
+ 1089              	.LVL114:
+ 601:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (return_value);
+ 602:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 1090              	 .loc 1 602 0
+ 1091 006c 2846     	 mov r0,r5
+ 1092 006e BDE8F081 	 pop {r4,r5,r6,r7,r8,pc}
+ 1093              	 .cfi_endproc
+ 1094              	.LFE13:
+ 1096              	 .section .text.optiga_util_protected_update_continue,"ax",%progbits
+ 1097              	 .align 1
+ 1098              	 .global optiga_util_protected_update_continue
+ 1099              	 .thumb
+ 1100              	 .thumb_func
+ 1102              	optiga_util_protected_update_continue:
+ 1103              	.LFB14:
+ 603:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 604:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** optiga_lib_status_t optiga_util_protected_update_continue(optiga_util_t * me,
+ 605:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                           const uint8_t * fragment,
+ 606:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                           uint16_t fragment_length)
+ 607:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 1104              	 .loc 1 607 0
+ 1105              	 .cfi_startproc
+ 1106              	 
+ 1107              	 
+ 1108              	.LVL115:
+ 1109 0000 10B5     	 push {r4,lr}
+ 1110              	.LCFI12:
+ 1111              	 .cfi_def_cfa_offset 8
+ 1112              	 .cfi_offset 4,-8
+ 1113              	 .cfi_offset 14,-4
+ 608:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR;
+ 609:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     OPTIGA_UTIL_LOG_MESSAGE(__FUNCTION__);
+ 610:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 611:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 612:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 613:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 614:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if ((NULL == me) || (NULL == me->my_cmd) || (NULL == fragment))
+ 1114              	 .loc 1 614 0
+ 1115 0002 0446     	 mov r4,r0
+ 1116 0004 98B1     	 cbz r0,.L102
+ 1117              	 .loc 1 614 0 is_stmt 0 discriminator 1
+ 1118 0006 4069     	 ldr r0,[r0,#20]
+ 1119              	.LVL116:
+ 1120 0008 88B1     	 cbz r0,.L102
+ 1121              	 .loc 1 614 0 discriminator 2
+ 1122 000a 81B1     	 cbz r1,.L102
+ 1123              	.LVL117:
+ 1124              	.LBB20:
+ 1125              	.LBB21:
+ 545:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 1126              	 .loc 1 545 0 is_stmt 1
+ 1127 000c 238C     	 ldrh r3,[r4,#32]
+ 1128 000e 012B     	 cmp r3,#1
+ 1129 0010 10D0     	 beq .L103
+ 1130              	.LVL118:
+ 1131              	.LBB22:
+ 1132              	.LBB23:
+ 551:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params = (optiga_set_object_protected_params_t *)&(me->params.optiga_set_object_protected
+ 1133              	 .loc 1 551 0
+ 1134 0012 0123     	 movs r3,#1
+ 1135 0014 2384     	 strh r3,[r4,#32]
+ 1136              	.LVL119:
+ 564:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 1137              	 .loc 1 564 0
+ 1138 0016 0223     	 movs r3,#2
+ 562:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->p_protected_update_buffer_length = buffer_length;
+ 1139              	 .loc 1 562 0
+ 1140 0018 2160     	 str r1,[r4]
+ 563:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->set_obj_protected_tag = set_obj_tag;
+ 1141              	 .loc 1 563 0
+ 1142 001a A280     	 strh r2,[r4,#4]
+ 564:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 1143              	 .loc 1 564 0
+ 1144 001c A371     	 strb r3,[r4,#6]
+ 566:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_SUCCESS != return_value)
+ 1145              	 .loc 1 566 0
+ 1146 001e E179     	 ldrb r1,[r4,#7]
+ 1147              	.LVL120:
+ 1148 0020 2246     	 mov r2,r4
+ 1149              	.LVL121:
+ 1150 0022 FFF7FEFF 	 bl optiga_cmd_set_object_protected
+ 1151              	.LVL122:
+ 567:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 1152              	 .loc 1 567 0
+ 1153 0026 38B1     	 cbz r0,.L99
+ 569:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 1154              	 .loc 1 569 0
+ 1155 0028 0023     	 movs r3,#0
+ 1156 002a 2384     	 strh r3,[r4,#32]
+ 1157 002c 10BD     	 pop {r4,pc}
+ 1158              	.LVL123:
+ 1159              	.L102:
+ 1160              	.LBE23:
+ 1161              	.LBE22:
+ 1162              	.LBE21:
+ 1163              	.LBE20:
+ 615:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 616:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INVALID_INPUT;
+ 1164              	 .loc 1 616 0
+ 1165 002e 40F20330 	 movw r0,#771
+ 1166 0032 10BD     	 pop {r4,pc}
+ 1167              	.LVL124:
+ 1168              	.L103:
+ 1169              	.LBB25:
+ 1170              	.LBB24:
+ 547:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 1171              	 .loc 1 547 0
+ 1172 0034 40F20530 	 movw r0,#773
+ 1173              	.LVL125:
+ 1174              	.L99:
+ 1175              	.LBE24:
+ 1176              	.LBE25:
+ 617:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 618:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 619:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 620:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 621:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         return_value = optiga_util_protected_update(me,
+ 622:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                     0x00,
+ 623:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                     fragment,
+ 624:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                     fragment_length,
+ 625:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                     OPTIGA_SET_PROTECTED_UPDATE_CONTINUE);
+ 626:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 627:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (return_value);
+ 628:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 1177              	 .loc 1 628 0
+ 1178 0038 10BD     	 pop {r4,pc}
+ 1179              	 .cfi_endproc
+ 1180              	.LFE14:
+ 1182              	 .section .text.optiga_util_protected_update_final,"ax",%progbits
+ 1183              	 .align 1
+ 1184              	 .global optiga_util_protected_update_final
+ 1185              	 .thumb
+ 1186              	 .thumb_func
+ 1188              	optiga_util_protected_update_final:
+ 1189              	.LFB15:
+ 629:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 630:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** optiga_lib_status_t optiga_util_protected_update_final(optiga_util_t * me,
+ 631:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                        const uint8_t * fragment,
+ 632:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                        uint16_t fragment_length)
+ 633:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 1190              	 .loc 1 633 0
+ 1191              	 .cfi_startproc
+ 1192              	 
+ 1193              	 
+ 1194              	.LVL126:
+ 1195 0000 10B5     	 push {r4,lr}
+ 1196              	.LCFI13:
+ 1197              	 .cfi_def_cfa_offset 8
+ 1198              	 .cfi_offset 4,-8
+ 1199              	 .cfi_offset 14,-4
+ 634:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     optiga_lib_status_t return_value = OPTIGA_UTIL_ERROR;
+ 635:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     OPTIGA_UTIL_LOG_MESSAGE(__FUNCTION__);
+ 636:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 637:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     do
+ 638:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     {
+ 639:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #ifdef OPTIGA_LIB_DEBUG_NULL_CHECK
+ 640:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if ((NULL == me) || (NULL == me->my_cmd))
+ 1200              	 .loc 1 640 0
+ 1201 0002 0446     	 mov r4,r0
+ 1202 0004 88B1     	 cbz r0,.L110
+ 1203              	 .loc 1 640 0 is_stmt 0 discriminator 1
+ 1204 0006 4069     	 ldr r0,[r0,#20]
+ 1205              	.LVL127:
+ 1206 0008 78B1     	 cbz r0,.L110
+ 1207              	.LVL128:
+ 1208              	.LBB30:
+ 1209              	.LBB31:
+ 545:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 1210              	 .loc 1 545 0 is_stmt 1
+ 1211 000a 238C     	 ldrh r3,[r4,#32]
+ 1212 000c 012B     	 cmp r3,#1
+ 1213 000e 0FD0     	 beq .L111
+ 1214              	.LVL129:
+ 1215              	.LBB32:
+ 1216              	.LBB33:
+ 551:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params = (optiga_set_object_protected_params_t *)&(me->params.optiga_set_object_protected
+ 1217              	 .loc 1 551 0
+ 1218 0010 0123     	 movs r3,#1
+ 562:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->p_protected_update_buffer_length = buffer_length;
+ 1219              	 .loc 1 562 0
+ 1220 0012 2160     	 str r1,[r4]
+ 563:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params->set_obj_protected_tag = set_obj_tag;
+ 1221              	 .loc 1 563 0
+ 1222 0014 A280     	 strh r2,[r4,#4]
+ 551:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         p_params = (optiga_set_object_protected_params_t *)&(me->params.optiga_set_object_protected
+ 1223              	 .loc 1 551 0
+ 1224 0016 2384     	 strh r3,[r4,#32]
+ 1225              	.LVL130:
+ 564:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 1226              	 .loc 1 564 0
+ 1227 0018 A371     	 strb r3,[r4,#6]
+ 566:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         if (OPTIGA_LIB_SUCCESS != return_value)
+ 1228              	 .loc 1 566 0
+ 1229 001a E179     	 ldrb r1,[r4,#7]
+ 1230              	.LVL131:
+ 1231 001c 2246     	 mov r2,r4
+ 1232              	.LVL132:
+ 1233 001e FFF7FEFF 	 bl optiga_cmd_set_object_protected
+ 1234              	.LVL133:
+ 567:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 1235              	 .loc 1 567 0
+ 1236 0022 38B1     	 cbz r0,.L108
+ 569:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 1237              	 .loc 1 569 0
+ 1238 0024 0023     	 movs r3,#0
+ 1239 0026 2384     	 strh r3,[r4,#32]
+ 1240 0028 10BD     	 pop {r4,pc}
+ 1241              	.LVL134:
+ 1242              	.L110:
+ 1243              	.LBE33:
+ 1244              	.LBE32:
+ 1245              	.LBE31:
+ 1246              	.LBE30:
+ 641:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         {
+ 642:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             return_value = OPTIGA_UTIL_ERROR_INVALID_INPUT;
+ 1247              	 .loc 1 642 0
+ 1248 002a 40F20330 	 movw r0,#771
+ 1249 002e 10BD     	 pop {r4,pc}
+ 1250              	.LVL135:
+ 1251              	.L111:
+ 1252              	.LBB35:
+ 1253              	.LBB34:
+ 547:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 1254              	 .loc 1 547 0
+ 1255 0030 40F20530 	 movw r0,#773
+ 1256              	.LVL136:
+ 1257              	.L108:
+ 1258              	.LBE34:
+ 1259              	.LBE35:
+ 643:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****             break;
+ 644:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         }
+ 645:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** #endif
+ 646:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 647:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****         return_value = optiga_util_protected_update(me,
+ 648:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                     0x00,
+ 649:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                     fragment,
+ 650:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                     fragment_length,
+ 651:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                                     OPTIGA_SET_PROTECTED_UPDATE_FINAL);
+ 652:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     } while (FALSE);
+ 653:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (return_value);
+ 654:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 1260              	 .loc 1 654 0
+ 1261 0034 10BD     	 pop {r4,pc}
+ 1262              	 .cfi_endproc
+ 1263              	.LFE15:
+ 1265              	 .section .text.optiga_util_update_count,"ax",%progbits
+ 1266              	 .align 1
+ 1267              	 .global optiga_util_update_count
+ 1268              	 .thumb
+ 1269              	 .thumb_func
+ 1271              	optiga_util_update_count:
+ 1272              	.LFB16:
+ 655:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** 
+ 656:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** optiga_lib_status_t optiga_util_update_count(optiga_util_t * me,
+ 657:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                              uint16_t optiga_counter_oid,
+ 658:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                              uint8_t count)
+ 659:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** {
+ 1273              	 .loc 1 659 0
+ 1274              	 .cfi_startproc
+ 1275              	 
+ 1276              	 
+ 1277              	.LVL137:
+ 1278 0000 1FB5     	 push {r0,r1,r2,r3,r4,lr}
+ 1279              	.LCFI14:
+ 1280              	 .cfi_def_cfa_offset 24
+ 1281              	 .cfi_offset 14,-4
+ 660:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     const uint8_t count_value[] = {count};
+ 1282              	 .loc 1 660 0
+ 1283 0002 04AB     	 add r3,sp,#16
+ 1284 0004 03F8042D 	 strb r2,[r3,#-4]!
+ 661:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     OPTIGA_UTIL_LOG_MESSAGE(__FUNCTION__);
+ 662:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****     return (optiga_util_write_data_wrapper(me,
+ 1285              	 .loc 1 662 0
+ 1286 0008 0093     	 str r3,[sp]
+ 1287 000a 0123     	 movs r3,#1
+ 1288 000c 0193     	 str r3,[sp,#4]
+ 1289 000e 0222     	 movs r2,#2
+ 1290              	.LVL138:
+ 1291 0010 0023     	 movs r3,#0
+ 1292 0012 FFF7FEFF 	 bl optiga_util_write_data_wrapper
+ 1293              	.LVL139:
+ 663:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                            optiga_counter_oid,
+ 664:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                            OPTIGA_UTIL_COUNT_DATA_OBJECT,
+ 665:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                            0x0000,
+ 666:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                            count_value,
+ 667:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c ****                                            sizeof(count_value)));
+ 668:C:/Users/Yushev/git/optiga-trust-qi/optiga/util\optiga_util.c **** }
+ 1294              	 .loc 1 668 0
+ 1295 0016 05B0     	 add sp,sp,#20
+ 1296              	.LCFI15:
+ 1297              	 .cfi_def_cfa_offset 4
+ 1298              	 
+ 1299 0018 5DF804FB 	 ldr pc,[sp],#4
+ 1300              	 .cfi_endproc
+ 1301              	.LFE16:
+ 1303              	 .text
+ 1304              	.Letext0:
+ 1305              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 1306              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 1307              	 .file 4 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/common/optiga_lib_types.h"
+ 1308              	 .file 5 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/common/optiga_lib_common.h"
+ 1309              	 .file 6 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/cmd/optiga_cmd.h"
+ 1310              	 .file 7 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/optiga_util.h"
+ 1311              	 .file 8 "C:/Users/Yushev/git/optiga-trust-qi/optiga/include/optiga/pal/pal_os_memory.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 optiga_util.c
+    {standard input}:20     .text.optiga_util_generic_event_handler:00000000 $t
+    {standard input}:24     .text.optiga_util_generic_event_handler:00000000 optiga_util_generic_event_handler
+    {standard input}:46     .text.optiga_util_reset_protection_level:00000000 $t
+    {standard input}:50     .text.optiga_util_reset_protection_level:00000000 optiga_util_reset_protection_level
+    {standard input}:75     .text.optiga_util_write_data_wrapper:00000000 $t
+    {standard input}:79     .text.optiga_util_write_data_wrapper:00000000 optiga_util_write_data_wrapper
+    {standard input}:203    .text.optiga_util_set_comms_params:00000000 $t
+    {standard input}:208    .text.optiga_util_set_comms_params:00000000 optiga_util_set_comms_params
+    {standard input}:235    .text.optiga_util_create:00000000 $t
+    {standard input}:240    .text.optiga_util_create:00000000 optiga_util_create
+    {standard input}:321    .text.optiga_util_create:0000004c $d
+    {standard input}:326    .text.optiga_util_destroy:00000000 $t
+    {standard input}:331    .text.optiga_util_destroy:00000000 optiga_util_destroy
+    {standard input}:381    .text.optiga_util_open_application:00000000 $t
+    {standard input}:386    .text.optiga_util_open_application:00000000 optiga_util_open_application
+    {standard input}:478    .text.optiga_util_close_application:00000000 $t
+    {standard input}:483    .text.optiga_util_close_application:00000000 optiga_util_close_application
+    {standard input}:575    .text.optiga_util_read_data:00000000 $t
+    {standard input}:580    .text.optiga_util_read_data:00000000 optiga_util_read_data
+    {standard input}:696    .text.optiga_util_read_metadata:00000000 $t
+    {standard input}:701    .text.optiga_util_read_metadata:00000000 optiga_util_read_metadata
+    {standard input}:813    .text.optiga_util_write_data:00000000 $t
+    {standard input}:818    .text.optiga_util_write_data:00000000 optiga_util_write_data
+    {standard input}:863    .text.optiga_util_write_metadata:00000000 $t
+    {standard input}:868    .text.optiga_util_write_metadata:00000000 optiga_util_write_metadata
+    {standard input}:975    .text.optiga_util_protected_update_start:00000000 $t
+    {standard input}:980    .text.optiga_util_protected_update_start:00000000 optiga_util_protected_update_start
+    {standard input}:1097   .text.optiga_util_protected_update_continue:00000000 $t
+    {standard input}:1102   .text.optiga_util_protected_update_continue:00000000 optiga_util_protected_update_continue
+    {standard input}:1183   .text.optiga_util_protected_update_final:00000000 $t
+    {standard input}:1188   .text.optiga_util_protected_update_final:00000000 optiga_util_protected_update_final
+    {standard input}:1266   .text.optiga_util_update_count:00000000 $t
+    {standard input}:1271   .text.optiga_util_update_count:00000000 optiga_util_update_count
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+pal_os_memset
+optiga_cmd_set_shielded_connection_option
+optiga_cmd_set_data_object
+pal_os_calloc
+optiga_cmd_create
+pal_os_free
+optiga_cmd_destroy
+optiga_cmd_open_application
+optiga_cmd_close_application
+optiga_cmd_get_data_object
+optiga_cmd_set_object_protected
