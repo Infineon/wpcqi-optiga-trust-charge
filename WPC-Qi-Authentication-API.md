@@ -9,16 +9,18 @@ Almost all of the below mentioned functions are used in [this](../master/example
 [tocstart]: # (toc start)
 
   * qi_auth.h
-    * [qi_auth_resp_error](#qi_auth_resp_error)
-    * [qi_auth_req_get_digests](#qi_auth_req_get_digests)
-    * [qi_auth_resp_digests](#qi_auth_resp_digests)
-    * [qi_auth_req_get_certificate](#qi_auth_req_get_certificate)
-    * [qi_auth_resp_certificate](#qi_auth_resp_certificate)
-    * [qi_auth_req_challenge](#qi_auth_req_challenge)
-    * [qi_auth_resp_challenge_auth](#qi_auth_resp_challenge_auth)
-    * [qi_auth_req_handover](#qi_auth_req_handover)
-    * [qi_auth_verify_chall_auth](#qi_auth_verify_chall_auth)
-    * [qi_auth_verify_cert](#qi_auth_verify_cert)
+    * PTx API:
+      * [qi_auth_resp_error](#qi_auth_resp_error)
+      * [qi_auth_resp_digests](#qi_auth_resp_digests)
+      * [qi_auth_resp_certificate](#qi_auth_resp_certificate)
+      * [qi_auth_resp_challenge_auth](#qi_auth_resp_challenge_auth)
+    * RTx API (Usage of the Secure element for the Power Receiver side isn't mandatory):
+      * [qi_auth_req_get_digests](#qi_auth_req_get_digests)
+      * [qi_auth_req_get_certificate](#qi_auth_req_get_certificate)
+      * [qi_auth_req_challenge](#qi_auth_req_challenge)
+      * [qi_auth_req_handover](#qi_auth_req_handover)
+      * [qi_auth_verify_chall_auth](#qi_auth_verify_chall_auth)
+      * [qi_auth_verify_cert](#qi_auth_verify_cert)
   * qi_auth_crypt.h
     * [qi_auth_crypt_init](#qi_auth_crypt_init)
     * [qi_auth_crypt_certchain](#qi_auth_crypt_certchain)
