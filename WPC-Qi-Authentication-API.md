@@ -1,10 +1,10 @@
 <a name="top"></a>
 
 The WPC Qi Authentication API comprises two components
-* [Qi Auth Crypt](../blob/master/examples/qi_auth/qi_auth_crypt.c) to perform crypto related operations
-* [Qi Auth](../blob/master/examples/qi_auth/qi_auth.c) to prepare authentication packets according to WPC Qi Auth 1.3 specification
+* [Qi Auth Crypt](../master/examples/qi_auth/qi_auth_crypt.c) to perform crypto related operations
+* [Qi Auth](../master/examples/qi_auth/qi_auth.c) to prepare authentication packets according to WPC Qi Auth 1.3 specification
 
-Almost all of the below mentioned functions are used in [this](https://github.com/Infineon/optiga-trust-qi/blob/122b7c794cc5e96298e9af4ebf3b2b56246e638d/examples/qi_auth/qi_auth.c#L457) test routine
+Almost all of the below mentioned functions are used in [this](../master/examples/qi_auth/qi_auth.c#L457) test routine
 
 [tocstart]: # (toc start)
 
