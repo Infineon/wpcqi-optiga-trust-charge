@@ -8,29 +8,34 @@ Almost all of the below mentioned functions are used in [this](../master/example
 
 [tocstart]: # (toc start)
 
-  * qi_auth.h
-    * PTx API:
+  * **Power Transmitter (PTx) API:**
+    * qi_auth.h
       * [qi_auth_resp_error](#qi_auth_resp_error)
       * [qi_auth_resp_digests](#qi_auth_resp_digests)
       * [qi_auth_resp_certificate](#qi_auth_resp_certificate)
       * [qi_auth_resp_challenge_auth](#qi_auth_resp_challenge_auth)
-    * RTx API (Usage of the Secure element for the Power Receiver side isn't mandatory):
+    * qi_auth_crypt.h
+      * [qi_auth_crypt_init](#qi_auth_crypt_init)
+      * [qi_auth_crypt_certchain_sha256](#qi_auth_crypt_certchain_sha256)
+      * [qi_auth_crypt_certchain](#qi_auth_crypt_certchain)
+      * [qi_auth_crypt_generate_sha256](#qi_auth_crypt_generate_sha256)
+      * [qi_auth_crypt_sign](#qi_auth_crypt_sign)
+  * **Power Receiver PRx API** (WPC doesn't mandate the usage of the Secure Element on the receiver side):
+    * qi_auth.h
       * [qi_auth_req_get_digests](#qi_auth_req_get_digests)
       * [qi_auth_req_get_certificate](#qi_auth_req_get_certificate)
       * [qi_auth_req_challenge](#qi_auth_req_challenge)
       * [qi_auth_req_handover](#qi_auth_req_handover)
       * [qi_auth_verify_chall_auth](#qi_auth_verify_chall_auth)
       * [qi_auth_verify_cert](#qi_auth_verify_cert)
-  * qi_auth_crypt.h
-    * [qi_auth_crypt_init](#qi_auth_crypt_init)
-    * [qi_auth_crypt_certchain](#qi_auth_crypt_certchain)
-    * [qi_auth_crypt_sign](#qi_auth_crypt_sign)
-    * [qi_auth_crypt_certchain_sha256](#qi_auth_crypt_certchain_sha256)
-    * [qi_auth_crypt_generate_sha256](#qi_auth_crypt_generate_sha256)
-    * [qi_auth_crypt_parse_certchain](#qi_auth_crypt_parse_certchain)
-    * [qi_auth_crypt_verify_certchain](#qi_auth_crypt_verify_certchain)
-    * [qi_auth_crypt_verify_signature](#qi_auth_crypt_verify_signature)
-    * [qi_auth_crypt_get_random](#qi_auth_crypt_get_random)
+    * qi_auth_crypt.h
+      * [qi_auth_crypt_init](#qi_auth_crypt_init)
+      * [qi_auth_crypt_get_random](#qi_auth_crypt_get_random)
+      * [qi_auth_crypt_generate_sha256](#qi_auth_crypt_generate_sha256)
+      * [qi_auth_crypt_verify_signature](#qi_auth_crypt_verify_signature)
+      * [qi_auth_crypt_verify_certchain](#qi_auth_crypt_verify_certchain)
+      * [qi_auth_crypt_parse_certchain](#qi_auth_crypt_parse_certchain)
+
 
 [tocend]: # (toc end)
 
