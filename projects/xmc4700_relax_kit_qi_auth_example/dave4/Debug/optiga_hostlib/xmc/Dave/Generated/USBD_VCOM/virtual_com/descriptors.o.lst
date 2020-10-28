@@ -1,0 +1,664 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "descriptors.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .global device_descriptor
+  20              	 .section .rodata.device_descriptor,"a",%progbits
+  21              	 .align 2
+  24              	device_descriptor:
+  25 0000 12       	 .byte 18
+  26 0001 01       	 .byte 1
+  27 0002 1001     	 .short 272
+  28 0004 02       	 .byte 2
+  29 0005 00       	 .byte 0
+  30 0006 00       	 .byte 0
+  31 0007 40       	 .byte 64
+  32 0008 8B05     	 .short 1419
+  33 000a 5800     	 .short 88
+  34 000c 0100     	 .short 1
+  35 000e 01       	 .byte 1
+  36 000f 02       	 .byte 2
+  37 0010 00       	 .byte 0
+  38 0011 01       	 .byte 1
+  39              	 .global configuration_descriptor
+  40 0012 0000     	 .section .rodata.configuration_descriptor,"a",%progbits
+  41              	 .align 2
+  44              	configuration_descriptor:
+  45 0000 09       	 .byte 9
+  46 0001 02       	 .byte 2
+  47 0002 3E00     	 .short 62
+  48 0004 02       	 .byte 2
+  49 0005 01       	 .byte 1
+  50 0006 00       	 .byte 0
+  51 0007 80       	 .byte -128
+  52 0008 32       	 .byte 50
+  53 0009 09       	 .byte 9
+  54 000a 04       	 .byte 4
+  55 000b 00       	 .byte 0
+  56 000c 00       	 .byte 0
+  57 000d 01       	 .byte 1
+  58 000e 02       	 .byte 2
+  59 000f 02       	 .byte 2
+  60 0010 01       	 .byte 1
+  61 0011 00       	 .byte 0
+  62 0012 05       	 .byte 5
+  63 0013 24       	 .byte 36
+  64 0014 00       	 .byte 0
+  65 0015 1001     	 .2byte 272
+  66 0017 04       	 .byte 4
+  67 0018 24       	 .byte 36
+  68 0019 02       	 .byte 2
+  69 001a 06       	 .byte 6
+  70 001b 05       	 .byte 5
+  71 001c 24       	 .byte 36
+  72 001d 06       	 .byte 6
+  73 001e 00       	 .byte 0
+  74 001f 01       	 .byte 1
+  75 0020 07       	 .byte 7
+  76 0021 05       	 .byte 5
+  77 0022 81       	 .byte -127
+  78 0023 03       	 .byte 3
+  79 0024 0800     	 .short 8
+  80 0026 FF       	 .byte -1
+  81 0027 09       	 .byte 9
+  82 0028 04       	 .byte 4
+  83 0029 01       	 .byte 1
+  84 002a 00       	 .byte 0
+  85 002b 02       	 .byte 2
+  86 002c 0A       	 .byte 10
+  87 002d 00       	 .byte 0
+  88 002e 00       	 .byte 0
+  89 002f 00       	 .byte 0
+  90 0030 07       	 .byte 7
+  91 0031 05       	 .byte 5
+  92 0032 03       	 .byte 3
+  93 0033 02       	 .byte 2
+  94 0034 4000     	 .short 64
+  95 0036 01       	 .byte 1
+  96 0037 07       	 .byte 7
+  97 0038 05       	 .byte 5
+  98 0039 82       	 .byte -126
+  99 003a 02       	 .byte 2
+ 100 003b 4000     	 .2byte 64
+ 101 003d 01       	 .byte 1
+ 102              	 .global language_string
+ 103 003e 0000     	 .section .rodata.language_string,"a",%progbits
+ 104              	 .align 2
+ 107              	language_string:
+ 108 0000 04       	 .byte 4
+ 109 0001 03       	 .byte 3
+ 110 0002 0904     	 .short 1033
+ 111 0004 00000000 	 .space 98
+ 111      00000000 
+ 111      00000000 
+ 111      00000000 
+ 111      00000000 
+ 112              	 .global manufacturer_string
+ 113 0066 0000     	 .section .rodata.manufacturer_string,"a",%progbits
+ 114              	 .align 2
+ 117              	manufacturer_string:
+ 118 0000 12       	 .byte 18
+ 119 0001 03       	 .byte 3
+ 120 0002 4900     	 .short 73
+ 121 0004 6E00     	 .short 110
+ 122 0006 6600     	 .short 102
+ 123 0008 6900     	 .short 105
+ 124 000a 6E00     	 .short 110
+ 125 000c 6500     	 .short 101
+ 126 000e 6F00     	 .short 111
+ 127 0010 6E00     	 .short 110
+ 128 0012 00000000 	 .space 84
+ 128      00000000 
+ 128      00000000 
+ 128      00000000 
+ 128      00000000 
+ 129              	 .global product_string
+ 130 0066 0000     	 .section .rodata.product_string,"a",%progbits
+ 131              	 .align 2
+ 134              	product_string:
+ 135 0000 10       	 .byte 16
+ 136 0001 03       	 .byte 3
+ 137 0002 4900     	 .short 73
+ 138 0004 4600     	 .short 70
+ 139 0006 5800     	 .short 88
+ 140 0008 2000     	 .short 32
+ 141 000a 4300     	 .short 67
+ 142 000c 4400     	 .short 68
+ 143 000e 4300     	 .short 67
+ 144 0010 00000000 	 .space 86
+ 144      00000000 
+ 144      00000000 
+ 144      00000000 
+ 144      00000000 
+ 145 0066 0000     	 .section .text.USBD_VCOM_Event_GetDescriptor,"ax",%progbits
+ 146              	 .align 2
+ 147              	 .global USBD_VCOM_Event_GetDescriptor
+ 148              	 .thumb
+ 149              	 .thumb_func
+ 151              	USBD_VCOM_Event_GetDescriptor:
+ 152              	.LFB187:
+ 153              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com/descriptors.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /**
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * @file descriptors.c
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * @date 2015-10-08
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * @cond
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  **************************************************************************************************
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * USBD_VCOM v4.0.8 - The USB virtual COM port driver for XMC4000 family of controllers.
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * Copyright (c) 2015, Infineon Technologies AG
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * All rights reserved.                        
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *                                             
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * Redistribution and use in source and binary forms, with or without modification,are permitted pr
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * following conditions are met:   
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *                                                                              
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   Redistributions of source code must retain the above copyright notice, this list of conditions
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   disclaimer.                        
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * 
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   Redistributions in binary form must reproduce the above copyright notice, this list of conditi
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   following disclaimer in the documentation and/or other materials provided with the distributio
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *                         
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   Neither the name of the copyright holders nor the names of its contributors may be used to end
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   products derived from this software without specific prior written permission. 
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *                                             
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR I
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTI
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE  FOR ANY DIRECT, IN
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBS
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THE
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * WHETHER IN CONTRACT, STRICT LIABILITY,OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.    
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *                                                                              
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * To improve the quality of the software, users are encouraged to share modifications, enhancement
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * with Infineon Technologies AG (dave@infineon.com).        
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  **************************************************************************************************
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * Change History
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * --------------
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * 2015-02-16:
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *     - Initial version.      
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * 2015-04-23:
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *     - Updated the review comments from AEs.
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * 2015-06-20:
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *     - Updated the file header.
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *     
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * @endcond 
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /*
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   Copyright 2014  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   Permission to use, copy, modify, distribute, and sell this
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   software and its documentation for any purpose is hereby granted
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   without fee, provided that the above copyright notice appear in
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   all copies and that both that the copyright notice and this
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   permission notice and warranty disclaimer appear in supporting
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   documentation, and that the name of the author not be used in
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   advertising or publicity pertaining to distribution of the
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   software without specific, written prior permission.
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   The author disclaim all warranties with regard to this
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   software, including all implied warranties of merchantability
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   and fitness.  In no event shall the author be liable for any
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   special, indirect or consequential damages or any damages
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   whatsoever resulting from loss of use, data or profits, whether
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   in an action of contract, negligence or other tortious action,
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   arising out of or in connection with the use or performance of
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****   this software.
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** */
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /**************************************************************************************************
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * HEADER FILES                                                                                    
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  **************************************************************************************************
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** #include "descriptors.h"
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  /*************************************************************************************************
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * GLOBAL DATA
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  **************************************************************************************************
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /** Device descriptor structure. This descriptor, located in FLASH memory,
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * describes the overall device characteristics, including the supported USB
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * version, control endpoint size and the number of device configurations.
+  85:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * The descriptor is read out by the USB host when the enumeration
+  86:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  process begins.
+  87:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+  88:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** #define PROGMEM
+  89:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** const USB_Descriptor_Device_t PROGMEM device_descriptor =
+  90:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** {
+  91:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Header                 = {
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Size = sizeof(USB_Descriptor_Device_t), .Type = DTYPE_Device},
+  93:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  94:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.USBSpecification       = USBD_VCOM_FS_SPEC,
+  95:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Class                  = CDC_CSCP_CDCClass,
+  96:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.SubClass               = CDC_CSCP_NoSpecificSubclass,
+  97:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Protocol               = CDC_CSCP_NoSpecificProtocol,
+  98:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+  99:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Endpoint0Size          = USBD_VCOM_EP0_SIZE,
+ 100:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 101:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.VendorID               = IFX_USB_VENDOR_ID,
+ 102:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.ProductID              = USBD_VCOM_PRODUCT_ID,
+ 103:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.ReleaseNumber          = 0x0001,
+ 104:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 105:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.ManufacturerStrIndex   = USBD_VCOM_MANUF_STRING_INDEX,
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.ProductStrIndex        = USBD_VCOM_PROD_STRING_INDEX,
+ 107:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.SerialNumStrIndex      = 0,
+ 108:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 109:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.NumberOfConfigurations = 1
+ 110:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** };
+ 111:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 112:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /** Configuration descriptor structure. This descriptor, located in FLASH
+ 113:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  memory, describes the usage of the device in one of its supported
+ 114:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  configurations, including information about any device interfaces and
+ 115:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  endpoints. The descriptor is read out by the USB host during the enumeration
+ 116:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   process when selecting a configuration so that the host may correctly
+ 117:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   communicate with the USB device.
+ 118:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+ 119:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** const USB_Descriptor_Configuration_t PROGMEM configuration_descriptor =
+ 120:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** {
+ 121:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.config =
+ 122:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 123:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 124:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_Descriptor_Configuration_Header_t),
+ 125:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_Configuration},
+ 126:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 127:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.TotalConfigurationSize = sizeof(USB_Descriptor_Configuration_t),
+ 128:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.TotalInterfaces        = 2,
+ 129:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 130:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.ConfigurationNumber    = 1,
+ 131:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.ConfigurationStrIndex  = NO_DESCRIPTOR,
+ 132:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 133:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.ConfigAttributes       = (USB_CONFIG_ATTR_RESERVED),
+ 134:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 135:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.MaxPowerConsumption    = USB_CONFIG_POWER_MA(100)
+ 136:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 137:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 138:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_cci_interface =
+ 139:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 140:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 141:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_Descriptor_Interface_t),
+ 142:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_Interface},
+ 143:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 144:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.InterfaceNumber        = 0,
+ 145:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.AlternateSetting       = 0,
+ 146:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 147:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.TotalEndpoints         = 1,
+ 148:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 149:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Class                  = CDC_CSCP_CDCClass,
+ 150:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.SubClass               = CDC_CSCP_ACMSubclass,
+ 151:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Protocol               = CDC_CSCP_ATCommandProtocol,
+ 152:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 153:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.InterfaceStrIndex      = NO_DESCRIPTOR
+ 154:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 155:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 156:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_functional_header =
+ 157:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 158:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 159:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_CDC_Descriptor_FunctionalHeader_t),
+ 160:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_CSInterface},
+ 161:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Subtype                = CDC_DSUBTYPE_CSInterface_Header,
+ 162:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 163:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.CDCSpecification       = USBD_VCOM_FS_SPEC,
+ 164:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 165:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 166:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_functional_acm =
+ 167:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 168:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 169:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_CDC_Descriptor_FunctionalACM_t),
+ 170:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_CSInterface},
+ 171:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Subtype                = CDC_DSUBTYPE_CSInterface_ACM,
+ 172:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 173:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Capabilities           = 0x06,
+ 174:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 175:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 176:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_functional_union =
+ 177:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 178:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 179:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_CDC_Descriptor_FunctionalUnion_t),
+ 180:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_CSInterface},
+ 181:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Subtype                = CDC_DSUBTYPE_CSInterface_Union,
+ 182:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 183:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.MasterInterfaceNumber  = 0,
+ 184:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.SlaveInterfaceNumber   = 1,
+ 185:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 186:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 187:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_notification_endpoint =
+ 188:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 189:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 190:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_Descriptor_Endpoint_t),
+ 191:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_Endpoint},
+ 192:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 193:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.EndpointAddress        = (ENDPOINT_DIR_IN| CDC_NOTIFICATION_EPNUM),
+ 194:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Attributes             = (EP_TYPE_INTERRUPT | ENDPOINT_ATTR_NO_SYNC
+ 195:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 											| ENDPOINT_USAGE_DATA),
+ 196:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.EndpointSize           = CDC_NOTIFICATION_EPSIZE,
+ 197:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.PollingIntervalMS      = 0xFF
+ 198:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 199:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 200:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_dci_interface =
+ 201:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 202:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 203:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_Descriptor_Interface_t),
+ 204:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_Interface},
+ 205:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 206:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.InterfaceNumber        = 1,
+ 207:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.AlternateSetting       = 0,
+ 208:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 209:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.TotalEndpoints         = 2,
+ 210:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 211:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Class                  = CDC_CSCP_CDCDataClass,
+ 212:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.SubClass               = CDC_CSCP_NoDataSubclass,
+ 213:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Protocol               = CDC_CSCP_NoDataProtocol,
+ 214:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 215:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.InterfaceStrIndex      = NO_DESCRIPTOR
+ 216:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 217:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 218:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_data_out_endpoint =
+ 219:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 220:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 221:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_Descriptor_Endpoint_t),
+ 222:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_Endpoint},
+ 223:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 224:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.EndpointAddress        = (ENDPOINT_DIR_OUT | CDC_RX_EPNUM),
+ 225:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Attributes             = (EP_TYPE_BULK | ENDPOINT_ATTR_NO_SYNC |
+ 226:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 														ENDPOINT_USAGE_DATA),
+ 227:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.EndpointSize           = CDC_TXRX_EPSIZE,
+ 228:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.PollingIntervalMS      = 0x01
+ 229:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		},
+ 230:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 231:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.cdc_data_in_endpoint =
+ 232:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		{
+ 233:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Header                 = {
+ 234:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Size = sizeof(USB_Descriptor_Endpoint_t),
+ 235:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					.Type = DTYPE_Endpoint},
+ 236:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 237:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.EndpointAddress        = (ENDPOINT_DIR_IN | CDC_TX_EPNUM),
+ 238:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.Attributes             = (EP_TYPE_BULK | ENDPOINT_ATTR_NO_SYNC |
+ 239:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 												ENDPOINT_USAGE_DATA),
+ 240:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.EndpointSize           = CDC_TXRX_EPSIZE,
+ 241:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			.PollingIntervalMS      = 0x01
+ 242:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		}
+ 243:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** };
+ 244:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 245:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /** Language descriptor structure. This descriptor, located in FLASH memory, is
+ 246:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  returned when the host requests the string descriptor with index 0 (the
+ 247:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  first index). It is actually an array of 16-bit integers, which indicate
+ 248:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  via the language ID table available at USB.org what languages the device
+ 249:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  supports for its string descriptors.
+ 250:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+ 251:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** const USB_Descriptor_String_t PROGMEM language_string =
+ 252:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** {
+ 253:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Header                 = {.Size = USB_STRING_LEN(1), .Type = DTYPE_String},
+ 254:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 255:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.UnicodeString          = {LANGUAGE_ID_ENG}
+ 256:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** };
+ 257:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 258:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /** Manufacturer descriptor string. This is a Unicode string containing the
+ 259:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  manufacturer's details in human readable  form, and is read out upon request
+ 260:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   by the host when the appropriate string ID is requested, listed in the
+ 261:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   Device Descriptor.
+ 262:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+ 263:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** const USB_Descriptor_String_t PROGMEM manufacturer_string =
+ 264:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** {
+ 265:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Header                 =
+ 266:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 						{.Size = USB_STRING_LEN(8), .Type = DTYPE_String},
+ 267:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 268:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.UnicodeString          = { 'I','n','f','i','n','e','o','n'}
+ 269:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** };
+ 270:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 271:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /** Product descriptor string. This is a Unicode string containing the product's
+ 272:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  details in human readable form, and is read out upon request by the host
+ 273:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  when the appropriate string ID is requested, listed in the Device
+ 274:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  Descriptor.
+ 275:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+ 276:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** const USB_Descriptor_String_t PROGMEM product_string =
+ 277:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** {
+ 278:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.Header                 =
+ 279:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 						{.Size = USB_STRING_LEN(7), .Type = DTYPE_String},
+ 280:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 281:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	.UnicodeString          = {'I','F','X',' ','C','D','C'}
+ 282:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** };
+ 283:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 284:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /**************************************************************************************************
+ 285:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  * API IMPLEMENTATION
+ 286:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  **************************************************************************************************
+ 287:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 288:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** /*  This function is called by the library when in device mode, and must be
+ 289:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  overridden (see library "USB Descriptors" documentation) by the application
+ 290:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   code so that the address and size of a requested descriptor can be given
+ 291:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  to the USB library. When the device receives a Get Descriptor request on
+ 292:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *  the control endpoint, this function is called so that the descriptor details
+ 293:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   can be passed back and the appropriate descriptor sent back to the USB
+ 294:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  *   host.
+ 295:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****  */
+ 296:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** uint16_t USBD_VCOM_Event_GetDescriptor(const uint16_t w_value,
+ 297:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****                                     const uint16_t w_index,
+ 298:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c ****                                     const void** const descriptor_address)
+ 299:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** {
+ 154              	 .loc 1 299 0
+ 155              	 .cfi_startproc
+ 156              	 
+ 157              	 
+ 158              	 
+ 159 0000 80B4     	 push {r7}
+ 160              	.LCFI0:
+ 161              	 .cfi_def_cfa_offset 4
+ 162              	 .cfi_offset 7,-4
+ 163 0002 85B0     	 sub sp,sp,#20
+ 164              	.LCFI1:
+ 165              	 .cfi_def_cfa_offset 24
+ 166 0004 00AF     	 add r7,sp,#0
+ 167              	.LCFI2:
+ 168              	 .cfi_def_cfa_register 7
+ 169 0006 0346     	 mov r3,r0
+ 170 0008 3A60     	 str r2,[r7]
+ 171 000a FB80     	 strh r3,[r7,#6]
+ 172 000c 0B46     	 mov r3,r1
+ 173 000e BB80     	 strh r3,[r7,#4]
+ 300:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	const uint8_t  descriptor_type   = (w_value >> 8);
+ 174              	 .loc 1 300 0
+ 175 0010 FB88     	 ldrh r3,[r7,#6]
+ 176 0012 1B0A     	 lsrs r3,r3,#8
+ 177 0014 9BB2     	 uxth r3,r3
+ 178 0016 7B72     	 strb r3,[r7,#9]
+ 301:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	const uint8_t  descriptor_number = (w_value & 0xFF);
+ 179              	 .loc 1 301 0
+ 180 0018 FB88     	 ldrh r3,[r7,#6]
+ 181 001a 3B72     	 strb r3,[r7,#8]
+ 302:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	const void* address = NULL;
+ 182              	 .loc 1 302 0
+ 183 001c 0023     	 movs r3,#0
+ 184 001e FB60     	 str r3,[r7,#12]
+ 303:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	uint16_t    size    = NO_DESCRIPTOR;
+ 185              	 .loc 1 303 0
+ 186 0020 0023     	 movs r3,#0
+ 187 0022 7B81     	 strh r3,[r7,#10]
+ 304:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 305:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	switch (descriptor_type)
+ 188              	 .loc 1 305 0
+ 189 0024 7B7A     	 ldrb r3,[r7,#9]
+ 190 0026 022B     	 cmp r3,#2
+ 191 0028 08D0     	 beq .L3
+ 192 002a 032B     	 cmp r3,#3
+ 193 002c 0BD0     	 beq .L4
+ 194 002e 012B     	 cmp r3,#1
+ 195 0030 21D1     	 bne .L2
+ 306:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	{
+ 307:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		case DTYPE_Device:
+ 308:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			address = &device_descriptor;
+ 196              	 .loc 1 308 0
+ 197 0032 164B     	 ldr r3,.L12
+ 198 0034 FB60     	 str r3,[r7,#12]
+ 309:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			size    = sizeof(USB_Descriptor_Device_t);
+ 199              	 .loc 1 309 0
+ 200 0036 1223     	 movs r3,#18
+ 201 0038 7B81     	 strh r3,[r7,#10]
+ 310:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			break;
+ 202              	 .loc 1 310 0
+ 203 003a 1CE0     	 b .L2
+ 204              	.L3:
+ 311:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		case DTYPE_Configuration:
+ 312:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			address = &configuration_descriptor;
+ 205              	 .loc 1 312 0
+ 206 003c 144B     	 ldr r3,.L12+4
+ 207 003e FB60     	 str r3,[r7,#12]
+ 313:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			size    = sizeof(USB_Descriptor_Configuration_t);
+ 208              	 .loc 1 313 0
+ 209 0040 3E23     	 movs r3,#62
+ 210 0042 7B81     	 strh r3,[r7,#10]
+ 314:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			break;
+ 211              	 .loc 1 314 0
+ 212 0044 17E0     	 b .L2
+ 213              	.L4:
+ 315:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 		case DTYPE_String:
+ 316:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			switch (descriptor_number)
+ 214              	 .loc 1 316 0
+ 215 0046 3B7A     	 ldrb r3,[r7,#8]
+ 216 0048 012B     	 cmp r3,#1
+ 217 004a 09D0     	 beq .L7
+ 218 004c 022B     	 cmp r3,#2
+ 219 004e 0CD0     	 beq .L8
+ 220 0050 002B     	 cmp r3,#0
+ 221 0052 00D0     	 beq .L9
+ 317:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			{
+ 318:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 				case 0x00:
+ 319:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					address = &language_string;
+ 320:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					size    = language_string.Header.Size;
+ 321:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					break;
+ 322:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 				case 0x01:
+ 323:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					address = &manufacturer_string;
+ 324:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					size    = manufacturer_string.Header.Size;
+ 325:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					break;
+ 326:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 				case 0x02:
+ 327:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					address = &product_string;
+ 328:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					size    = product_string.Header.Size;
+ 329:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					break;
+ 330:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			}
+ 331:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			break;
+ 222              	 .loc 1 331 0
+ 223 0054 0EE0     	 b .L11
+ 224              	.L9:
+ 319:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					size    = language_string.Header.Size;
+ 225              	 .loc 1 319 0
+ 226 0056 0F4B     	 ldr r3,.L12+8
+ 227 0058 FB60     	 str r3,[r7,#12]
+ 320:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					break;
+ 228              	 .loc 1 320 0
+ 229 005a 0423     	 movs r3,#4
+ 230 005c 7B81     	 strh r3,[r7,#10]
+ 321:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 				case 0x01:
+ 231              	 .loc 1 321 0
+ 232 005e 09E0     	 b .L6
+ 233              	.L7:
+ 323:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					size    = manufacturer_string.Header.Size;
+ 234              	 .loc 1 323 0
+ 235 0060 0D4B     	 ldr r3,.L12+12
+ 236 0062 FB60     	 str r3,[r7,#12]
+ 324:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					break;
+ 237              	 .loc 1 324 0
+ 238 0064 1223     	 movs r3,#18
+ 239 0066 7B81     	 strh r3,[r7,#10]
+ 325:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 				case 0x02:
+ 240              	 .loc 1 325 0
+ 241 0068 04E0     	 b .L6
+ 242              	.L8:
+ 327:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					size    = product_string.Header.Size;
+ 243              	 .loc 1 327 0
+ 244 006a 0C4B     	 ldr r3,.L12+16
+ 245 006c FB60     	 str r3,[r7,#12]
+ 328:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 					break;
+ 246              	 .loc 1 328 0
+ 247 006e 1023     	 movs r3,#16
+ 248 0070 7B81     	 strh r3,[r7,#10]
+ 329:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 			}
+ 249              	 .loc 1 329 0
+ 250 0072 00BF     	 nop
+ 251              	.L6:
+ 252              	.L11:
+ 253              	 .loc 1 331 0
+ 254 0074 00BF     	 nop
+ 255              	.L2:
+ 332:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	}
+ 333:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 
+ 334:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	(void)w_index;
+ 335:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	*descriptor_address = address;
+ 256              	 .loc 1 335 0
+ 257 0076 3B68     	 ldr r3,[r7]
+ 258 0078 FA68     	 ldr r2,[r7,#12]
+ 259 007a 1A60     	 str r2,[r3]
+ 336:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** 	return size;
+ 260              	 .loc 1 336 0
+ 261 007c 7B89     	 ldrh r3,[r7,#10]
+ 337:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com\descriptors.c **** }
+ 262              	 .loc 1 337 0
+ 263 007e 1846     	 mov r0,r3
+ 264 0080 1437     	 adds r7,r7,#20
+ 265              	.LCFI3:
+ 266              	 .cfi_def_cfa_offset 4
+ 267 0082 BD46     	 mov sp,r7
+ 268              	.LCFI4:
+ 269              	 .cfi_def_cfa_register 13
+ 270              	 
+ 271 0084 5DF8047B 	 ldr r7,[sp],#4
+ 272              	.LCFI5:
+ 273              	 .cfi_restore 7
+ 274              	 .cfi_def_cfa_offset 0
+ 275 0088 7047     	 bx lr
+ 276              	.L13:
+ 277 008a 00BF     	 .align 2
+ 278              	.L12:
+ 279 008c 00000000 	 .word device_descriptor
+ 280 0090 00000000 	 .word configuration_descriptor
+ 281 0094 00000000 	 .word language_string
+ 282 0098 00000000 	 .word manufacturer_string
+ 283 009c 00000000 	 .word product_string
+ 284              	 .cfi_endproc
+ 285              	.LFE187:
+ 287              	 .text
+ 288              	.Letext0:
+ 289              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 290              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 291              	 .file 4 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+ 292              	 .file 5 "c:\\users\\yushev\\git\\wpcqi-optiga-trust-charge\\projects\\xmc4700_relax_kit_qi_auth_example\\common\\dave\\generated\\usbd\\usb\\core\\std_descriptors.h"
+ 293              	 .file 6 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usbd_regs.h"
+ 294              	 .file 7 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usbd.h"
+ 295              	 .file 8 "c:\\users\\yushev\\git\\wpcqi-optiga-trust-charge\\projects\\xmc4700_relax_kit_qi_auth_example\\common\\dave\\generated\\usbd\\usbd.h"
+ 296              	 .file 9 "c:\\users\\yushev\\git\\wpcqi-optiga-trust-charge\\projects\\xmc4700_relax_kit_qi_auth_example\\common\\dave\\generated\\usbd_vcom\\class_driver\\common\\cdc_class_common.h"
+ 297              	 .file 10 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/virtual_com/descriptors.h"
+ 298              	 .file 11 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Include/core_cm4.h"
+ 299              	 .file 12 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+ 300              	 .file 13 "c:\\users\\yushev\\git\\wpcqi-optiga-trust-charge\\projects\\xmc4700_relax_kit_qi_auth_example\\common\\dave\\generated\\usbd\\usbd_extern.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 descriptors.c
+    {standard input}:24     .rodata.device_descriptor:00000000 device_descriptor
+    {standard input}:21     .rodata.device_descriptor:00000000 $d
+    {standard input}:44     .rodata.configuration_descriptor:00000000 configuration_descriptor
+    {standard input}:41     .rodata.configuration_descriptor:00000000 $d
+    {standard input}:107    .rodata.language_string:00000000 language_string
+    {standard input}:104    .rodata.language_string:00000000 $d
+    {standard input}:117    .rodata.manufacturer_string:00000000 manufacturer_string
+    {standard input}:114    .rodata.manufacturer_string:00000000 $d
+    {standard input}:134    .rodata.product_string:00000000 product_string
+    {standard input}:131    .rodata.product_string:00000000 $d
+    {standard input}:146    .text.USBD_VCOM_Event_GetDescriptor:00000000 $t
+    {standard input}:151    .text.USBD_VCOM_Event_GetDescriptor:00000000 USBD_VCOM_Event_GetDescriptor
+    {standard input}:279    .text.USBD_VCOM_Event_GetDescriptor:0000008c $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

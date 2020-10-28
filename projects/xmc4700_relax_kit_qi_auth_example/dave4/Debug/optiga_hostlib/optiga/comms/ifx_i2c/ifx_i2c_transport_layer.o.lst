@@ -1,0 +1,1966 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "ifx_i2c_transport_layer.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .rodata.g_pctr_states_table,"a",%progbits
+  20              	 .align 2
+  23              	g_pctr_states_table:
+  24 0000 00       	 .byte 0
+  25 0001 04       	 .byte 4
+  26 0002 00       	 .byte 0
+  27 0003 04       	 .byte 4
+  28 0004 01       	 .byte 1
+  29 0005 02       	 .byte 2
+  30 0006 FF       	 .byte -1
+  31 0007 FF       	 .byte -1
+  32 0008 01       	 .byte 1
+  33 0009 02       	 .byte 2
+  34 000a FF       	 .byte -1
+  35 000b FF       	 .byte -1
+  36 000c FF       	 .byte -1
+  37 000d FF       	 .byte -1
+  38 000e 07       	 .byte 7
+  39 000f 07       	 .byte 7
+  40              	 .section .text.ifx_i2c_tl_init,"ax",%progbits
+  41              	 .align 2
+  42              	 .global ifx_i2c_tl_init
+  43              	 .thumb
+  44              	 .thumb_func
+  46              	ifx_i2c_tl_init:
+  47              	.LFB0:
+  48              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c/ifx_i2c_transport_layer.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** /**
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * \copyright
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * MIT License
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** *
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * Copyright (c) 2020 Infineon Technologies AG
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** *
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * of this software and associated documentation files (the "Software"), to deal
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * in the Software without restriction, including without limitation the rights
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * copies of the Software, and to permit persons to whom the Software is
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * furnished to do so, subject to the following conditions:
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** *
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * The above copyright notice and this permission notice shall be included in all
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * copies or substantial portions of the Software.
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** *
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * SOFTWARE
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** *
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * \endcopyright
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** *
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * \author Infineon Technologies AG
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** *
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * \file ifx_i2c_transport_layer.c
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** *
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * \brief   This file implements the APIs for transport layer of the Infineon I2C Protocol Stack lib
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** *
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * \ingroup  grIFXI2C
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** *
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** * @{
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** */
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #include "optiga/ifx_i2c/ifx_i2c_transport_layer.h"
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #include "optiga/ifx_i2c/ifx_i2c_data_link_layer.h" // include lower layer header
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** /// @cond hidden
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** // Transport Layer states
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_STATE_UNINIT                     (0x00)
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_STATE_IDLE                       (0x01)
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_STATE_TX                         (0x02)
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_STATE_RX                         (0x04)
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_STATE_CHAINING                   (0x05)
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_STATE_ERROR                      (0x06)
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_STATE_CHAINING_ERROR             (0x07)
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_STATE_RESEND                     (0x08)
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** // Transport Layer chaining values
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_CHAINING_NO                      (0x00)
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_CHAINING_FIRST                   (0x01)
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_CHAINING_INTERMEDIATE            (0x02)
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_CHAINING_LAST                    (0x04)
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_CHAINING_ERROR                   (0x07)
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_PCTR_CHANNEL_MASK                (0xF8)
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_PCTR_CHAIN_MASK                  (0x07)
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_PCTR_INVALID                     (0xFF)
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_PREVIOUS_CHAINING_STATUS         (0x02)
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define TL_CURRENT_CHAINING_STATUS          (0x08)
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** // Setup debug log statements
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #if IFX_I2C_LOG_TL == 1
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define LOG_TL IFX_I2C_LOG
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #else
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #define LOG_TL(...)    //printf(__VA_ARGS__);
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** #endif
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** static const uint8_t g_pctr_states_table[TL_CURRENT_CHAINING_STATUS][TL_PREVIOUS_CHAINING_STATUS] =
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                                                               {TL_C
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                                                               {TL_C
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                                                               {TL_C
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                                                               {TL_P
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                                                               {TL_C
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                                                               {TL_P
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                                                               {TL_P
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                                                               {TL_C
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                                                               };
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H optiga_lib_status_t ifx_i2c_tl_send_next_fragment(ifx_i2c_context_t * p_ctx);
+  85:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H void ifx_i2c_dl_event_handler(ifx_i2c_context_t * p_ctx,
+  86:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                         optiga_lib_status_t event,
+  87:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                         const uint8_t * p_data,
+  88:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                         uint16_t data_len);
+  89:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H optiga_lib_status_t ifx_i2c_tl_resend_packets(ifx_i2c_context_t * p_ctx);
+  90:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H optiga_lib_status_t ifx_i2c_tl_send_chaining_error(ifx_i2c_context_t * p_ctx);
+  91:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H uint8_t ifx_i2c_tl_calculate_pctr(const ifx_i2c_context_t * p_ctx);
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H optiga_lib_status_t ifx_i2c_tl_check_chaining_error(uint8_t current_chaning, uint8_t prev
+  93:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** /// @endcond
+  94:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+  95:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** optiga_lib_status_t ifx_i2c_tl_init(ifx_i2c_context_t * p_ctx, ifx_i2c_event_handler_t handler)
+  96:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** {
+  49              	 .loc 1 96 0
+  50              	 .cfi_startproc
+  51              	 
+  52              	 
+  53 0000 80B5     	 push {r7,lr}
+  54              	.LCFI0:
+  55              	 .cfi_def_cfa_offset 8
+  56              	 .cfi_offset 7,-8
+  57              	 .cfi_offset 14,-4
+  58 0002 82B0     	 sub sp,sp,#8
+  59              	.LCFI1:
+  60              	 .cfi_def_cfa_offset 16
+  61 0004 00AF     	 add r7,sp,#0
+  62              	.LCFI2:
+  63              	 .cfi_def_cfa_register 7
+  64 0006 7860     	 str r0,[r7,#4]
+  65 0008 3960     	 str r1,[r7]
+  97:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     LOG_TL("[IFX-TL]: Init\n");
+  98:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+  99:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     p_ctx->tl.state = TL_STATE_UNINIT;
+  66              	 .loc 1 99 0
+  67 000a 7B68     	 ldr r3,[r7,#4]
+  68 000c 0022     	 movs r2,#0
+  69 000e 83F82C20 	 strb r2,[r3,#44]
+ 100:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 101:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     // Initialize Data Link layer (and register event handler)
+ 102:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     if (IFX_I2C_STACK_SUCCESS != ifx_i2c_dl_init(p_ctx, ifx_i2c_dl_event_handler))
+  70              	 .loc 1 102 0
+  71 0012 7868     	 ldr r0,[r7,#4]
+  72 0014 0F49     	 ldr r1,.L4
+  73 0016 FFF7FEFF 	 bl ifx_i2c_dl_init
+  74 001a 0346     	 mov r3,r0
+  75 001c 002B     	 cmp r3,#0
+  76 001e 02D0     	 beq .L2
+ 103:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     {
+ 104:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         return (IFX_I2C_STACK_ERROR);
+  77              	 .loc 1 104 0
+  78 0020 4FF48173 	 mov r3,#258
+  79 0024 11E0     	 b .L3
+  80              	.L2:
+ 105:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     }
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     p_ctx->tl.initialization_state = TRUE;
+  81              	 .loc 1 106 0
+  82 0026 7B68     	 ldr r3,[r7,#4]
+  83 0028 0122     	 movs r2,#1
+  84 002a 83F85020 	 strb r2,[r3,#80]
+ 107:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     p_ctx->tl.upper_layer_event_handler = handler;
+  85              	 .loc 1 107 0
+  86 002e 7B68     	 ldr r3,[r7,#4]
+  87 0030 3A68     	 ldr r2,[r7]
+  88 0032 5A65     	 str r2,[r3,#84]
+ 108:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     p_ctx->tl.state = TL_STATE_IDLE;
+  89              	 .loc 1 108 0
+  90 0034 7B68     	 ldr r3,[r7,#4]
+  91 0036 0122     	 movs r2,#1
+  92 0038 83F82C20 	 strb r2,[r3,#44]
+ 109:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     p_ctx->tl.max_packet_length = p_ctx->frame_size - (DL_HEADER_SIZE + TL_HEADER_SIZE);
+  93              	 .loc 1 109 0
+  94 003c 7B68     	 ldr r3,[r7,#4]
+  95 003e 9B88     	 ldrh r3,[r3,#4]
+  96 0040 063B     	 subs r3,r3,#6
+  97 0042 9AB2     	 uxth r2,r3
+  98 0044 7B68     	 ldr r3,[r7,#4]
+  99 0046 5A87     	 strh r2,[r3,#58]
+ 110:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 111:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     return (IFX_I2C_STACK_SUCCESS);
+ 100              	 .loc 1 111 0
+ 101 0048 0023     	 movs r3,#0
+ 102              	.L3:
+ 112:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** }
+ 103              	 .loc 1 112 0
+ 104 004a 1846     	 mov r0,r3
+ 105 004c 0837     	 adds r7,r7,#8
+ 106              	.LCFI3:
+ 107              	 .cfi_def_cfa_offset 8
+ 108 004e BD46     	 mov sp,r7
+ 109              	.LCFI4:
+ 110              	 .cfi_def_cfa_register 13
+ 111              	 
+ 112 0050 80BD     	 pop {r7,pc}
+ 113              	.L5:
+ 114 0052 00BF     	 .align 2
+ 115              	.L4:
+ 116 0054 00000000 	 .word ifx_i2c_dl_event_handler
+ 117              	 .cfi_endproc
+ 118              	.LFE0:
+ 120              	 .section .text.ifx_i2c_tl_transceive,"ax",%progbits
+ 121              	 .align 2
+ 122              	 .global ifx_i2c_tl_transceive
+ 123              	 .thumb
+ 124              	 .thumb_func
+ 126              	ifx_i2c_tl_transceive:
+ 127              	.LFB1:
+ 113:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 114:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 115:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** optiga_lib_status_t ifx_i2c_tl_transceive(ifx_i2c_context_t * p_ctx,
+ 116:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                           uint8_t * p_packet,
+ 117:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                           uint16_t packet_len,
+ 118:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                           uint8_t * p_recv_packet,
+ 119:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                           uint16_t * p_recv_packet_len)
+ 120:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** {
+ 128              	 .loc 1 120 0
+ 129              	 .cfi_startproc
+ 130              	 
+ 131              	 
+ 132 0000 80B5     	 push {r7,lr}
+ 133              	.LCFI5:
+ 134              	 .cfi_def_cfa_offset 8
+ 135              	 .cfi_offset 7,-8
+ 136              	 .cfi_offset 14,-4
+ 137 0002 86B0     	 sub sp,sp,#24
+ 138              	.LCFI6:
+ 139              	 .cfi_def_cfa_offset 32
+ 140 0004 00AF     	 add r7,sp,#0
+ 141              	.LCFI7:
+ 142              	 .cfi_def_cfa_register 7
+ 143 0006 F860     	 str r0,[r7,#12]
+ 144 0008 B960     	 str r1,[r7,#8]
+ 145 000a 3B60     	 str r3,[r7]
+ 146 000c 1346     	 mov r3,r2
+ 147 000e FB80     	 strh r3,[r7,#6]
+ 121:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     optiga_lib_status_t status = IFX_I2C_STACK_ERROR;
+ 148              	 .loc 1 121 0
+ 149 0010 4FF48173 	 mov r3,#258
+ 150 0014 FB82     	 strh r3,[r7,#22]
+ 122:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     LOG_TL("[IFX-TL]: Transceive txlen %d\n", packet_len);
+ 123:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 124:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     do
+ 125:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     {
+ 126:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         // Check function arguments
+ 127:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         if ((NULL == p_packet) || (0 == packet_len))
+ 151              	 .loc 1 127 0
+ 152 0016 BB68     	 ldr r3,[r7,#8]
+ 153 0018 002B     	 cmp r3,#0
+ 154 001a 39D0     	 beq .L7
+ 155              	 .loc 1 127 0 is_stmt 0 discriminator 1
+ 156 001c FB88     	 ldrh r3,[r7,#6]
+ 157 001e 002B     	 cmp r3,#0
+ 158 0020 36D0     	 beq .L7
+ 128:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         {
+ 129:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             break;
+ 130:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         }
+ 131:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         // Transport Layer must be idle
+ 132:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         if (TL_STATE_IDLE != p_ctx->tl.state)
+ 159              	 .loc 1 132 0 is_stmt 1
+ 160 0022 FB68     	 ldr r3,[r7,#12]
+ 161 0024 93F82C30 	 ldrb r3,[r3,#44]
+ 162 0028 012B     	 cmp r3,#1
+ 163 002a 00D0     	 beq .L8
+ 133:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         {
+ 134:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             break;
+ 164              	 .loc 1 134 0
+ 165 002c 30E0     	 b .L7
+ 166              	.L8:
+ 135:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         }
+ 136:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.state = TL_STATE_TX;
+ 167              	 .loc 1 136 0
+ 168 002e FB68     	 ldr r3,[r7,#12]
+ 169 0030 0222     	 movs r2,#2
+ 170 0032 83F82C20 	 strb r2,[r3,#44]
+ 137:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.api_start_time = pal_os_timer_get_time_in_milliseconds();
+ 171              	 .loc 1 137 0
+ 172 0036 FFF7FEFF 	 bl pal_os_timer_get_time_in_milliseconds
+ 173 003a 0246     	 mov r2,r0
+ 174 003c FB68     	 ldr r3,[r7,#12]
+ 175 003e 5A64     	 str r2,[r3,#68]
+ 138:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.p_actual_packet = p_packet;
+ 176              	 .loc 1 138 0
+ 177 0040 FB68     	 ldr r3,[r7,#12]
+ 178 0042 BA68     	 ldr r2,[r7,#8]
+ 179 0044 1A63     	 str r2,[r3,#48]
+ 139:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.actual_packet_length = packet_len;
+ 180              	 .loc 1 139 0
+ 181 0046 FB68     	 ldr r3,[r7,#12]
+ 182 0048 FA88     	 ldrh r2,[r7,#6]
+ 183 004a DA86     	 strh r2,[r3,#54]
+ 140:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.packet_offset = 0;
+ 184              	 .loc 1 140 0
+ 185 004c FB68     	 ldr r3,[r7,#12]
+ 186 004e 0022     	 movs r2,#0
+ 187 0050 1A87     	 strh r2,[r3,#56]
+ 141:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.p_recv_packet_buffer = p_recv_packet;
+ 188              	 .loc 1 141 0
+ 189 0052 FB68     	 ldr r3,[r7,#12]
+ 190 0054 3A68     	 ldr r2,[r7]
+ 191 0056 DA63     	 str r2,[r3,#60]
+ 142:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.p_recv_packet_buffer_length = p_recv_packet_len;
+ 192              	 .loc 1 142 0
+ 193 0058 FB68     	 ldr r3,[r7,#12]
+ 194 005a 3A6A     	 ldr r2,[r7,#32]
+ 195 005c 1A64     	 str r2,[r3,#64]
+ 143:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.total_recv_length = 0;
+ 196              	 .loc 1 143 0
+ 197 005e FB68     	 ldr r3,[r7,#12]
+ 198 0060 0022     	 movs r2,#0
+ 199 0062 9A86     	 strh r2,[r3,#52]
+ 144:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.chaining_error_count = 0;
+ 200              	 .loc 1 144 0
+ 201 0064 FB68     	 ldr r3,[r7,#12]
+ 202 0066 0022     	 movs r2,#0
+ 203 0068 83F84820 	 strb r2,[r3,#72]
+ 145:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.master_chaining_error_count = 0;
+ 204              	 .loc 1 145 0
+ 205 006c FB68     	 ldr r3,[r7,#12]
+ 206 006e 0022     	 movs r2,#0
+ 207 0070 83F84920 	 strb r2,[r3,#73]
+ 146:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.transmission_completed = 0;
+ 208              	 .loc 1 146 0
+ 209 0074 FB68     	 ldr r3,[r7,#12]
+ 210 0076 0022     	 movs r2,#0
+ 211 0078 83F84B20 	 strb r2,[r3,#75]
+ 147:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.error_event = IFX_I2C_STACK_ERROR;
+ 212              	 .loc 1 147 0
+ 213 007c FB68     	 ldr r3,[r7,#12]
+ 214 007e 4FF48172 	 mov r2,#258
+ 215 0082 A3F84C20 	 strh r2,[r3,#76]
+ 148:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         status = ifx_i2c_tl_send_next_fragment(p_ctx);
+ 216              	 .loc 1 148 0
+ 217 0086 F868     	 ldr r0,[r7,#12]
+ 218 0088 FFF7FEFF 	 bl ifx_i2c_tl_send_next_fragment
+ 219 008c 0346     	 mov r3,r0
+ 220 008e FB82     	 strh r3,[r7,#22]
+ 221              	.L7:
+ 149:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     } while (FALSE);
+ 150:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     return (status);
+ 222              	 .loc 1 150 0
+ 223 0090 FB8A     	 ldrh r3,[r7,#22]
+ 151:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** }
+ 224              	 .loc 1 151 0
+ 225 0092 1846     	 mov r0,r3
+ 226 0094 1837     	 adds r7,r7,#24
+ 227              	.LCFI8:
+ 228              	 .cfi_def_cfa_offset 8
+ 229 0096 BD46     	 mov sp,r7
+ 230              	.LCFI9:
+ 231              	 .cfi_def_cfa_register 13
+ 232              	 
+ 233 0098 80BD     	 pop {r7,pc}
+ 234              	 .cfi_endproc
+ 235              	.LFE1:
+ 237 009a 00BF     	 .section .text.ifx_i2c_tl_resend_packets,"ax",%progbits
+ 238              	 .align 2
+ 239              	 .thumb
+ 240              	 .thumb_func
+ 242              	ifx_i2c_tl_resend_packets:
+ 243              	.LFB2:
+ 152:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 153:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 154:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H optiga_lib_status_t ifx_i2c_tl_resend_packets(ifx_i2c_context_t * p_ctx)
+ 155:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** {
+ 244              	 .loc 1 155 0
+ 245              	 .cfi_startproc
+ 246              	 
+ 247              	 
+ 248 0000 80B5     	 push {r7,lr}
+ 249              	.LCFI10:
+ 250              	 .cfi_def_cfa_offset 8
+ 251              	 .cfi_offset 7,-8
+ 252              	 .cfi_offset 14,-4
+ 253 0002 82B0     	 sub sp,sp,#8
+ 254              	.LCFI11:
+ 255              	 .cfi_def_cfa_offset 16
+ 256 0004 00AF     	 add r7,sp,#0
+ 257              	.LCFI12:
+ 258              	 .cfi_def_cfa_register 7
+ 259 0006 7860     	 str r0,[r7,#4]
+ 156:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     // Transport Layer must be idle
+ 157:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     if (TL_STATE_IDLE != p_ctx->tl.state)
+ 260              	 .loc 1 157 0
+ 261 0008 7B68     	 ldr r3,[r7,#4]
+ 262 000a 93F82C30 	 ldrb r3,[r3,#44]
+ 263 000e 012B     	 cmp r3,#1
+ 264 0010 02D0     	 beq .L11
+ 158:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     {
+ 159:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         return (IFX_I2C_STACK_ERROR);
+ 265              	 .loc 1 159 0
+ 266 0012 4FF48173 	 mov r3,#258
+ 267 0016 0DE0     	 b .L12
+ 268              	.L11:
+ 160:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     }
+ 161:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 162:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     p_ctx->tl.packet_offset = 0;
+ 269              	 .loc 1 162 0
+ 270 0018 7B68     	 ldr r3,[r7,#4]
+ 271 001a 0022     	 movs r2,#0
+ 272 001c 1A87     	 strh r2,[r3,#56]
+ 163:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     p_ctx->tl.total_recv_length = 0;
+ 273              	 .loc 1 163 0
+ 274 001e 7B68     	 ldr r3,[r7,#4]
+ 275 0020 0022     	 movs r2,#0
+ 276 0022 9A86     	 strh r2,[r3,#52]
+ 164:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     p_ctx->tl.state = TL_STATE_TX;
+ 277              	 .loc 1 164 0
+ 278 0024 7B68     	 ldr r3,[r7,#4]
+ 279 0026 0222     	 movs r2,#2
+ 280 0028 83F82C20 	 strb r2,[r3,#44]
+ 165:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     return (ifx_i2c_tl_send_next_fragment(p_ctx));
+ 281              	 .loc 1 165 0
+ 282 002c 7868     	 ldr r0,[r7,#4]
+ 283 002e FFF7FEFF 	 bl ifx_i2c_tl_send_next_fragment
+ 284 0032 0346     	 mov r3,r0
+ 285              	.L12:
+ 166:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** }
+ 286              	 .loc 1 166 0
+ 287 0034 1846     	 mov r0,r3
+ 288 0036 0837     	 adds r7,r7,#8
+ 289              	.LCFI13:
+ 290              	 .cfi_def_cfa_offset 8
+ 291 0038 BD46     	 mov sp,r7
+ 292              	.LCFI14:
+ 293              	 .cfi_def_cfa_register 13
+ 294              	 
+ 295 003a 80BD     	 pop {r7,pc}
+ 296              	 .cfi_endproc
+ 297              	.LFE2:
+ 299              	 .section .text.ifx_i2c_tl_calculate_pctr,"ax",%progbits
+ 300              	 .align 2
+ 301              	 .thumb
+ 302              	 .thumb_func
+ 304              	ifx_i2c_tl_calculate_pctr:
+ 305              	.LFB3:
+ 167:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 168:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H uint8_t ifx_i2c_tl_calculate_pctr(const ifx_i2c_context_t * p_ctx)
+ 169:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** {
+ 306              	 .loc 1 169 0
+ 307              	 .cfi_startproc
+ 308              	 
+ 309              	 
+ 310              	 
+ 311 0000 80B4     	 push {r7}
+ 312              	.LCFI15:
+ 313              	 .cfi_def_cfa_offset 4
+ 314              	 .cfi_offset 7,-4
+ 315 0002 85B0     	 sub sp,sp,#20
+ 316              	.LCFI16:
+ 317              	 .cfi_def_cfa_offset 24
+ 318 0004 00AF     	 add r7,sp,#0
+ 319              	.LCFI17:
+ 320              	 .cfi_def_cfa_register 7
+ 321 0006 7860     	 str r0,[r7,#4]
+ 170:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     uint8_t pctr;
+ 171:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     uint16_t fragment_size = p_ctx->tl.max_packet_length;
+ 322              	 .loc 1 171 0
+ 323 0008 7B68     	 ldr r3,[r7,#4]
+ 324 000a 5B8F     	 ldrh r3,[r3,#58]
+ 325 000c BB81     	 strh r3,[r7,#12]
+ 172:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     uint16_t remaining_data = p_ctx->tl.actual_packet_length - p_ctx->tl.packet_offset;
+ 326              	 .loc 1 172 0
+ 327 000e 7B68     	 ldr r3,[r7,#4]
+ 328 0010 DA8E     	 ldrh r2,[r3,#54]
+ 329 0012 7B68     	 ldr r3,[r7,#4]
+ 330 0014 1B8F     	 ldrh r3,[r3,#56]
+ 331 0016 D31A     	 subs r3,r2,r3
+ 332 0018 7B81     	 strh r3,[r7,#10]
+ 173:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     // No chain
+ 174:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     if ((0 == p_ctx->tl.packet_offset) && (remaining_data <= fragment_size))
+ 333              	 .loc 1 174 0
+ 334 001a 7B68     	 ldr r3,[r7,#4]
+ 335 001c 1B8F     	 ldrh r3,[r3,#56]
+ 336 001e 002B     	 cmp r3,#0
+ 337 0020 06D1     	 bne .L14
+ 338              	 .loc 1 174 0 is_stmt 0 discriminator 1
+ 339 0022 7A89     	 ldrh r2,[r7,#10]
+ 340 0024 BB89     	 ldrh r3,[r7,#12]
+ 341 0026 9A42     	 cmp r2,r3
+ 342 0028 02D8     	 bhi .L14
+ 175:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     {
+ 176:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         pctr = TL_CHAINING_NO;
+ 343              	 .loc 1 176 0 is_stmt 1
+ 344 002a 0023     	 movs r3,#0
+ 345 002c FB73     	 strb r3,[r7,#15]
+ 346 002e 17E0     	 b .L15
+ 347              	.L14:
+ 177:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     }
+ 178:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     // First chain
+ 179:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     else if ((0 == p_ctx->tl.packet_offset) && (remaining_data > fragment_size))
+ 348              	 .loc 1 179 0
+ 349 0030 7B68     	 ldr r3,[r7,#4]
+ 350 0032 1B8F     	 ldrh r3,[r3,#56]
+ 351 0034 002B     	 cmp r3,#0
+ 352 0036 06D1     	 bne .L16
+ 353              	 .loc 1 179 0 is_stmt 0 discriminator 1
+ 354 0038 7A89     	 ldrh r2,[r7,#10]
+ 355 003a BB89     	 ldrh r3,[r7,#12]
+ 356 003c 9A42     	 cmp r2,r3
+ 357 003e 02D9     	 bls .L16
+ 180:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     {
+ 181:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         pctr = TL_CHAINING_FIRST;
+ 358              	 .loc 1 181 0 is_stmt 1
+ 359 0040 0123     	 movs r3,#1
+ 360 0042 FB73     	 strb r3,[r7,#15]
+ 361 0044 0CE0     	 b .L15
+ 362              	.L16:
+ 182:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     }
+ 183:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     // Intermediate chain
+ 184:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     else if ((0 != p_ctx->tl.packet_offset) && (remaining_data > fragment_size))
+ 363              	 .loc 1 184 0
+ 364 0046 7B68     	 ldr r3,[r7,#4]
+ 365 0048 1B8F     	 ldrh r3,[r3,#56]
+ 366 004a 002B     	 cmp r3,#0
+ 367 004c 06D0     	 beq .L17
+ 368              	 .loc 1 184 0 is_stmt 0 discriminator 1
+ 369 004e 7A89     	 ldrh r2,[r7,#10]
+ 370 0050 BB89     	 ldrh r3,[r7,#12]
+ 371 0052 9A42     	 cmp r2,r3
+ 372 0054 02D9     	 bls .L17
+ 185:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     {
+ 186:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         pctr = TL_CHAINING_INTERMEDIATE;
+ 373              	 .loc 1 186 0 is_stmt 1
+ 374 0056 0223     	 movs r3,#2
+ 375 0058 FB73     	 strb r3,[r7,#15]
+ 376 005a 01E0     	 b .L15
+ 377              	.L17:
+ 187:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     }
+ 188:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     // Last chain
+ 189:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     else
+ 190:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     {
+ 191:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         pctr = TL_CHAINING_LAST;
+ 378              	 .loc 1 191 0
+ 379 005c 0423     	 movs r3,#4
+ 380 005e FB73     	 strb r3,[r7,#15]
+ 381              	.L15:
+ 192:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     }
+ 193:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 194:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     return (pctr);
+ 382              	 .loc 1 194 0
+ 383 0060 FB7B     	 ldrb r3,[r7,#15]
+ 195:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** }
+ 384              	 .loc 1 195 0
+ 385 0062 1846     	 mov r0,r3
+ 386 0064 1437     	 adds r7,r7,#20
+ 387              	.LCFI18:
+ 388              	 .cfi_def_cfa_offset 4
+ 389 0066 BD46     	 mov sp,r7
+ 390              	.LCFI19:
+ 391              	 .cfi_def_cfa_register 13
+ 392              	 
+ 393 0068 5DF8047B 	 ldr r7,[sp],#4
+ 394              	.LCFI20:
+ 395              	 .cfi_restore 7
+ 396              	 .cfi_def_cfa_offset 0
+ 397 006c 7047     	 bx lr
+ 398              	 .cfi_endproc
+ 399              	.LFE3:
+ 401 006e 00BF     	 .section .text.ifx_i2c_tl_send_next_fragment,"ax",%progbits
+ 402              	 .align 2
+ 403              	 .thumb
+ 404              	 .thumb_func
+ 406              	ifx_i2c_tl_send_next_fragment:
+ 407              	.LFB4:
+ 196:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H optiga_lib_status_t ifx_i2c_tl_send_next_fragment(ifx_i2c_context_t * p_ctx)
+ 197:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** {
+ 408              	 .loc 1 197 0
+ 409              	 .cfi_startproc
+ 410              	 
+ 411              	 
+ 412 0000 80B5     	 push {r7,lr}
+ 413              	.LCFI21:
+ 414              	 .cfi_def_cfa_offset 8
+ 415              	 .cfi_offset 7,-8
+ 416              	 .cfi_offset 14,-4
+ 417 0002 84B0     	 sub sp,sp,#16
+ 418              	.LCFI22:
+ 419              	 .cfi_def_cfa_offset 24
+ 420 0004 00AF     	 add r7,sp,#0
+ 421              	.LCFI23:
+ 422              	 .cfi_def_cfa_register 7
+ 423 0006 7860     	 str r0,[r7,#4]
+ 198:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     uint8_t pctr;
+ 199:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     // Calculate size of fragment (last one might be shorter)
+ 200:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     uint16_t tl_fragment_size = p_ctx->tl.max_packet_length;
+ 424              	 .loc 1 200 0
+ 425 0008 7B68     	 ldr r3,[r7,#4]
+ 426 000a 5B8F     	 ldrh r3,[r3,#58]
+ 427 000c FB81     	 strh r3,[r7,#14]
+ 201:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     pctr = ifx_i2c_tl_calculate_pctr(p_ctx);
+ 428              	 .loc 1 201 0
+ 429 000e 7868     	 ldr r0,[r7,#4]
+ 430 0010 FFF7FEFF 	 bl ifx_i2c_tl_calculate_pctr
+ 431 0014 0346     	 mov r3,r0
+ 432 0016 7B73     	 strb r3,[r7,#13]
+ 202:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     if ((p_ctx->tl.actual_packet_length - p_ctx->tl.packet_offset) < tl_fragment_size)
+ 433              	 .loc 1 202 0
+ 434 0018 7B68     	 ldr r3,[r7,#4]
+ 435 001a DB8E     	 ldrh r3,[r3,#54]
+ 436 001c 1A46     	 mov r2,r3
+ 437 001e 7B68     	 ldr r3,[r7,#4]
+ 438 0020 1B8F     	 ldrh r3,[r3,#56]
+ 439 0022 D21A     	 subs r2,r2,r3
+ 440 0024 FB89     	 ldrh r3,[r7,#14]
+ 441 0026 9A42     	 cmp r2,r3
+ 442 0028 05DA     	 bge .L20
+ 203:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     {
+ 204:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         tl_fragment_size = p_ctx->tl.actual_packet_length - p_ctx->tl.packet_offset;
+ 443              	 .loc 1 204 0
+ 444 002a 7B68     	 ldr r3,[r7,#4]
+ 445 002c DA8E     	 ldrh r2,[r3,#54]
+ 446 002e 7B68     	 ldr r3,[r7,#4]
+ 447 0030 1B8F     	 ldrh r3,[r3,#56]
+ 448 0032 D31A     	 subs r3,r2,r3
+ 449 0034 FB81     	 strh r3,[r7,#14]
+ 450              	.L20:
+ 205:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     }
+ 206:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     // Assign the pctr
+ 207:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     //lint --e{835} suppress "IFX_I2C_DL_HEADER_OFFSET macro is defined as 0x00 and is kept for fut
+ 208:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     p_ctx->tx_frame_buffer[IFX_I2C_TL_HEADER_OFFSET] = (pctr | IFX_I2C_PRESENCE_BIT);
+ 451              	 .loc 1 208 0
+ 452 0036 7B68     	 ldr r3,[r7,#4]
+ 453 0038 7A7B     	 ldrb r2,[r7,#13]
+ 454 003a 83F8AB21 	 strb r2,[r3,#427]
+ 209:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     //copy the data
+ 210:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     //lint --e{835} suppress "IFX_I2C_DL_HEADER_OFFSET macro is defined as 0x00 and is kept for fut
+ 211:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     memcpy(p_ctx->tx_frame_buffer+IFX_I2C_TL_HEADER_OFFSET + 1,
+ 455              	 .loc 1 211 0
+ 456 003e 7B68     	 ldr r3,[r7,#4]
+ 457 0040 03F5D671 	 add r1,r3,#428
+ 212:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****            p_ctx->tl.p_actual_packet + p_ctx->tl.packet_offset,
+ 458              	 .loc 1 212 0
+ 459 0044 7B68     	 ldr r3,[r7,#4]
+ 460 0046 1B6B     	 ldr r3,[r3,#48]
+ 461 0048 7A68     	 ldr r2,[r7,#4]
+ 462 004a 128F     	 ldrh r2,[r2,#56]
+ 463 004c 1A44     	 add r2,r2,r3
+ 211:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****            p_ctx->tl.p_actual_packet + p_ctx->tl.packet_offset,
+ 464              	 .loc 1 211 0
+ 465 004e FB89     	 ldrh r3,[r7,#14]
+ 466 0050 0846     	 mov r0,r1
+ 467 0052 1146     	 mov r1,r2
+ 468 0054 1A46     	 mov r2,r3
+ 469 0056 FFF7FEFF 	 bl memcpy
+ 213:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****            tl_fragment_size);
+ 214:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     p_ctx->tl.packet_offset += tl_fragment_size;
+ 470              	 .loc 1 214 0
+ 471 005a 7B68     	 ldr r3,[r7,#4]
+ 472 005c 1A8F     	 ldrh r2,[r3,#56]
+ 473 005e FB89     	 ldrh r3,[r7,#14]
+ 474 0060 1344     	 add r3,r3,r2
+ 475 0062 9AB2     	 uxth r2,r3
+ 476 0064 7B68     	 ldr r3,[r7,#4]
+ 477 0066 1A87     	 strh r2,[r3,#56]
+ 215:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     //send the fragment to dl layer
+ 216:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     return (ifx_i2c_dl_send_frame(p_ctx,tl_fragment_size + 1));
+ 478              	 .loc 1 216 0
+ 479 0068 FB89     	 ldrh r3,[r7,#14]
+ 480 006a 0133     	 adds r3,r3,#1
+ 481 006c 9BB2     	 uxth r3,r3
+ 482 006e 7868     	 ldr r0,[r7,#4]
+ 483 0070 1946     	 mov r1,r3
+ 484 0072 FFF7FEFF 	 bl ifx_i2c_dl_send_frame
+ 485 0076 0346     	 mov r3,r0
+ 217:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** }
+ 486              	 .loc 1 217 0
+ 487 0078 1846     	 mov r0,r3
+ 488 007a 1037     	 adds r7,r7,#16
+ 489              	.LCFI24:
+ 490              	 .cfi_def_cfa_offset 8
+ 491 007c BD46     	 mov sp,r7
+ 492              	.LCFI25:
+ 493              	 .cfi_def_cfa_register 13
+ 494              	 
+ 495 007e 80BD     	 pop {r7,pc}
+ 496              	 .cfi_endproc
+ 497              	.LFE4:
+ 499              	 .section .text.ifx_i2c_tl_send_chaining_error,"ax",%progbits
+ 500              	 .align 2
+ 501              	 .thumb
+ 502              	 .thumb_func
+ 504              	ifx_i2c_tl_send_chaining_error:
+ 505              	.LFB5:
+ 218:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 219:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H optiga_lib_status_t ifx_i2c_tl_send_chaining_error(ifx_i2c_context_t * p_ctx)
+ 220:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** {
+ 506              	 .loc 1 220 0
+ 507              	 .cfi_startproc
+ 508              	 
+ 509              	 
+ 510 0000 80B5     	 push {r7,lr}
+ 511              	.LCFI26:
+ 512              	 .cfi_def_cfa_offset 8
+ 513              	 .cfi_offset 7,-8
+ 514              	 .cfi_offset 14,-4
+ 515 0002 84B0     	 sub sp,sp,#16
+ 516              	.LCFI27:
+ 517              	 .cfi_def_cfa_offset 24
+ 518 0004 00AF     	 add r7,sp,#0
+ 519              	.LCFI28:
+ 520              	 .cfi_def_cfa_register 7
+ 521 0006 7860     	 str r0,[r7,#4]
+ 221:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     uint16_t tl_fragment_size = 1;
+ 522              	 .loc 1 221 0
+ 523 0008 0123     	 movs r3,#1
+ 524 000a FB81     	 strh r3,[r7,#14]
+ 222:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     //lint --e{835} suppress "IFX_I2C_DL_HEADER_OFFSET macro is defined as 0x00 and is kept for fut
+ 223:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     p_ctx->tx_frame_buffer[IFX_I2C_TL_HEADER_OFFSET] = 0x07;
+ 525              	 .loc 1 223 0
+ 526 000c 7B68     	 ldr r3,[r7,#4]
+ 527 000e 0722     	 movs r2,#7
+ 528 0010 83F8AB21 	 strb r2,[r3,#427]
+ 224:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     p_ctx->tl.total_recv_length = 0;
+ 529              	 .loc 1 224 0
+ 530 0014 7B68     	 ldr r3,[r7,#4]
+ 531 0016 0022     	 movs r2,#0
+ 532 0018 9A86     	 strh r2,[r3,#52]
+ 225:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     //send the fragment to dl layer
+ 226:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     return (ifx_i2c_dl_send_frame(p_ctx,tl_fragment_size));
+ 533              	 .loc 1 226 0
+ 534 001a FB89     	 ldrh r3,[r7,#14]
+ 535 001c 7868     	 ldr r0,[r7,#4]
+ 536 001e 1946     	 mov r1,r3
+ 537 0020 FFF7FEFF 	 bl ifx_i2c_dl_send_frame
+ 538 0024 0346     	 mov r3,r0
+ 227:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** }
+ 539              	 .loc 1 227 0
+ 540 0026 1846     	 mov r0,r3
+ 541 0028 1037     	 adds r7,r7,#16
+ 542              	.LCFI29:
+ 543              	 .cfi_def_cfa_offset 8
+ 544 002a BD46     	 mov sp,r7
+ 545              	.LCFI30:
+ 546              	 .cfi_def_cfa_register 13
+ 547              	 
+ 548 002c 80BD     	 pop {r7,pc}
+ 549              	 .cfi_endproc
+ 550              	.LFE5:
+ 552 002e 00BF     	 .section .text.ifx_i2c_tl_check_chaining_error,"ax",%progbits
+ 553              	 .align 2
+ 554              	 .thumb
+ 555              	 .thumb_func
+ 557              	ifx_i2c_tl_check_chaining_error:
+ 558              	.LFB6:
+ 228:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 229:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H optiga_lib_status_t ifx_i2c_tl_check_chaining_error(uint8_t current_chaning,
+ 230:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                               uint8_t previous_chaining)
+ 231:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** {
+ 559              	 .loc 1 231 0
+ 560              	 .cfi_startproc
+ 561              	 
+ 562              	 
+ 563              	 
+ 564 0000 80B4     	 push {r7}
+ 565              	.LCFI31:
+ 566              	 .cfi_def_cfa_offset 4
+ 567              	 .cfi_offset 7,-4
+ 568 0002 85B0     	 sub sp,sp,#20
+ 569              	.LCFI32:
+ 570              	 .cfi_def_cfa_offset 24
+ 571 0004 00AF     	 add r7,sp,#0
+ 572              	.LCFI33:
+ 573              	 .cfi_def_cfa_register 7
+ 574 0006 0346     	 mov r3,r0
+ 575 0008 0A46     	 mov r2,r1
+ 576 000a FB71     	 strb r3,[r7,#7]
+ 577 000c 1346     	 mov r3,r2
+ 578 000e BB71     	 strb r3,[r7,#6]
+ 232:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     optiga_lib_status_t status = IFX_I2C_STACK_ERROR;
+ 579              	 .loc 1 232 0
+ 580 0010 4FF48173 	 mov r3,#258
+ 581 0014 FB81     	 strh r3,[r7,#14]
+ 233:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     if (((TL_CHAINING_ERROR == current_chaning) || (TL_CHAINING_NO == current_chaning) ||
+ 582              	 .loc 1 233 0
+ 583 0016 FB79     	 ldrb r3,[r7,#7]
+ 584 0018 072B     	 cmp r3,#7
+ 585 001a 0BD0     	 beq .L25
+ 586              	 .loc 1 233 0 is_stmt 0 discriminator 1
+ 587 001c FB79     	 ldrb r3,[r7,#7]
+ 588 001e 002B     	 cmp r3,#0
+ 589 0020 08D0     	 beq .L25
+ 590              	 .loc 1 233 0 discriminator 2
+ 591 0022 FB79     	 ldrb r3,[r7,#7]
+ 592 0024 042B     	 cmp r3,#4
+ 593 0026 05D0     	 beq .L25
+ 234:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         (TL_CHAINING_LAST == current_chaning) || (TL_CHAINING_INTERMEDIATE == current_chaning) ||
+ 594              	 .loc 1 234 0 is_stmt 1
+ 595 0028 FB79     	 ldrb r3,[r7,#7]
+ 596 002a 022B     	 cmp r3,#2
+ 597 002c 02D0     	 beq .L25
+ 598              	 .loc 1 234 0 is_stmt 0 discriminator 1
+ 599 002e FB79     	 ldrb r3,[r7,#7]
+ 600 0030 012B     	 cmp r3,#1
+ 601 0032 10D1     	 bne .L26
+ 602              	.L25:
+ 235:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         (TL_CHAINING_FIRST == current_chaning)))
+ 236:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     {
+ 237:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         if ((g_pctr_states_table[current_chaning][0] == previous_chaining) ||
+ 603              	 .loc 1 237 0 is_stmt 1
+ 604 0034 FB79     	 ldrb r3,[r7,#7]
+ 605 0036 0B4A     	 ldr r2,.L29
+ 606 0038 12F81330 	 ldrb r3,[r2,r3,lsl#1]
+ 607 003c BA79     	 ldrb r2,[r7,#6]
+ 608 003e 9A42     	 cmp r2,r3
+ 609 0040 07D0     	 beq .L27
+ 238:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             (g_pctr_states_table[current_chaning][1] == previous_chaining))
+ 610              	 .loc 1 238 0 discriminator 1
+ 611 0042 FB79     	 ldrb r3,[r7,#7]
+ 612 0044 074A     	 ldr r2,.L29
+ 613 0046 5B00     	 lsls r3,r3,#1
+ 614 0048 1344     	 add r3,r3,r2
+ 615 004a 5B78     	 ldrb r3,[r3,#1]
+ 237:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             (g_pctr_states_table[current_chaning][1] == previous_chaining))
+ 616              	 .loc 1 237 0 discriminator 1
+ 617 004c BA79     	 ldrb r2,[r7,#6]
+ 618 004e 9A42     	 cmp r2,r3
+ 619 0050 01D1     	 bne .L26
+ 620              	.L27:
+ 239:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         {
+ 240:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             status =  IFX_I2C_STACK_SUCCESS;
+ 621              	 .loc 1 240 0
+ 622 0052 0023     	 movs r3,#0
+ 623 0054 FB81     	 strh r3,[r7,#14]
+ 624              	.L26:
+ 241:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         }
+ 242:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     }
+ 243:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 244:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     return (status);
+ 625              	 .loc 1 244 0
+ 626 0056 FB89     	 ldrh r3,[r7,#14]
+ 245:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** }
+ 627              	 .loc 1 245 0
+ 628 0058 1846     	 mov r0,r3
+ 629 005a 1437     	 adds r7,r7,#20
+ 630              	.LCFI34:
+ 631              	 .cfi_def_cfa_offset 4
+ 632 005c BD46     	 mov sp,r7
+ 633              	.LCFI35:
+ 634              	 .cfi_def_cfa_register 13
+ 635              	 
+ 636 005e 5DF8047B 	 ldr r7,[sp],#4
+ 637              	.LCFI36:
+ 638              	 .cfi_restore 7
+ 639              	 .cfi_def_cfa_offset 0
+ 640 0062 7047     	 bx lr
+ 641              	.L30:
+ 642              	 .align 2
+ 643              	.L29:
+ 644 0064 00000000 	 .word g_pctr_states_table
+ 645              	 .cfi_endproc
+ 646              	.LFE6:
+ 648              	 .section .text.presence_bit_check,"ax",%progbits
+ 649              	 .align 2
+ 650              	 .thumb
+ 651              	 .thumb_func
+ 653              	presence_bit_check:
+ 654              	.LFB7:
+ 246:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** // This functionality checks for the present bit in the pctr register
+ 247:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H  optiga_lib_status_t presence_bit_check(const ifx_i2c_context_t * p_ctx,
+ 248:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                   uint8_t pctr)
+ 249:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** {
+ 655              	 .loc 1 249 0
+ 656              	 .cfi_startproc
+ 657              	 
+ 658              	 
+ 659              	 
+ 660 0000 80B4     	 push {r7}
+ 661              	.LCFI37:
+ 662              	 .cfi_def_cfa_offset 4
+ 663              	 .cfi_offset 7,-4
+ 664 0002 85B0     	 sub sp,sp,#20
+ 665              	.LCFI38:
+ 666              	 .cfi_def_cfa_offset 24
+ 667 0004 00AF     	 add r7,sp,#0
+ 668              	.LCFI39:
+ 669              	 .cfi_def_cfa_register 7
+ 670 0006 7860     	 str r0,[r7,#4]
+ 671 0008 0B46     	 mov r3,r1
+ 672 000a FB70     	 strb r3,[r7,#3]
+ 250:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     optiga_lib_status_t return_status= IFX_I2C_STACK_SUCCESS;
+ 673              	 .loc 1 250 0
+ 674 000c 0023     	 movs r3,#0
+ 675 000e FB81     	 strh r3,[r7,#14]
+ 251:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     uint8_t pctr_value;
+ 252:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 253:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     pctr_value = (pctr & TL_PCTR_CHANNEL_MASK);
+ 676              	 .loc 1 253 0
+ 677 0010 FB78     	 ldrb r3,[r7,#3]
+ 678 0012 23F00703 	 bic r3,r3,#7
+ 679 0016 7B73     	 strb r3,[r7,#13]
+ 254:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     //lint --e{774} suppress "This value changes based on presentation layer macro"
+ 255:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     if (0 != IFX_I2C_PRESENCE_BIT_CHECK)
+ 256:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     {
+ 257:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         if ((FALSE == p_ctx->tl.initialization_state) && ((TL_CHAINING_NO == (pctr & TL_PCTR_CHAIN_
+ 258:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             || (TL_CHAINING_FIRST == (pctr & TL_PCTR_CHAIN_MASK))))
+ 259:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         {
+ 260:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             if (IFX_I2C_PRESENCE_BIT_CHECK != pctr_value)
+ 261:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             {
+ 262:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 return_status = IFX_I2C_STACK_ERROR;
+ 263:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             }
+ 264:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         }
+ 265:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     }
+ 266:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     else 
+ 267:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     {
+ 268:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         if ((FALSE == p_ctx->tl.initialization_state))
+ 680              	 .loc 1 268 0
+ 681 0018 7B68     	 ldr r3,[r7,#4]
+ 682 001a 93F85030 	 ldrb r3,[r3,#80]
+ 683 001e 002B     	 cmp r3,#0
+ 684 0020 05D1     	 bne .L32
+ 269:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         {
+ 270:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             if (IFX_I2C_PRESENCE_BIT_CHECK != pctr_value)
+ 685              	 .loc 1 270 0
+ 686 0022 7B7B     	 ldrb r3,[r7,#13]
+ 687 0024 002B     	 cmp r3,#0
+ 688 0026 02D0     	 beq .L32
+ 271:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             {
+ 272:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 return_status = IFX_I2C_STACK_ERROR;
+ 689              	 .loc 1 272 0
+ 690 0028 4FF48173 	 mov r3,#258
+ 691 002c FB81     	 strh r3,[r7,#14]
+ 692              	.L32:
+ 273:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             }
+ 274:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         }
+ 275:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     }
+ 276:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     return (return_status);
+ 693              	 .loc 1 276 0
+ 694 002e FB89     	 ldrh r3,[r7,#14]
+ 277:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** }
+ 695              	 .loc 1 277 0
+ 696 0030 1846     	 mov r0,r3
+ 697 0032 1437     	 adds r7,r7,#20
+ 698              	.LCFI40:
+ 699              	 .cfi_def_cfa_offset 4
+ 700 0034 BD46     	 mov sp,r7
+ 701              	.LCFI41:
+ 702              	 .cfi_def_cfa_register 13
+ 703              	 
+ 704 0036 5DF8047B 	 ldr r7,[sp],#4
+ 705              	.LCFI42:
+ 706              	 .cfi_restore 7
+ 707              	 .cfi_def_cfa_offset 0
+ 708 003a 7047     	 bx lr
+ 709              	 .cfi_endproc
+ 710              	.LFE7:
+ 712              	 .section .text.ifx_i2c_dl_event_handler,"ax",%progbits
+ 713              	 .align 2
+ 714              	 .thumb
+ 715              	 .thumb_func
+ 717              	ifx_i2c_dl_event_handler:
+ 718              	.LFB8:
+ 278:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** _STATIC_H void ifx_i2c_dl_event_handler(ifx_i2c_context_t * p_ctx,
+ 279:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                         optiga_lib_status_t event,
+ 280:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                         const uint8_t * p_data,
+ 281:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                         uint16_t data_len)
+ 282:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** {
+ 719              	 .loc 1 282 0
+ 720              	 .cfi_startproc
+ 721              	 
+ 722              	 
+ 723 0000 90B5     	 push {r4,r7,lr}
+ 724              	.LCFI43:
+ 725              	 .cfi_def_cfa_offset 12
+ 726              	 .cfi_offset 4,-12
+ 727              	 .cfi_offset 7,-8
+ 728              	 .cfi_offset 14,-4
+ 729 0002 87B0     	 sub sp,sp,#28
+ 730              	.LCFI44:
+ 731              	 .cfi_def_cfa_offset 40
+ 732 0004 00AF     	 add r7,sp,#0
+ 733              	.LCFI45:
+ 734              	 .cfi_def_cfa_register 7
+ 735 0006 F860     	 str r0,[r7,#12]
+ 736 0008 7A60     	 str r2,[r7,#4]
+ 737 000a 1A46     	 mov r2,r3
+ 738 000c 0B46     	 mov r3,r1
+ 739 000e 7B81     	 strh r3,[r7,#10]
+ 740 0010 1346     	 mov r3,r2
+ 741 0012 3B81     	 strh r3,[r7,#8]
+ 283:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     uint8_t pctr = 0;
+ 742              	 .loc 1 283 0
+ 743 0014 0023     	 movs r3,#0
+ 744 0016 FB75     	 strb r3,[r7,#23]
+ 284:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     uint8_t chaining = 0;
+ 745              	 .loc 1 284 0
+ 746 0018 0023     	 movs r3,#0
+ 747 001a BB75     	 strb r3,[r7,#22]
+ 285:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     uint8_t exit_machine = TRUE;
+ 748              	 .loc 1 285 0
+ 749 001c 0123     	 movs r3,#1
+ 750 001e 7B75     	 strb r3,[r7,#21]
+ 751              	.L82:
+ 286:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     do
+ 287:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     {
+ 288:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         if (NULL != p_data)
+ 752              	 .loc 1 288 0
+ 753 0020 7B68     	 ldr r3,[r7,#4]
+ 754 0022 002B     	 cmp r3,#0
+ 755 0024 06D0     	 beq .L35
+ 289:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         {
+ 290:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             pctr = p_data[0];
+ 756              	 .loc 1 290 0
+ 757 0026 7B68     	 ldr r3,[r7,#4]
+ 758 0028 1B78     	 ldrb r3,[r3]
+ 759 002a FB75     	 strb r3,[r7,#23]
+ 291:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             chaining = pctr & TL_PCTR_CHAIN_MASK;
+ 760              	 .loc 1 291 0
+ 761 002c FB7D     	 ldrb r3,[r7,#23]
+ 762 002e 03F00703 	 and r3,r3,#7
+ 763 0032 BB75     	 strb r3,[r7,#22]
+ 764              	.L35:
+ 292:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         }
+ 293:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         // Propagate errors to upper layer
+ 294:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         if (0 != (event & IFX_I2C_DL_EVENT_ERROR))
+ 765              	 .loc 1 294 0
+ 766 0034 7B89     	 ldrh r3,[r7,#10]
+ 767 0036 03F00103 	 and r3,r3,#1
+ 768 003a 002B     	 cmp r3,#0
+ 769 003c 08D0     	 beq .L36
+ 295:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         {
+ 296:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             p_ctx->tl.state = TL_STATE_ERROR;
+ 770              	 .loc 1 296 0
+ 771 003e FB68     	 ldr r3,[r7,#12]
+ 772 0040 0622     	 movs r2,#6
+ 773 0042 83F82C20 	 strb r2,[r3,#44]
+ 297:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             p_ctx->tl.error_event = IFX_I2C_STACK_ERROR;
+ 774              	 .loc 1 297 0
+ 775 0046 FB68     	 ldr r3,[r7,#12]
+ 776 0048 4FF48172 	 mov r2,#258
+ 777 004c A3F84C20 	 strh r2,[r3,#76]
+ 778              	.L36:
+ 298:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         }
+ 299:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         if (0 != data_len)
+ 779              	 .loc 1 299 0
+ 780 0050 3B89     	 ldrh r3,[r7,#8]
+ 781 0052 002B     	 cmp r3,#0
+ 782 0054 10D0     	 beq .L37
+ 300:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         {
+ 301:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             if (0 != (presence_bit_check(p_ctx,pctr)))
+ 783              	 .loc 1 301 0
+ 784 0056 FB7D     	 ldrb r3,[r7,#23]
+ 785 0058 F868     	 ldr r0,[r7,#12]
+ 786 005a 1946     	 mov r1,r3
+ 787 005c FFF7FEFF 	 bl presence_bit_check
+ 788 0060 0346     	 mov r3,r0
+ 789 0062 002B     	 cmp r3,#0
+ 790 0064 08D0     	 beq .L37
+ 302:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             {
+ 303:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 p_ctx->tl.state = TL_STATE_ERROR;
+ 791              	 .loc 1 303 0
+ 792 0066 FB68     	 ldr r3,[r7,#12]
+ 793 0068 0622     	 movs r2,#6
+ 794 006a 83F82C20 	 strb r2,[r3,#44]
+ 304:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 p_ctx->tl.error_event = IFX_I2C_STACK_ERROR;
+ 795              	 .loc 1 304 0
+ 796 006e FB68     	 ldr r3,[r7,#12]
+ 797 0070 4FF48172 	 mov r2,#258
+ 798 0074 A3F84C20 	 strh r2,[r3,#76]
+ 799              	.L37:
+ 305:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             }
+ 306:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         }
+ 307:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         p_ctx->tl.initialization_state = FALSE;
+ 800              	 .loc 1 307 0
+ 801 0078 FB68     	 ldr r3,[r7,#12]
+ 802 007a 0022     	 movs r2,#0
+ 803 007c 83F85020 	 strb r2,[r3,#80]
+ 308:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         switch (p_ctx->tl.state)
+ 804              	 .loc 1 308 0
+ 805 0080 FB68     	 ldr r3,[r7,#12]
+ 806 0082 93F82C30 	 ldrb r3,[r3,#44]
+ 807 0086 013B     	 subs r3,r3,#1
+ 808 0088 072B     	 cmp r3,#7
+ 809 008a 00F2BF81 	 bhi .L38
+ 810 008e 01A2     	 adr r2,.L40
+ 811 0090 52F823F0 	 ldr pc,[r2,r3,lsl#2]
+ 812              	 .p2align 2
+ 813              	.L40:
+ 814 0094 B5000000 	 .word .L39+1
+ 815 0098 C9000000 	 .word .L41+1
+ 816 009c 0D040000 	 .word .L38+1
+ 817 00a0 59010000 	 .word .L42+1
+ 818 00a4 8F020000 	 .word .L43+1
+ 819 00a8 DB030000 	 .word .L44+1
+ 820 00ac 99030000 	 .word .L45+1
+ 821 00b0 3D030000 	 .word .L46+1
+ 822              	 .p2align 1
+ 823              	.L39:
+ 309:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         {
+ 310:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             case TL_STATE_IDLE:
+ 311:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             {
+ 312:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 exit_machine = FALSE;
+ 824              	 .loc 1 312 0
+ 825 00b4 0023     	 movs r3,#0
+ 826 00b6 7B75     	 strb r3,[r7,#21]
+ 313:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 p_ctx->tl.upper_layer_event_handler(p_ctx, IFX_I2C_STACK_SUCCESS, 0, 0);
+ 827              	 .loc 1 313 0
+ 828 00b8 FB68     	 ldr r3,[r7,#12]
+ 829 00ba 5C6D     	 ldr r4,[r3,#84]
+ 830 00bc F868     	 ldr r0,[r7,#12]
+ 831 00be 0021     	 movs r1,#0
+ 832 00c0 0022     	 movs r2,#0
+ 833 00c2 0023     	 movs r3,#0
+ 834 00c4 A047     	 blx r4
+ 314:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             }
+ 315:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             break;
+ 835              	 .loc 1 315 0
+ 836 00c6 B2E1     	 b .L47
+ 837              	.L41:
+ 316:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             case TL_STATE_TX:
+ 317:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             {
+ 318:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 // Frame transmission in Data Link layer complete, start receiving frames
+ 319:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 if (0 != (event & IFX_I2C_DL_EVENT_TX_SUCCESS))
+ 838              	 .loc 1 319 0
+ 839 00c8 7B89     	 ldrh r3,[r7,#10]
+ 840 00ca 03F00203 	 and r3,r3,#2
+ 841 00ce 002B     	 cmp r3,#0
+ 842 00d0 3CD0     	 beq .L48
+ 320:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 321:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     if (p_ctx->tl.packet_offset < p_ctx->tl.actual_packet_length)
+ 843              	 .loc 1 321 0
+ 844 00d2 FB68     	 ldr r3,[r7,#12]
+ 845 00d4 1A8F     	 ldrh r2,[r3,#56]
+ 846 00d6 FB68     	 ldr r3,[r7,#12]
+ 847 00d8 DB8E     	 ldrh r3,[r3,#54]
+ 848 00da 9A42     	 cmp r2,r3
+ 849 00dc 15D2     	 bcs .L49
+ 322:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     {
+ 323:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         // Transmission of one fragment complete, send next fragment
+ 324:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         LOG_TL("[IFX-TL]: Tx:Fragment sent,now send next\n");
+ 325:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         // Chaining error from slave
+ 326:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         if (TL_CHAINING_ERROR == chaining)
+ 850              	 .loc 1 326 0
+ 851 00de BB7D     	 ldrb r3,[r7,#22]
+ 852 00e0 072B     	 cmp r3,#7
+ 853 00e2 04D1     	 bne .L50
+ 327:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         {
+ 328:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             LOG_TL("[IFX-TL]: Tx:Chaining error received while Tx\n");
+ 329:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             p_ctx->tl.state = TL_STATE_RESEND;
+ 854              	 .loc 1 329 0
+ 855 00e4 FB68     	 ldr r3,[r7,#12]
+ 856 00e6 0822     	 movs r2,#8
+ 857 00e8 83F82C20 	 strb r2,[r3,#44]
+ 330:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             break;
+ 858              	 .loc 1 330 0
+ 859 00ec 9FE1     	 b .L47
+ 860              	.L50:
+ 331:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         }
+ 332:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         // Any fragment received before complete transmission is error
+ 333:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         if (0 != data_len)
+ 861              	 .loc 1 333 0
+ 862 00ee 3B89     	 ldrh r3,[r7,#8]
+ 863 00f0 002B     	 cmp r3,#0
+ 864 00f2 04D0     	 beq .L51
+ 334:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         {
+ 335:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             LOG_TL("[IFX-TL]: Tx:Data received while Tx\n");
+ 336:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             p_ctx->tl.state = TL_STATE_ERROR;
+ 865              	 .loc 1 336 0
+ 866 00f4 FB68     	 ldr r3,[r7,#12]
+ 867 00f6 0622     	 movs r2,#6
+ 868 00f8 83F82C20 	 strb r2,[r3,#44]
+ 337:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             break;
+ 869              	 .loc 1 337 0
+ 870 00fc 97E1     	 b .L47
+ 871              	.L51:
+ 338:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         }
+ 339:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         exit_machine = FALSE;
+ 872              	 .loc 1 339 0
+ 873 00fe 0023     	 movs r3,#0
+ 874 0100 7B75     	 strb r3,[r7,#21]
+ 340:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         //lint --e{534} suppress "Error handling is not required so return value is
+ 341:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         ifx_i2c_tl_send_next_fragment(p_ctx);
+ 875              	 .loc 1 341 0
+ 876 0102 F868     	 ldr r0,[r7,#12]
+ 877 0104 FFF7FEFF 	 bl ifx_i2c_tl_send_next_fragment
+ 878 0108 25E0     	 b .L54
+ 879              	.L49:
+ 342:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 343:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     else
+ 344:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     {
+ 345:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         // Transmission of all fragments complete, start receiving fragments
+ 346:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         LOG_TL("[IFX-TL]: Tx:All fragment sent\n");
+ 347:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.state = TL_STATE_RX;
+ 880              	 .loc 1 347 0
+ 881 010a FB68     	 ldr r3,[r7,#12]
+ 882 010c 0422     	 movs r2,#4
+ 883 010e 83F82C20 	 strb r2,[r3,#44]
+ 348:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.total_recv_length = 0;
+ 884              	 .loc 1 348 0
+ 885 0112 FB68     	 ldr r3,[r7,#12]
+ 886 0114 0022     	 movs r2,#0
+ 887 0116 9A86     	 strh r2,[r3,#52]
+ 349:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.previous_chaining = TL_CHAINING_NO;
+ 888              	 .loc 1 349 0
+ 889 0118 FB68     	 ldr r3,[r7,#12]
+ 890 011a 0022     	 movs r2,#0
+ 891 011c 83F84A20 	 strb r2,[r3,#74]
+ 350:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.transmission_completed = 1;
+ 892              	 .loc 1 350 0
+ 893 0120 FB68     	 ldr r3,[r7,#12]
+ 894 0122 0122     	 movs r2,#1
+ 895 0124 83F84B20 	 strb r2,[r3,#75]
+ 351:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         // if data is received after sending last frame
+ 352:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         if (!(event & IFX_I2C_DL_EVENT_RX_SUCCESS))
+ 896              	 .loc 1 352 0
+ 897 0128 7B89     	 ldrh r3,[r7,#10]
+ 898 012a 03F00403 	 and r3,r3,#4
+ 899 012e 002B     	 cmp r3,#0
+ 900 0130 11D1     	 bne .L54
+ 353:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         {
+ 354:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             LOG_TL("[IFX-TL]: Tx:Data already received after Tx\n");
+ 355:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             // Received CTRL frame, trigger reception in Data Link layer
+ 356:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             if (0 != ifx_i2c_dl_receive_frame(p_ctx))
+ 901              	 .loc 1 356 0
+ 902 0132 F868     	 ldr r0,[r7,#12]
+ 903 0134 FFF7FEFF 	 bl ifx_i2c_dl_receive_frame
+ 904 0138 0346     	 mov r3,r0
+ 905 013a 002B     	 cmp r3,#0
+ 906 013c 03D0     	 beq .L53
+ 357:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             {
+ 358:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                 LOG_TL("[IFX-TL]: Tx:RX Received CTRL frame fail -> Inform UL\n");
+ 359:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                 p_ctx->tl.state = TL_STATE_ERROR;
+ 907              	 .loc 1 359 0
+ 908 013e FB68     	 ldr r3,[r7,#12]
+ 909 0140 0622     	 movs r2,#6
+ 910 0142 83F82C20 	 strb r2,[r3,#44]
+ 911              	.L53:
+ 360:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             }
+ 361:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             exit_machine = FALSE;
+ 912              	 .loc 1 361 0
+ 913 0146 0023     	 movs r3,#0
+ 914 0148 7B75     	 strb r3,[r7,#21]
+ 362:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         }
+ 363:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 364:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 365:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 else
+ 366:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 367:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     LOG_TL("[IFX-TL]: Tx:IFX_I2C_DL_EVENT_TX_SUCCESS is not satisfied Tx\n");
+ 368:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.state = TL_STATE_ERROR;
+ 369:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     break;
+ 370:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 371:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             }
+ 372:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             break;
+ 915              	 .loc 1 372 0
+ 916 014a 70E1     	 b .L47
+ 917              	.L48:
+ 368:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     break;
+ 918              	 .loc 1 368 0
+ 919 014c FB68     	 ldr r3,[r7,#12]
+ 920 014e 0622     	 movs r2,#6
+ 921 0150 83F82C20 	 strb r2,[r3,#44]
+ 369:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 922              	 .loc 1 369 0
+ 923 0154 6BE1     	 b .L47
+ 924              	.L54:
+ 925              	 .loc 1 372 0 discriminator 1
+ 926 0156 6AE1     	 b .L47
+ 927              	.L42:
+ 373:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             case TL_STATE_RX:
+ 374:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             {
+ 375:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 // Reception of frame from Data Link layer
+ 376:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 if (0 != (event & IFX_I2C_DL_EVENT_RX_SUCCESS))
+ 928              	 .loc 1 376 0
+ 929 0158 7B89     	 ldrh r3,[r7,#10]
+ 930 015a 03F00403 	 and r3,r3,#4
+ 931 015e 002B     	 cmp r3,#0
+ 932 0160 00F08F80 	 beq .L55
+ 377:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 378:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     // Message must contain at least the transport layer header
+ 379:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     if (data_len < TL_HEADER_SIZE)
+ 933              	 .loc 1 379 0
+ 934 0164 3B89     	 ldrh r3,[r7,#8]
+ 935 0166 002B     	 cmp r3,#0
+ 936 0168 04D1     	 bne .L56
+ 380:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     {
+ 381:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         LOG_TL("[IFX-TL]: Rx : Data received is more than header len\n");
+ 382:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.state = TL_STATE_ERROR;
+ 937              	 .loc 1 382 0
+ 938 016a FB68     	 ldr r3,[r7,#12]
+ 939 016c 0622     	 movs r2,#6
+ 940 016e 83F82C20 	 strb r2,[r3,#44]
+ 383:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         break;
+ 941              	 .loc 1 383 0
+ 942 0172 5CE1     	 b .L47
+ 943              	.L56:
+ 384:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 385:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 386:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     if (IFX_I2C_STACK_MEM_ERROR == p_ctx->tl.error_event)
+ 944              	 .loc 1 386 0
+ 945 0174 FB68     	 ldr r3,[r7,#12]
+ 946 0176 B3F84C30 	 ldrh r3,[r3,#76]
+ 947 017a B3F5827F 	 cmp r3,#260
+ 948 017e 14D1     	 bne .L57
+ 387:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     {
+ 388:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         if ((TL_CHAINING_LAST == chaining) || (0 != ifx_i2c_dl_receive_frame(p_ctx)
+ 949              	 .loc 1 388 0
+ 950 0180 BB7D     	 ldrb r3,[r7,#22]
+ 951 0182 042B     	 cmp r3,#4
+ 952 0184 05D0     	 beq .L58
+ 953              	 .loc 1 388 0 is_stmt 0 discriminator 1
+ 954 0186 F868     	 ldr r0,[r7,#12]
+ 955 0188 FFF7FEFF 	 bl ifx_i2c_dl_receive_frame
+ 956 018c 0346     	 mov r3,r0
+ 957 018e 002B     	 cmp r3,#0
+ 958 0190 04D0     	 beq .L59
+ 959              	.L58:
+ 389:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         {
+ 390:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             p_ctx->tl.state = TL_STATE_ERROR;
+ 960              	 .loc 1 390 0 is_stmt 1
+ 961 0192 FB68     	 ldr r3,[r7,#12]
+ 962 0194 0622     	 movs r2,#6
+ 963 0196 83F82C20 	 strb r2,[r3,#44]
+ 391:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             break;
+ 964              	 .loc 1 391 0
+ 965 019a 48E1     	 b .L47
+ 966              	.L59:
+ 392:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         }
+ 393:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.state = TL_STATE_RX;
+ 967              	 .loc 1 393 0
+ 968 019c FB68     	 ldr r3,[r7,#12]
+ 969 019e 0422     	 movs r2,#4
+ 970 01a0 83F82C20 	 strb r2,[r3,#44]
+ 394:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         exit_machine = FALSE;
+ 971              	 .loc 1 394 0
+ 972 01a4 0023     	 movs r3,#0
+ 973 01a6 7B75     	 strb r3,[r7,#21]
+ 395:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         break;
+ 974              	 .loc 1 395 0
+ 975 01a8 41E1     	 b .L47
+ 976              	.L57:
+ 396:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 397:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 398:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     // If chaining error detected
+ 399:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     if (IFX_I2C_STACK_SUCCESS != ifx_i2c_tl_check_chaining_error(chaining,p_ctx->tl
+ 977              	 .loc 1 399 0
+ 978 01aa FB68     	 ldr r3,[r7,#12]
+ 979 01ac 93F84A30 	 ldrb r3,[r3,#74]
+ 980 01b0 BA7D     	 ldrb r2,[r7,#22]
+ 981 01b2 1046     	 mov r0,r2
+ 982 01b4 1946     	 mov r1,r3
+ 983 01b6 FFF7FEFF 	 bl ifx_i2c_tl_check_chaining_error
+ 984 01ba 0346     	 mov r3,r0
+ 985 01bc 002B     	 cmp r3,#0
+ 986 01be 04D0     	 beq .L60
+ 400:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     {
+ 401:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         LOG_TL("[IFX-TL]: Rx : Chaining state is not correct\n");
+ 402:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.state = TL_STATE_RESEND;
+ 987              	 .loc 1 402 0
+ 988 01c0 FB68     	 ldr r3,[r7,#12]
+ 989 01c2 0822     	 movs r2,#8
+ 990 01c4 83F82C20 	 strb r2,[r3,#44]
+ 403:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         break;
+ 991              	 .loc 1 403 0
+ 992 01c8 31E1     	 b .L47
+ 993              	.L60:
+ 404:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 405:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 406:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.previous_chaining = chaining & 0x07;
+ 994              	 .loc 1 406 0
+ 995 01ca BB7D     	 ldrb r3,[r7,#22]
+ 996 01cc 03F00703 	 and r3,r3,#7
+ 997 01d0 DAB2     	 uxtb r2,r3
+ 998 01d2 FB68     	 ldr r3,[r7,#12]
+ 999 01d4 83F84A20 	 strb r2,[r3,#74]
+ 407:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     if (NULL == p_data)
+ 1000              	 .loc 1 407 0
+ 1001 01d8 7B68     	 ldr r3,[r7,#4]
+ 1002 01da 002B     	 cmp r3,#0
+ 1003 01dc 04D1     	 bne .L61
+ 408:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     {
+ 409:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.state = TL_STATE_ERROR;
+ 1004              	 .loc 1 409 0
+ 1005 01de FB68     	 ldr r3,[r7,#12]
+ 1006 01e0 0622     	 movs r2,#6
+ 1007 01e2 83F82C20 	 strb r2,[r3,#44]
+ 410:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         break;
+ 1008              	 .loc 1 410 0
+ 1009 01e6 22E1     	 b .L47
+ 1010              	.L61:
+ 411:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 412:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 413:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     // No chaining and Last
+ 414:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     if ((TL_CHAINING_NO == chaining) || (TL_CHAINING_LAST == chaining))
+ 1011              	 .loc 1 414 0
+ 1012 01e8 BB7D     	 ldrb r3,[r7,#22]
+ 1013 01ea 002B     	 cmp r3,#0
+ 1014 01ec 02D0     	 beq .L62
+ 1015              	 .loc 1 414 0 is_stmt 0 discriminator 1
+ 1016 01ee BB7D     	 ldrb r3,[r7,#22]
+ 1017 01f0 042B     	 cmp r3,#4
+ 1018 01f2 41D1     	 bne .L63
+ 1019              	.L62:
+ 415:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     {
+ 416:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         LOG_TL("[IFX-TL]: Rx : No chain/Last chain received, Inform UL\n");
+ 417:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         // Check for possible receive buffer overflow
+ 418:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         if ((p_ctx->tl.total_recv_length + data_len - 1) > (*p_ctx->tl.p_recv_packe
+ 1020              	 .loc 1 418 0 is_stmt 1
+ 1021 01f4 FB68     	 ldr r3,[r7,#12]
+ 1022 01f6 9B8E     	 ldrh r3,[r3,#52]
+ 1023 01f8 1A46     	 mov r2,r3
+ 1024 01fa 3B89     	 ldrh r3,[r7,#8]
+ 1025 01fc 1344     	 add r3,r3,r2
+ 1026 01fe 013B     	 subs r3,r3,#1
+ 1027 0200 FA68     	 ldr r2,[r7,#12]
+ 1028 0202 126C     	 ldr r2,[r2,#64]
+ 1029 0204 1288     	 ldrh r2,[r2]
+ 1030 0206 9342     	 cmp r3,r2
+ 1031 0208 09DD     	 ble .L64
+ 419:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         {
+ 420:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             LOG_TL("[IFX-TL]: Chain : Buffer overflow\n");
+ 421:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             p_ctx->tl.error_event = IFX_I2C_STACK_MEM_ERROR;
+ 1032              	 .loc 1 421 0
+ 1033 020a FB68     	 ldr r3,[r7,#12]
+ 1034 020c 4FF48272 	 mov r2,#260
+ 1035 0210 A3F84C20 	 strh r2,[r3,#76]
+ 422:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             p_ctx->tl.state = TL_STATE_ERROR;
+ 1036              	 .loc 1 422 0
+ 1037 0214 FB68     	 ldr r3,[r7,#12]
+ 1038 0216 0622     	 movs r2,#6
+ 1039 0218 83F82C20 	 strb r2,[r3,#44]
+ 423:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                             break;
+ 1040              	 .loc 1 423 0
+ 1041 021c 07E1     	 b .L47
+ 1042              	.L64:
+ 424:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         }
+ 425:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         exit_machine = FALSE;
+ 1043              	 .loc 1 425 0
+ 1044 021e 0023     	 movs r3,#0
+ 1045 0220 7B75     	 strb r3,[r7,#21]
+ 426:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         // Copy frame payload to transport layer receive buffer
+ 427:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         memcpy(p_ctx->tl.p_recv_packet_buffer + p_ctx->tl.total_recv_length, p_data
+ 1046              	 .loc 1 427 0
+ 1047 0222 FB68     	 ldr r3,[r7,#12]
+ 1048 0224 DB6B     	 ldr r3,[r3,#60]
+ 1049 0226 FA68     	 ldr r2,[r7,#12]
+ 1050 0228 928E     	 ldrh r2,[r2,#52]
+ 1051 022a 9918     	 adds r1,r3,r2
+ 1052 022c 7B68     	 ldr r3,[r7,#4]
+ 1053 022e 5A1C     	 adds r2,r3,#1
+ 1054 0230 3B89     	 ldrh r3,[r7,#8]
+ 1055 0232 013B     	 subs r3,r3,#1
+ 1056 0234 0846     	 mov r0,r1
+ 1057 0236 1146     	 mov r1,r2
+ 1058 0238 1A46     	 mov r2,r3
+ 1059 023a FFF7FEFF 	 bl memcpy
+ 428:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.total_recv_length += (data_len - 1);
+ 1060              	 .loc 1 428 0
+ 1061 023e FB68     	 ldr r3,[r7,#12]
+ 1062 0240 9A8E     	 ldrh r2,[r3,#52]
+ 1063 0242 3B89     	 ldrh r3,[r7,#8]
+ 1064 0244 1344     	 add r3,r3,r2
+ 1065 0246 9BB2     	 uxth r3,r3
+ 1066 0248 013B     	 subs r3,r3,#1
+ 1067 024a 9AB2     	 uxth r2,r3
+ 1068 024c FB68     	 ldr r3,[r7,#12]
+ 1069 024e 9A86     	 strh r2,[r3,#52]
+ 429:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         // Inform upper layer that a packet has arrived
+ 430:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.state = TL_STATE_IDLE;
+ 1070              	 .loc 1 430 0
+ 1071 0250 FB68     	 ldr r3,[r7,#12]
+ 1072 0252 0122     	 movs r2,#1
+ 1073 0254 83F82C20 	 strb r2,[r3,#44]
+ 431:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         *p_ctx->tl.p_recv_packet_buffer_length = p_ctx->tl.total_recv_length;
+ 1074              	 .loc 1 431 0
+ 1075 0258 FB68     	 ldr r3,[r7,#12]
+ 1076 025a 1B6C     	 ldr r3,[r3,#64]
+ 1077 025c FA68     	 ldr r2,[r7,#12]
+ 1078 025e 928E     	 ldrh r2,[r2,#52]
+ 1079 0260 1A80     	 strh r2,[r3]
+ 432:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.upper_layer_event_handler(p_ctx,IFX_I2C_STACK_SUCCESS,
+ 1080              	 .loc 1 432 0
+ 1081 0262 FB68     	 ldr r3,[r7,#12]
+ 1082 0264 5C6D     	 ldr r4,[r3,#84]
+ 433:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                             p_ctx->tl.p_recv_packet_buffer,
+ 1083              	 .loc 1 433 0
+ 1084 0266 FB68     	 ldr r3,[r7,#12]
+ 1085 0268 DA6B     	 ldr r2,[r3,#60]
+ 434:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                                                             *p_ctx->tl.p_recv_packet_buffer_length)
+ 1086              	 .loc 1 434 0
+ 1087 026a FB68     	 ldr r3,[r7,#12]
+ 1088 026c 1B6C     	 ldr r3,[r3,#64]
+ 432:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.upper_layer_event_handler(p_ctx,IFX_I2C_STACK_SUCCESS,
+ 1089              	 .loc 1 432 0
+ 1090 026e 1B88     	 ldrh r3,[r3]
+ 1091 0270 F868     	 ldr r0,[r7,#12]
+ 1092 0272 0021     	 movs r1,#0
+ 1093 0274 A047     	 blx r4
+ 1094 0276 09E0     	 b .L66
+ 1095              	.L63:
+ 435:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 436:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     else
+ 437:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     {
+ 438:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.state = TL_STATE_CHAINING;
+ 1096              	 .loc 1 438 0
+ 1097 0278 FB68     	 ldr r3,[r7,#12]
+ 1098 027a 0522     	 movs r2,#5
+ 1099 027c 83F82C20 	 strb r2,[r3,#44]
+ 1100 0280 04E0     	 b .L66
+ 1101              	.L55:
+ 439:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 440:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 441:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 else
+ 442:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 443:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     LOG_TL("[IFX-TL]: Tx:IFX_I2C_DL_EVENT_TX_SUCCESS is not satisfied Tx\n");
+ 444:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.state = TL_STATE_ERROR;
+ 1102              	 .loc 1 444 0
+ 1103 0282 FB68     	 ldr r3,[r7,#12]
+ 1104 0284 0622     	 movs r2,#6
+ 1105 0286 83F82C20 	 strb r2,[r3,#44]
+ 445:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     break;
+ 1106              	 .loc 1 445 0
+ 1107 028a D0E0     	 b .L47
+ 1108              	.L66:
+ 446:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 447:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             }
+ 448:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             break;
+ 1109              	 .loc 1 448 0 discriminator 2
+ 1110 028c CFE0     	 b .L47
+ 1111              	.L43:
+ 449:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             case TL_STATE_CHAINING:
+ 450:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             {
+ 451:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 LOG_TL("[IFX-TL]: Chain : Chaining mode entered\n");
+ 452:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 // When receiving a starting fragment, fragment length must be max frame size for i
+ 453:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 // frame the buffer should not be empty
+ 454:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 if (data_len != (p_ctx->tl.max_packet_length + 1))
+ 1112              	 .loc 1 454 0
+ 1113 028e 3A89     	 ldrh r2,[r7,#8]
+ 1114 0290 FB68     	 ldr r3,[r7,#12]
+ 1115 0292 5B8F     	 ldrh r3,[r3,#58]
+ 1116 0294 0133     	 adds r3,r3,#1
+ 1117 0296 9A42     	 cmp r2,r3
+ 1118 0298 04D0     	 beq .L67
+ 455:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 456:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     LOG_TL("[IFX-TL]: Chain : Data len not equal to max frame size\n");
+ 457:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.state = TL_STATE_CHAINING_ERROR;
+ 1119              	 .loc 1 457 0
+ 1120 029a FB68     	 ldr r3,[r7,#12]
+ 1121 029c 0722     	 movs r2,#7
+ 1122 029e 83F82C20 	 strb r2,[r3,#44]
+ 458:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     break;
+ 1123              	 .loc 1 458 0
+ 1124 02a2 C4E0     	 b .L47
+ 1125              	.L67:
+ 459:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 460:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 // Check for possible receive buffer overflow
+ 461:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 if ((p_ctx->tl.total_recv_length + data_len - 1) > (*p_ctx->tl.p_recv_packet_buffer
+ 1126              	 .loc 1 461 0
+ 1127 02a4 FB68     	 ldr r3,[r7,#12]
+ 1128 02a6 9B8E     	 ldrh r3,[r3,#52]
+ 1129 02a8 1A46     	 mov r2,r3
+ 1130 02aa 3B89     	 ldrh r3,[r7,#8]
+ 1131 02ac 1344     	 add r3,r3,r2
+ 1132 02ae 013B     	 subs r3,r3,#1
+ 1133 02b0 FA68     	 ldr r2,[r7,#12]
+ 1134 02b2 126C     	 ldr r2,[r2,#64]
+ 1135 02b4 1288     	 ldrh r2,[r2]
+ 1136 02b6 9342     	 cmp r3,r2
+ 1137 02b8 09DD     	 ble .L68
+ 462:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 463:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     LOG_TL("[IFX-TL]: Chain : Buffer overflow\n");
+ 464:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.error_event = IFX_I2C_STACK_MEM_ERROR;
+ 1138              	 .loc 1 464 0
+ 1139 02ba FB68     	 ldr r3,[r7,#12]
+ 1140 02bc 4FF48272 	 mov r2,#260
+ 1141 02c0 A3F84C20 	 strh r2,[r3,#76]
+ 465:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.state = TL_STATE_RX;
+ 1142              	 .loc 1 465 0
+ 1143 02c4 FB68     	 ldr r3,[r7,#12]
+ 1144 02c6 0422     	 movs r2,#4
+ 1145 02c8 83F82C20 	 strb r2,[r3,#44]
+ 466:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     break;
+ 1146              	 .loc 1 466 0
+ 1147 02cc AFE0     	 b .L47
+ 1148              	.L68:
+ 467:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 468:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 if (NULL == p_data)
+ 1149              	 .loc 1 468 0
+ 1150 02ce 7B68     	 ldr r3,[r7,#4]
+ 1151 02d0 002B     	 cmp r3,#0
+ 1152 02d2 04D1     	 bne .L69
+ 469:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 470:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.state = TL_STATE_ERROR;
+ 1153              	 .loc 1 470 0
+ 1154 02d4 FB68     	 ldr r3,[r7,#12]
+ 1155 02d6 0622     	 movs r2,#6
+ 1156 02d8 83F82C20 	 strb r2,[r3,#44]
+ 471:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     break;
+ 1157              	 .loc 1 471 0
+ 1158 02dc A7E0     	 b .L47
+ 1159              	.L69:
+ 472:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 473:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 // Copy frame payload to transport layer receive buffer
+ 474:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 memcpy(p_ctx->tl.p_recv_packet_buffer + p_ctx->tl.total_recv_length, p_data + 1, da
+ 1160              	 .loc 1 474 0
+ 1161 02de FB68     	 ldr r3,[r7,#12]
+ 1162 02e0 DB6B     	 ldr r3,[r3,#60]
+ 1163 02e2 FA68     	 ldr r2,[r7,#12]
+ 1164 02e4 928E     	 ldrh r2,[r2,#52]
+ 1165 02e6 9918     	 adds r1,r3,r2
+ 1166 02e8 7B68     	 ldr r3,[r7,#4]
+ 1167 02ea 5A1C     	 adds r2,r3,#1
+ 1168 02ec 3B89     	 ldrh r3,[r7,#8]
+ 1169 02ee 013B     	 subs r3,r3,#1
+ 1170 02f0 0846     	 mov r0,r1
+ 1171 02f2 1146     	 mov r1,r2
+ 1172 02f4 1A46     	 mov r2,r3
+ 1173 02f6 FFF7FEFF 	 bl memcpy
+ 475:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 p_ctx->tl.total_recv_length += (data_len - 1);
+ 1174              	 .loc 1 475 0
+ 1175 02fa FB68     	 ldr r3,[r7,#12]
+ 1176 02fc 9A8E     	 ldrh r2,[r3,#52]
+ 1177 02fe 3B89     	 ldrh r3,[r7,#8]
+ 1178 0300 1344     	 add r3,r3,r2
+ 1179 0302 9BB2     	 uxth r3,r3
+ 1180 0304 013B     	 subs r3,r3,#1
+ 1181 0306 9AB2     	 uxth r2,r3
+ 1182 0308 FB68     	 ldr r3,[r7,#12]
+ 1183 030a 9A86     	 strh r2,[r3,#52]
+ 476:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** 
+ 477:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 p_ctx->tl.previous_chaining = pctr & 0x07;
+ 1184              	 .loc 1 477 0
+ 1185 030c FB7D     	 ldrb r3,[r7,#23]
+ 1186 030e 03F00703 	 and r3,r3,#7
+ 1187 0312 DAB2     	 uxtb r2,r3
+ 1188 0314 FB68     	 ldr r3,[r7,#12]
+ 1189 0316 83F84A20 	 strb r2,[r3,#74]
+ 478:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 LOG_TL("[IFX-TL]: Chain : Continue  in receive mode\n");
+ 479:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 p_ctx->tl.state = TL_STATE_RX;
+ 1190              	 .loc 1 479 0
+ 1191 031a FB68     	 ldr r3,[r7,#12]
+ 1192 031c 0422     	 movs r2,#4
+ 1193 031e 83F82C20 	 strb r2,[r3,#44]
+ 480:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 // Continue receiving frames until packet is complete
+ 481:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 if (0 != ifx_i2c_dl_receive_frame(p_ctx))
+ 1194              	 .loc 1 481 0
+ 1195 0322 F868     	 ldr r0,[r7,#12]
+ 1196 0324 FFF7FEFF 	 bl ifx_i2c_dl_receive_frame
+ 1197 0328 0346     	 mov r3,r0
+ 1198 032a 002B     	 cmp r3,#0
+ 1199 032c 03D0     	 beq .L70
+ 482:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 483:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.state = TL_STATE_ERROR;
+ 1200              	 .loc 1 483 0
+ 1201 032e FB68     	 ldr r3,[r7,#12]
+ 1202 0330 0622     	 movs r2,#6
+ 1203 0332 83F82C20 	 strb r2,[r3,#44]
+ 1204              	.L70:
+ 484:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 485:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 exit_machine = FALSE;
+ 1205              	 .loc 1 485 0
+ 1206 0336 0023     	 movs r3,#0
+ 1207 0338 7B75     	 strb r3,[r7,#21]
+ 486:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             }
+ 487:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             break;
+ 1208              	 .loc 1 487 0
+ 1209 033a 78E0     	 b .L47
+ 1210              	.L46:
+ 488:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             case TL_STATE_RESEND:
+ 489:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             {
+ 490:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 LOG_TL("[IFX-TL]: Resend Enter\n");
+ 491:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 // In received mode , for wrong pctr with data
+ 492:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 if ((data_len > 1) && (p_ctx->tl.transmission_completed == 1))
+ 1211              	 .loc 1 492 0
+ 1212 033c 3B89     	 ldrh r3,[r7,#8]
+ 1213 033e 012B     	 cmp r3,#1
+ 1214 0340 09D9     	 bls .L71
+ 1215              	 .loc 1 492 0 is_stmt 0 discriminator 1
+ 1216 0342 FB68     	 ldr r3,[r7,#12]
+ 1217 0344 93F84B30 	 ldrb r3,[r3,#75]
+ 1218 0348 012B     	 cmp r3,#1
+ 1219 034a 04D1     	 bne .L71
+ 493:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 494:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     LOG_TL("[IFX-TL]: Resend : Send chaining error\n");
+ 495:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.state = TL_STATE_CHAINING_ERROR;
+ 1220              	 .loc 1 495 0 is_stmt 1
+ 1221 034c FB68     	 ldr r3,[r7,#12]
+ 1222 034e 0722     	 movs r2,#7
+ 1223 0350 83F82C20 	 strb r2,[r3,#44]
+ 496:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     break;
+ 1224              	 .loc 1 496 0
+ 1225 0354 6BE0     	 b .L47
+ 1226              	.L71:
+ 497:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 498:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 // Master Resend the packets,Resend only once, otherwise exit with error
+ 499:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 if (0 == (p_ctx->tl.chaining_error_count++))
+ 1227              	 .loc 1 499 0
+ 1228 0356 FB68     	 ldr r3,[r7,#12]
+ 1229 0358 93F84830 	 ldrb r3,[r3,#72]
+ 1230 035c 5A1C     	 adds r2,r3,#1
+ 1231 035e D1B2     	 uxtb r1,r2
+ 1232 0360 FA68     	 ldr r2,[r7,#12]
+ 1233 0362 82F84810 	 strb r1,[r2,#72]
+ 1234 0366 002B     	 cmp r3,#0
+ 1235 0368 11D1     	 bne .L72
+ 500:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 501:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     LOG_TL("[IFX-TL]: Resend : Resending\n");
+ 502:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.state = TL_STATE_IDLE;
+ 1236              	 .loc 1 502 0
+ 1237 036a FB68     	 ldr r3,[r7,#12]
+ 1238 036c 0122     	 movs r2,#1
+ 1239 036e 83F82C20 	 strb r2,[r3,#44]
+ 503:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     if (0 != ifx_i2c_tl_resend_packets(p_ctx))
+ 1240              	 .loc 1 503 0
+ 1241 0372 F868     	 ldr r0,[r7,#12]
+ 1242 0374 FFF7FEFF 	 bl ifx_i2c_tl_resend_packets
+ 1243 0378 0346     	 mov r3,r0
+ 1244 037a 002B     	 cmp r3,#0
+ 1245 037c 04D0     	 beq .L73
+ 504:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     {
+ 505:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.state = TL_STATE_ERROR;
+ 1246              	 .loc 1 505 0
+ 1247 037e FB68     	 ldr r3,[r7,#12]
+ 1248 0380 0622     	 movs r2,#6
+ 1249 0382 83F82C20 	 strb r2,[r3,#44]
+ 506:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 507:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     else
+ 508:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     {
+ 509:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         exit_machine = FALSE;
+ 510:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 511:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 512:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 else
+ 513:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 514:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     LOG_TL("[IFX-TL]: Resend : chaining_error_count exceeded\n");
+ 515:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.state = TL_STATE_ERROR;
+ 516:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 517:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             }
+ 518:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             break;
+ 1250              	 .loc 1 518 0
+ 1251 0386 52E0     	 b .L47
+ 1252              	.L73:
+ 509:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 1253              	 .loc 1 509 0
+ 1254 0388 0023     	 movs r3,#0
+ 1255 038a 7B75     	 strb r3,[r7,#21]
+ 1256              	 .loc 1 518 0
+ 1257 038c 4FE0     	 b .L47
+ 1258              	.L72:
+ 515:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 1259              	 .loc 1 515 0
+ 1260 038e FB68     	 ldr r3,[r7,#12]
+ 1261 0390 0622     	 movs r2,#6
+ 1262 0392 83F82C20 	 strb r2,[r3,#44]
+ 1263              	 .loc 1 518 0
+ 1264 0396 4AE0     	 b .L47
+ 1265              	.L45:
+ 519:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             case TL_STATE_CHAINING_ERROR:
+ 520:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             {
+ 521:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 // Send chaining error to slave
+ 522:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 p_ctx->tl.state = TL_STATE_TX;
+ 1266              	 .loc 1 522 0
+ 1267 0398 FB68     	 ldr r3,[r7,#12]
+ 1268 039a 0222     	 movs r2,#2
+ 1269 039c 83F82C20 	 strb r2,[r3,#44]
+ 523:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 if (0 == (p_ctx->tl.master_chaining_error_count++))
+ 1270              	 .loc 1 523 0
+ 1271 03a0 FB68     	 ldr r3,[r7,#12]
+ 1272 03a2 93F84930 	 ldrb r3,[r3,#73]
+ 1273 03a6 5A1C     	 adds r2,r3,#1
+ 1274 03a8 D1B2     	 uxtb r1,r2
+ 1275 03aa FA68     	 ldr r2,[r7,#12]
+ 1276 03ac 82F84910 	 strb r1,[r2,#73]
+ 1277 03b0 002B     	 cmp r3,#0
+ 1278 03b2 0DD1     	 bne .L76
+ 524:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 525:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     LOG_TL("[IFX-TL]: Chain error : Sending chain error\n");
+ 526:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     // Send chaining error only once
+ 527:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     if (0 != ifx_i2c_tl_send_chaining_error(p_ctx))
+ 1279              	 .loc 1 527 0
+ 1280 03b4 F868     	 ldr r0,[r7,#12]
+ 1281 03b6 FFF7FEFF 	 bl ifx_i2c_tl_send_chaining_error
+ 1282 03ba 0346     	 mov r3,r0
+ 1283 03bc 002B     	 cmp r3,#0
+ 1284 03be 04D0     	 beq .L77
+ 528:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     {
+ 529:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         p_ctx->tl.state = TL_STATE_ERROR;
+ 1285              	 .loc 1 529 0
+ 1286 03c0 FB68     	 ldr r3,[r7,#12]
+ 1287 03c2 0622     	 movs r2,#6
+ 1288 03c4 83F82C20 	 strb r2,[r3,#44]
+ 530:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 531:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     else
+ 532:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     {
+ 533:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                         exit_machine = FALSE;
+ 534:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 535:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 536:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 else
+ 537:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 538:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     LOG_TL("[IFX-TL]: Chain error : master_chaining_error_count exceeded\n");
+ 539:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.state = TL_STATE_ERROR;
+ 540:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 541:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             }
+ 542:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             break;
+ 1289              	 .loc 1 542 0
+ 1290 03c8 31E0     	 b .L47
+ 1291              	.L77:
+ 533:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     }
+ 1292              	 .loc 1 533 0
+ 1293 03ca 0023     	 movs r3,#0
+ 1294 03cc 7B75     	 strb r3,[r7,#21]
+ 1295              	 .loc 1 542 0
+ 1296 03ce 2EE0     	 b .L47
+ 1297              	.L76:
+ 539:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 1298              	 .loc 1 539 0
+ 1299 03d0 FB68     	 ldr r3,[r7,#12]
+ 1300 03d2 0622     	 movs r2,#6
+ 1301 03d4 83F82C20 	 strb r2,[r3,#44]
+ 1302              	 .loc 1 542 0
+ 1303 03d8 29E0     	 b .L47
+ 1304              	.L44:
+ 543:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             case TL_STATE_ERROR:
+ 544:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             {
+ 545:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 LOG_TL("[IFX-TL]: Error\n");
+ 546:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 exit_machine = FALSE;
+ 1305              	 .loc 1 546 0
+ 1306 03da 0023     	 movs r3,#0
+ 1307 03dc 7B75     	 strb r3,[r7,#21]
+ 547:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 if ((0 != (event & IFX_I2C_DL_EVENT_ERROR)) || (0 != data_len))
+ 1308              	 .loc 1 547 0
+ 1309 03de 7B89     	 ldrh r3,[r7,#10]
+ 1310 03e0 03F00103 	 and r3,r3,#1
+ 1311 03e4 002B     	 cmp r3,#0
+ 1312 03e6 02D1     	 bne .L80
+ 1313              	 .loc 1 547 0 is_stmt 0 discriminator 1
+ 1314 03e8 3B89     	 ldrh r3,[r7,#8]
+ 1315 03ea 002B     	 cmp r3,#0
+ 1316 03ec 03D0     	 beq .L81
+ 1317              	.L80:
+ 548:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 {
+ 549:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                     p_ctx->tl.state = TL_STATE_IDLE;
+ 1318              	 .loc 1 549 0 is_stmt 1
+ 1319 03ee FB68     	 ldr r3,[r7,#12]
+ 1320 03f0 0122     	 movs r2,#1
+ 1321 03f2 83F82C20 	 strb r2,[r3,#44]
+ 1322              	.L81:
+ 550:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 }
+ 551:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 p_ctx->tl.upper_layer_event_handler(p_ctx, p_ctx->tl.error_event, 0u, 0u);
+ 1323              	 .loc 1 551 0
+ 1324 03f6 FB68     	 ldr r3,[r7,#12]
+ 1325 03f8 5C6D     	 ldr r4,[r3,#84]
+ 1326 03fa FB68     	 ldr r3,[r7,#12]
+ 1327 03fc B3F84C30 	 ldrh r3,[r3,#76]
+ 1328 0400 F868     	 ldr r0,[r7,#12]
+ 1329 0402 1946     	 mov r1,r3
+ 1330 0404 0022     	 movs r2,#0
+ 1331 0406 0023     	 movs r3,#0
+ 1332 0408 A047     	 blx r4
+ 552:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             }
+ 553:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             break;
+ 1333              	 .loc 1 553 0
+ 1334 040a 10E0     	 b .L47
+ 1335              	.L38:
+ 554:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             default:
+ 555:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             {
+ 556:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 LOG_TL("[IFX-TL]: Exit from default case\n");
+ 557:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 p_ctx->tl.state = TL_STATE_IDLE;
+ 1336              	 .loc 1 557 0
+ 1337 040c FB68     	 ldr r3,[r7,#12]
+ 1338 040e 0122     	 movs r2,#1
+ 1339 0410 83F82C20 	 strb r2,[r3,#44]
+ 558:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 exit_machine = FALSE;
+ 1340              	 .loc 1 558 0
+ 1341 0414 0023     	 movs r3,#0
+ 1342 0416 7B75     	 strb r3,[r7,#21]
+ 559:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****                 p_ctx->tl.upper_layer_event_handler(p_ctx, p_ctx->tl.error_event, 0u, 0u);
+ 1343              	 .loc 1 559 0
+ 1344 0418 FB68     	 ldr r3,[r7,#12]
+ 1345 041a 5C6D     	 ldr r4,[r3,#84]
+ 1346 041c FB68     	 ldr r3,[r7,#12]
+ 1347 041e B3F84C30 	 ldrh r3,[r3,#76]
+ 1348 0422 F868     	 ldr r0,[r7,#12]
+ 1349 0424 1946     	 mov r1,r3
+ 1350 0426 0022     	 movs r2,#0
+ 1351 0428 0023     	 movs r3,#0
+ 1352 042a A047     	 blx r4
+ 560:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             }
+ 561:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****             break;
+ 1353              	 .loc 1 561 0
+ 1354 042c 00BF     	 nop
+ 1355              	.L47:
+ 562:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****         }
+ 563:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c ****     } while (TRUE == exit_machine);
+ 1356              	 .loc 1 563 0
+ 1357 042e 7B7D     	 ldrb r3,[r7,#21]
+ 1358 0430 012B     	 cmp r3,#1
+ 1359 0432 3FF4F5AD 	 beq .L82
+ 564:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/comms/ifx_i2c\ifx_i2c_transport_layer.c **** }
+ 1360              	 .loc 1 564 0
+ 1361 0436 1C37     	 adds r7,r7,#28
+ 1362              	.LCFI46:
+ 1363              	 .cfi_def_cfa_offset 12
+ 1364 0438 BD46     	 mov sp,r7
+ 1365              	.LCFI47:
+ 1366              	 .cfi_def_cfa_register 13
+ 1367              	 
+ 1368 043a 90BD     	 pop {r4,r7,pc}
+ 1369              	 .cfi_endproc
+ 1370              	.LFE8:
+ 1372              	 .text
+ 1373              	.Letext0:
+ 1374              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 1375              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 1376              	 .file 4 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/common/optiga_lib_types.h"
+ 1377              	 .file 5 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/pal/pal_i2c.h"
+ 1378              	 .file 6 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/pal/pal_gpio.h"
+ 1379              	 .file 7 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/ifx_i2c/ifx_i2c_config.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 ifx_i2c_transport_layer.c
+    {standard input}:20     .rodata.g_pctr_states_table:00000000 $d
+    {standard input}:23     .rodata.g_pctr_states_table:00000000 g_pctr_states_table
+    {standard input}:41     .text.ifx_i2c_tl_init:00000000 $t
+    {standard input}:46     .text.ifx_i2c_tl_init:00000000 ifx_i2c_tl_init
+    {standard input}:116    .text.ifx_i2c_tl_init:00000054 $d
+    {standard input}:717    .text.ifx_i2c_dl_event_handler:00000000 ifx_i2c_dl_event_handler
+    {standard input}:121    .text.ifx_i2c_tl_transceive:00000000 $t
+    {standard input}:126    .text.ifx_i2c_tl_transceive:00000000 ifx_i2c_tl_transceive
+    {standard input}:406    .text.ifx_i2c_tl_send_next_fragment:00000000 ifx_i2c_tl_send_next_fragment
+    {standard input}:238    .text.ifx_i2c_tl_resend_packets:00000000 $t
+    {standard input}:242    .text.ifx_i2c_tl_resend_packets:00000000 ifx_i2c_tl_resend_packets
+    {standard input}:300    .text.ifx_i2c_tl_calculate_pctr:00000000 $t
+    {standard input}:304    .text.ifx_i2c_tl_calculate_pctr:00000000 ifx_i2c_tl_calculate_pctr
+    {standard input}:402    .text.ifx_i2c_tl_send_next_fragment:00000000 $t
+    {standard input}:500    .text.ifx_i2c_tl_send_chaining_error:00000000 $t
+    {standard input}:504    .text.ifx_i2c_tl_send_chaining_error:00000000 ifx_i2c_tl_send_chaining_error
+    {standard input}:553    .text.ifx_i2c_tl_check_chaining_error:00000000 $t
+    {standard input}:557    .text.ifx_i2c_tl_check_chaining_error:00000000 ifx_i2c_tl_check_chaining_error
+    {standard input}:644    .text.ifx_i2c_tl_check_chaining_error:00000064 $d
+    {standard input}:649    .text.presence_bit_check:00000000 $t
+    {standard input}:653    .text.presence_bit_check:00000000 presence_bit_check
+    {standard input}:713    .text.ifx_i2c_dl_event_handler:00000000 $t
+    {standard input}:814    .text.ifx_i2c_dl_event_handler:00000094 $d
+    {standard input}:822    .text.ifx_i2c_dl_event_handler:000000b4 $t
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+ifx_i2c_dl_init
+pal_os_timer_get_time_in_milliseconds
+memcpy
+ifx_i2c_dl_send_frame
+ifx_i2c_dl_receive_frame

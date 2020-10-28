@@ -1,0 +1,3518 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "sha256.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.mbedtls_sha256_init,"ax",%progbits
+  20              	 .align 2
+  21              	 .global mbedtls_sha256_init
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	mbedtls_sha256_init:
+  26              	.LFB0:
+  27              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library/sha256.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** /*
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  FIPS-180-2 compliant SHA-256 implementation
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  SPDX-License-Identifier: Apache-2.0
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  not use this file except in compliance with the License.
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  You may obtain a copy of the License at
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  Unless required by applicable law or agreed to in writing, software
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  See the License for the specific language governing permissions and
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  limitations under the License.
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  This file is part of mbed TLS (https://tls.mbed.org)
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  */
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** /*
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  The SHA-256 Secure Hash Standard was published by NIST in 2002.
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  *  http://csrc.nist.gov/publications/fips/fips180-2/fips180-2.pdf
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  */
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #include "mbedtls/config.h"
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #else
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #include MBEDTLS_CONFIG_FILE
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #endif
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #if defined(MBEDTLS_SHA256_C)
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #include "mbedtls/sha256.h"
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #include "mbedtls/platform_util.h"
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #include <string.h>
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #if defined(MBEDTLS_SELF_TEST)
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #if defined(MBEDTLS_PLATFORM_C)
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #include "mbedtls/platform.h"
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #else
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #include <stdio.h>
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #include <stdlib.h>
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define mbedtls_printf printf
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define mbedtls_calloc    calloc
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define mbedtls_free       free
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #endif /* MBEDTLS_PLATFORM_C */
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #endif /* MBEDTLS_SELF_TEST */
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define SHA256_VALIDATE_RET(cond)                           \
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     MBEDTLS_INTERNAL_VALIDATE_RET( cond, MBEDTLS_ERR_SHA256_BAD_INPUT_DATA )
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define SHA256_VALIDATE(cond)  MBEDTLS_INTERNAL_VALIDATE( cond )
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_SHA256_ALT)
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** /*
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  * 32-bit integer manipulation macros (big endian)
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  */
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #ifndef GET_UINT32_BE
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define GET_UINT32_BE(n,b,i)                            \
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** do {                                                    \
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     (n) = ( (uint32_t) (b)[(i)    ] << 24 )             \
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         | ( (uint32_t) (b)[(i) + 1] << 16 )             \
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         | ( (uint32_t) (b)[(i) + 2] <<  8 )             \
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         | ( (uint32_t) (b)[(i) + 3]       );            \
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** } while( 0 )
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #endif
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #ifndef PUT_UINT32_BE
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define PUT_UINT32_BE(n,b,i)                            \
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** do {                                                    \
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     (b)[(i)    ] = (unsigned char) ( (n) >> 24 );       \
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     (b)[(i) + 1] = (unsigned char) ( (n) >> 16 );       \
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     (b)[(i) + 2] = (unsigned char) ( (n) >>  8 );       \
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     (b)[(i) + 3] = (unsigned char) ( (n)       );       \
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** } while( 0 )
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #endif
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** void mbedtls_sha256_init( mbedtls_sha256_context *ctx )
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+  28              	 .loc 1 82 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32 0000 80B5     	 push {r7,lr}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 8
+  35              	 .cfi_offset 7,-8
+  36              	 .cfi_offset 14,-4
+  37 0002 82B0     	 sub sp,sp,#8
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 16
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 7860     	 str r0,[r7,#4]
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE( ctx != NULL );
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  85:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     memset( ctx, 0, sizeof( mbedtls_sha256_context ) );
+  44              	 .loc 1 85 0
+  45 0008 7868     	 ldr r0,[r7,#4]
+  46 000a 0021     	 movs r1,#0
+  47 000c 6C22     	 movs r2,#108
+  48 000e FFF7FEFF 	 bl memset
+  86:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+  49              	 .loc 1 86 0
+  50 0012 0837     	 adds r7,r7,#8
+  51              	.LCFI3:
+  52              	 .cfi_def_cfa_offset 8
+  53 0014 BD46     	 mov sp,r7
+  54              	.LCFI4:
+  55              	 .cfi_def_cfa_register 13
+  56              	 
+  57 0016 80BD     	 pop {r7,pc}
+  58              	 .cfi_endproc
+  59              	.LFE0:
+  61              	 .section .text.mbedtls_sha256_free,"ax",%progbits
+  62              	 .align 2
+  63              	 .global mbedtls_sha256_free
+  64              	 .thumb
+  65              	 .thumb_func
+  67              	mbedtls_sha256_free:
+  68              	.LFB1:
+  87:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  88:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** void mbedtls_sha256_free( mbedtls_sha256_context *ctx )
+  89:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+  69              	 .loc 1 89 0
+  70              	 .cfi_startproc
+  71              	 
+  72              	 
+  73 0000 80B5     	 push {r7,lr}
+  74              	.LCFI5:
+  75              	 .cfi_def_cfa_offset 8
+  76              	 .cfi_offset 7,-8
+  77              	 .cfi_offset 14,-4
+  78 0002 82B0     	 sub sp,sp,#8
+  79              	.LCFI6:
+  80              	 .cfi_def_cfa_offset 16
+  81 0004 00AF     	 add r7,sp,#0
+  82              	.LCFI7:
+  83              	 .cfi_def_cfa_register 7
+  84 0006 7860     	 str r0,[r7,#4]
+  90:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     if( ctx == NULL )
+  85              	 .loc 1 90 0
+  86 0008 7B68     	 ldr r3,[r7,#4]
+  87 000a 002B     	 cmp r3,#0
+  88 000c 00D1     	 bne .L3
+  91:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         return;
+  89              	 .loc 1 91 0
+  90 000e 03E0     	 b .L2
+  91              	.L3:
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  93:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     mbedtls_platform_zeroize( ctx, sizeof( mbedtls_sha256_context ) );
+  92              	 .loc 1 93 0
+  93 0010 7868     	 ldr r0,[r7,#4]
+  94 0012 6C21     	 movs r1,#108
+  95 0014 FFF7FEFF 	 bl mbedtls_platform_zeroize
+  96              	.L2:
+  94:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+  97              	 .loc 1 94 0
+  98 0018 0837     	 adds r7,r7,#8
+  99              	.LCFI8:
+ 100              	 .cfi_def_cfa_offset 8
+ 101 001a BD46     	 mov sp,r7
+ 102              	.LCFI9:
+ 103              	 .cfi_def_cfa_register 13
+ 104              	 
+ 105 001c 80BD     	 pop {r7,pc}
+ 106              	 .cfi_endproc
+ 107              	.LFE1:
+ 109 001e 00BF     	 .section .text.mbedtls_sha256_clone,"ax",%progbits
+ 110              	 .align 2
+ 111              	 .global mbedtls_sha256_clone
+ 112              	 .thumb
+ 113              	 .thumb_func
+ 115              	mbedtls_sha256_clone:
+ 116              	.LFB2:
+  95:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+  96:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** void mbedtls_sha256_clone( mbedtls_sha256_context *dst,
+  97:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                            const mbedtls_sha256_context *src )
+  98:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+ 117              	 .loc 1 98 0
+ 118              	 .cfi_startproc
+ 119              	 
+ 120              	 
+ 121 0000 80B5     	 push {r7,lr}
+ 122              	.LCFI10:
+ 123              	 .cfi_def_cfa_offset 8
+ 124              	 .cfi_offset 7,-8
+ 125              	 .cfi_offset 14,-4
+ 126 0002 82B0     	 sub sp,sp,#8
+ 127              	.LCFI11:
+ 128              	 .cfi_def_cfa_offset 16
+ 129 0004 00AF     	 add r7,sp,#0
+ 130              	.LCFI12:
+ 131              	 .cfi_def_cfa_register 7
+ 132 0006 7860     	 str r0,[r7,#4]
+ 133 0008 3960     	 str r1,[r7]
+  99:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE( dst != NULL );
+ 100:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE( src != NULL );
+ 101:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 102:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     *dst = *src;
+ 134              	 .loc 1 102 0
+ 135 000a 7A68     	 ldr r2,[r7,#4]
+ 136 000c 3B68     	 ldr r3,[r7]
+ 137 000e 1146     	 mov r1,r2
+ 138 0010 1A46     	 mov r2,r3
+ 139 0012 6C23     	 movs r3,#108
+ 140 0014 0846     	 mov r0,r1
+ 141 0016 1146     	 mov r1,r2
+ 142 0018 1A46     	 mov r2,r3
+ 143 001a FFF7FEFF 	 bl memcpy
+ 103:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+ 144              	 .loc 1 103 0
+ 145 001e 0837     	 adds r7,r7,#8
+ 146              	.LCFI13:
+ 147              	 .cfi_def_cfa_offset 8
+ 148 0020 BD46     	 mov sp,r7
+ 149              	.LCFI14:
+ 150              	 .cfi_def_cfa_register 13
+ 151              	 
+ 152 0022 80BD     	 pop {r7,pc}
+ 153              	 .cfi_endproc
+ 154              	.LFE2:
+ 156              	 .section .text.mbedtls_sha256_starts_ret,"ax",%progbits
+ 157              	 .align 2
+ 158              	 .global mbedtls_sha256_starts_ret
+ 159              	 .thumb
+ 160              	 .thumb_func
+ 162              	mbedtls_sha256_starts_ret:
+ 163              	.LFB3:
+ 104:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 105:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** /*
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  * SHA-256 context setup
+ 107:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  */
+ 108:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** int mbedtls_sha256_starts_ret( mbedtls_sha256_context *ctx, int is224 )
+ 109:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+ 164              	 .loc 1 109 0
+ 165              	 .cfi_startproc
+ 166              	 
+ 167              	 
+ 168              	 
+ 169 0000 80B4     	 push {r7}
+ 170              	.LCFI15:
+ 171              	 .cfi_def_cfa_offset 4
+ 172              	 .cfi_offset 7,-4
+ 173 0002 83B0     	 sub sp,sp,#12
+ 174              	.LCFI16:
+ 175              	 .cfi_def_cfa_offset 16
+ 176 0004 00AF     	 add r7,sp,#0
+ 177              	.LCFI17:
+ 178              	 .cfi_def_cfa_register 7
+ 179 0006 7860     	 str r0,[r7,#4]
+ 180 0008 3960     	 str r1,[r7]
+ 110:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE_RET( ctx != NULL );
+ 111:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE_RET( is224 == 0 || is224 == 1 );
+ 112:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 113:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     ctx->total[0] = 0;
+ 181              	 .loc 1 113 0
+ 182 000a 7B68     	 ldr r3,[r7,#4]
+ 183 000c 0022     	 movs r2,#0
+ 184 000e 1A60     	 str r2,[r3]
+ 114:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     ctx->total[1] = 0;
+ 185              	 .loc 1 114 0
+ 186 0010 7B68     	 ldr r3,[r7,#4]
+ 187 0012 0022     	 movs r2,#0
+ 188 0014 5A60     	 str r2,[r3,#4]
+ 115:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 116:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     if( is224 == 0 )
+ 189              	 .loc 1 116 0
+ 190 0016 3B68     	 ldr r3,[r7]
+ 191 0018 002B     	 cmp r3,#0
+ 192 001a 18D1     	 bne .L7
+ 117:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 118:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         /* SHA-256 */
+ 119:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[0] = 0x6A09E667;
+ 193              	 .loc 1 119 0
+ 194 001c 7B68     	 ldr r3,[r7,#4]
+ 195 001e 1D4A     	 ldr r2,.L10
+ 196 0020 9A60     	 str r2,[r3,#8]
+ 120:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[1] = 0xBB67AE85;
+ 197              	 .loc 1 120 0
+ 198 0022 7B68     	 ldr r3,[r7,#4]
+ 199 0024 1C4A     	 ldr r2,.L10+4
+ 200 0026 DA60     	 str r2,[r3,#12]
+ 121:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[2] = 0x3C6EF372;
+ 201              	 .loc 1 121 0
+ 202 0028 7B68     	 ldr r3,[r7,#4]
+ 203 002a 1C4A     	 ldr r2,.L10+8
+ 204 002c 1A61     	 str r2,[r3,#16]
+ 122:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[3] = 0xA54FF53A;
+ 205              	 .loc 1 122 0
+ 206 002e 7B68     	 ldr r3,[r7,#4]
+ 207 0030 1B4A     	 ldr r2,.L10+12
+ 208 0032 5A61     	 str r2,[r3,#20]
+ 123:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[4] = 0x510E527F;
+ 209              	 .loc 1 123 0
+ 210 0034 7B68     	 ldr r3,[r7,#4]
+ 211 0036 1B4A     	 ldr r2,.L10+16
+ 212 0038 9A61     	 str r2,[r3,#24]
+ 124:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[5] = 0x9B05688C;
+ 213              	 .loc 1 124 0
+ 214 003a 7B68     	 ldr r3,[r7,#4]
+ 215 003c 1A4A     	 ldr r2,.L10+20
+ 216 003e DA61     	 str r2,[r3,#28]
+ 125:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[6] = 0x1F83D9AB;
+ 217              	 .loc 1 125 0
+ 218 0040 7B68     	 ldr r3,[r7,#4]
+ 219 0042 1A4A     	 ldr r2,.L10+24
+ 220 0044 1A62     	 str r2,[r3,#32]
+ 126:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[7] = 0x5BE0CD19;
+ 221              	 .loc 1 126 0
+ 222 0046 7B68     	 ldr r3,[r7,#4]
+ 223 0048 194A     	 ldr r2,.L10+28
+ 224 004a 5A62     	 str r2,[r3,#36]
+ 225 004c 17E0     	 b .L8
+ 226              	.L7:
+ 127:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     }
+ 128:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     else
+ 129:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 130:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         /* SHA-224 */
+ 131:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[0] = 0xC1059ED8;
+ 227              	 .loc 1 131 0
+ 228 004e 7B68     	 ldr r3,[r7,#4]
+ 229 0050 184A     	 ldr r2,.L10+32
+ 230 0052 9A60     	 str r2,[r3,#8]
+ 132:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[1] = 0x367CD507;
+ 231              	 .loc 1 132 0
+ 232 0054 7B68     	 ldr r3,[r7,#4]
+ 233 0056 184A     	 ldr r2,.L10+36
+ 234 0058 DA60     	 str r2,[r3,#12]
+ 133:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[2] = 0x3070DD17;
+ 235              	 .loc 1 133 0
+ 236 005a 7B68     	 ldr r3,[r7,#4]
+ 237 005c 174A     	 ldr r2,.L10+40
+ 238 005e 1A61     	 str r2,[r3,#16]
+ 134:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[3] = 0xF70E5939;
+ 239              	 .loc 1 134 0
+ 240 0060 7B68     	 ldr r3,[r7,#4]
+ 241 0062 174A     	 ldr r2,.L10+44
+ 242 0064 5A61     	 str r2,[r3,#20]
+ 135:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[4] = 0xFFC00B31;
+ 243              	 .loc 1 135 0
+ 244 0066 7B68     	 ldr r3,[r7,#4]
+ 245 0068 164A     	 ldr r2,.L10+48
+ 246 006a 9A61     	 str r2,[r3,#24]
+ 136:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[5] = 0x68581511;
+ 247              	 .loc 1 136 0
+ 248 006c 7B68     	 ldr r3,[r7,#4]
+ 249 006e 164A     	 ldr r2,.L10+52
+ 250 0070 DA61     	 str r2,[r3,#28]
+ 137:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[6] = 0x64F98FA7;
+ 251              	 .loc 1 137 0
+ 252 0072 7B68     	 ldr r3,[r7,#4]
+ 253 0074 154A     	 ldr r2,.L10+56
+ 254 0076 1A62     	 str r2,[r3,#32]
+ 138:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[7] = 0xBEFA4FA4;
+ 255              	 .loc 1 138 0
+ 256 0078 7B68     	 ldr r3,[r7,#4]
+ 257 007a 154A     	 ldr r2,.L10+60
+ 258 007c 5A62     	 str r2,[r3,#36]
+ 259              	.L8:
+ 139:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     }
+ 140:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 141:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     ctx->is224 = is224;
+ 260              	 .loc 1 141 0
+ 261 007e 7B68     	 ldr r3,[r7,#4]
+ 262 0080 3A68     	 ldr r2,[r7]
+ 263 0082 9A66     	 str r2,[r3,#104]
+ 142:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 143:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     return( 0 );
+ 264              	 .loc 1 143 0
+ 265 0084 0023     	 movs r3,#0
+ 144:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+ 266              	 .loc 1 144 0
+ 267 0086 1846     	 mov r0,r3
+ 268 0088 0C37     	 adds r7,r7,#12
+ 269              	.LCFI18:
+ 270              	 .cfi_def_cfa_offset 4
+ 271 008a BD46     	 mov sp,r7
+ 272              	.LCFI19:
+ 273              	 .cfi_def_cfa_register 13
+ 274              	 
+ 275 008c 5DF8047B 	 ldr r7,[sp],#4
+ 276              	.LCFI20:
+ 277              	 .cfi_restore 7
+ 278              	 .cfi_def_cfa_offset 0
+ 279 0090 7047     	 bx lr
+ 280              	.L11:
+ 281 0092 00BF     	 .align 2
+ 282              	.L10:
+ 283 0094 67E6096A 	 .word 1779033703
+ 284 0098 85AE67BB 	 .word -1150833019
+ 285 009c 72F36E3C 	 .word 1013904242
+ 286 00a0 3AF54FA5 	 .word -1521486534
+ 287 00a4 7F520E51 	 .word 1359893119
+ 288 00a8 8C68059B 	 .word -1694144372
+ 289 00ac ABD9831F 	 .word 528734635
+ 290 00b0 19CDE05B 	 .word 1541459225
+ 291 00b4 D89E05C1 	 .word -1056596264
+ 292 00b8 07D57C36 	 .word 914150663
+ 293 00bc 17DD7030 	 .word 812702999
+ 294 00c0 39590EF7 	 .word -150054599
+ 295 00c4 310BC0FF 	 .word -4191439
+ 296 00c8 11155868 	 .word 1750603025
+ 297 00cc A78FF964 	 .word 1694076839
+ 298 00d0 A44FFABE 	 .word -1090891868
+ 299              	 .cfi_endproc
+ 300              	.LFE3:
+ 302              	 .section .text.mbedtls_sha256_starts,"ax",%progbits
+ 303              	 .align 2
+ 304              	 .global mbedtls_sha256_starts
+ 305              	 .thumb
+ 306              	 .thumb_func
+ 308              	mbedtls_sha256_starts:
+ 309              	.LFB4:
+ 145:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 146:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_DEPRECATED_REMOVED)
+ 147:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** void mbedtls_sha256_starts( mbedtls_sha256_context *ctx,
+ 148:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                             int is224 )
+ 149:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+ 310              	 .loc 1 149 0
+ 311              	 .cfi_startproc
+ 312              	 
+ 313              	 
+ 314 0000 80B5     	 push {r7,lr}
+ 315              	.LCFI21:
+ 316              	 .cfi_def_cfa_offset 8
+ 317              	 .cfi_offset 7,-8
+ 318              	 .cfi_offset 14,-4
+ 319 0002 82B0     	 sub sp,sp,#8
+ 320              	.LCFI22:
+ 321              	 .cfi_def_cfa_offset 16
+ 322 0004 00AF     	 add r7,sp,#0
+ 323              	.LCFI23:
+ 324              	 .cfi_def_cfa_register 7
+ 325 0006 7860     	 str r0,[r7,#4]
+ 326 0008 3960     	 str r1,[r7]
+ 150:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     mbedtls_sha256_starts_ret( ctx, is224 );
+ 327              	 .loc 1 150 0
+ 328 000a 7868     	 ldr r0,[r7,#4]
+ 329 000c 3968     	 ldr r1,[r7]
+ 330 000e FFF7FEFF 	 bl mbedtls_sha256_starts_ret
+ 151:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+ 331              	 .loc 1 151 0
+ 332 0012 0837     	 adds r7,r7,#8
+ 333              	.LCFI24:
+ 334              	 .cfi_def_cfa_offset 8
+ 335 0014 BD46     	 mov sp,r7
+ 336              	.LCFI25:
+ 337              	 .cfi_def_cfa_register 13
+ 338              	 
+ 339 0016 80BD     	 pop {r7,pc}
+ 340              	 .cfi_endproc
+ 341              	.LFE4:
+ 343              	 .section .rodata.K,"a",%progbits
+ 344              	 .align 2
+ 347              	K:
+ 348 0000 982F8A42 	 .word 1116352408
+ 349 0004 91443771 	 .word 1899447441
+ 350 0008 CFFBC0B5 	 .word -1245643825
+ 351 000c A5DBB5E9 	 .word -373957723
+ 352 0010 5BC25639 	 .word 961987163
+ 353 0014 F111F159 	 .word 1508970993
+ 354 0018 A4823F92 	 .word -1841331548
+ 355 001c D55E1CAB 	 .word -1424204075
+ 356 0020 98AA07D8 	 .word -670586216
+ 357 0024 015B8312 	 .word 310598401
+ 358 0028 BE853124 	 .word 607225278
+ 359 002c C37D0C55 	 .word 1426881987
+ 360 0030 745DBE72 	 .word 1925078388
+ 361 0034 FEB1DE80 	 .word -2132889090
+ 362 0038 A706DC9B 	 .word -1680079193
+ 363 003c 74F19BC1 	 .word -1046744716
+ 364 0040 C1699BE4 	 .word -459576895
+ 365 0044 8647BEEF 	 .word -272742522
+ 366 0048 C69DC10F 	 .word 264347078
+ 367 004c CCA10C24 	 .word 604807628
+ 368 0050 6F2CE92D 	 .word 770255983
+ 369 0054 AA84744A 	 .word 1249150122
+ 370 0058 DCA9B05C 	 .word 1555081692
+ 371 005c DA88F976 	 .word 1996064986
+ 372 0060 52513E98 	 .word -1740746414
+ 373 0064 6DC631A8 	 .word -1473132947
+ 374 0068 C82703B0 	 .word -1341970488
+ 375 006c C77F59BF 	 .word -1084653625
+ 376 0070 F30BE0C6 	 .word -958395405
+ 377 0074 4791A7D5 	 .word -710438585
+ 378 0078 5163CA06 	 .word 113926993
+ 379 007c 67292914 	 .word 338241895
+ 380 0080 850AB727 	 .word 666307205
+ 381 0084 38211B2E 	 .word 773529912
+ 382 0088 FC6D2C4D 	 .word 1294757372
+ 383 008c 130D3853 	 .word 1396182291
+ 384 0090 54730A65 	 .word 1695183700
+ 385 0094 BB0A6A76 	 .word 1986661051
+ 386 0098 2EC9C281 	 .word -2117940946
+ 387 009c 852C7292 	 .word -1838011259
+ 388 00a0 A1E8BFA2 	 .word -1564481375
+ 389 00a4 4B661AA8 	 .word -1474664885
+ 390 00a8 708B4BC2 	 .word -1035236496
+ 391 00ac A3516CC7 	 .word -949202525
+ 392 00b0 19E892D1 	 .word -778901479
+ 393 00b4 240699D6 	 .word -694614492
+ 394 00b8 85350EF4 	 .word -200395387
+ 395 00bc 70A06A10 	 .word 275423344
+ 396 00c0 16C1A419 	 .word 430227734
+ 397 00c4 086C371E 	 .word 506948616
+ 398 00c8 4C774827 	 .word 659060556
+ 399 00cc B5BCB034 	 .word 883997877
+ 400 00d0 B30C1C39 	 .word 958139571
+ 401 00d4 4AAAD84E 	 .word 1322822218
+ 402 00d8 4FCA9C5B 	 .word 1537002063
+ 403 00dc F36F2E68 	 .word 1747873779
+ 404 00e0 EE828F74 	 .word 1955562222
+ 405 00e4 6F63A578 	 .word 2024104815
+ 406 00e8 1478C884 	 .word -2067236844
+ 407 00ec 0802C78C 	 .word -1933114872
+ 408 00f0 FAFFBE90 	 .word -1866530822
+ 409 00f4 EB6C50A4 	 .word -1538233109
+ 410 00f8 F7A3F9BE 	 .word -1090935817
+ 411 00fc F27871C6 	 .word -965641998
+ 412              	 .section .text.mbedtls_internal_sha256_process,"ax",%progbits
+ 413              	 .align 2
+ 414              	 .global mbedtls_internal_sha256_process
+ 415              	 .thumb
+ 416              	 .thumb_func
+ 418              	mbedtls_internal_sha256_process:
+ 419              	.LFB5:
+ 152:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #endif
+ 153:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 154:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_SHA256_PROCESS_ALT)
+ 155:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** static const uint32_t K[] =
+ 156:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+ 157:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
+ 158:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0x3956C25B, 0x59F111F1, 0x923F82A4, 0xAB1C5ED5,
+ 159:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0xD807AA98, 0x12835B01, 0x243185BE, 0x550C7DC3,
+ 160:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0x72BE5D74, 0x80DEB1FE, 0x9BDC06A7, 0xC19BF174,
+ 161:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0xE49B69C1, 0xEFBE4786, 0x0FC19DC6, 0x240CA1CC,
+ 162:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0x2DE92C6F, 0x4A7484AA, 0x5CB0A9DC, 0x76F988DA,
+ 163:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0x983E5152, 0xA831C66D, 0xB00327C8, 0xBF597FC7,
+ 164:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0xC6E00BF3, 0xD5A79147, 0x06CA6351, 0x14292967,
+ 165:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0x27B70A85, 0x2E1B2138, 0x4D2C6DFC, 0x53380D13,
+ 166:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0x650A7354, 0x766A0ABB, 0x81C2C92E, 0x92722C85,
+ 167:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0xA2BFE8A1, 0xA81A664B, 0xC24B8B70, 0xC76C51A3,
+ 168:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0xD192E819, 0xD6990624, 0xF40E3585, 0x106AA070,
+ 169:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0x19A4C116, 0x1E376C08, 0x2748774C, 0x34B0BCB5,
+ 170:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0x391C0CB3, 0x4ED8AA4A, 0x5B9CCA4F, 0x682E6FF3,
+ 171:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208,
+ 172:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2,
+ 173:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** };
+ 174:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 175:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define  SHR(x,n) ((x & 0xFFFFFFFF) >> n)
+ 176:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define ROTR(x,n) (SHR(x,n) | (x << (32 - n)))
+ 177:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 178:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define S0(x) (ROTR(x, 7) ^ ROTR(x,18) ^  SHR(x, 3))
+ 179:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define S1(x) (ROTR(x,17) ^ ROTR(x,19) ^  SHR(x,10))
+ 180:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 181:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define S2(x) (ROTR(x, 2) ^ ROTR(x,13) ^ ROTR(x,22))
+ 182:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define S3(x) (ROTR(x, 6) ^ ROTR(x,11) ^ ROTR(x,25))
+ 183:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 184:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define F0(x,y,z) ((x & y) | (z & (x | y)))
+ 185:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define F1(x,y,z) (z ^ (x & (y ^ z)))
+ 186:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 187:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define R(t)                                    \
+ 188:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** (                                               \
+ 189:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     W[t] = S1(W[t -  2]) + W[t -  7] +          \
+ 190:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****            S0(W[t - 15]) + W[t - 16]            \
+ 191:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** )
+ 192:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 193:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #define P(a,b,c,d,e,f,g,h,x,K)                  \
+ 194:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {                                               \
+ 195:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     temp1 = h + S3(e) + F1(e,f,g) + K + x;      \
+ 196:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     temp2 = S2(a) + F0(a,b,c);                  \
+ 197:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     d += temp1; h = temp1 + temp2;              \
+ 198:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+ 199:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 200:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** int mbedtls_internal_sha256_process( mbedtls_sha256_context *ctx,
+ 201:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                                 const unsigned char data[64] )
+ 202:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+ 420              	 .loc 1 202 0
+ 421              	 .cfi_startproc
+ 422              	 
+ 423              	 
+ 424              	 
+ 425 0000 B0B4     	 push {r4,r5,r7}
+ 426              	.LCFI26:
+ 427              	 .cfi_def_cfa_offset 12
+ 428              	 .cfi_offset 4,-12
+ 429              	 .cfi_offset 5,-8
+ 430              	 .cfi_offset 7,-4
+ 431 0002 CFB0     	 sub sp,sp,#316
+ 432              	.LCFI27:
+ 433              	 .cfi_def_cfa_offset 328
+ 434 0004 00AF     	 add r7,sp,#0
+ 435              	.LCFI28:
+ 436              	 .cfi_def_cfa_register 7
+ 437 0006 3B1D     	 adds r3,r7,#4
+ 438 0008 1860     	 str r0,[r3]
+ 439 000a 3B46     	 mov r3,r7
+ 440 000c 1960     	 str r1,[r3]
+ 203:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     uint32_t temp1, temp2, W[64];
+ 204:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     uint32_t A[8];
+ 205:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     unsigned int i;
+ 206:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 207:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE_RET( ctx != NULL );
+ 208:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE_RET( (const unsigned char *)data != NULL );
+ 209:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 210:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     for( i = 0; i < 8; i++ )
+ 441              	 .loc 1 210 0
+ 442 000e 0023     	 movs r3,#0
+ 443 0010 C7F83431 	 str r3,[r7,#308]
+ 444 0014 11E0     	 b .L14
+ 445              	.L15:
+ 211:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         A[i] = ctx->state[i];
+ 446              	 .loc 1 211 0 discriminator 3
+ 447 0016 3B1D     	 adds r3,r7,#4
+ 448 0018 1B68     	 ldr r3,[r3]
+ 449 001a D7F83421 	 ldr r2,[r7,#308]
+ 450 001e 0232     	 adds r2,r2,#2
+ 451 0020 53F82210 	 ldr r1,[r3,r2,lsl#2]
+ 452 0024 07F10C03 	 add r3,r7,#12
+ 453 0028 D7F83421 	 ldr r2,[r7,#308]
+ 454 002c 43F82210 	 str r1,[r3,r2,lsl#2]
+ 210:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         A[i] = ctx->state[i];
+ 455              	 .loc 1 210 0 discriminator 3
+ 456 0030 D7F83431 	 ldr r3,[r7,#308]
+ 457 0034 0133     	 adds r3,r3,#1
+ 458 0036 C7F83431 	 str r3,[r7,#308]
+ 459              	.L14:
+ 210:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         A[i] = ctx->state[i];
+ 460              	 .loc 1 210 0 is_stmt 0 discriminator 1
+ 461 003a D7F83431 	 ldr r3,[r7,#308]
+ 462 003e 072B     	 cmp r3,#7
+ 463 0040 E9D9     	 bls .L15
+ 212:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 213:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #if defined(MBEDTLS_SHA256_SMALLER)
+ 214:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     for( i = 0; i < 64; i++ )
+ 215:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 216:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         if( i < 16 )
+ 217:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****             GET_UINT32_BE( W[i], data, 4 * i );
+ 218:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         else
+ 219:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****             R( i );
+ 220:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 221:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[0], A[1], A[2], A[3], A[4], A[5], A[6], A[7], W[i], K[i] );
+ 222:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 223:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         temp1 = A[7]; A[7] = A[6]; A[6] = A[5]; A[5] = A[4]; A[4] = A[3];
+ 224:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         A[3] = A[2]; A[2] = A[1]; A[1] = A[0]; A[0] = temp1;
+ 225:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     }
+ 226:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #else /* MBEDTLS_SHA256_SMALLER */
+ 227:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     for( i = 0; i < 16; i++ )
+ 464              	 .loc 1 227 0 is_stmt 1
+ 465 0042 0023     	 movs r3,#0
+ 466 0044 C7F83431 	 str r3,[r7,#308]
+ 467 0048 30E0     	 b .L16
+ 468              	.L17:
+ 228:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         GET_UINT32_BE( W[i], data, 4 * i );
+ 469              	 .loc 1 228 0 discriminator 3
+ 470 004a D7F83431 	 ldr r3,[r7,#308]
+ 471 004e 9B00     	 lsls r3,r3,#2
+ 472 0050 3A46     	 mov r2,r7
+ 473 0052 1268     	 ldr r2,[r2]
+ 474 0054 1344     	 add r3,r3,r2
+ 475 0056 1B78     	 ldrb r3,[r3]
+ 476 0058 1A06     	 lsls r2,r3,#24
+ 477 005a D7F83431 	 ldr r3,[r7,#308]
+ 478 005e 9B00     	 lsls r3,r3,#2
+ 479 0060 0133     	 adds r3,r3,#1
+ 480 0062 3946     	 mov r1,r7
+ 481 0064 0968     	 ldr r1,[r1]
+ 482 0066 0B44     	 add r3,r3,r1
+ 483 0068 1B78     	 ldrb r3,[r3]
+ 484 006a 1B04     	 lsls r3,r3,#16
+ 485 006c 1A43     	 orrs r2,r2,r3
+ 486 006e D7F83431 	 ldr r3,[r7,#308]
+ 487 0072 9B00     	 lsls r3,r3,#2
+ 488 0074 0233     	 adds r3,r3,#2
+ 489 0076 3946     	 mov r1,r7
+ 490 0078 0968     	 ldr r1,[r1]
+ 491 007a 0B44     	 add r3,r3,r1
+ 492 007c 1B78     	 ldrb r3,[r3]
+ 493 007e 1B02     	 lsls r3,r3,#8
+ 494 0080 1343     	 orrs r3,r3,r2
+ 495 0082 D7F83421 	 ldr r2,[r7,#308]
+ 496 0086 9200     	 lsls r2,r2,#2
+ 497 0088 0332     	 adds r2,r2,#3
+ 498 008a 3946     	 mov r1,r7
+ 499 008c 0968     	 ldr r1,[r1]
+ 500 008e 0A44     	 add r2,r2,r1
+ 501 0090 1278     	 ldrb r2,[r2]
+ 502 0092 43EA0201 	 orr r1,r3,r2
+ 503 0096 07F12C03 	 add r3,r7,#44
+ 504 009a D7F83421 	 ldr r2,[r7,#308]
+ 505 009e 43F82210 	 str r1,[r3,r2,lsl#2]
+ 227:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         GET_UINT32_BE( W[i], data, 4 * i );
+ 506              	 .loc 1 227 0 discriminator 3
+ 507 00a2 D7F83431 	 ldr r3,[r7,#308]
+ 508 00a6 0133     	 adds r3,r3,#1
+ 509 00a8 C7F83431 	 str r3,[r7,#308]
+ 510              	.L16:
+ 227:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         GET_UINT32_BE( W[i], data, 4 * i );
+ 511              	 .loc 1 227 0 is_stmt 0 discriminator 1
+ 512 00ac D7F83431 	 ldr r3,[r7,#308]
+ 513 00b0 0F2B     	 cmp r3,#15
+ 514 00b2 CAD9     	 bls .L17
+ 229:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 230:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     for( i = 0; i < 16; i += 8 )
+ 515              	 .loc 1 230 0 is_stmt 1
+ 516 00b4 0023     	 movs r3,#0
+ 517 00b6 C7F83431 	 str r3,[r7,#308]
+ 518 00ba 75E3     	 b .L18
+ 519              	.L19:
+ 231:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 232:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[0], A[1], A[2], A[3], A[4], A[5], A[6], A[7], W[i+0], K[i+0] );
+ 520              	 .loc 1 232 0 discriminator 3
+ 521 00bc 07F10C03 	 add r3,r7,#12
+ 522 00c0 DA69     	 ldr r2,[r3,#28]
+ 523 00c2 07F10C03 	 add r3,r7,#12
+ 524 00c6 1B69     	 ldr r3,[r3,#16]
+ 525 00c8 4FEAB311 	 ror r1,r3,#6
+ 526 00cc 07F10C03 	 add r3,r7,#12
+ 527 00d0 1B69     	 ldr r3,[r3,#16]
+ 528 00d2 4FEAF323 	 ror r3,r3,#11
+ 529 00d6 5940     	 eors r1,r1,r3
+ 530 00d8 07F10C03 	 add r3,r7,#12
+ 531 00dc 1B69     	 ldr r3,[r3,#16]
+ 532 00de 4FEA7363 	 ror r3,r3,#25
+ 533 00e2 4B40     	 eors r3,r3,r1
+ 534 00e4 1A44     	 add r2,r2,r3
+ 535 00e6 07F10C03 	 add r3,r7,#12
+ 536 00ea 9969     	 ldr r1,[r3,#24]
+ 537 00ec 07F10C03 	 add r3,r7,#12
+ 538 00f0 1869     	 ldr r0,[r3,#16]
+ 539 00f2 07F10C03 	 add r3,r7,#12
+ 540 00f6 5C69     	 ldr r4,[r3,#20]
+ 541 00f8 07F10C03 	 add r3,r7,#12
+ 542 00fc 9B69     	 ldr r3,[r3,#24]
+ 543 00fe 6340     	 eors r3,r3,r4
+ 544 0100 0340     	 ands r3,r3,r0
+ 545 0102 4B40     	 eors r3,r3,r1
+ 546 0104 1A44     	 add r2,r2,r3
+ 547 0106 D749     	 ldr r1,.L25
+ 548 0108 D7F83431 	 ldr r3,[r7,#308]
+ 549 010c 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 550 0110 1A44     	 add r2,r2,r3
+ 551 0112 07F12C03 	 add r3,r7,#44
+ 552 0116 D7F83411 	 ldr r1,[r7,#308]
+ 553 011a 53F82130 	 ldr r3,[r3,r1,lsl#2]
+ 554 011e 1344     	 add r3,r3,r2
+ 555 0120 C7F83031 	 str r3,[r7,#304]
+ 556 0124 07F10C03 	 add r3,r7,#12
+ 557 0128 1B68     	 ldr r3,[r3]
+ 558 012a 4FEAB302 	 ror r2,r3,#2
+ 559 012e 07F10C03 	 add r3,r7,#12
+ 560 0132 1B68     	 ldr r3,[r3]
+ 561 0134 4FEA7333 	 ror r3,r3,#13
+ 562 0138 5A40     	 eors r2,r2,r3
+ 563 013a 07F10C03 	 add r3,r7,#12
+ 564 013e 1B68     	 ldr r3,[r3]
+ 565 0140 4FEAB353 	 ror r3,r3,#22
+ 566 0144 5A40     	 eors r2,r2,r3
+ 567 0146 07F10C03 	 add r3,r7,#12
+ 568 014a 1968     	 ldr r1,[r3]
+ 569 014c 07F10C03 	 add r3,r7,#12
+ 570 0150 5B68     	 ldr r3,[r3,#4]
+ 571 0152 1940     	 ands r1,r1,r3
+ 572 0154 07F10C03 	 add r3,r7,#12
+ 573 0158 9868     	 ldr r0,[r3,#8]
+ 574 015a 07F10C03 	 add r3,r7,#12
+ 575 015e 1C68     	 ldr r4,[r3]
+ 576 0160 07F10C03 	 add r3,r7,#12
+ 577 0164 5B68     	 ldr r3,[r3,#4]
+ 578 0166 2343     	 orrs r3,r3,r4
+ 579 0168 0340     	 ands r3,r3,r0
+ 580 016a 0B43     	 orrs r3,r3,r1
+ 581 016c 1344     	 add r3,r3,r2
+ 582 016e C7F82C31 	 str r3,[r7,#300]
+ 583 0172 07F10C03 	 add r3,r7,#12
+ 584 0176 DA68     	 ldr r2,[r3,#12]
+ 585 0178 D7F83031 	 ldr r3,[r7,#304]
+ 586 017c 1A44     	 add r2,r2,r3
+ 587 017e 07F10C03 	 add r3,r7,#12
+ 588 0182 DA60     	 str r2,[r3,#12]
+ 589 0184 D7F83021 	 ldr r2,[r7,#304]
+ 590 0188 D7F82C31 	 ldr r3,[r7,#300]
+ 591 018c 1A44     	 add r2,r2,r3
+ 592 018e 07F10C03 	 add r3,r7,#12
+ 593 0192 DA61     	 str r2,[r3,#28]
+ 233:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[7], A[0], A[1], A[2], A[3], A[4], A[5], A[6], W[i+1], K[i+1] );
+ 594              	 .loc 1 233 0 discriminator 3
+ 595 0194 07F10C03 	 add r3,r7,#12
+ 596 0198 9A69     	 ldr r2,[r3,#24]
+ 597 019a 07F10C03 	 add r3,r7,#12
+ 598 019e DB68     	 ldr r3,[r3,#12]
+ 599 01a0 4FEAB311 	 ror r1,r3,#6
+ 600 01a4 07F10C03 	 add r3,r7,#12
+ 601 01a8 DB68     	 ldr r3,[r3,#12]
+ 602 01aa 4FEAF323 	 ror r3,r3,#11
+ 603 01ae 5940     	 eors r1,r1,r3
+ 604 01b0 07F10C03 	 add r3,r7,#12
+ 605 01b4 DB68     	 ldr r3,[r3,#12]
+ 606 01b6 4FEA7363 	 ror r3,r3,#25
+ 607 01ba 4B40     	 eors r3,r3,r1
+ 608 01bc 1A44     	 add r2,r2,r3
+ 609 01be 07F10C03 	 add r3,r7,#12
+ 610 01c2 5969     	 ldr r1,[r3,#20]
+ 611 01c4 07F10C03 	 add r3,r7,#12
+ 612 01c8 D868     	 ldr r0,[r3,#12]
+ 613 01ca 07F10C03 	 add r3,r7,#12
+ 614 01ce 1C69     	 ldr r4,[r3,#16]
+ 615 01d0 07F10C03 	 add r3,r7,#12
+ 616 01d4 5B69     	 ldr r3,[r3,#20]
+ 617 01d6 6340     	 eors r3,r3,r4
+ 618 01d8 0340     	 ands r3,r3,r0
+ 619 01da 4B40     	 eors r3,r3,r1
+ 620 01dc 1A44     	 add r2,r2,r3
+ 621 01de D7F83431 	 ldr r3,[r7,#308]
+ 622 01e2 0133     	 adds r3,r3,#1
+ 623 01e4 9F49     	 ldr r1,.L25
+ 624 01e6 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 625 01ea 1A44     	 add r2,r2,r3
+ 626 01ec D7F83431 	 ldr r3,[r7,#308]
+ 627 01f0 591C     	 adds r1,r3,#1
+ 628 01f2 07F12C03 	 add r3,r7,#44
+ 629 01f6 53F82130 	 ldr r3,[r3,r1,lsl#2]
+ 630 01fa 1344     	 add r3,r3,r2
+ 631 01fc C7F83031 	 str r3,[r7,#304]
+ 632 0200 07F10C03 	 add r3,r7,#12
+ 633 0204 DB69     	 ldr r3,[r3,#28]
+ 634 0206 4FEAB302 	 ror r2,r3,#2
+ 635 020a 07F10C03 	 add r3,r7,#12
+ 636 020e DB69     	 ldr r3,[r3,#28]
+ 637 0210 4FEA7333 	 ror r3,r3,#13
+ 638 0214 5A40     	 eors r2,r2,r3
+ 639 0216 07F10C03 	 add r3,r7,#12
+ 640 021a DB69     	 ldr r3,[r3,#28]
+ 641 021c 4FEAB353 	 ror r3,r3,#22
+ 642 0220 5A40     	 eors r2,r2,r3
+ 643 0222 07F10C03 	 add r3,r7,#12
+ 644 0226 D969     	 ldr r1,[r3,#28]
+ 645 0228 07F10C03 	 add r3,r7,#12
+ 646 022c 1B68     	 ldr r3,[r3]
+ 647 022e 1940     	 ands r1,r1,r3
+ 648 0230 07F10C03 	 add r3,r7,#12
+ 649 0234 5868     	 ldr r0,[r3,#4]
+ 650 0236 07F10C03 	 add r3,r7,#12
+ 651 023a DC69     	 ldr r4,[r3,#28]
+ 652 023c 07F10C03 	 add r3,r7,#12
+ 653 0240 1B68     	 ldr r3,[r3]
+ 654 0242 2343     	 orrs r3,r3,r4
+ 655 0244 0340     	 ands r3,r3,r0
+ 656 0246 0B43     	 orrs r3,r3,r1
+ 657 0248 1344     	 add r3,r3,r2
+ 658 024a C7F82C31 	 str r3,[r7,#300]
+ 659 024e 07F10C03 	 add r3,r7,#12
+ 660 0252 9A68     	 ldr r2,[r3,#8]
+ 661 0254 D7F83031 	 ldr r3,[r7,#304]
+ 662 0258 1A44     	 add r2,r2,r3
+ 663 025a 07F10C03 	 add r3,r7,#12
+ 664 025e 9A60     	 str r2,[r3,#8]
+ 665 0260 D7F83021 	 ldr r2,[r7,#304]
+ 666 0264 D7F82C31 	 ldr r3,[r7,#300]
+ 667 0268 1A44     	 add r2,r2,r3
+ 668 026a 07F10C03 	 add r3,r7,#12
+ 669 026e 9A61     	 str r2,[r3,#24]
+ 234:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[6], A[7], A[0], A[1], A[2], A[3], A[4], A[5], W[i+2], K[i+2] );
+ 670              	 .loc 1 234 0 discriminator 3
+ 671 0270 07F10C03 	 add r3,r7,#12
+ 672 0274 5A69     	 ldr r2,[r3,#20]
+ 673 0276 07F10C03 	 add r3,r7,#12
+ 674 027a 9B68     	 ldr r3,[r3,#8]
+ 675 027c 4FEAB311 	 ror r1,r3,#6
+ 676 0280 07F10C03 	 add r3,r7,#12
+ 677 0284 9B68     	 ldr r3,[r3,#8]
+ 678 0286 4FEAF323 	 ror r3,r3,#11
+ 679 028a 5940     	 eors r1,r1,r3
+ 680 028c 07F10C03 	 add r3,r7,#12
+ 681 0290 9B68     	 ldr r3,[r3,#8]
+ 682 0292 4FEA7363 	 ror r3,r3,#25
+ 683 0296 4B40     	 eors r3,r3,r1
+ 684 0298 1A44     	 add r2,r2,r3
+ 685 029a 07F10C03 	 add r3,r7,#12
+ 686 029e 1969     	 ldr r1,[r3,#16]
+ 687 02a0 07F10C03 	 add r3,r7,#12
+ 688 02a4 9868     	 ldr r0,[r3,#8]
+ 689 02a6 07F10C03 	 add r3,r7,#12
+ 690 02aa DC68     	 ldr r4,[r3,#12]
+ 691 02ac 07F10C03 	 add r3,r7,#12
+ 692 02b0 1B69     	 ldr r3,[r3,#16]
+ 693 02b2 6340     	 eors r3,r3,r4
+ 694 02b4 0340     	 ands r3,r3,r0
+ 695 02b6 4B40     	 eors r3,r3,r1
+ 696 02b8 1A44     	 add r2,r2,r3
+ 697 02ba D7F83431 	 ldr r3,[r7,#308]
+ 698 02be 0233     	 adds r3,r3,#2
+ 699 02c0 6849     	 ldr r1,.L25
+ 700 02c2 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 701 02c6 1A44     	 add r2,r2,r3
+ 702 02c8 D7F83431 	 ldr r3,[r7,#308]
+ 703 02cc 991C     	 adds r1,r3,#2
+ 704 02ce 07F12C03 	 add r3,r7,#44
+ 705 02d2 53F82130 	 ldr r3,[r3,r1,lsl#2]
+ 706 02d6 1344     	 add r3,r3,r2
+ 707 02d8 C7F83031 	 str r3,[r7,#304]
+ 708 02dc 07F10C03 	 add r3,r7,#12
+ 709 02e0 9B69     	 ldr r3,[r3,#24]
+ 710 02e2 4FEAB302 	 ror r2,r3,#2
+ 711 02e6 07F10C03 	 add r3,r7,#12
+ 712 02ea 9B69     	 ldr r3,[r3,#24]
+ 713 02ec 4FEA7333 	 ror r3,r3,#13
+ 714 02f0 5A40     	 eors r2,r2,r3
+ 715 02f2 07F10C03 	 add r3,r7,#12
+ 716 02f6 9B69     	 ldr r3,[r3,#24]
+ 717 02f8 4FEAB353 	 ror r3,r3,#22
+ 718 02fc 5A40     	 eors r2,r2,r3
+ 719 02fe 07F10C03 	 add r3,r7,#12
+ 720 0302 9969     	 ldr r1,[r3,#24]
+ 721 0304 07F10C03 	 add r3,r7,#12
+ 722 0308 DB69     	 ldr r3,[r3,#28]
+ 723 030a 1940     	 ands r1,r1,r3
+ 724 030c 07F10C03 	 add r3,r7,#12
+ 725 0310 1868     	 ldr r0,[r3]
+ 726 0312 07F10C03 	 add r3,r7,#12
+ 727 0316 9C69     	 ldr r4,[r3,#24]
+ 728 0318 07F10C03 	 add r3,r7,#12
+ 729 031c DB69     	 ldr r3,[r3,#28]
+ 730 031e 2343     	 orrs r3,r3,r4
+ 731 0320 0340     	 ands r3,r3,r0
+ 732 0322 0B43     	 orrs r3,r3,r1
+ 733 0324 1344     	 add r3,r3,r2
+ 734 0326 C7F82C31 	 str r3,[r7,#300]
+ 735 032a 07F10C03 	 add r3,r7,#12
+ 736 032e 5A68     	 ldr r2,[r3,#4]
+ 737 0330 D7F83031 	 ldr r3,[r7,#304]
+ 738 0334 1A44     	 add r2,r2,r3
+ 739 0336 07F10C03 	 add r3,r7,#12
+ 740 033a 5A60     	 str r2,[r3,#4]
+ 741 033c D7F83021 	 ldr r2,[r7,#304]
+ 742 0340 D7F82C31 	 ldr r3,[r7,#300]
+ 743 0344 1A44     	 add r2,r2,r3
+ 744 0346 07F10C03 	 add r3,r7,#12
+ 745 034a 5A61     	 str r2,[r3,#20]
+ 235:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[5], A[6], A[7], A[0], A[1], A[2], A[3], A[4], W[i+3], K[i+3] );
+ 746              	 .loc 1 235 0 discriminator 3
+ 747 034c 07F10C03 	 add r3,r7,#12
+ 748 0350 1A69     	 ldr r2,[r3,#16]
+ 749 0352 07F10C03 	 add r3,r7,#12
+ 750 0356 5B68     	 ldr r3,[r3,#4]
+ 751 0358 4FEAB311 	 ror r1,r3,#6
+ 752 035c 07F10C03 	 add r3,r7,#12
+ 753 0360 5B68     	 ldr r3,[r3,#4]
+ 754 0362 4FEAF323 	 ror r3,r3,#11
+ 755 0366 5940     	 eors r1,r1,r3
+ 756 0368 07F10C03 	 add r3,r7,#12
+ 757 036c 5B68     	 ldr r3,[r3,#4]
+ 758 036e 4FEA7363 	 ror r3,r3,#25
+ 759 0372 4B40     	 eors r3,r3,r1
+ 760 0374 1A44     	 add r2,r2,r3
+ 761 0376 07F10C03 	 add r3,r7,#12
+ 762 037a D968     	 ldr r1,[r3,#12]
+ 763 037c 07F10C03 	 add r3,r7,#12
+ 764 0380 5868     	 ldr r0,[r3,#4]
+ 765 0382 07F10C03 	 add r3,r7,#12
+ 766 0386 9C68     	 ldr r4,[r3,#8]
+ 767 0388 07F10C03 	 add r3,r7,#12
+ 768 038c DB68     	 ldr r3,[r3,#12]
+ 769 038e 6340     	 eors r3,r3,r4
+ 770 0390 0340     	 ands r3,r3,r0
+ 771 0392 4B40     	 eors r3,r3,r1
+ 772 0394 1A44     	 add r2,r2,r3
+ 773 0396 D7F83431 	 ldr r3,[r7,#308]
+ 774 039a 0333     	 adds r3,r3,#3
+ 775 039c 3149     	 ldr r1,.L25
+ 776 039e 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 777 03a2 1A44     	 add r2,r2,r3
+ 778 03a4 D7F83431 	 ldr r3,[r7,#308]
+ 779 03a8 D91C     	 adds r1,r3,#3
+ 780 03aa 07F12C03 	 add r3,r7,#44
+ 781 03ae 53F82130 	 ldr r3,[r3,r1,lsl#2]
+ 782 03b2 1344     	 add r3,r3,r2
+ 783 03b4 C7F83031 	 str r3,[r7,#304]
+ 784 03b8 07F10C03 	 add r3,r7,#12
+ 785 03bc 5B69     	 ldr r3,[r3,#20]
+ 786 03be 4FEAB302 	 ror r2,r3,#2
+ 787 03c2 07F10C03 	 add r3,r7,#12
+ 788 03c6 5B69     	 ldr r3,[r3,#20]
+ 789 03c8 4FEA7333 	 ror r3,r3,#13
+ 790 03cc 5A40     	 eors r2,r2,r3
+ 791 03ce 07F10C03 	 add r3,r7,#12
+ 792 03d2 5B69     	 ldr r3,[r3,#20]
+ 793 03d4 4FEAB353 	 ror r3,r3,#22
+ 794 03d8 5A40     	 eors r2,r2,r3
+ 795 03da 07F10C03 	 add r3,r7,#12
+ 796 03de 5969     	 ldr r1,[r3,#20]
+ 797 03e0 07F10C03 	 add r3,r7,#12
+ 798 03e4 9B69     	 ldr r3,[r3,#24]
+ 799 03e6 1940     	 ands r1,r1,r3
+ 800 03e8 07F10C03 	 add r3,r7,#12
+ 801 03ec D869     	 ldr r0,[r3,#28]
+ 802 03ee 07F10C03 	 add r3,r7,#12
+ 803 03f2 5C69     	 ldr r4,[r3,#20]
+ 804 03f4 07F10C03 	 add r3,r7,#12
+ 805 03f8 9B69     	 ldr r3,[r3,#24]
+ 806 03fa 2343     	 orrs r3,r3,r4
+ 807 03fc 0340     	 ands r3,r3,r0
+ 808 03fe 0B43     	 orrs r3,r3,r1
+ 809 0400 1344     	 add r3,r3,r2
+ 810 0402 C7F82C31 	 str r3,[r7,#300]
+ 811 0406 07F10C03 	 add r3,r7,#12
+ 812 040a 1A68     	 ldr r2,[r3]
+ 813 040c D7F83031 	 ldr r3,[r7,#304]
+ 814 0410 1A44     	 add r2,r2,r3
+ 815 0412 07F10C03 	 add r3,r7,#12
+ 816 0416 1A60     	 str r2,[r3]
+ 817 0418 D7F83021 	 ldr r2,[r7,#304]
+ 818 041c D7F82C31 	 ldr r3,[r7,#300]
+ 819 0420 1A44     	 add r2,r2,r3
+ 820 0422 07F10C03 	 add r3,r7,#12
+ 821 0426 1A61     	 str r2,[r3,#16]
+ 236:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[4], A[5], A[6], A[7], A[0], A[1], A[2], A[3], W[i+4], K[i+4] );
+ 822              	 .loc 1 236 0 discriminator 3
+ 823 0428 07F10C03 	 add r3,r7,#12
+ 824 042c DA68     	 ldr r2,[r3,#12]
+ 825 042e 07F10C03 	 add r3,r7,#12
+ 826 0432 1B68     	 ldr r3,[r3]
+ 827 0434 4FEAB311 	 ror r1,r3,#6
+ 828 0438 07F10C03 	 add r3,r7,#12
+ 829 043c 1B68     	 ldr r3,[r3]
+ 830 043e 4FEAF323 	 ror r3,r3,#11
+ 831 0442 5940     	 eors r1,r1,r3
+ 832 0444 07F10C03 	 add r3,r7,#12
+ 833 0448 1B68     	 ldr r3,[r3]
+ 834 044a 4FEA7363 	 ror r3,r3,#25
+ 835 044e 4B40     	 eors r3,r3,r1
+ 836 0450 1A44     	 add r2,r2,r3
+ 837 0452 07F10C03 	 add r3,r7,#12
+ 838 0456 9968     	 ldr r1,[r3,#8]
+ 839 0458 07F10C03 	 add r3,r7,#12
+ 840 045c 1868     	 ldr r0,[r3]
+ 841 045e 07F10C03 	 add r3,r7,#12
+ 842 0462 01E0     	 b .L26
+ 843              	.L27:
+ 844              	 .align 2
+ 845              	.L25:
+ 846 0464 00000000 	 .word K
+ 847              	.L26:
+ 848 0468 5C68     	 ldr r4,[r3,#4]
+ 849 046a 07F10C03 	 add r3,r7,#12
+ 850 046e 9B68     	 ldr r3,[r3,#8]
+ 851 0470 6340     	 eors r3,r3,r4
+ 852 0472 0340     	 ands r3,r3,r0
+ 853 0474 4B40     	 eors r3,r3,r1
+ 854 0476 1A44     	 add r2,r2,r3
+ 855 0478 D7F83431 	 ldr r3,[r7,#308]
+ 856 047c 0433     	 adds r3,r3,#4
+ 857 047e CF49     	 ldr r1,.L28
+ 858 0480 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 859 0484 1A44     	 add r2,r2,r3
+ 860 0486 D7F83431 	 ldr r3,[r7,#308]
+ 861 048a 191D     	 adds r1,r3,#4
+ 862 048c 07F12C03 	 add r3,r7,#44
+ 863 0490 53F82130 	 ldr r3,[r3,r1,lsl#2]
+ 864 0494 1344     	 add r3,r3,r2
+ 865 0496 C7F83031 	 str r3,[r7,#304]
+ 866 049a 07F10C03 	 add r3,r7,#12
+ 867 049e 1B69     	 ldr r3,[r3,#16]
+ 868 04a0 4FEAB302 	 ror r2,r3,#2
+ 869 04a4 07F10C03 	 add r3,r7,#12
+ 870 04a8 1B69     	 ldr r3,[r3,#16]
+ 871 04aa 4FEA7333 	 ror r3,r3,#13
+ 872 04ae 5A40     	 eors r2,r2,r3
+ 873 04b0 07F10C03 	 add r3,r7,#12
+ 874 04b4 1B69     	 ldr r3,[r3,#16]
+ 875 04b6 4FEAB353 	 ror r3,r3,#22
+ 876 04ba 5A40     	 eors r2,r2,r3
+ 877 04bc 07F10C03 	 add r3,r7,#12
+ 878 04c0 1969     	 ldr r1,[r3,#16]
+ 879 04c2 07F10C03 	 add r3,r7,#12
+ 880 04c6 5B69     	 ldr r3,[r3,#20]
+ 881 04c8 1940     	 ands r1,r1,r3
+ 882 04ca 07F10C03 	 add r3,r7,#12
+ 883 04ce 9869     	 ldr r0,[r3,#24]
+ 884 04d0 07F10C03 	 add r3,r7,#12
+ 885 04d4 1C69     	 ldr r4,[r3,#16]
+ 886 04d6 07F10C03 	 add r3,r7,#12
+ 887 04da 5B69     	 ldr r3,[r3,#20]
+ 888 04dc 2343     	 orrs r3,r3,r4
+ 889 04de 0340     	 ands r3,r3,r0
+ 890 04e0 0B43     	 orrs r3,r3,r1
+ 891 04e2 1344     	 add r3,r3,r2
+ 892 04e4 C7F82C31 	 str r3,[r7,#300]
+ 893 04e8 07F10C03 	 add r3,r7,#12
+ 894 04ec DA69     	 ldr r2,[r3,#28]
+ 895 04ee D7F83031 	 ldr r3,[r7,#304]
+ 896 04f2 1A44     	 add r2,r2,r3
+ 897 04f4 07F10C03 	 add r3,r7,#12
+ 898 04f8 DA61     	 str r2,[r3,#28]
+ 899 04fa D7F83021 	 ldr r2,[r7,#304]
+ 900 04fe D7F82C31 	 ldr r3,[r7,#300]
+ 901 0502 1A44     	 add r2,r2,r3
+ 902 0504 07F10C03 	 add r3,r7,#12
+ 903 0508 DA60     	 str r2,[r3,#12]
+ 237:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[3], A[4], A[5], A[6], A[7], A[0], A[1], A[2], W[i+5], K[i+5] );
+ 904              	 .loc 1 237 0 discriminator 3
+ 905 050a 07F10C03 	 add r3,r7,#12
+ 906 050e 9A68     	 ldr r2,[r3,#8]
+ 907 0510 07F10C03 	 add r3,r7,#12
+ 908 0514 DB69     	 ldr r3,[r3,#28]
+ 909 0516 4FEAB311 	 ror r1,r3,#6
+ 910 051a 07F10C03 	 add r3,r7,#12
+ 911 051e DB69     	 ldr r3,[r3,#28]
+ 912 0520 4FEAF323 	 ror r3,r3,#11
+ 913 0524 5940     	 eors r1,r1,r3
+ 914 0526 07F10C03 	 add r3,r7,#12
+ 915 052a DB69     	 ldr r3,[r3,#28]
+ 916 052c 4FEA7363 	 ror r3,r3,#25
+ 917 0530 4B40     	 eors r3,r3,r1
+ 918 0532 1A44     	 add r2,r2,r3
+ 919 0534 07F10C03 	 add r3,r7,#12
+ 920 0538 5968     	 ldr r1,[r3,#4]
+ 921 053a 07F10C03 	 add r3,r7,#12
+ 922 053e D869     	 ldr r0,[r3,#28]
+ 923 0540 07F10C03 	 add r3,r7,#12
+ 924 0544 1C68     	 ldr r4,[r3]
+ 925 0546 07F10C03 	 add r3,r7,#12
+ 926 054a 5B68     	 ldr r3,[r3,#4]
+ 927 054c 6340     	 eors r3,r3,r4
+ 928 054e 0340     	 ands r3,r3,r0
+ 929 0550 4B40     	 eors r3,r3,r1
+ 930 0552 1A44     	 add r2,r2,r3
+ 931 0554 D7F83431 	 ldr r3,[r7,#308]
+ 932 0558 0533     	 adds r3,r3,#5
+ 933 055a 9849     	 ldr r1,.L28
+ 934 055c 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 935 0560 1A44     	 add r2,r2,r3
+ 936 0562 D7F83431 	 ldr r3,[r7,#308]
+ 937 0566 591D     	 adds r1,r3,#5
+ 938 0568 07F12C03 	 add r3,r7,#44
+ 939 056c 53F82130 	 ldr r3,[r3,r1,lsl#2]
+ 940 0570 1344     	 add r3,r3,r2
+ 941 0572 C7F83031 	 str r3,[r7,#304]
+ 942 0576 07F10C03 	 add r3,r7,#12
+ 943 057a DB68     	 ldr r3,[r3,#12]
+ 944 057c 4FEAB302 	 ror r2,r3,#2
+ 945 0580 07F10C03 	 add r3,r7,#12
+ 946 0584 DB68     	 ldr r3,[r3,#12]
+ 947 0586 4FEA7333 	 ror r3,r3,#13
+ 948 058a 5A40     	 eors r2,r2,r3
+ 949 058c 07F10C03 	 add r3,r7,#12
+ 950 0590 DB68     	 ldr r3,[r3,#12]
+ 951 0592 4FEAB353 	 ror r3,r3,#22
+ 952 0596 5A40     	 eors r2,r2,r3
+ 953 0598 07F10C03 	 add r3,r7,#12
+ 954 059c D968     	 ldr r1,[r3,#12]
+ 955 059e 07F10C03 	 add r3,r7,#12
+ 956 05a2 1B69     	 ldr r3,[r3,#16]
+ 957 05a4 1940     	 ands r1,r1,r3
+ 958 05a6 07F10C03 	 add r3,r7,#12
+ 959 05aa 5869     	 ldr r0,[r3,#20]
+ 960 05ac 07F10C03 	 add r3,r7,#12
+ 961 05b0 DC68     	 ldr r4,[r3,#12]
+ 962 05b2 07F10C03 	 add r3,r7,#12
+ 963 05b6 1B69     	 ldr r3,[r3,#16]
+ 964 05b8 2343     	 orrs r3,r3,r4
+ 965 05ba 0340     	 ands r3,r3,r0
+ 966 05bc 0B43     	 orrs r3,r3,r1
+ 967 05be 1344     	 add r3,r3,r2
+ 968 05c0 C7F82C31 	 str r3,[r7,#300]
+ 969 05c4 07F10C03 	 add r3,r7,#12
+ 970 05c8 9A69     	 ldr r2,[r3,#24]
+ 971 05ca D7F83031 	 ldr r3,[r7,#304]
+ 972 05ce 1A44     	 add r2,r2,r3
+ 973 05d0 07F10C03 	 add r3,r7,#12
+ 974 05d4 9A61     	 str r2,[r3,#24]
+ 975 05d6 D7F83021 	 ldr r2,[r7,#304]
+ 976 05da D7F82C31 	 ldr r3,[r7,#300]
+ 977 05de 1A44     	 add r2,r2,r3
+ 978 05e0 07F10C03 	 add r3,r7,#12
+ 979 05e4 9A60     	 str r2,[r3,#8]
+ 238:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[2], A[3], A[4], A[5], A[6], A[7], A[0], A[1], W[i+6], K[i+6] );
+ 980              	 .loc 1 238 0 discriminator 3
+ 981 05e6 07F10C03 	 add r3,r7,#12
+ 982 05ea 5A68     	 ldr r2,[r3,#4]
+ 983 05ec 07F10C03 	 add r3,r7,#12
+ 984 05f0 9B69     	 ldr r3,[r3,#24]
+ 985 05f2 4FEAB311 	 ror r1,r3,#6
+ 986 05f6 07F10C03 	 add r3,r7,#12
+ 987 05fa 9B69     	 ldr r3,[r3,#24]
+ 988 05fc 4FEAF323 	 ror r3,r3,#11
+ 989 0600 5940     	 eors r1,r1,r3
+ 990 0602 07F10C03 	 add r3,r7,#12
+ 991 0606 9B69     	 ldr r3,[r3,#24]
+ 992 0608 4FEA7363 	 ror r3,r3,#25
+ 993 060c 4B40     	 eors r3,r3,r1
+ 994 060e 1A44     	 add r2,r2,r3
+ 995 0610 07F10C03 	 add r3,r7,#12
+ 996 0614 1968     	 ldr r1,[r3]
+ 997 0616 07F10C03 	 add r3,r7,#12
+ 998 061a 9869     	 ldr r0,[r3,#24]
+ 999 061c 07F10C03 	 add r3,r7,#12
+ 1000 0620 DC69     	 ldr r4,[r3,#28]
+ 1001 0622 07F10C03 	 add r3,r7,#12
+ 1002 0626 1B68     	 ldr r3,[r3]
+ 1003 0628 6340     	 eors r3,r3,r4
+ 1004 062a 0340     	 ands r3,r3,r0
+ 1005 062c 4B40     	 eors r3,r3,r1
+ 1006 062e 1A44     	 add r2,r2,r3
+ 1007 0630 D7F83431 	 ldr r3,[r7,#308]
+ 1008 0634 0633     	 adds r3,r3,#6
+ 1009 0636 6149     	 ldr r1,.L28
+ 1010 0638 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1011 063c 1A44     	 add r2,r2,r3
+ 1012 063e D7F83431 	 ldr r3,[r7,#308]
+ 1013 0642 991D     	 adds r1,r3,#6
+ 1014 0644 07F12C03 	 add r3,r7,#44
+ 1015 0648 53F82130 	 ldr r3,[r3,r1,lsl#2]
+ 1016 064c 1344     	 add r3,r3,r2
+ 1017 064e C7F83031 	 str r3,[r7,#304]
+ 1018 0652 07F10C03 	 add r3,r7,#12
+ 1019 0656 9B68     	 ldr r3,[r3,#8]
+ 1020 0658 4FEAB302 	 ror r2,r3,#2
+ 1021 065c 07F10C03 	 add r3,r7,#12
+ 1022 0660 9B68     	 ldr r3,[r3,#8]
+ 1023 0662 4FEA7333 	 ror r3,r3,#13
+ 1024 0666 5A40     	 eors r2,r2,r3
+ 1025 0668 07F10C03 	 add r3,r7,#12
+ 1026 066c 9B68     	 ldr r3,[r3,#8]
+ 1027 066e 4FEAB353 	 ror r3,r3,#22
+ 1028 0672 5A40     	 eors r2,r2,r3
+ 1029 0674 07F10C03 	 add r3,r7,#12
+ 1030 0678 9968     	 ldr r1,[r3,#8]
+ 1031 067a 07F10C03 	 add r3,r7,#12
+ 1032 067e DB68     	 ldr r3,[r3,#12]
+ 1033 0680 1940     	 ands r1,r1,r3
+ 1034 0682 07F10C03 	 add r3,r7,#12
+ 1035 0686 1869     	 ldr r0,[r3,#16]
+ 1036 0688 07F10C03 	 add r3,r7,#12
+ 1037 068c 9C68     	 ldr r4,[r3,#8]
+ 1038 068e 07F10C03 	 add r3,r7,#12
+ 1039 0692 DB68     	 ldr r3,[r3,#12]
+ 1040 0694 2343     	 orrs r3,r3,r4
+ 1041 0696 0340     	 ands r3,r3,r0
+ 1042 0698 0B43     	 orrs r3,r3,r1
+ 1043 069a 1344     	 add r3,r3,r2
+ 1044 069c C7F82C31 	 str r3,[r7,#300]
+ 1045 06a0 07F10C03 	 add r3,r7,#12
+ 1046 06a4 5A69     	 ldr r2,[r3,#20]
+ 1047 06a6 D7F83031 	 ldr r3,[r7,#304]
+ 1048 06aa 1A44     	 add r2,r2,r3
+ 1049 06ac 07F10C03 	 add r3,r7,#12
+ 1050 06b0 5A61     	 str r2,[r3,#20]
+ 1051 06b2 D7F83021 	 ldr r2,[r7,#304]
+ 1052 06b6 D7F82C31 	 ldr r3,[r7,#300]
+ 1053 06ba 1A44     	 add r2,r2,r3
+ 1054 06bc 07F10C03 	 add r3,r7,#12
+ 1055 06c0 5A60     	 str r2,[r3,#4]
+ 239:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[1], A[2], A[3], A[4], A[5], A[6], A[7], A[0], W[i+7], K[i+7] );
+ 1056              	 .loc 1 239 0 discriminator 3
+ 1057 06c2 07F10C03 	 add r3,r7,#12
+ 1058 06c6 1A68     	 ldr r2,[r3]
+ 1059 06c8 07F10C03 	 add r3,r7,#12
+ 1060 06cc 5B69     	 ldr r3,[r3,#20]
+ 1061 06ce 4FEAB311 	 ror r1,r3,#6
+ 1062 06d2 07F10C03 	 add r3,r7,#12
+ 1063 06d6 5B69     	 ldr r3,[r3,#20]
+ 1064 06d8 4FEAF323 	 ror r3,r3,#11
+ 1065 06dc 5940     	 eors r1,r1,r3
+ 1066 06de 07F10C03 	 add r3,r7,#12
+ 1067 06e2 5B69     	 ldr r3,[r3,#20]
+ 1068 06e4 4FEA7363 	 ror r3,r3,#25
+ 1069 06e8 4B40     	 eors r3,r3,r1
+ 1070 06ea 1A44     	 add r2,r2,r3
+ 1071 06ec 07F10C03 	 add r3,r7,#12
+ 1072 06f0 D969     	 ldr r1,[r3,#28]
+ 1073 06f2 07F10C03 	 add r3,r7,#12
+ 1074 06f6 5869     	 ldr r0,[r3,#20]
+ 1075 06f8 07F10C03 	 add r3,r7,#12
+ 1076 06fc 9C69     	 ldr r4,[r3,#24]
+ 1077 06fe 07F10C03 	 add r3,r7,#12
+ 1078 0702 DB69     	 ldr r3,[r3,#28]
+ 1079 0704 6340     	 eors r3,r3,r4
+ 1080 0706 0340     	 ands r3,r3,r0
+ 1081 0708 4B40     	 eors r3,r3,r1
+ 1082 070a 1A44     	 add r2,r2,r3
+ 1083 070c D7F83431 	 ldr r3,[r7,#308]
+ 1084 0710 0733     	 adds r3,r3,#7
+ 1085 0712 2A49     	 ldr r1,.L28
+ 1086 0714 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1087 0718 1A44     	 add r2,r2,r3
+ 1088 071a D7F83431 	 ldr r3,[r7,#308]
+ 1089 071e D91D     	 adds r1,r3,#7
+ 1090 0720 07F12C03 	 add r3,r7,#44
+ 1091 0724 53F82130 	 ldr r3,[r3,r1,lsl#2]
+ 1092 0728 1344     	 add r3,r3,r2
+ 1093 072a C7F83031 	 str r3,[r7,#304]
+ 1094 072e 07F10C03 	 add r3,r7,#12
+ 1095 0732 5B68     	 ldr r3,[r3,#4]
+ 1096 0734 4FEAB302 	 ror r2,r3,#2
+ 1097 0738 07F10C03 	 add r3,r7,#12
+ 1098 073c 5B68     	 ldr r3,[r3,#4]
+ 1099 073e 4FEA7333 	 ror r3,r3,#13
+ 1100 0742 5A40     	 eors r2,r2,r3
+ 1101 0744 07F10C03 	 add r3,r7,#12
+ 1102 0748 5B68     	 ldr r3,[r3,#4]
+ 1103 074a 4FEAB353 	 ror r3,r3,#22
+ 1104 074e 5A40     	 eors r2,r2,r3
+ 1105 0750 07F10C03 	 add r3,r7,#12
+ 1106 0754 5968     	 ldr r1,[r3,#4]
+ 1107 0756 07F10C03 	 add r3,r7,#12
+ 1108 075a 9B68     	 ldr r3,[r3,#8]
+ 1109 075c 1940     	 ands r1,r1,r3
+ 1110 075e 07F10C03 	 add r3,r7,#12
+ 1111 0762 D868     	 ldr r0,[r3,#12]
+ 1112 0764 07F10C03 	 add r3,r7,#12
+ 1113 0768 5C68     	 ldr r4,[r3,#4]
+ 1114 076a 07F10C03 	 add r3,r7,#12
+ 1115 076e 9B68     	 ldr r3,[r3,#8]
+ 1116 0770 2343     	 orrs r3,r3,r4
+ 1117 0772 0340     	 ands r3,r3,r0
+ 1118 0774 0B43     	 orrs r3,r3,r1
+ 1119 0776 1344     	 add r3,r3,r2
+ 1120 0778 C7F82C31 	 str r3,[r7,#300]
+ 1121 077c 07F10C03 	 add r3,r7,#12
+ 1122 0780 1A69     	 ldr r2,[r3,#16]
+ 1123 0782 D7F83031 	 ldr r3,[r7,#304]
+ 1124 0786 1A44     	 add r2,r2,r3
+ 1125 0788 07F10C03 	 add r3,r7,#12
+ 1126 078c 1A61     	 str r2,[r3,#16]
+ 1127 078e D7F83021 	 ldr r2,[r7,#304]
+ 1128 0792 D7F82C31 	 ldr r3,[r7,#300]
+ 1129 0796 1A44     	 add r2,r2,r3
+ 1130 0798 07F10C03 	 add r3,r7,#12
+ 1131 079c 1A60     	 str r2,[r3]
+ 230:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 1132              	 .loc 1 230 0 discriminator 3
+ 1133 079e D7F83431 	 ldr r3,[r7,#308]
+ 1134 07a2 0833     	 adds r3,r3,#8
+ 1135 07a4 C7F83431 	 str r3,[r7,#308]
+ 1136              	.L18:
+ 230:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 1137              	 .loc 1 230 0 is_stmt 0 discriminator 1
+ 1138 07a8 D7F83431 	 ldr r3,[r7,#308]
+ 1139 07ac 0F2B     	 cmp r3,#15
+ 1140 07ae 7FF685AC 	 bls .L19
+ 240:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     }
+ 241:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 242:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     for( i = 16; i < 64; i += 8 )
+ 1141              	 .loc 1 242 0 is_stmt 1
+ 1142 07b2 1023     	 movs r3,#16
+ 1143 07b4 C7F83431 	 str r3,[r7,#308]
+ 1144 07b8 00F001BE 	 b .L20
+ 1145              	.L29:
+ 1146              	 .align 2
+ 1147              	.L28:
+ 1148 07bc 00000000 	 .word K
+ 1149              	.L21:
+ 243:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 244:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[0], A[1], A[2], A[3], A[4], A[5], A[6], A[7], R(i+0), K[i+0] );
+ 1150              	 .loc 1 244 0 discriminator 3
+ 1151 07c0 07F10C03 	 add r3,r7,#12
+ 1152 07c4 DA69     	 ldr r2,[r3,#28]
+ 1153 07c6 07F10C03 	 add r3,r7,#12
+ 1154 07ca 1B69     	 ldr r3,[r3,#16]
+ 1155 07cc 4FEAB311 	 ror r1,r3,#6
+ 1156 07d0 07F10C03 	 add r3,r7,#12
+ 1157 07d4 1B69     	 ldr r3,[r3,#16]
+ 1158 07d6 4FEAF323 	 ror r3,r3,#11
+ 1159 07da 5940     	 eors r1,r1,r3
+ 1160 07dc 07F10C03 	 add r3,r7,#12
+ 1161 07e0 1B69     	 ldr r3,[r3,#16]
+ 1162 07e2 4FEA7363 	 ror r3,r3,#25
+ 1163 07e6 4B40     	 eors r3,r3,r1
+ 1164 07e8 1A44     	 add r2,r2,r3
+ 1165 07ea 07F10C03 	 add r3,r7,#12
+ 1166 07ee 9969     	 ldr r1,[r3,#24]
+ 1167 07f0 07F10C03 	 add r3,r7,#12
+ 1168 07f4 1869     	 ldr r0,[r3,#16]
+ 1169 07f6 07F10C03 	 add r3,r7,#12
+ 1170 07fa 5C69     	 ldr r4,[r3,#20]
+ 1171 07fc 07F10C03 	 add r3,r7,#12
+ 1172 0800 9B69     	 ldr r3,[r3,#24]
+ 1173 0802 6340     	 eors r3,r3,r4
+ 1174 0804 0340     	 ands r3,r3,r0
+ 1175 0806 4B40     	 eors r3,r3,r1
+ 1176 0808 1A44     	 add r2,r2,r3
+ 1177 080a E949     	 ldr r1,.L30
+ 1178 080c D7F83431 	 ldr r3,[r7,#308]
+ 1179 0810 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1180 0814 1A44     	 add r2,r2,r3
+ 1181 0816 D7F83431 	 ldr r3,[r7,#308]
+ 1182 081a 991E     	 subs r1,r3,#2
+ 1183 081c 07F12C03 	 add r3,r7,#44
+ 1184 0820 53F82130 	 ldr r3,[r3,r1,lsl#2]
+ 1185 0824 4FEA7341 	 ror r1,r3,#17
+ 1186 0828 D7F83431 	 ldr r3,[r7,#308]
+ 1187 082c 981E     	 subs r0,r3,#2
+ 1188 082e 07F12C03 	 add r3,r7,#44
+ 1189 0832 53F82030 	 ldr r3,[r3,r0,lsl#2]
+ 1190 0836 4FEAF343 	 ror r3,r3,#19
+ 1191 083a 5940     	 eors r1,r1,r3
+ 1192 083c D7F83431 	 ldr r3,[r7,#308]
+ 1193 0840 981E     	 subs r0,r3,#2
+ 1194 0842 07F12C03 	 add r3,r7,#44
+ 1195 0846 53F82030 	 ldr r3,[r3,r0,lsl#2]
+ 1196 084a 9B0A     	 lsrs r3,r3,#10
+ 1197 084c 5940     	 eors r1,r1,r3
+ 1198 084e D7F83431 	 ldr r3,[r7,#308]
+ 1199 0852 D81F     	 subs r0,r3,#7
+ 1200 0854 07F12C03 	 add r3,r7,#44
+ 1201 0858 53F82030 	 ldr r3,[r3,r0,lsl#2]
+ 1202 085c 1944     	 add r1,r1,r3
+ 1203 085e D7F83431 	 ldr r3,[r7,#308]
+ 1204 0862 A3F10F00 	 sub r0,r3,#15
+ 1205 0866 07F12C03 	 add r3,r7,#44
+ 1206 086a 53F82030 	 ldr r3,[r3,r0,lsl#2]
+ 1207 086e 4FEAF310 	 ror r0,r3,#7
+ 1208 0872 D7F83431 	 ldr r3,[r7,#308]
+ 1209 0876 A3F10F04 	 sub r4,r3,#15
+ 1210 087a 07F12C03 	 add r3,r7,#44
+ 1211 087e 53F82430 	 ldr r3,[r3,r4,lsl#2]
+ 1212 0882 4FEAB343 	 ror r3,r3,#18
+ 1213 0886 5840     	 eors r0,r0,r3
+ 1214 0888 D7F83431 	 ldr r3,[r7,#308]
+ 1215 088c A3F10F04 	 sub r4,r3,#15
+ 1216 0890 07F12C03 	 add r3,r7,#44
+ 1217 0894 53F82430 	 ldr r3,[r3,r4,lsl#2]
+ 1218 0898 DB08     	 lsrs r3,r3,#3
+ 1219 089a 4340     	 eors r3,r3,r0
+ 1220 089c 1944     	 add r1,r1,r3
+ 1221 089e D7F83431 	 ldr r3,[r7,#308]
+ 1222 08a2 A3F11000 	 sub r0,r3,#16
+ 1223 08a6 07F12C03 	 add r3,r7,#44
+ 1224 08aa 53F82030 	 ldr r3,[r3,r0,lsl#2]
+ 1225 08ae C818     	 adds r0,r1,r3
+ 1226 08b0 07F12C03 	 add r3,r7,#44
+ 1227 08b4 D7F83411 	 ldr r1,[r7,#308]
+ 1228 08b8 43F82100 	 str r0,[r3,r1,lsl#2]
+ 1229 08bc 07F12C03 	 add r3,r7,#44
+ 1230 08c0 D7F83411 	 ldr r1,[r7,#308]
+ 1231 08c4 53F82130 	 ldr r3,[r3,r1,lsl#2]
+ 1232 08c8 1344     	 add r3,r3,r2
+ 1233 08ca C7F83031 	 str r3,[r7,#304]
+ 1234 08ce 07F10C03 	 add r3,r7,#12
+ 1235 08d2 1B68     	 ldr r3,[r3]
+ 1236 08d4 4FEAB302 	 ror r2,r3,#2
+ 1237 08d8 07F10C03 	 add r3,r7,#12
+ 1238 08dc 1B68     	 ldr r3,[r3]
+ 1239 08de 4FEA7333 	 ror r3,r3,#13
+ 1240 08e2 5A40     	 eors r2,r2,r3
+ 1241 08e4 07F10C03 	 add r3,r7,#12
+ 1242 08e8 1B68     	 ldr r3,[r3]
+ 1243 08ea 4FEAB353 	 ror r3,r3,#22
+ 1244 08ee 5A40     	 eors r2,r2,r3
+ 1245 08f0 07F10C03 	 add r3,r7,#12
+ 1246 08f4 1968     	 ldr r1,[r3]
+ 1247 08f6 07F10C03 	 add r3,r7,#12
+ 1248 08fa 5B68     	 ldr r3,[r3,#4]
+ 1249 08fc 1940     	 ands r1,r1,r3
+ 1250 08fe 07F10C03 	 add r3,r7,#12
+ 1251 0902 9868     	 ldr r0,[r3,#8]
+ 1252 0904 07F10C03 	 add r3,r7,#12
+ 1253 0908 1C68     	 ldr r4,[r3]
+ 1254 090a 07F10C03 	 add r3,r7,#12
+ 1255 090e 5B68     	 ldr r3,[r3,#4]
+ 1256 0910 2343     	 orrs r3,r3,r4
+ 1257 0912 0340     	 ands r3,r3,r0
+ 1258 0914 0B43     	 orrs r3,r3,r1
+ 1259 0916 1344     	 add r3,r3,r2
+ 1260 0918 C7F82C31 	 str r3,[r7,#300]
+ 1261 091c 07F10C03 	 add r3,r7,#12
+ 1262 0920 DA68     	 ldr r2,[r3,#12]
+ 1263 0922 D7F83031 	 ldr r3,[r7,#304]
+ 1264 0926 1A44     	 add r2,r2,r3
+ 1265 0928 07F10C03 	 add r3,r7,#12
+ 1266 092c DA60     	 str r2,[r3,#12]
+ 1267 092e D7F83021 	 ldr r2,[r7,#304]
+ 1268 0932 D7F82C31 	 ldr r3,[r7,#300]
+ 1269 0936 1A44     	 add r2,r2,r3
+ 1270 0938 07F10C03 	 add r3,r7,#12
+ 1271 093c DA61     	 str r2,[r3,#28]
+ 245:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[7], A[0], A[1], A[2], A[3], A[4], A[5], A[6], R(i+1), K[i+1] );
+ 1272              	 .loc 1 245 0 discriminator 3
+ 1273 093e 07F10C03 	 add r3,r7,#12
+ 1274 0942 9A69     	 ldr r2,[r3,#24]
+ 1275 0944 07F10C03 	 add r3,r7,#12
+ 1276 0948 DB68     	 ldr r3,[r3,#12]
+ 1277 094a 4FEAB311 	 ror r1,r3,#6
+ 1278 094e 07F10C03 	 add r3,r7,#12
+ 1279 0952 DB68     	 ldr r3,[r3,#12]
+ 1280 0954 4FEAF323 	 ror r3,r3,#11
+ 1281 0958 5940     	 eors r1,r1,r3
+ 1282 095a 07F10C03 	 add r3,r7,#12
+ 1283 095e DB68     	 ldr r3,[r3,#12]
+ 1284 0960 4FEA7363 	 ror r3,r3,#25
+ 1285 0964 4B40     	 eors r3,r3,r1
+ 1286 0966 1A44     	 add r2,r2,r3
+ 1287 0968 07F10C03 	 add r3,r7,#12
+ 1288 096c 5969     	 ldr r1,[r3,#20]
+ 1289 096e 07F10C03 	 add r3,r7,#12
+ 1290 0972 D868     	 ldr r0,[r3,#12]
+ 1291 0974 07F10C03 	 add r3,r7,#12
+ 1292 0978 1C69     	 ldr r4,[r3,#16]
+ 1293 097a 07F10C03 	 add r3,r7,#12
+ 1294 097e 5B69     	 ldr r3,[r3,#20]
+ 1295 0980 6340     	 eors r3,r3,r4
+ 1296 0982 0340     	 ands r3,r3,r0
+ 1297 0984 4B40     	 eors r3,r3,r1
+ 1298 0986 1A44     	 add r2,r2,r3
+ 1299 0988 D7F83431 	 ldr r3,[r7,#308]
+ 1300 098c 0133     	 adds r3,r3,#1
+ 1301 098e 8849     	 ldr r1,.L30
+ 1302 0990 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1303 0994 1A44     	 add r2,r2,r3
+ 1304 0996 D7F83431 	 ldr r3,[r7,#308]
+ 1305 099a 0133     	 adds r3,r3,#1
+ 1306 099c D7F83411 	 ldr r1,[r7,#308]
+ 1307 09a0 481E     	 subs r0,r1,#1
+ 1308 09a2 07F12C01 	 add r1,r7,#44
+ 1309 09a6 51F82010 	 ldr r1,[r1,r0,lsl#2]
+ 1310 09aa 4FEA7140 	 ror r0,r1,#17
+ 1311 09ae D7F83411 	 ldr r1,[r7,#308]
+ 1312 09b2 4C1E     	 subs r4,r1,#1
+ 1313 09b4 07F12C01 	 add r1,r7,#44
+ 1314 09b8 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1315 09bc 4FEAF141 	 ror r1,r1,#19
+ 1316 09c0 4840     	 eors r0,r0,r1
+ 1317 09c2 D7F83411 	 ldr r1,[r7,#308]
+ 1318 09c6 4C1E     	 subs r4,r1,#1
+ 1319 09c8 07F12C01 	 add r1,r7,#44
+ 1320 09cc 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1321 09d0 890A     	 lsrs r1,r1,#10
+ 1322 09d2 4840     	 eors r0,r0,r1
+ 1323 09d4 D7F83411 	 ldr r1,[r7,#308]
+ 1324 09d8 8C1F     	 subs r4,r1,#6
+ 1325 09da 07F12C01 	 add r1,r7,#44
+ 1326 09de 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1327 09e2 0844     	 add r0,r0,r1
+ 1328 09e4 D7F83411 	 ldr r1,[r7,#308]
+ 1329 09e8 A1F10E04 	 sub r4,r1,#14
+ 1330 09ec 07F12C01 	 add r1,r7,#44
+ 1331 09f0 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1332 09f4 4FEAF114 	 ror r4,r1,#7
+ 1333 09f8 D7F83411 	 ldr r1,[r7,#308]
+ 1334 09fc A1F10E05 	 sub r5,r1,#14
+ 1335 0a00 07F12C01 	 add r1,r7,#44
+ 1336 0a04 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 1337 0a08 4FEAB141 	 ror r1,r1,#18
+ 1338 0a0c 4C40     	 eors r4,r4,r1
+ 1339 0a0e D7F83411 	 ldr r1,[r7,#308]
+ 1340 0a12 A1F10E05 	 sub r5,r1,#14
+ 1341 0a16 07F12C01 	 add r1,r7,#44
+ 1342 0a1a 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 1343 0a1e C908     	 lsrs r1,r1,#3
+ 1344 0a20 6140     	 eors r1,r1,r4
+ 1345 0a22 0844     	 add r0,r0,r1
+ 1346 0a24 D7F83411 	 ldr r1,[r7,#308]
+ 1347 0a28 A1F10F04 	 sub r4,r1,#15
+ 1348 0a2c 07F12C01 	 add r1,r7,#44
+ 1349 0a30 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1350 0a34 0844     	 add r0,r0,r1
+ 1351 0a36 07F12C01 	 add r1,r7,#44
+ 1352 0a3a 41F82300 	 str r0,[r1,r3,lsl#2]
+ 1353 0a3e 07F12C01 	 add r1,r7,#44
+ 1354 0a42 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1355 0a46 1344     	 add r3,r3,r2
+ 1356 0a48 C7F83031 	 str r3,[r7,#304]
+ 1357 0a4c 07F10C03 	 add r3,r7,#12
+ 1358 0a50 DB69     	 ldr r3,[r3,#28]
+ 1359 0a52 4FEAB302 	 ror r2,r3,#2
+ 1360 0a56 07F10C03 	 add r3,r7,#12
+ 1361 0a5a DB69     	 ldr r3,[r3,#28]
+ 1362 0a5c 4FEA7333 	 ror r3,r3,#13
+ 1363 0a60 5A40     	 eors r2,r2,r3
+ 1364 0a62 07F10C03 	 add r3,r7,#12
+ 1365 0a66 DB69     	 ldr r3,[r3,#28]
+ 1366 0a68 4FEAB353 	 ror r3,r3,#22
+ 1367 0a6c 5A40     	 eors r2,r2,r3
+ 1368 0a6e 07F10C03 	 add r3,r7,#12
+ 1369 0a72 D969     	 ldr r1,[r3,#28]
+ 1370 0a74 07F10C03 	 add r3,r7,#12
+ 1371 0a78 1B68     	 ldr r3,[r3]
+ 1372 0a7a 1940     	 ands r1,r1,r3
+ 1373 0a7c 07F10C03 	 add r3,r7,#12
+ 1374 0a80 5868     	 ldr r0,[r3,#4]
+ 1375 0a82 07F10C03 	 add r3,r7,#12
+ 1376 0a86 DC69     	 ldr r4,[r3,#28]
+ 1377 0a88 07F10C03 	 add r3,r7,#12
+ 1378 0a8c 1B68     	 ldr r3,[r3]
+ 1379 0a8e 2343     	 orrs r3,r3,r4
+ 1380 0a90 0340     	 ands r3,r3,r0
+ 1381 0a92 0B43     	 orrs r3,r3,r1
+ 1382 0a94 1344     	 add r3,r3,r2
+ 1383 0a96 C7F82C31 	 str r3,[r7,#300]
+ 1384 0a9a 07F10C03 	 add r3,r7,#12
+ 1385 0a9e 9A68     	 ldr r2,[r3,#8]
+ 1386 0aa0 D7F83031 	 ldr r3,[r7,#304]
+ 1387 0aa4 1A44     	 add r2,r2,r3
+ 1388 0aa6 07F10C03 	 add r3,r7,#12
+ 1389 0aaa 9A60     	 str r2,[r3,#8]
+ 1390 0aac D7F83021 	 ldr r2,[r7,#304]
+ 1391 0ab0 D7F82C31 	 ldr r3,[r7,#300]
+ 1392 0ab4 1A44     	 add r2,r2,r3
+ 1393 0ab6 07F10C03 	 add r3,r7,#12
+ 1394 0aba 9A61     	 str r2,[r3,#24]
+ 246:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[6], A[7], A[0], A[1], A[2], A[3], A[4], A[5], R(i+2), K[i+2] );
+ 1395              	 .loc 1 246 0 discriminator 3
+ 1396 0abc 07F10C03 	 add r3,r7,#12
+ 1397 0ac0 5A69     	 ldr r2,[r3,#20]
+ 1398 0ac2 07F10C03 	 add r3,r7,#12
+ 1399 0ac6 9B68     	 ldr r3,[r3,#8]
+ 1400 0ac8 4FEAB311 	 ror r1,r3,#6
+ 1401 0acc 07F10C03 	 add r3,r7,#12
+ 1402 0ad0 9B68     	 ldr r3,[r3,#8]
+ 1403 0ad2 4FEAF323 	 ror r3,r3,#11
+ 1404 0ad6 5940     	 eors r1,r1,r3
+ 1405 0ad8 07F10C03 	 add r3,r7,#12
+ 1406 0adc 9B68     	 ldr r3,[r3,#8]
+ 1407 0ade 4FEA7363 	 ror r3,r3,#25
+ 1408 0ae2 4B40     	 eors r3,r3,r1
+ 1409 0ae4 1A44     	 add r2,r2,r3
+ 1410 0ae6 07F10C03 	 add r3,r7,#12
+ 1411 0aea 1969     	 ldr r1,[r3,#16]
+ 1412 0aec 07F10C03 	 add r3,r7,#12
+ 1413 0af0 9868     	 ldr r0,[r3,#8]
+ 1414 0af2 07F10C03 	 add r3,r7,#12
+ 1415 0af6 DC68     	 ldr r4,[r3,#12]
+ 1416 0af8 07F10C03 	 add r3,r7,#12
+ 1417 0afc 1B69     	 ldr r3,[r3,#16]
+ 1418 0afe 6340     	 eors r3,r3,r4
+ 1419 0b00 0340     	 ands r3,r3,r0
+ 1420 0b02 4B40     	 eors r3,r3,r1
+ 1421 0b04 1A44     	 add r2,r2,r3
+ 1422 0b06 D7F83431 	 ldr r3,[r7,#308]
+ 1423 0b0a 0233     	 adds r3,r3,#2
+ 1424 0b0c 2849     	 ldr r1,.L30
+ 1425 0b0e 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1426 0b12 1A44     	 add r2,r2,r3
+ 1427 0b14 D7F83431 	 ldr r3,[r7,#308]
+ 1428 0b18 0233     	 adds r3,r3,#2
+ 1429 0b1a 07F12C01 	 add r1,r7,#44
+ 1430 0b1e D7F83401 	 ldr r0,[r7,#308]
+ 1431 0b22 51F82010 	 ldr r1,[r1,r0,lsl#2]
+ 1432 0b26 4FEA7140 	 ror r0,r1,#17
+ 1433 0b2a 07F12C01 	 add r1,r7,#44
+ 1434 0b2e D7F83441 	 ldr r4,[r7,#308]
+ 1435 0b32 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1436 0b36 4FEAF141 	 ror r1,r1,#19
+ 1437 0b3a 4840     	 eors r0,r0,r1
+ 1438 0b3c 07F12C01 	 add r1,r7,#44
+ 1439 0b40 D7F83441 	 ldr r4,[r7,#308]
+ 1440 0b44 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1441 0b48 890A     	 lsrs r1,r1,#10
+ 1442 0b4a 4840     	 eors r0,r0,r1
+ 1443 0b4c D7F83411 	 ldr r1,[r7,#308]
+ 1444 0b50 4C1F     	 subs r4,r1,#5
+ 1445 0b52 07F12C01 	 add r1,r7,#44
+ 1446 0b56 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1447 0b5a 0844     	 add r0,r0,r1
+ 1448 0b5c D7F83411 	 ldr r1,[r7,#308]
+ 1449 0b60 A1F10D04 	 sub r4,r1,#13
+ 1450 0b64 07F12C01 	 add r1,r7,#44
+ 1451 0b68 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1452 0b6c 4FEAF114 	 ror r4,r1,#7
+ 1453 0b70 D7F83411 	 ldr r1,[r7,#308]
+ 1454 0b74 A1F10D05 	 sub r5,r1,#13
+ 1455 0b78 07F12C01 	 add r1,r7,#44
+ 1456 0b7c 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 1457 0b80 4FEAB141 	 ror r1,r1,#18
+ 1458 0b84 4C40     	 eors r4,r4,r1
+ 1459 0b86 D7F83411 	 ldr r1,[r7,#308]
+ 1460 0b8a A1F10D05 	 sub r5,r1,#13
+ 1461 0b8e 07F12C01 	 add r1,r7,#44
+ 1462 0b92 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 1463 0b96 C908     	 lsrs r1,r1,#3
+ 1464 0b98 6140     	 eors r1,r1,r4
+ 1465 0b9a 0844     	 add r0,r0,r1
+ 1466 0b9c D7F83411 	 ldr r1,[r7,#308]
+ 1467 0ba0 A1F10E04 	 sub r4,r1,#14
+ 1468 0ba4 07F12C01 	 add r1,r7,#44
+ 1469 0ba8 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1470 0bac 0844     	 add r0,r0,r1
+ 1471 0bae 01E0     	 b .L31
+ 1472              	.L32:
+ 1473              	 .align 2
+ 1474              	.L30:
+ 1475 0bb0 00000000 	 .word K
+ 1476              	.L31:
+ 1477 0bb4 07F12C01 	 add r1,r7,#44
+ 1478 0bb8 41F82300 	 str r0,[r1,r3,lsl#2]
+ 1479 0bbc 07F12C01 	 add r1,r7,#44
+ 1480 0bc0 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1481 0bc4 1344     	 add r3,r3,r2
+ 1482 0bc6 C7F83031 	 str r3,[r7,#304]
+ 1483 0bca 07F10C03 	 add r3,r7,#12
+ 1484 0bce 9B69     	 ldr r3,[r3,#24]
+ 1485 0bd0 4FEAB302 	 ror r2,r3,#2
+ 1486 0bd4 07F10C03 	 add r3,r7,#12
+ 1487 0bd8 9B69     	 ldr r3,[r3,#24]
+ 1488 0bda 4FEA7333 	 ror r3,r3,#13
+ 1489 0bde 5A40     	 eors r2,r2,r3
+ 1490 0be0 07F10C03 	 add r3,r7,#12
+ 1491 0be4 9B69     	 ldr r3,[r3,#24]
+ 1492 0be6 4FEAB353 	 ror r3,r3,#22
+ 1493 0bea 5A40     	 eors r2,r2,r3
+ 1494 0bec 07F10C03 	 add r3,r7,#12
+ 1495 0bf0 9969     	 ldr r1,[r3,#24]
+ 1496 0bf2 07F10C03 	 add r3,r7,#12
+ 1497 0bf6 DB69     	 ldr r3,[r3,#28]
+ 1498 0bf8 1940     	 ands r1,r1,r3
+ 1499 0bfa 07F10C03 	 add r3,r7,#12
+ 1500 0bfe 1868     	 ldr r0,[r3]
+ 1501 0c00 07F10C03 	 add r3,r7,#12
+ 1502 0c04 9C69     	 ldr r4,[r3,#24]
+ 1503 0c06 07F10C03 	 add r3,r7,#12
+ 1504 0c0a DB69     	 ldr r3,[r3,#28]
+ 1505 0c0c 2343     	 orrs r3,r3,r4
+ 1506 0c0e 0340     	 ands r3,r3,r0
+ 1507 0c10 0B43     	 orrs r3,r3,r1
+ 1508 0c12 1344     	 add r3,r3,r2
+ 1509 0c14 C7F82C31 	 str r3,[r7,#300]
+ 1510 0c18 07F10C03 	 add r3,r7,#12
+ 1511 0c1c 5A68     	 ldr r2,[r3,#4]
+ 1512 0c1e D7F83031 	 ldr r3,[r7,#304]
+ 1513 0c22 1A44     	 add r2,r2,r3
+ 1514 0c24 07F10C03 	 add r3,r7,#12
+ 1515 0c28 5A60     	 str r2,[r3,#4]
+ 1516 0c2a D7F83021 	 ldr r2,[r7,#304]
+ 1517 0c2e D7F82C31 	 ldr r3,[r7,#300]
+ 1518 0c32 1A44     	 add r2,r2,r3
+ 1519 0c34 07F10C03 	 add r3,r7,#12
+ 1520 0c38 5A61     	 str r2,[r3,#20]
+ 247:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[5], A[6], A[7], A[0], A[1], A[2], A[3], A[4], R(i+3), K[i+3] );
+ 1521              	 .loc 1 247 0 discriminator 3
+ 1522 0c3a 07F10C03 	 add r3,r7,#12
+ 1523 0c3e 1A69     	 ldr r2,[r3,#16]
+ 1524 0c40 07F10C03 	 add r3,r7,#12
+ 1525 0c44 5B68     	 ldr r3,[r3,#4]
+ 1526 0c46 4FEAB311 	 ror r1,r3,#6
+ 1527 0c4a 07F10C03 	 add r3,r7,#12
+ 1528 0c4e 5B68     	 ldr r3,[r3,#4]
+ 1529 0c50 4FEAF323 	 ror r3,r3,#11
+ 1530 0c54 5940     	 eors r1,r1,r3
+ 1531 0c56 07F10C03 	 add r3,r7,#12
+ 1532 0c5a 5B68     	 ldr r3,[r3,#4]
+ 1533 0c5c 4FEA7363 	 ror r3,r3,#25
+ 1534 0c60 4B40     	 eors r3,r3,r1
+ 1535 0c62 1A44     	 add r2,r2,r3
+ 1536 0c64 07F10C03 	 add r3,r7,#12
+ 1537 0c68 D968     	 ldr r1,[r3,#12]
+ 1538 0c6a 07F10C03 	 add r3,r7,#12
+ 1539 0c6e 5868     	 ldr r0,[r3,#4]
+ 1540 0c70 07F10C03 	 add r3,r7,#12
+ 1541 0c74 9C68     	 ldr r4,[r3,#8]
+ 1542 0c76 07F10C03 	 add r3,r7,#12
+ 1543 0c7a DB68     	 ldr r3,[r3,#12]
+ 1544 0c7c 6340     	 eors r3,r3,r4
+ 1545 0c7e 0340     	 ands r3,r3,r0
+ 1546 0c80 4B40     	 eors r3,r3,r1
+ 1547 0c82 1A44     	 add r2,r2,r3
+ 1548 0c84 D7F83431 	 ldr r3,[r7,#308]
+ 1549 0c88 0333     	 adds r3,r3,#3
+ 1550 0c8a E949     	 ldr r1,.L33
+ 1551 0c8c 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1552 0c90 1A44     	 add r2,r2,r3
+ 1553 0c92 D7F83431 	 ldr r3,[r7,#308]
+ 1554 0c96 0333     	 adds r3,r3,#3
+ 1555 0c98 D7F83411 	 ldr r1,[r7,#308]
+ 1556 0c9c 481C     	 adds r0,r1,#1
+ 1557 0c9e 07F12C01 	 add r1,r7,#44
+ 1558 0ca2 51F82010 	 ldr r1,[r1,r0,lsl#2]
+ 1559 0ca6 4FEA7140 	 ror r0,r1,#17
+ 1560 0caa D7F83411 	 ldr r1,[r7,#308]
+ 1561 0cae 4C1C     	 adds r4,r1,#1
+ 1562 0cb0 07F12C01 	 add r1,r7,#44
+ 1563 0cb4 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1564 0cb8 4FEAF141 	 ror r1,r1,#19
+ 1565 0cbc 4840     	 eors r0,r0,r1
+ 1566 0cbe D7F83411 	 ldr r1,[r7,#308]
+ 1567 0cc2 4C1C     	 adds r4,r1,#1
+ 1568 0cc4 07F12C01 	 add r1,r7,#44
+ 1569 0cc8 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1570 0ccc 890A     	 lsrs r1,r1,#10
+ 1571 0cce 4840     	 eors r0,r0,r1
+ 1572 0cd0 D7F83411 	 ldr r1,[r7,#308]
+ 1573 0cd4 0C1F     	 subs r4,r1,#4
+ 1574 0cd6 07F12C01 	 add r1,r7,#44
+ 1575 0cda 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1576 0cde 0844     	 add r0,r0,r1
+ 1577 0ce0 D7F83411 	 ldr r1,[r7,#308]
+ 1578 0ce4 A1F10C04 	 sub r4,r1,#12
+ 1579 0ce8 07F12C01 	 add r1,r7,#44
+ 1580 0cec 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1581 0cf0 4FEAF114 	 ror r4,r1,#7
+ 1582 0cf4 D7F83411 	 ldr r1,[r7,#308]
+ 1583 0cf8 A1F10C05 	 sub r5,r1,#12
+ 1584 0cfc 07F12C01 	 add r1,r7,#44
+ 1585 0d00 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 1586 0d04 4FEAB141 	 ror r1,r1,#18
+ 1587 0d08 4C40     	 eors r4,r4,r1
+ 1588 0d0a D7F83411 	 ldr r1,[r7,#308]
+ 1589 0d0e A1F10C05 	 sub r5,r1,#12
+ 1590 0d12 07F12C01 	 add r1,r7,#44
+ 1591 0d16 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 1592 0d1a C908     	 lsrs r1,r1,#3
+ 1593 0d1c 6140     	 eors r1,r1,r4
+ 1594 0d1e 0844     	 add r0,r0,r1
+ 1595 0d20 D7F83411 	 ldr r1,[r7,#308]
+ 1596 0d24 A1F10D04 	 sub r4,r1,#13
+ 1597 0d28 07F12C01 	 add r1,r7,#44
+ 1598 0d2c 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1599 0d30 0844     	 add r0,r0,r1
+ 1600 0d32 07F12C01 	 add r1,r7,#44
+ 1601 0d36 41F82300 	 str r0,[r1,r3,lsl#2]
+ 1602 0d3a 07F12C01 	 add r1,r7,#44
+ 1603 0d3e 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1604 0d42 1344     	 add r3,r3,r2
+ 1605 0d44 C7F83031 	 str r3,[r7,#304]
+ 1606 0d48 07F10C03 	 add r3,r7,#12
+ 1607 0d4c 5B69     	 ldr r3,[r3,#20]
+ 1608 0d4e 4FEAB302 	 ror r2,r3,#2
+ 1609 0d52 07F10C03 	 add r3,r7,#12
+ 1610 0d56 5B69     	 ldr r3,[r3,#20]
+ 1611 0d58 4FEA7333 	 ror r3,r3,#13
+ 1612 0d5c 5A40     	 eors r2,r2,r3
+ 1613 0d5e 07F10C03 	 add r3,r7,#12
+ 1614 0d62 5B69     	 ldr r3,[r3,#20]
+ 1615 0d64 4FEAB353 	 ror r3,r3,#22
+ 1616 0d68 5A40     	 eors r2,r2,r3
+ 1617 0d6a 07F10C03 	 add r3,r7,#12
+ 1618 0d6e 5969     	 ldr r1,[r3,#20]
+ 1619 0d70 07F10C03 	 add r3,r7,#12
+ 1620 0d74 9B69     	 ldr r3,[r3,#24]
+ 1621 0d76 1940     	 ands r1,r1,r3
+ 1622 0d78 07F10C03 	 add r3,r7,#12
+ 1623 0d7c D869     	 ldr r0,[r3,#28]
+ 1624 0d7e 07F10C03 	 add r3,r7,#12
+ 1625 0d82 5C69     	 ldr r4,[r3,#20]
+ 1626 0d84 07F10C03 	 add r3,r7,#12
+ 1627 0d88 9B69     	 ldr r3,[r3,#24]
+ 1628 0d8a 2343     	 orrs r3,r3,r4
+ 1629 0d8c 0340     	 ands r3,r3,r0
+ 1630 0d8e 0B43     	 orrs r3,r3,r1
+ 1631 0d90 1344     	 add r3,r3,r2
+ 1632 0d92 C7F82C31 	 str r3,[r7,#300]
+ 1633 0d96 07F10C03 	 add r3,r7,#12
+ 1634 0d9a 1A68     	 ldr r2,[r3]
+ 1635 0d9c D7F83031 	 ldr r3,[r7,#304]
+ 1636 0da0 1A44     	 add r2,r2,r3
+ 1637 0da2 07F10C03 	 add r3,r7,#12
+ 1638 0da6 1A60     	 str r2,[r3]
+ 1639 0da8 D7F83021 	 ldr r2,[r7,#304]
+ 1640 0dac D7F82C31 	 ldr r3,[r7,#300]
+ 1641 0db0 1A44     	 add r2,r2,r3
+ 1642 0db2 07F10C03 	 add r3,r7,#12
+ 1643 0db6 1A61     	 str r2,[r3,#16]
+ 248:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[4], A[5], A[6], A[7], A[0], A[1], A[2], A[3], R(i+4), K[i+4] );
+ 1644              	 .loc 1 248 0 discriminator 3
+ 1645 0db8 07F10C03 	 add r3,r7,#12
+ 1646 0dbc DA68     	 ldr r2,[r3,#12]
+ 1647 0dbe 07F10C03 	 add r3,r7,#12
+ 1648 0dc2 1B68     	 ldr r3,[r3]
+ 1649 0dc4 4FEAB311 	 ror r1,r3,#6
+ 1650 0dc8 07F10C03 	 add r3,r7,#12
+ 1651 0dcc 1B68     	 ldr r3,[r3]
+ 1652 0dce 4FEAF323 	 ror r3,r3,#11
+ 1653 0dd2 5940     	 eors r1,r1,r3
+ 1654 0dd4 07F10C03 	 add r3,r7,#12
+ 1655 0dd8 1B68     	 ldr r3,[r3]
+ 1656 0dda 4FEA7363 	 ror r3,r3,#25
+ 1657 0dde 4B40     	 eors r3,r3,r1
+ 1658 0de0 1A44     	 add r2,r2,r3
+ 1659 0de2 07F10C03 	 add r3,r7,#12
+ 1660 0de6 9968     	 ldr r1,[r3,#8]
+ 1661 0de8 07F10C03 	 add r3,r7,#12
+ 1662 0dec 1868     	 ldr r0,[r3]
+ 1663 0dee 07F10C03 	 add r3,r7,#12
+ 1664 0df2 5C68     	 ldr r4,[r3,#4]
+ 1665 0df4 07F10C03 	 add r3,r7,#12
+ 1666 0df8 9B68     	 ldr r3,[r3,#8]
+ 1667 0dfa 6340     	 eors r3,r3,r4
+ 1668 0dfc 0340     	 ands r3,r3,r0
+ 1669 0dfe 4B40     	 eors r3,r3,r1
+ 1670 0e00 1A44     	 add r2,r2,r3
+ 1671 0e02 D7F83431 	 ldr r3,[r7,#308]
+ 1672 0e06 0433     	 adds r3,r3,#4
+ 1673 0e08 8949     	 ldr r1,.L33
+ 1674 0e0a 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1675 0e0e 1A44     	 add r2,r2,r3
+ 1676 0e10 D7F83431 	 ldr r3,[r7,#308]
+ 1677 0e14 0433     	 adds r3,r3,#4
+ 1678 0e16 D7F83411 	 ldr r1,[r7,#308]
+ 1679 0e1a 881C     	 adds r0,r1,#2
+ 1680 0e1c 07F12C01 	 add r1,r7,#44
+ 1681 0e20 51F82010 	 ldr r1,[r1,r0,lsl#2]
+ 1682 0e24 4FEA7140 	 ror r0,r1,#17
+ 1683 0e28 D7F83411 	 ldr r1,[r7,#308]
+ 1684 0e2c 8C1C     	 adds r4,r1,#2
+ 1685 0e2e 07F12C01 	 add r1,r7,#44
+ 1686 0e32 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1687 0e36 4FEAF141 	 ror r1,r1,#19
+ 1688 0e3a 4840     	 eors r0,r0,r1
+ 1689 0e3c D7F83411 	 ldr r1,[r7,#308]
+ 1690 0e40 8C1C     	 adds r4,r1,#2
+ 1691 0e42 07F12C01 	 add r1,r7,#44
+ 1692 0e46 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1693 0e4a 890A     	 lsrs r1,r1,#10
+ 1694 0e4c 4840     	 eors r0,r0,r1
+ 1695 0e4e D7F83411 	 ldr r1,[r7,#308]
+ 1696 0e52 CC1E     	 subs r4,r1,#3
+ 1697 0e54 07F12C01 	 add r1,r7,#44
+ 1698 0e58 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1699 0e5c 0844     	 add r0,r0,r1
+ 1700 0e5e D7F83411 	 ldr r1,[r7,#308]
+ 1701 0e62 A1F10B04 	 sub r4,r1,#11
+ 1702 0e66 07F12C01 	 add r1,r7,#44
+ 1703 0e6a 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1704 0e6e 4FEAF114 	 ror r4,r1,#7
+ 1705 0e72 D7F83411 	 ldr r1,[r7,#308]
+ 1706 0e76 A1F10B05 	 sub r5,r1,#11
+ 1707 0e7a 07F12C01 	 add r1,r7,#44
+ 1708 0e7e 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 1709 0e82 4FEAB141 	 ror r1,r1,#18
+ 1710 0e86 4C40     	 eors r4,r4,r1
+ 1711 0e88 D7F83411 	 ldr r1,[r7,#308]
+ 1712 0e8c A1F10B05 	 sub r5,r1,#11
+ 1713 0e90 07F12C01 	 add r1,r7,#44
+ 1714 0e94 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 1715 0e98 C908     	 lsrs r1,r1,#3
+ 1716 0e9a 6140     	 eors r1,r1,r4
+ 1717 0e9c 0844     	 add r0,r0,r1
+ 1718 0e9e D7F83411 	 ldr r1,[r7,#308]
+ 1719 0ea2 A1F10C04 	 sub r4,r1,#12
+ 1720 0ea6 07F12C01 	 add r1,r7,#44
+ 1721 0eaa 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1722 0eae 0844     	 add r0,r0,r1
+ 1723 0eb0 07F12C01 	 add r1,r7,#44
+ 1724 0eb4 41F82300 	 str r0,[r1,r3,lsl#2]
+ 1725 0eb8 07F12C01 	 add r1,r7,#44
+ 1726 0ebc 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1727 0ec0 1344     	 add r3,r3,r2
+ 1728 0ec2 C7F83031 	 str r3,[r7,#304]
+ 1729 0ec6 07F10C03 	 add r3,r7,#12
+ 1730 0eca 1B69     	 ldr r3,[r3,#16]
+ 1731 0ecc 4FEAB302 	 ror r2,r3,#2
+ 1732 0ed0 07F10C03 	 add r3,r7,#12
+ 1733 0ed4 1B69     	 ldr r3,[r3,#16]
+ 1734 0ed6 4FEA7333 	 ror r3,r3,#13
+ 1735 0eda 5A40     	 eors r2,r2,r3
+ 1736 0edc 07F10C03 	 add r3,r7,#12
+ 1737 0ee0 1B69     	 ldr r3,[r3,#16]
+ 1738 0ee2 4FEAB353 	 ror r3,r3,#22
+ 1739 0ee6 5A40     	 eors r2,r2,r3
+ 1740 0ee8 07F10C03 	 add r3,r7,#12
+ 1741 0eec 1969     	 ldr r1,[r3,#16]
+ 1742 0eee 07F10C03 	 add r3,r7,#12
+ 1743 0ef2 5B69     	 ldr r3,[r3,#20]
+ 1744 0ef4 1940     	 ands r1,r1,r3
+ 1745 0ef6 07F10C03 	 add r3,r7,#12
+ 1746 0efa 9869     	 ldr r0,[r3,#24]
+ 1747 0efc 07F10C03 	 add r3,r7,#12
+ 1748 0f00 1C69     	 ldr r4,[r3,#16]
+ 1749 0f02 07F10C03 	 add r3,r7,#12
+ 1750 0f06 5B69     	 ldr r3,[r3,#20]
+ 1751 0f08 2343     	 orrs r3,r3,r4
+ 1752 0f0a 0340     	 ands r3,r3,r0
+ 1753 0f0c 0B43     	 orrs r3,r3,r1
+ 1754 0f0e 1344     	 add r3,r3,r2
+ 1755 0f10 C7F82C31 	 str r3,[r7,#300]
+ 1756 0f14 07F10C03 	 add r3,r7,#12
+ 1757 0f18 DA69     	 ldr r2,[r3,#28]
+ 1758 0f1a D7F83031 	 ldr r3,[r7,#304]
+ 1759 0f1e 1A44     	 add r2,r2,r3
+ 1760 0f20 07F10C03 	 add r3,r7,#12
+ 1761 0f24 DA61     	 str r2,[r3,#28]
+ 1762 0f26 D7F83021 	 ldr r2,[r7,#304]
+ 1763 0f2a D7F82C31 	 ldr r3,[r7,#300]
+ 1764 0f2e 1A44     	 add r2,r2,r3
+ 1765 0f30 07F10C03 	 add r3,r7,#12
+ 1766 0f34 DA60     	 str r2,[r3,#12]
+ 249:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[3], A[4], A[5], A[6], A[7], A[0], A[1], A[2], R(i+5), K[i+5] );
+ 1767              	 .loc 1 249 0 discriminator 3
+ 1768 0f36 07F10C03 	 add r3,r7,#12
+ 1769 0f3a 9A68     	 ldr r2,[r3,#8]
+ 1770 0f3c 07F10C03 	 add r3,r7,#12
+ 1771 0f40 DB69     	 ldr r3,[r3,#28]
+ 1772 0f42 4FEAB311 	 ror r1,r3,#6
+ 1773 0f46 07F10C03 	 add r3,r7,#12
+ 1774 0f4a DB69     	 ldr r3,[r3,#28]
+ 1775 0f4c 4FEAF323 	 ror r3,r3,#11
+ 1776 0f50 5940     	 eors r1,r1,r3
+ 1777 0f52 07F10C03 	 add r3,r7,#12
+ 1778 0f56 DB69     	 ldr r3,[r3,#28]
+ 1779 0f58 4FEA7363 	 ror r3,r3,#25
+ 1780 0f5c 4B40     	 eors r3,r3,r1
+ 1781 0f5e 1A44     	 add r2,r2,r3
+ 1782 0f60 07F10C03 	 add r3,r7,#12
+ 1783 0f64 5968     	 ldr r1,[r3,#4]
+ 1784 0f66 07F10C03 	 add r3,r7,#12
+ 1785 0f6a D869     	 ldr r0,[r3,#28]
+ 1786 0f6c 07F10C03 	 add r3,r7,#12
+ 1787 0f70 1C68     	 ldr r4,[r3]
+ 1788 0f72 07F10C03 	 add r3,r7,#12
+ 1789 0f76 5B68     	 ldr r3,[r3,#4]
+ 1790 0f78 6340     	 eors r3,r3,r4
+ 1791 0f7a 0340     	 ands r3,r3,r0
+ 1792 0f7c 4B40     	 eors r3,r3,r1
+ 1793 0f7e 1A44     	 add r2,r2,r3
+ 1794 0f80 D7F83431 	 ldr r3,[r7,#308]
+ 1795 0f84 0533     	 adds r3,r3,#5
+ 1796 0f86 2A49     	 ldr r1,.L33
+ 1797 0f88 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1798 0f8c 1A44     	 add r2,r2,r3
+ 1799 0f8e D7F83431 	 ldr r3,[r7,#308]
+ 1800 0f92 0533     	 adds r3,r3,#5
+ 1801 0f94 D7F83411 	 ldr r1,[r7,#308]
+ 1802 0f98 C81C     	 adds r0,r1,#3
+ 1803 0f9a 07F12C01 	 add r1,r7,#44
+ 1804 0f9e 51F82010 	 ldr r1,[r1,r0,lsl#2]
+ 1805 0fa2 4FEA7140 	 ror r0,r1,#17
+ 1806 0fa6 D7F83411 	 ldr r1,[r7,#308]
+ 1807 0faa CC1C     	 adds r4,r1,#3
+ 1808 0fac 07F12C01 	 add r1,r7,#44
+ 1809 0fb0 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1810 0fb4 4FEAF141 	 ror r1,r1,#19
+ 1811 0fb8 4840     	 eors r0,r0,r1
+ 1812 0fba D7F83411 	 ldr r1,[r7,#308]
+ 1813 0fbe CC1C     	 adds r4,r1,#3
+ 1814 0fc0 07F12C01 	 add r1,r7,#44
+ 1815 0fc4 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1816 0fc8 890A     	 lsrs r1,r1,#10
+ 1817 0fca 4840     	 eors r0,r0,r1
+ 1818 0fcc D7F83411 	 ldr r1,[r7,#308]
+ 1819 0fd0 8C1E     	 subs r4,r1,#2
+ 1820 0fd2 07F12C01 	 add r1,r7,#44
+ 1821 0fd6 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1822 0fda 0844     	 add r0,r0,r1
+ 1823 0fdc D7F83411 	 ldr r1,[r7,#308]
+ 1824 0fe0 A1F10A04 	 sub r4,r1,#10
+ 1825 0fe4 07F12C01 	 add r1,r7,#44
+ 1826 0fe8 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1827 0fec 4FEAF114 	 ror r4,r1,#7
+ 1828 0ff0 D7F83411 	 ldr r1,[r7,#308]
+ 1829 0ff4 A1F10A05 	 sub r5,r1,#10
+ 1830 0ff8 07F12C01 	 add r1,r7,#44
+ 1831 0ffc 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 1832 1000 4FEAB141 	 ror r1,r1,#18
+ 1833 1004 4C40     	 eors r4,r4,r1
+ 1834 1006 D7F83411 	 ldr r1,[r7,#308]
+ 1835 100a A1F10A05 	 sub r5,r1,#10
+ 1836 100e 07F12C01 	 add r1,r7,#44
+ 1837 1012 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 1838 1016 C908     	 lsrs r1,r1,#3
+ 1839 1018 6140     	 eors r1,r1,r4
+ 1840 101a 0844     	 add r0,r0,r1
+ 1841 101c D7F83411 	 ldr r1,[r7,#308]
+ 1842 1020 A1F10B04 	 sub r4,r1,#11
+ 1843 1024 07F12C01 	 add r1,r7,#44
+ 1844 1028 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1845 102c 0844     	 add r0,r0,r1
+ 1846 102e 01E0     	 b .L34
+ 1847              	.L35:
+ 1848              	 .align 2
+ 1849              	.L33:
+ 1850 1030 00000000 	 .word K
+ 1851              	.L34:
+ 1852 1034 07F12C01 	 add r1,r7,#44
+ 1853 1038 41F82300 	 str r0,[r1,r3,lsl#2]
+ 1854 103c 07F12C01 	 add r1,r7,#44
+ 1855 1040 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1856 1044 1344     	 add r3,r3,r2
+ 1857 1046 C7F83031 	 str r3,[r7,#304]
+ 1858 104a 07F10C03 	 add r3,r7,#12
+ 1859 104e DB68     	 ldr r3,[r3,#12]
+ 1860 1050 4FEAB302 	 ror r2,r3,#2
+ 1861 1054 07F10C03 	 add r3,r7,#12
+ 1862 1058 DB68     	 ldr r3,[r3,#12]
+ 1863 105a 4FEA7333 	 ror r3,r3,#13
+ 1864 105e 5A40     	 eors r2,r2,r3
+ 1865 1060 07F10C03 	 add r3,r7,#12
+ 1866 1064 DB68     	 ldr r3,[r3,#12]
+ 1867 1066 4FEAB353 	 ror r3,r3,#22
+ 1868 106a 5A40     	 eors r2,r2,r3
+ 1869 106c 07F10C03 	 add r3,r7,#12
+ 1870 1070 D968     	 ldr r1,[r3,#12]
+ 1871 1072 07F10C03 	 add r3,r7,#12
+ 1872 1076 1B69     	 ldr r3,[r3,#16]
+ 1873 1078 1940     	 ands r1,r1,r3
+ 1874 107a 07F10C03 	 add r3,r7,#12
+ 1875 107e 5869     	 ldr r0,[r3,#20]
+ 1876 1080 07F10C03 	 add r3,r7,#12
+ 1877 1084 DC68     	 ldr r4,[r3,#12]
+ 1878 1086 07F10C03 	 add r3,r7,#12
+ 1879 108a 1B69     	 ldr r3,[r3,#16]
+ 1880 108c 2343     	 orrs r3,r3,r4
+ 1881 108e 0340     	 ands r3,r3,r0
+ 1882 1090 0B43     	 orrs r3,r3,r1
+ 1883 1092 1344     	 add r3,r3,r2
+ 1884 1094 C7F82C31 	 str r3,[r7,#300]
+ 1885 1098 07F10C03 	 add r3,r7,#12
+ 1886 109c 9A69     	 ldr r2,[r3,#24]
+ 1887 109e D7F83031 	 ldr r3,[r7,#304]
+ 1888 10a2 1A44     	 add r2,r2,r3
+ 1889 10a4 07F10C03 	 add r3,r7,#12
+ 1890 10a8 9A61     	 str r2,[r3,#24]
+ 1891 10aa D7F83021 	 ldr r2,[r7,#304]
+ 1892 10ae D7F82C31 	 ldr r3,[r7,#300]
+ 1893 10b2 1A44     	 add r2,r2,r3
+ 1894 10b4 07F10C03 	 add r3,r7,#12
+ 1895 10b8 9A60     	 str r2,[r3,#8]
+ 250:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[2], A[3], A[4], A[5], A[6], A[7], A[0], A[1], R(i+6), K[i+6] );
+ 1896              	 .loc 1 250 0 discriminator 3
+ 1897 10ba 07F10C03 	 add r3,r7,#12
+ 1898 10be 5A68     	 ldr r2,[r3,#4]
+ 1899 10c0 07F10C03 	 add r3,r7,#12
+ 1900 10c4 9B69     	 ldr r3,[r3,#24]
+ 1901 10c6 4FEAB311 	 ror r1,r3,#6
+ 1902 10ca 07F10C03 	 add r3,r7,#12
+ 1903 10ce 9B69     	 ldr r3,[r3,#24]
+ 1904 10d0 4FEAF323 	 ror r3,r3,#11
+ 1905 10d4 5940     	 eors r1,r1,r3
+ 1906 10d6 07F10C03 	 add r3,r7,#12
+ 1907 10da 9B69     	 ldr r3,[r3,#24]
+ 1908 10dc 4FEA7363 	 ror r3,r3,#25
+ 1909 10e0 4B40     	 eors r3,r3,r1
+ 1910 10e2 1A44     	 add r2,r2,r3
+ 1911 10e4 07F10C03 	 add r3,r7,#12
+ 1912 10e8 1968     	 ldr r1,[r3]
+ 1913 10ea 07F10C03 	 add r3,r7,#12
+ 1914 10ee 9869     	 ldr r0,[r3,#24]
+ 1915 10f0 07F10C03 	 add r3,r7,#12
+ 1916 10f4 DC69     	 ldr r4,[r3,#28]
+ 1917 10f6 07F10C03 	 add r3,r7,#12
+ 1918 10fa 1B68     	 ldr r3,[r3]
+ 1919 10fc 6340     	 eors r3,r3,r4
+ 1920 10fe 0340     	 ands r3,r3,r0
+ 1921 1100 4B40     	 eors r3,r3,r1
+ 1922 1102 1A44     	 add r2,r2,r3
+ 1923 1104 D7F83431 	 ldr r3,[r7,#308]
+ 1924 1108 0633     	 adds r3,r3,#6
+ 1925 110a C449     	 ldr r1,.L36
+ 1926 110c 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1927 1110 1A44     	 add r2,r2,r3
+ 1928 1112 D7F83431 	 ldr r3,[r7,#308]
+ 1929 1116 0633     	 adds r3,r3,#6
+ 1930 1118 D7F83411 	 ldr r1,[r7,#308]
+ 1931 111c 081D     	 adds r0,r1,#4
+ 1932 111e 07F12C01 	 add r1,r7,#44
+ 1933 1122 51F82010 	 ldr r1,[r1,r0,lsl#2]
+ 1934 1126 4FEA7140 	 ror r0,r1,#17
+ 1935 112a D7F83411 	 ldr r1,[r7,#308]
+ 1936 112e 0C1D     	 adds r4,r1,#4
+ 1937 1130 07F12C01 	 add r1,r7,#44
+ 1938 1134 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1939 1138 4FEAF141 	 ror r1,r1,#19
+ 1940 113c 4840     	 eors r0,r0,r1
+ 1941 113e D7F83411 	 ldr r1,[r7,#308]
+ 1942 1142 0C1D     	 adds r4,r1,#4
+ 1943 1144 07F12C01 	 add r1,r7,#44
+ 1944 1148 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1945 114c 890A     	 lsrs r1,r1,#10
+ 1946 114e 4840     	 eors r0,r0,r1
+ 1947 1150 D7F83411 	 ldr r1,[r7,#308]
+ 1948 1154 4C1E     	 subs r4,r1,#1
+ 1949 1156 07F12C01 	 add r1,r7,#44
+ 1950 115a 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1951 115e 0844     	 add r0,r0,r1
+ 1952 1160 D7F83411 	 ldr r1,[r7,#308]
+ 1953 1164 A1F10904 	 sub r4,r1,#9
+ 1954 1168 07F12C01 	 add r1,r7,#44
+ 1955 116c 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1956 1170 4FEAF114 	 ror r4,r1,#7
+ 1957 1174 D7F83411 	 ldr r1,[r7,#308]
+ 1958 1178 A1F10905 	 sub r5,r1,#9
+ 1959 117c 07F12C01 	 add r1,r7,#44
+ 1960 1180 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 1961 1184 4FEAB141 	 ror r1,r1,#18
+ 1962 1188 4C40     	 eors r4,r4,r1
+ 1963 118a D7F83411 	 ldr r1,[r7,#308]
+ 1964 118e A1F10905 	 sub r5,r1,#9
+ 1965 1192 07F12C01 	 add r1,r7,#44
+ 1966 1196 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 1967 119a C908     	 lsrs r1,r1,#3
+ 1968 119c 6140     	 eors r1,r1,r4
+ 1969 119e 0844     	 add r0,r0,r1
+ 1970 11a0 D7F83411 	 ldr r1,[r7,#308]
+ 1971 11a4 A1F10A04 	 sub r4,r1,#10
+ 1972 11a8 07F12C01 	 add r1,r7,#44
+ 1973 11ac 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 1974 11b0 0844     	 add r0,r0,r1
+ 1975 11b2 07F12C01 	 add r1,r7,#44
+ 1976 11b6 41F82300 	 str r0,[r1,r3,lsl#2]
+ 1977 11ba 07F12C01 	 add r1,r7,#44
+ 1978 11be 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 1979 11c2 1344     	 add r3,r3,r2
+ 1980 11c4 C7F83031 	 str r3,[r7,#304]
+ 1981 11c8 07F10C03 	 add r3,r7,#12
+ 1982 11cc 9B68     	 ldr r3,[r3,#8]
+ 1983 11ce 4FEAB302 	 ror r2,r3,#2
+ 1984 11d2 07F10C03 	 add r3,r7,#12
+ 1985 11d6 9B68     	 ldr r3,[r3,#8]
+ 1986 11d8 4FEA7333 	 ror r3,r3,#13
+ 1987 11dc 5A40     	 eors r2,r2,r3
+ 1988 11de 07F10C03 	 add r3,r7,#12
+ 1989 11e2 9B68     	 ldr r3,[r3,#8]
+ 1990 11e4 4FEAB353 	 ror r3,r3,#22
+ 1991 11e8 5A40     	 eors r2,r2,r3
+ 1992 11ea 07F10C03 	 add r3,r7,#12
+ 1993 11ee 9968     	 ldr r1,[r3,#8]
+ 1994 11f0 07F10C03 	 add r3,r7,#12
+ 1995 11f4 DB68     	 ldr r3,[r3,#12]
+ 1996 11f6 1940     	 ands r1,r1,r3
+ 1997 11f8 07F10C03 	 add r3,r7,#12
+ 1998 11fc 1869     	 ldr r0,[r3,#16]
+ 1999 11fe 07F10C03 	 add r3,r7,#12
+ 2000 1202 9C68     	 ldr r4,[r3,#8]
+ 2001 1204 07F10C03 	 add r3,r7,#12
+ 2002 1208 DB68     	 ldr r3,[r3,#12]
+ 2003 120a 2343     	 orrs r3,r3,r4
+ 2004 120c 0340     	 ands r3,r3,r0
+ 2005 120e 0B43     	 orrs r3,r3,r1
+ 2006 1210 1344     	 add r3,r3,r2
+ 2007 1212 C7F82C31 	 str r3,[r7,#300]
+ 2008 1216 07F10C03 	 add r3,r7,#12
+ 2009 121a 5A69     	 ldr r2,[r3,#20]
+ 2010 121c D7F83031 	 ldr r3,[r7,#304]
+ 2011 1220 1A44     	 add r2,r2,r3
+ 2012 1222 07F10C03 	 add r3,r7,#12
+ 2013 1226 5A61     	 str r2,[r3,#20]
+ 2014 1228 D7F83021 	 ldr r2,[r7,#304]
+ 2015 122c D7F82C31 	 ldr r3,[r7,#300]
+ 2016 1230 1A44     	 add r2,r2,r3
+ 2017 1232 07F10C03 	 add r3,r7,#12
+ 2018 1236 5A60     	 str r2,[r3,#4]
+ 251:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         P( A[1], A[2], A[3], A[4], A[5], A[6], A[7], A[0], R(i+7), K[i+7] );
+ 2019              	 .loc 1 251 0 discriminator 3
+ 2020 1238 07F10C03 	 add r3,r7,#12
+ 2021 123c 1A68     	 ldr r2,[r3]
+ 2022 123e 07F10C03 	 add r3,r7,#12
+ 2023 1242 5B69     	 ldr r3,[r3,#20]
+ 2024 1244 4FEAB311 	 ror r1,r3,#6
+ 2025 1248 07F10C03 	 add r3,r7,#12
+ 2026 124c 5B69     	 ldr r3,[r3,#20]
+ 2027 124e 4FEAF323 	 ror r3,r3,#11
+ 2028 1252 5940     	 eors r1,r1,r3
+ 2029 1254 07F10C03 	 add r3,r7,#12
+ 2030 1258 5B69     	 ldr r3,[r3,#20]
+ 2031 125a 4FEA7363 	 ror r3,r3,#25
+ 2032 125e 4B40     	 eors r3,r3,r1
+ 2033 1260 1A44     	 add r2,r2,r3
+ 2034 1262 07F10C03 	 add r3,r7,#12
+ 2035 1266 D969     	 ldr r1,[r3,#28]
+ 2036 1268 07F10C03 	 add r3,r7,#12
+ 2037 126c 5869     	 ldr r0,[r3,#20]
+ 2038 126e 07F10C03 	 add r3,r7,#12
+ 2039 1272 9C69     	 ldr r4,[r3,#24]
+ 2040 1274 07F10C03 	 add r3,r7,#12
+ 2041 1278 DB69     	 ldr r3,[r3,#28]
+ 2042 127a 6340     	 eors r3,r3,r4
+ 2043 127c 0340     	 ands r3,r3,r0
+ 2044 127e 4B40     	 eors r3,r3,r1
+ 2045 1280 1A44     	 add r2,r2,r3
+ 2046 1282 D7F83431 	 ldr r3,[r7,#308]
+ 2047 1286 0733     	 adds r3,r3,#7
+ 2048 1288 6449     	 ldr r1,.L36
+ 2049 128a 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 2050 128e 1A44     	 add r2,r2,r3
+ 2051 1290 D7F83431 	 ldr r3,[r7,#308]
+ 2052 1294 0733     	 adds r3,r3,#7
+ 2053 1296 D7F83411 	 ldr r1,[r7,#308]
+ 2054 129a 481D     	 adds r0,r1,#5
+ 2055 129c 07F12C01 	 add r1,r7,#44
+ 2056 12a0 51F82010 	 ldr r1,[r1,r0,lsl#2]
+ 2057 12a4 4FEA7140 	 ror r0,r1,#17
+ 2058 12a8 D7F83411 	 ldr r1,[r7,#308]
+ 2059 12ac 4C1D     	 adds r4,r1,#5
+ 2060 12ae 07F12C01 	 add r1,r7,#44
+ 2061 12b2 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 2062 12b6 4FEAF141 	 ror r1,r1,#19
+ 2063 12ba 4840     	 eors r0,r0,r1
+ 2064 12bc D7F83411 	 ldr r1,[r7,#308]
+ 2065 12c0 4C1D     	 adds r4,r1,#5
+ 2066 12c2 07F12C01 	 add r1,r7,#44
+ 2067 12c6 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 2068 12ca 890A     	 lsrs r1,r1,#10
+ 2069 12cc 4840     	 eors r0,r0,r1
+ 2070 12ce 07F12C01 	 add r1,r7,#44
+ 2071 12d2 D7F83441 	 ldr r4,[r7,#308]
+ 2072 12d6 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 2073 12da 0844     	 add r0,r0,r1
+ 2074 12dc D7F83411 	 ldr r1,[r7,#308]
+ 2075 12e0 A1F10804 	 sub r4,r1,#8
+ 2076 12e4 07F12C01 	 add r1,r7,#44
+ 2077 12e8 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 2078 12ec 4FEAF114 	 ror r4,r1,#7
+ 2079 12f0 D7F83411 	 ldr r1,[r7,#308]
+ 2080 12f4 A1F10805 	 sub r5,r1,#8
+ 2081 12f8 07F12C01 	 add r1,r7,#44
+ 2082 12fc 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 2083 1300 4FEAB141 	 ror r1,r1,#18
+ 2084 1304 4C40     	 eors r4,r4,r1
+ 2085 1306 D7F83411 	 ldr r1,[r7,#308]
+ 2086 130a A1F10805 	 sub r5,r1,#8
+ 2087 130e 07F12C01 	 add r1,r7,#44
+ 2088 1312 51F82510 	 ldr r1,[r1,r5,lsl#2]
+ 2089 1316 C908     	 lsrs r1,r1,#3
+ 2090 1318 6140     	 eors r1,r1,r4
+ 2091 131a 0844     	 add r0,r0,r1
+ 2092 131c D7F83411 	 ldr r1,[r7,#308]
+ 2093 1320 A1F10904 	 sub r4,r1,#9
+ 2094 1324 07F12C01 	 add r1,r7,#44
+ 2095 1328 51F82410 	 ldr r1,[r1,r4,lsl#2]
+ 2096 132c 0844     	 add r0,r0,r1
+ 2097 132e 07F12C01 	 add r1,r7,#44
+ 2098 1332 41F82300 	 str r0,[r1,r3,lsl#2]
+ 2099 1336 07F12C01 	 add r1,r7,#44
+ 2100 133a 51F82330 	 ldr r3,[r1,r3,lsl#2]
+ 2101 133e 1344     	 add r3,r3,r2
+ 2102 1340 C7F83031 	 str r3,[r7,#304]
+ 2103 1344 07F10C03 	 add r3,r7,#12
+ 2104 1348 5B68     	 ldr r3,[r3,#4]
+ 2105 134a 4FEAB302 	 ror r2,r3,#2
+ 2106 134e 07F10C03 	 add r3,r7,#12
+ 2107 1352 5B68     	 ldr r3,[r3,#4]
+ 2108 1354 4FEA7333 	 ror r3,r3,#13
+ 2109 1358 5A40     	 eors r2,r2,r3
+ 2110 135a 07F10C03 	 add r3,r7,#12
+ 2111 135e 5B68     	 ldr r3,[r3,#4]
+ 2112 1360 4FEAB353 	 ror r3,r3,#22
+ 2113 1364 5A40     	 eors r2,r2,r3
+ 2114 1366 07F10C03 	 add r3,r7,#12
+ 2115 136a 5968     	 ldr r1,[r3,#4]
+ 2116 136c 07F10C03 	 add r3,r7,#12
+ 2117 1370 9B68     	 ldr r3,[r3,#8]
+ 2118 1372 1940     	 ands r1,r1,r3
+ 2119 1374 07F10C03 	 add r3,r7,#12
+ 2120 1378 D868     	 ldr r0,[r3,#12]
+ 2121 137a 07F10C03 	 add r3,r7,#12
+ 2122 137e 5C68     	 ldr r4,[r3,#4]
+ 2123 1380 07F10C03 	 add r3,r7,#12
+ 2124 1384 9B68     	 ldr r3,[r3,#8]
+ 2125 1386 2343     	 orrs r3,r3,r4
+ 2126 1388 0340     	 ands r3,r3,r0
+ 2127 138a 0B43     	 orrs r3,r3,r1
+ 2128 138c 1344     	 add r3,r3,r2
+ 2129 138e C7F82C31 	 str r3,[r7,#300]
+ 2130 1392 07F10C03 	 add r3,r7,#12
+ 2131 1396 1A69     	 ldr r2,[r3,#16]
+ 2132 1398 D7F83031 	 ldr r3,[r7,#304]
+ 2133 139c 1A44     	 add r2,r2,r3
+ 2134 139e 07F10C03 	 add r3,r7,#12
+ 2135 13a2 1A61     	 str r2,[r3,#16]
+ 2136 13a4 D7F83021 	 ldr r2,[r7,#304]
+ 2137 13a8 D7F82C31 	 ldr r3,[r7,#300]
+ 2138 13ac 1A44     	 add r2,r2,r3
+ 2139 13ae 07F10C03 	 add r3,r7,#12
+ 2140 13b2 1A60     	 str r2,[r3]
+ 242:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 2141              	 .loc 1 242 0 discriminator 3
+ 2142 13b4 D7F83431 	 ldr r3,[r7,#308]
+ 2143 13b8 0833     	 adds r3,r3,#8
+ 2144 13ba C7F83431 	 str r3,[r7,#308]
+ 2145              	.L20:
+ 242:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 2146              	 .loc 1 242 0 is_stmt 0 discriminator 1
+ 2147 13be D7F83431 	 ldr r3,[r7,#308]
+ 2148 13c2 3F2B     	 cmp r3,#63
+ 2149 13c4 7FF6FCA9 	 bls .L21
+ 252:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     }
+ 253:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #endif /* MBEDTLS_SHA256_SMALLER */
+ 254:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 255:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     for( i = 0; i < 8; i++ )
+ 2150              	 .loc 1 255 0 is_stmt 1
+ 2151 13c8 0023     	 movs r3,#0
+ 2152 13ca C7F83431 	 str r3,[r7,#308]
+ 2153 13ce 19E0     	 b .L22
+ 2154              	.L23:
+ 256:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[i] += A[i];
+ 2155              	 .loc 1 256 0 discriminator 3
+ 2156 13d0 3B1D     	 adds r3,r7,#4
+ 2157 13d2 1B68     	 ldr r3,[r3]
+ 2158 13d4 D7F83421 	 ldr r2,[r7,#308]
+ 2159 13d8 0232     	 adds r2,r2,#2
+ 2160 13da 53F82220 	 ldr r2,[r3,r2,lsl#2]
+ 2161 13de 07F10C03 	 add r3,r7,#12
+ 2162 13e2 D7F83411 	 ldr r1,[r7,#308]
+ 2163 13e6 53F82130 	 ldr r3,[r3,r1,lsl#2]
+ 2164 13ea D118     	 adds r1,r2,r3
+ 2165 13ec 3B1D     	 adds r3,r7,#4
+ 2166 13ee 1B68     	 ldr r3,[r3]
+ 2167 13f0 D7F83421 	 ldr r2,[r7,#308]
+ 2168 13f4 0232     	 adds r2,r2,#2
+ 2169 13f6 43F82210 	 str r1,[r3,r2,lsl#2]
+ 255:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[i] += A[i];
+ 2170              	 .loc 1 255 0 discriminator 3
+ 2171 13fa D7F83431 	 ldr r3,[r7,#308]
+ 2172 13fe 0133     	 adds r3,r3,#1
+ 2173 1400 C7F83431 	 str r3,[r7,#308]
+ 2174              	.L22:
+ 255:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->state[i] += A[i];
+ 2175              	 .loc 1 255 0 is_stmt 0 discriminator 1
+ 2176 1404 D7F83431 	 ldr r3,[r7,#308]
+ 2177 1408 072B     	 cmp r3,#7
+ 2178 140a E1D9     	 bls .L23
+ 257:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 258:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     return( 0 );
+ 2179              	 .loc 1 258 0 is_stmt 1
+ 2180 140c 0023     	 movs r3,#0
+ 259:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+ 2181              	 .loc 1 259 0
+ 2182 140e 1846     	 mov r0,r3
+ 2183 1410 07F59E77 	 add r7,r7,#316
+ 2184              	.LCFI29:
+ 2185              	 .cfi_def_cfa_offset 12
+ 2186 1414 BD46     	 mov sp,r7
+ 2187              	.LCFI30:
+ 2188              	 .cfi_def_cfa_register 13
+ 2189              	 
+ 2190 1416 B0BC     	 pop {r4,r5,r7}
+ 2191              	.LCFI31:
+ 2192              	 .cfi_restore 7
+ 2193              	 .cfi_restore 5
+ 2194              	 .cfi_restore 4
+ 2195              	 .cfi_def_cfa_offset 0
+ 2196 1418 7047     	 bx lr
+ 2197              	.L37:
+ 2198 141a 00BF     	 .align 2
+ 2199              	.L36:
+ 2200 141c 00000000 	 .word K
+ 2201              	 .cfi_endproc
+ 2202              	.LFE5:
+ 2204              	 .section .text.mbedtls_sha256_process,"ax",%progbits
+ 2205              	 .align 2
+ 2206              	 .global mbedtls_sha256_process
+ 2207              	 .thumb
+ 2208              	 .thumb_func
+ 2210              	mbedtls_sha256_process:
+ 2211              	.LFB6:
+ 260:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 261:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_DEPRECATED_REMOVED)
+ 262:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** void mbedtls_sha256_process( mbedtls_sha256_context *ctx,
+ 263:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                              const unsigned char data[64] )
+ 264:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+ 2212              	 .loc 1 264 0
+ 2213              	 .cfi_startproc
+ 2214              	 
+ 2215              	 
+ 2216 0000 80B5     	 push {r7,lr}
+ 2217              	.LCFI32:
+ 2218              	 .cfi_def_cfa_offset 8
+ 2219              	 .cfi_offset 7,-8
+ 2220              	 .cfi_offset 14,-4
+ 2221 0002 82B0     	 sub sp,sp,#8
+ 2222              	.LCFI33:
+ 2223              	 .cfi_def_cfa_offset 16
+ 2224 0004 00AF     	 add r7,sp,#0
+ 2225              	.LCFI34:
+ 2226              	 .cfi_def_cfa_register 7
+ 2227 0006 7860     	 str r0,[r7,#4]
+ 2228 0008 3960     	 str r1,[r7]
+ 265:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     mbedtls_internal_sha256_process( ctx, data );
+ 2229              	 .loc 1 265 0
+ 2230 000a 7868     	 ldr r0,[r7,#4]
+ 2231 000c 3968     	 ldr r1,[r7]
+ 2232 000e FFF7FEFF 	 bl mbedtls_internal_sha256_process
+ 266:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+ 2233              	 .loc 1 266 0
+ 2234 0012 0837     	 adds r7,r7,#8
+ 2235              	.LCFI35:
+ 2236              	 .cfi_def_cfa_offset 8
+ 2237 0014 BD46     	 mov sp,r7
+ 2238              	.LCFI36:
+ 2239              	 .cfi_def_cfa_register 13
+ 2240              	 
+ 2241 0016 80BD     	 pop {r7,pc}
+ 2242              	 .cfi_endproc
+ 2243              	.LFE6:
+ 2245              	 .section .text.mbedtls_sha256_update_ret,"ax",%progbits
+ 2246              	 .align 2
+ 2247              	 .global mbedtls_sha256_update_ret
+ 2248              	 .thumb
+ 2249              	 .thumb_func
+ 2251              	mbedtls_sha256_update_ret:
+ 2252              	.LFB7:
+ 267:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #endif
+ 268:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #endif /* !MBEDTLS_SHA256_PROCESS_ALT */
+ 269:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 270:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** /*
+ 271:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  * SHA-256 process buffer
+ 272:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  */
+ 273:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** int mbedtls_sha256_update_ret( mbedtls_sha256_context *ctx,
+ 274:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                                const unsigned char *input,
+ 275:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                                size_t ilen )
+ 276:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+ 2253              	 .loc 1 276 0
+ 2254              	 .cfi_startproc
+ 2255              	 
+ 2256              	 
+ 2257 0000 80B5     	 push {r7,lr}
+ 2258              	.LCFI37:
+ 2259              	 .cfi_def_cfa_offset 8
+ 2260              	 .cfi_offset 7,-8
+ 2261              	 .cfi_offset 14,-4
+ 2262 0002 88B0     	 sub sp,sp,#32
+ 2263              	.LCFI38:
+ 2264              	 .cfi_def_cfa_offset 40
+ 2265 0004 00AF     	 add r7,sp,#0
+ 2266              	.LCFI39:
+ 2267              	 .cfi_def_cfa_register 7
+ 2268 0006 F860     	 str r0,[r7,#12]
+ 2269 0008 B960     	 str r1,[r7,#8]
+ 2270 000a 7A60     	 str r2,[r7,#4]
+ 277:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     int ret;
+ 278:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     size_t fill;
+ 279:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     uint32_t left;
+ 280:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 281:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE_RET( ctx != NULL );
+ 282:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE_RET( ilen == 0 || input != NULL );
+ 283:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 284:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     if( ilen == 0 )
+ 2271              	 .loc 1 284 0
+ 2272 000c 7B68     	 ldr r3,[r7,#4]
+ 2273 000e 002B     	 cmp r3,#0
+ 2274 0010 01D1     	 bne .L40
+ 285:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         return( 0 );
+ 2275              	 .loc 1 285 0
+ 2276 0012 0023     	 movs r3,#0
+ 2277 0014 63E0     	 b .L41
+ 2278              	.L40:
+ 286:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 287:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     left = ctx->total[0] & 0x3F;
+ 2279              	 .loc 1 287 0
+ 2280 0016 FB68     	 ldr r3,[r7,#12]
+ 2281 0018 1B68     	 ldr r3,[r3]
+ 2282 001a 03F03F03 	 and r3,r3,#63
+ 2283 001e FB61     	 str r3,[r7,#28]
+ 288:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     fill = 64 - left;
+ 2284              	 .loc 1 288 0
+ 2285 0020 FB69     	 ldr r3,[r7,#28]
+ 2286 0022 C3F14003 	 rsb r3,r3,#64
+ 2287 0026 BB61     	 str r3,[r7,#24]
+ 289:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 290:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     ctx->total[0] += (uint32_t) ilen;
+ 2288              	 .loc 1 290 0
+ 2289 0028 FB68     	 ldr r3,[r7,#12]
+ 2290 002a 1A68     	 ldr r2,[r3]
+ 2291 002c 7B68     	 ldr r3,[r7,#4]
+ 2292 002e 1A44     	 add r2,r2,r3
+ 2293 0030 FB68     	 ldr r3,[r7,#12]
+ 2294 0032 1A60     	 str r2,[r3]
+ 291:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     ctx->total[0] &= 0xFFFFFFFF;
+ 2295              	 .loc 1 291 0
+ 2296 0034 FB68     	 ldr r3,[r7,#12]
+ 2297 0036 1A68     	 ldr r2,[r3]
+ 2298 0038 FB68     	 ldr r3,[r7,#12]
+ 2299 003a 1A60     	 str r2,[r3]
+ 292:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 293:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     if( ctx->total[0] < (uint32_t) ilen )
+ 2300              	 .loc 1 293 0
+ 2301 003c FB68     	 ldr r3,[r7,#12]
+ 2302 003e 1A68     	 ldr r2,[r3]
+ 2303 0040 7B68     	 ldr r3,[r7,#4]
+ 2304 0042 9A42     	 cmp r2,r3
+ 2305 0044 04D2     	 bcs .L42
+ 294:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ctx->total[1]++;
+ 2306              	 .loc 1 294 0
+ 2307 0046 FB68     	 ldr r3,[r7,#12]
+ 2308 0048 5B68     	 ldr r3,[r3,#4]
+ 2309 004a 5A1C     	 adds r2,r3,#1
+ 2310 004c FB68     	 ldr r3,[r7,#12]
+ 2311 004e 5A60     	 str r2,[r3,#4]
+ 2312              	.L42:
+ 295:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 296:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     if( left && ilen >= fill )
+ 2313              	 .loc 1 296 0
+ 2314 0050 FB69     	 ldr r3,[r7,#28]
+ 2315 0052 002B     	 cmp r3,#0
+ 2316 0054 22D0     	 beq .L43
+ 2317              	 .loc 1 296 0 is_stmt 0 discriminator 1
+ 2318 0056 7A68     	 ldr r2,[r7,#4]
+ 2319 0058 BB69     	 ldr r3,[r7,#24]
+ 2320 005a 9A42     	 cmp r2,r3
+ 2321 005c 1ED3     	 bcc .L43
+ 297:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 298:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         memcpy( (void *) (ctx->buffer + left), input, fill );
+ 2322              	 .loc 1 298 0 is_stmt 1
+ 2323 005e FB69     	 ldr r3,[r7,#28]
+ 2324 0060 2833     	 adds r3,r3,#40
+ 2325 0062 FA68     	 ldr r2,[r7,#12]
+ 2326 0064 1344     	 add r3,r3,r2
+ 2327 0066 1846     	 mov r0,r3
+ 2328 0068 B968     	 ldr r1,[r7,#8]
+ 2329 006a BA69     	 ldr r2,[r7,#24]
+ 2330 006c FFF7FEFF 	 bl memcpy
+ 299:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 300:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         if( ( ret = mbedtls_internal_sha256_process( ctx, ctx->buffer ) ) != 0 )
+ 2331              	 .loc 1 300 0
+ 2332 0070 FB68     	 ldr r3,[r7,#12]
+ 2333 0072 2833     	 adds r3,r3,#40
+ 2334 0074 F868     	 ldr r0,[r7,#12]
+ 2335 0076 1946     	 mov r1,r3
+ 2336 0078 FFF7FEFF 	 bl mbedtls_internal_sha256_process
+ 2337 007c 7861     	 str r0,[r7,#20]
+ 2338 007e 7B69     	 ldr r3,[r7,#20]
+ 2339 0080 002B     	 cmp r3,#0
+ 2340 0082 01D0     	 beq .L44
+ 301:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****             return( ret );
+ 2341              	 .loc 1 301 0
+ 2342 0084 7B69     	 ldr r3,[r7,#20]
+ 2343 0086 2AE0     	 b .L41
+ 2344              	.L44:
+ 302:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 303:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         input += fill;
+ 2345              	 .loc 1 303 0
+ 2346 0088 BA68     	 ldr r2,[r7,#8]
+ 2347 008a BB69     	 ldr r3,[r7,#24]
+ 2348 008c 1344     	 add r3,r3,r2
+ 2349 008e BB60     	 str r3,[r7,#8]
+ 304:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ilen  -= fill;
+ 2350              	 .loc 1 304 0
+ 2351 0090 7A68     	 ldr r2,[r7,#4]
+ 2352 0092 BB69     	 ldr r3,[r7,#24]
+ 2353 0094 D31A     	 subs r3,r2,r3
+ 2354 0096 7B60     	 str r3,[r7,#4]
+ 305:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         left = 0;
+ 2355              	 .loc 1 305 0
+ 2356 0098 0023     	 movs r3,#0
+ 2357 009a FB61     	 str r3,[r7,#28]
+ 2358              	.L43:
+ 306:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     }
+ 307:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 308:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     while( ilen >= 64 )
+ 2359              	 .loc 1 308 0
+ 2360 009c 0FE0     	 b .L45
+ 2361              	.L47:
+ 309:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 310:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         if( ( ret = mbedtls_internal_sha256_process( ctx, input ) ) != 0 )
+ 2362              	 .loc 1 310 0
+ 2363 009e F868     	 ldr r0,[r7,#12]
+ 2364 00a0 B968     	 ldr r1,[r7,#8]
+ 2365 00a2 FFF7FEFF 	 bl mbedtls_internal_sha256_process
+ 2366 00a6 7861     	 str r0,[r7,#20]
+ 2367 00a8 7B69     	 ldr r3,[r7,#20]
+ 2368 00aa 002B     	 cmp r3,#0
+ 2369 00ac 01D0     	 beq .L46
+ 311:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****             return( ret );
+ 2370              	 .loc 1 311 0
+ 2371 00ae 7B69     	 ldr r3,[r7,#20]
+ 2372 00b0 15E0     	 b .L41
+ 2373              	.L46:
+ 312:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 313:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         input += 64;
+ 2374              	 .loc 1 313 0
+ 2375 00b2 BB68     	 ldr r3,[r7,#8]
+ 2376 00b4 4033     	 adds r3,r3,#64
+ 2377 00b6 BB60     	 str r3,[r7,#8]
+ 314:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         ilen  -= 64;
+ 2378              	 .loc 1 314 0
+ 2379 00b8 7B68     	 ldr r3,[r7,#4]
+ 2380 00ba 403B     	 subs r3,r3,#64
+ 2381 00bc 7B60     	 str r3,[r7,#4]
+ 2382              	.L45:
+ 308:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 2383              	 .loc 1 308 0
+ 2384 00be 7B68     	 ldr r3,[r7,#4]
+ 2385 00c0 3F2B     	 cmp r3,#63
+ 2386 00c2 ECD8     	 bhi .L47
+ 315:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     }
+ 316:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 317:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     if( ilen > 0 )
+ 2387              	 .loc 1 317 0
+ 2388 00c4 7B68     	 ldr r3,[r7,#4]
+ 2389 00c6 002B     	 cmp r3,#0
+ 2390 00c8 08D0     	 beq .L48
+ 318:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         memcpy( (void *) (ctx->buffer + left), input, ilen );
+ 2391              	 .loc 1 318 0
+ 2392 00ca FB69     	 ldr r3,[r7,#28]
+ 2393 00cc 2833     	 adds r3,r3,#40
+ 2394 00ce FA68     	 ldr r2,[r7,#12]
+ 2395 00d0 1344     	 add r3,r3,r2
+ 2396 00d2 1846     	 mov r0,r3
+ 2397 00d4 B968     	 ldr r1,[r7,#8]
+ 2398 00d6 7A68     	 ldr r2,[r7,#4]
+ 2399 00d8 FFF7FEFF 	 bl memcpy
+ 2400              	.L48:
+ 319:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 320:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     return( 0 );
+ 2401              	 .loc 1 320 0
+ 2402 00dc 0023     	 movs r3,#0
+ 2403              	.L41:
+ 321:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+ 2404              	 .loc 1 321 0
+ 2405 00de 1846     	 mov r0,r3
+ 2406 00e0 2037     	 adds r7,r7,#32
+ 2407              	.LCFI40:
+ 2408              	 .cfi_def_cfa_offset 8
+ 2409 00e2 BD46     	 mov sp,r7
+ 2410              	.LCFI41:
+ 2411              	 .cfi_def_cfa_register 13
+ 2412              	 
+ 2413 00e4 80BD     	 pop {r7,pc}
+ 2414              	 .cfi_endproc
+ 2415              	.LFE7:
+ 2417 00e6 00BF     	 .section .text.mbedtls_sha256_update,"ax",%progbits
+ 2418              	 .align 2
+ 2419              	 .global mbedtls_sha256_update
+ 2420              	 .thumb
+ 2421              	 .thumb_func
+ 2423              	mbedtls_sha256_update:
+ 2424              	.LFB8:
+ 322:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 323:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_DEPRECATED_REMOVED)
+ 324:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** void mbedtls_sha256_update( mbedtls_sha256_context *ctx,
+ 325:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                             const unsigned char *input,
+ 326:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                             size_t ilen )
+ 327:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+ 2425              	 .loc 1 327 0
+ 2426              	 .cfi_startproc
+ 2427              	 
+ 2428              	 
+ 2429 0000 80B5     	 push {r7,lr}
+ 2430              	.LCFI42:
+ 2431              	 .cfi_def_cfa_offset 8
+ 2432              	 .cfi_offset 7,-8
+ 2433              	 .cfi_offset 14,-4
+ 2434 0002 84B0     	 sub sp,sp,#16
+ 2435              	.LCFI43:
+ 2436              	 .cfi_def_cfa_offset 24
+ 2437 0004 00AF     	 add r7,sp,#0
+ 2438              	.LCFI44:
+ 2439              	 .cfi_def_cfa_register 7
+ 2440 0006 F860     	 str r0,[r7,#12]
+ 2441 0008 B960     	 str r1,[r7,#8]
+ 2442 000a 7A60     	 str r2,[r7,#4]
+ 328:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     mbedtls_sha256_update_ret( ctx, input, ilen );
+ 2443              	 .loc 1 328 0
+ 2444 000c F868     	 ldr r0,[r7,#12]
+ 2445 000e B968     	 ldr r1,[r7,#8]
+ 2446 0010 7A68     	 ldr r2,[r7,#4]
+ 2447 0012 FFF7FEFF 	 bl mbedtls_sha256_update_ret
+ 329:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+ 2448              	 .loc 1 329 0
+ 2449 0016 1037     	 adds r7,r7,#16
+ 2450              	.LCFI45:
+ 2451              	 .cfi_def_cfa_offset 8
+ 2452 0018 BD46     	 mov sp,r7
+ 2453              	.LCFI46:
+ 2454              	 .cfi_def_cfa_register 13
+ 2455              	 
+ 2456 001a 80BD     	 pop {r7,pc}
+ 2457              	 .cfi_endproc
+ 2458              	.LFE8:
+ 2460              	 .section .text.mbedtls_sha256_finish_ret,"ax",%progbits
+ 2461              	 .align 2
+ 2462              	 .global mbedtls_sha256_finish_ret
+ 2463              	 .thumb
+ 2464              	 .thumb_func
+ 2466              	mbedtls_sha256_finish_ret:
+ 2467              	.LFB9:
+ 330:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #endif
+ 331:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 332:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** /*
+ 333:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  * SHA-256 final digest
+ 334:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  */
+ 335:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** int mbedtls_sha256_finish_ret( mbedtls_sha256_context *ctx,
+ 336:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                                unsigned char output[32] )
+ 337:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+ 2468              	 .loc 1 337 0
+ 2469              	 .cfi_startproc
+ 2470              	 
+ 2471              	 
+ 2472 0000 80B5     	 push {r7,lr}
+ 2473              	.LCFI47:
+ 2474              	 .cfi_def_cfa_offset 8
+ 2475              	 .cfi_offset 7,-8
+ 2476              	 .cfi_offset 14,-4
+ 2477 0002 86B0     	 sub sp,sp,#24
+ 2478              	.LCFI48:
+ 2479              	 .cfi_def_cfa_offset 32
+ 2480 0004 00AF     	 add r7,sp,#0
+ 2481              	.LCFI49:
+ 2482              	 .cfi_def_cfa_register 7
+ 2483 0006 7860     	 str r0,[r7,#4]
+ 2484 0008 3960     	 str r1,[r7]
+ 338:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     int ret;
+ 339:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     uint32_t used;
+ 340:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     uint32_t high, low;
+ 341:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 342:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE_RET( ctx != NULL );
+ 343:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE_RET( (unsigned char *)output != NULL );
+ 344:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 345:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     /*
+ 346:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****      * Add padding: 0x80 then 0x00 until 8 bytes remain for the length
+ 347:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****      */
+ 348:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     used = ctx->total[0] & 0x3F;
+ 2485              	 .loc 1 348 0
+ 2486 000a 7B68     	 ldr r3,[r7,#4]
+ 2487 000c 1B68     	 ldr r3,[r3]
+ 2488 000e 03F03F03 	 and r3,r3,#63
+ 2489 0012 7B61     	 str r3,[r7,#20]
+ 349:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 350:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     ctx->buffer[used++] = 0x80;
+ 2490              	 .loc 1 350 0
+ 2491 0014 7B69     	 ldr r3,[r7,#20]
+ 2492 0016 5A1C     	 adds r2,r3,#1
+ 2493 0018 7A61     	 str r2,[r7,#20]
+ 2494 001a 7A68     	 ldr r2,[r7,#4]
+ 2495 001c 1344     	 add r3,r3,r2
+ 2496 001e 8022     	 movs r2,#128
+ 2497 0020 83F82820 	 strb r2,[r3,#40]
+ 351:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 352:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     if( used <= 56 )
+ 2498              	 .loc 1 352 0
+ 2499 0024 7B69     	 ldr r3,[r7,#20]
+ 2500 0026 382B     	 cmp r3,#56
+ 2501 0028 0CD8     	 bhi .L51
+ 353:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 354:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         /* Enough room for padding + length in current block */
+ 355:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         memset( ctx->buffer + used, 0, 56 - used );
+ 2502              	 .loc 1 355 0
+ 2503 002a 7B69     	 ldr r3,[r7,#20]
+ 2504 002c 2833     	 adds r3,r3,#40
+ 2505 002e 7A68     	 ldr r2,[r7,#4]
+ 2506 0030 1A44     	 add r2,r2,r3
+ 2507 0032 7B69     	 ldr r3,[r7,#20]
+ 2508 0034 C3F13803 	 rsb r3,r3,#56
+ 2509 0038 1046     	 mov r0,r2
+ 2510 003a 0021     	 movs r1,#0
+ 2511 003c 1A46     	 mov r2,r3
+ 2512 003e FFF7FEFF 	 bl memset
+ 2513 0042 1EE0     	 b .L52
+ 2514              	.L51:
+ 356:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     }
+ 357:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     else
+ 358:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     {
+ 359:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         /* We'll need an extra block */
+ 360:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         memset( ctx->buffer + used, 0, 64 - used );
+ 2515              	 .loc 1 360 0
+ 2516 0044 7B69     	 ldr r3,[r7,#20]
+ 2517 0046 2833     	 adds r3,r3,#40
+ 2518 0048 7A68     	 ldr r2,[r7,#4]
+ 2519 004a 1A44     	 add r2,r2,r3
+ 2520 004c 7B69     	 ldr r3,[r7,#20]
+ 2521 004e C3F14003 	 rsb r3,r3,#64
+ 2522 0052 1046     	 mov r0,r2
+ 2523 0054 0021     	 movs r1,#0
+ 2524 0056 1A46     	 mov r2,r3
+ 2525 0058 FFF7FEFF 	 bl memset
+ 361:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 362:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         if( ( ret = mbedtls_internal_sha256_process( ctx, ctx->buffer ) ) != 0 )
+ 2526              	 .loc 1 362 0
+ 2527 005c 7B68     	 ldr r3,[r7,#4]
+ 2528 005e 2833     	 adds r3,r3,#40
+ 2529 0060 7868     	 ldr r0,[r7,#4]
+ 2530 0062 1946     	 mov r1,r3
+ 2531 0064 FFF7FEFF 	 bl mbedtls_internal_sha256_process
+ 2532 0068 3861     	 str r0,[r7,#16]
+ 2533 006a 3B69     	 ldr r3,[r7,#16]
+ 2534 006c 002B     	 cmp r3,#0
+ 2535 006e 01D0     	 beq .L53
+ 363:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****             return( ret );
+ 2536              	 .loc 1 363 0
+ 2537 0070 3B69     	 ldr r3,[r7,#16]
+ 2538 0072 28E1     	 b .L54
+ 2539              	.L53:
+ 364:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 365:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         memset( ctx->buffer, 0, 56 );
+ 2540              	 .loc 1 365 0
+ 2541 0074 7B68     	 ldr r3,[r7,#4]
+ 2542 0076 2833     	 adds r3,r3,#40
+ 2543 0078 1846     	 mov r0,r3
+ 2544 007a 0021     	 movs r1,#0
+ 2545 007c 3822     	 movs r2,#56
+ 2546 007e FFF7FEFF 	 bl memset
+ 2547              	.L52:
+ 366:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     }
+ 367:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 368:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     /*
+ 369:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****      * Add message length
+ 370:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****      */
+ 371:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     high = ( ctx->total[0] >> 29 )
+ 2548              	 .loc 1 371 0
+ 2549 0082 7B68     	 ldr r3,[r7,#4]
+ 2550 0084 1B68     	 ldr r3,[r3]
+ 2551 0086 5A0F     	 lsrs r2,r3,#29
+ 372:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****          | ( ctx->total[1] <<  3 );
+ 2552              	 .loc 1 372 0
+ 2553 0088 7B68     	 ldr r3,[r7,#4]
+ 2554 008a 5B68     	 ldr r3,[r3,#4]
+ 2555 008c DB00     	 lsls r3,r3,#3
+ 371:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****          | ( ctx->total[1] <<  3 );
+ 2556              	 .loc 1 371 0
+ 2557 008e 1343     	 orrs r3,r3,r2
+ 2558 0090 FB60     	 str r3,[r7,#12]
+ 373:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     low  = ( ctx->total[0] <<  3 );
+ 2559              	 .loc 1 373 0
+ 2560 0092 7B68     	 ldr r3,[r7,#4]
+ 2561 0094 1B68     	 ldr r3,[r3]
+ 2562 0096 DB00     	 lsls r3,r3,#3
+ 2563 0098 BB60     	 str r3,[r7,#8]
+ 374:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 375:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     PUT_UINT32_BE( high, ctx->buffer, 56 );
+ 2564              	 .loc 1 375 0
+ 2565 009a FB68     	 ldr r3,[r7,#12]
+ 2566 009c 1B0E     	 lsrs r3,r3,#24
+ 2567 009e DAB2     	 uxtb r2,r3
+ 2568 00a0 7B68     	 ldr r3,[r7,#4]
+ 2569 00a2 83F86020 	 strb r2,[r3,#96]
+ 2570 00a6 FB68     	 ldr r3,[r7,#12]
+ 2571 00a8 1B0C     	 lsrs r3,r3,#16
+ 2572 00aa DAB2     	 uxtb r2,r3
+ 2573 00ac 7B68     	 ldr r3,[r7,#4]
+ 2574 00ae 83F86120 	 strb r2,[r3,#97]
+ 2575 00b2 FB68     	 ldr r3,[r7,#12]
+ 2576 00b4 1B0A     	 lsrs r3,r3,#8
+ 2577 00b6 DAB2     	 uxtb r2,r3
+ 2578 00b8 7B68     	 ldr r3,[r7,#4]
+ 2579 00ba 83F86220 	 strb r2,[r3,#98]
+ 2580 00be FB68     	 ldr r3,[r7,#12]
+ 2581 00c0 DAB2     	 uxtb r2,r3
+ 2582 00c2 7B68     	 ldr r3,[r7,#4]
+ 2583 00c4 83F86320 	 strb r2,[r3,#99]
+ 376:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     PUT_UINT32_BE( low,  ctx->buffer, 60 );
+ 2584              	 .loc 1 376 0
+ 2585 00c8 BB68     	 ldr r3,[r7,#8]
+ 2586 00ca 1B0E     	 lsrs r3,r3,#24
+ 2587 00cc DAB2     	 uxtb r2,r3
+ 2588 00ce 7B68     	 ldr r3,[r7,#4]
+ 2589 00d0 83F86420 	 strb r2,[r3,#100]
+ 2590 00d4 BB68     	 ldr r3,[r7,#8]
+ 2591 00d6 1B0C     	 lsrs r3,r3,#16
+ 2592 00d8 DAB2     	 uxtb r2,r3
+ 2593 00da 7B68     	 ldr r3,[r7,#4]
+ 2594 00dc 83F86520 	 strb r2,[r3,#101]
+ 2595 00e0 BB68     	 ldr r3,[r7,#8]
+ 2596 00e2 1B0A     	 lsrs r3,r3,#8
+ 2597 00e4 DAB2     	 uxtb r2,r3
+ 2598 00e6 7B68     	 ldr r3,[r7,#4]
+ 2599 00e8 83F86620 	 strb r2,[r3,#102]
+ 2600 00ec BB68     	 ldr r3,[r7,#8]
+ 2601 00ee DAB2     	 uxtb r2,r3
+ 2602 00f0 7B68     	 ldr r3,[r7,#4]
+ 2603 00f2 83F86720 	 strb r2,[r3,#103]
+ 377:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 378:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     if( ( ret = mbedtls_internal_sha256_process( ctx, ctx->buffer ) ) != 0 )
+ 2604              	 .loc 1 378 0
+ 2605 00f6 7B68     	 ldr r3,[r7,#4]
+ 2606 00f8 2833     	 adds r3,r3,#40
+ 2607 00fa 7868     	 ldr r0,[r7,#4]
+ 2608 00fc 1946     	 mov r1,r3
+ 2609 00fe FFF7FEFF 	 bl mbedtls_internal_sha256_process
+ 2610 0102 3861     	 str r0,[r7,#16]
+ 2611 0104 3B69     	 ldr r3,[r7,#16]
+ 2612 0106 002B     	 cmp r3,#0
+ 2613 0108 01D0     	 beq .L55
+ 379:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         return( ret );
+ 2614              	 .loc 1 379 0
+ 2615 010a 3B69     	 ldr r3,[r7,#16]
+ 2616 010c DBE0     	 b .L54
+ 2617              	.L55:
+ 380:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 381:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     /*
+ 382:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****      * Output final state
+ 383:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****      */
+ 384:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[0], output,  0 );
+ 2618              	 .loc 1 384 0
+ 2619 010e 7B68     	 ldr r3,[r7,#4]
+ 2620 0110 9B68     	 ldr r3,[r3,#8]
+ 2621 0112 1B0E     	 lsrs r3,r3,#24
+ 2622 0114 DAB2     	 uxtb r2,r3
+ 2623 0116 3B68     	 ldr r3,[r7]
+ 2624 0118 1A70     	 strb r2,[r3]
+ 2625 011a 3B68     	 ldr r3,[r7]
+ 2626 011c 0133     	 adds r3,r3,#1
+ 2627 011e 7A68     	 ldr r2,[r7,#4]
+ 2628 0120 9268     	 ldr r2,[r2,#8]
+ 2629 0122 120C     	 lsrs r2,r2,#16
+ 2630 0124 D2B2     	 uxtb r2,r2
+ 2631 0126 1A70     	 strb r2,[r3]
+ 2632 0128 3B68     	 ldr r3,[r7]
+ 2633 012a 0233     	 adds r3,r3,#2
+ 2634 012c 7A68     	 ldr r2,[r7,#4]
+ 2635 012e 9268     	 ldr r2,[r2,#8]
+ 2636 0130 120A     	 lsrs r2,r2,#8
+ 2637 0132 D2B2     	 uxtb r2,r2
+ 2638 0134 1A70     	 strb r2,[r3]
+ 2639 0136 3B68     	 ldr r3,[r7]
+ 2640 0138 0333     	 adds r3,r3,#3
+ 2641 013a 7A68     	 ldr r2,[r7,#4]
+ 2642 013c 9268     	 ldr r2,[r2,#8]
+ 2643 013e D2B2     	 uxtb r2,r2
+ 2644 0140 1A70     	 strb r2,[r3]
+ 385:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[1], output,  4 );
+ 2645              	 .loc 1 385 0
+ 2646 0142 3B68     	 ldr r3,[r7]
+ 2647 0144 0433     	 adds r3,r3,#4
+ 2648 0146 7A68     	 ldr r2,[r7,#4]
+ 2649 0148 D268     	 ldr r2,[r2,#12]
+ 2650 014a 120E     	 lsrs r2,r2,#24
+ 2651 014c D2B2     	 uxtb r2,r2
+ 2652 014e 1A70     	 strb r2,[r3]
+ 2653 0150 3B68     	 ldr r3,[r7]
+ 2654 0152 0533     	 adds r3,r3,#5
+ 2655 0154 7A68     	 ldr r2,[r7,#4]
+ 2656 0156 D268     	 ldr r2,[r2,#12]
+ 2657 0158 120C     	 lsrs r2,r2,#16
+ 2658 015a D2B2     	 uxtb r2,r2
+ 2659 015c 1A70     	 strb r2,[r3]
+ 2660 015e 3B68     	 ldr r3,[r7]
+ 2661 0160 0633     	 adds r3,r3,#6
+ 2662 0162 7A68     	 ldr r2,[r7,#4]
+ 2663 0164 D268     	 ldr r2,[r2,#12]
+ 2664 0166 120A     	 lsrs r2,r2,#8
+ 2665 0168 D2B2     	 uxtb r2,r2
+ 2666 016a 1A70     	 strb r2,[r3]
+ 2667 016c 3B68     	 ldr r3,[r7]
+ 2668 016e 0733     	 adds r3,r3,#7
+ 2669 0170 7A68     	 ldr r2,[r7,#4]
+ 2670 0172 D268     	 ldr r2,[r2,#12]
+ 2671 0174 D2B2     	 uxtb r2,r2
+ 2672 0176 1A70     	 strb r2,[r3]
+ 386:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[2], output,  8 );
+ 2673              	 .loc 1 386 0
+ 2674 0178 3B68     	 ldr r3,[r7]
+ 2675 017a 0833     	 adds r3,r3,#8
+ 2676 017c 7A68     	 ldr r2,[r7,#4]
+ 2677 017e 1269     	 ldr r2,[r2,#16]
+ 2678 0180 120E     	 lsrs r2,r2,#24
+ 2679 0182 D2B2     	 uxtb r2,r2
+ 2680 0184 1A70     	 strb r2,[r3]
+ 2681 0186 3B68     	 ldr r3,[r7]
+ 2682 0188 0933     	 adds r3,r3,#9
+ 2683 018a 7A68     	 ldr r2,[r7,#4]
+ 2684 018c 1269     	 ldr r2,[r2,#16]
+ 2685 018e 120C     	 lsrs r2,r2,#16
+ 2686 0190 D2B2     	 uxtb r2,r2
+ 2687 0192 1A70     	 strb r2,[r3]
+ 2688 0194 3B68     	 ldr r3,[r7]
+ 2689 0196 0A33     	 adds r3,r3,#10
+ 2690 0198 7A68     	 ldr r2,[r7,#4]
+ 2691 019a 1269     	 ldr r2,[r2,#16]
+ 2692 019c 120A     	 lsrs r2,r2,#8
+ 2693 019e D2B2     	 uxtb r2,r2
+ 2694 01a0 1A70     	 strb r2,[r3]
+ 2695 01a2 3B68     	 ldr r3,[r7]
+ 2696 01a4 0B33     	 adds r3,r3,#11
+ 2697 01a6 7A68     	 ldr r2,[r7,#4]
+ 2698 01a8 1269     	 ldr r2,[r2,#16]
+ 2699 01aa D2B2     	 uxtb r2,r2
+ 2700 01ac 1A70     	 strb r2,[r3]
+ 387:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[3], output, 12 );
+ 2701              	 .loc 1 387 0
+ 2702 01ae 3B68     	 ldr r3,[r7]
+ 2703 01b0 0C33     	 adds r3,r3,#12
+ 2704 01b2 7A68     	 ldr r2,[r7,#4]
+ 2705 01b4 5269     	 ldr r2,[r2,#20]
+ 2706 01b6 120E     	 lsrs r2,r2,#24
+ 2707 01b8 D2B2     	 uxtb r2,r2
+ 2708 01ba 1A70     	 strb r2,[r3]
+ 2709 01bc 3B68     	 ldr r3,[r7]
+ 2710 01be 0D33     	 adds r3,r3,#13
+ 2711 01c0 7A68     	 ldr r2,[r7,#4]
+ 2712 01c2 5269     	 ldr r2,[r2,#20]
+ 2713 01c4 120C     	 lsrs r2,r2,#16
+ 2714 01c6 D2B2     	 uxtb r2,r2
+ 2715 01c8 1A70     	 strb r2,[r3]
+ 2716 01ca 3B68     	 ldr r3,[r7]
+ 2717 01cc 0E33     	 adds r3,r3,#14
+ 2718 01ce 7A68     	 ldr r2,[r7,#4]
+ 2719 01d0 5269     	 ldr r2,[r2,#20]
+ 2720 01d2 120A     	 lsrs r2,r2,#8
+ 2721 01d4 D2B2     	 uxtb r2,r2
+ 2722 01d6 1A70     	 strb r2,[r3]
+ 2723 01d8 3B68     	 ldr r3,[r7]
+ 2724 01da 0F33     	 adds r3,r3,#15
+ 2725 01dc 7A68     	 ldr r2,[r7,#4]
+ 2726 01de 5269     	 ldr r2,[r2,#20]
+ 2727 01e0 D2B2     	 uxtb r2,r2
+ 2728 01e2 1A70     	 strb r2,[r3]
+ 388:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[4], output, 16 );
+ 2729              	 .loc 1 388 0
+ 2730 01e4 3B68     	 ldr r3,[r7]
+ 2731 01e6 1033     	 adds r3,r3,#16
+ 2732 01e8 7A68     	 ldr r2,[r7,#4]
+ 2733 01ea 9269     	 ldr r2,[r2,#24]
+ 2734 01ec 120E     	 lsrs r2,r2,#24
+ 2735 01ee D2B2     	 uxtb r2,r2
+ 2736 01f0 1A70     	 strb r2,[r3]
+ 2737 01f2 3B68     	 ldr r3,[r7]
+ 2738 01f4 1133     	 adds r3,r3,#17
+ 2739 01f6 7A68     	 ldr r2,[r7,#4]
+ 2740 01f8 9269     	 ldr r2,[r2,#24]
+ 2741 01fa 120C     	 lsrs r2,r2,#16
+ 2742 01fc D2B2     	 uxtb r2,r2
+ 2743 01fe 1A70     	 strb r2,[r3]
+ 2744 0200 3B68     	 ldr r3,[r7]
+ 2745 0202 1233     	 adds r3,r3,#18
+ 2746 0204 7A68     	 ldr r2,[r7,#4]
+ 2747 0206 9269     	 ldr r2,[r2,#24]
+ 2748 0208 120A     	 lsrs r2,r2,#8
+ 2749 020a D2B2     	 uxtb r2,r2
+ 2750 020c 1A70     	 strb r2,[r3]
+ 2751 020e 3B68     	 ldr r3,[r7]
+ 2752 0210 1333     	 adds r3,r3,#19
+ 2753 0212 7A68     	 ldr r2,[r7,#4]
+ 2754 0214 9269     	 ldr r2,[r2,#24]
+ 2755 0216 D2B2     	 uxtb r2,r2
+ 2756 0218 1A70     	 strb r2,[r3]
+ 389:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[5], output, 20 );
+ 2757              	 .loc 1 389 0
+ 2758 021a 3B68     	 ldr r3,[r7]
+ 2759 021c 1433     	 adds r3,r3,#20
+ 2760 021e 7A68     	 ldr r2,[r7,#4]
+ 2761 0220 D269     	 ldr r2,[r2,#28]
+ 2762 0222 120E     	 lsrs r2,r2,#24
+ 2763 0224 D2B2     	 uxtb r2,r2
+ 2764 0226 1A70     	 strb r2,[r3]
+ 2765 0228 3B68     	 ldr r3,[r7]
+ 2766 022a 1533     	 adds r3,r3,#21
+ 2767 022c 7A68     	 ldr r2,[r7,#4]
+ 2768 022e D269     	 ldr r2,[r2,#28]
+ 2769 0230 120C     	 lsrs r2,r2,#16
+ 2770 0232 D2B2     	 uxtb r2,r2
+ 2771 0234 1A70     	 strb r2,[r3]
+ 2772 0236 3B68     	 ldr r3,[r7]
+ 2773 0238 1633     	 adds r3,r3,#22
+ 2774 023a 7A68     	 ldr r2,[r7,#4]
+ 2775 023c D269     	 ldr r2,[r2,#28]
+ 2776 023e 120A     	 lsrs r2,r2,#8
+ 2777 0240 D2B2     	 uxtb r2,r2
+ 2778 0242 1A70     	 strb r2,[r3]
+ 2779 0244 3B68     	 ldr r3,[r7]
+ 2780 0246 1733     	 adds r3,r3,#23
+ 2781 0248 7A68     	 ldr r2,[r7,#4]
+ 2782 024a D269     	 ldr r2,[r2,#28]
+ 2783 024c D2B2     	 uxtb r2,r2
+ 2784 024e 1A70     	 strb r2,[r3]
+ 390:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[6], output, 24 );
+ 2785              	 .loc 1 390 0
+ 2786 0250 3B68     	 ldr r3,[r7]
+ 2787 0252 1833     	 adds r3,r3,#24
+ 2788 0254 7A68     	 ldr r2,[r7,#4]
+ 2789 0256 126A     	 ldr r2,[r2,#32]
+ 2790 0258 120E     	 lsrs r2,r2,#24
+ 2791 025a D2B2     	 uxtb r2,r2
+ 2792 025c 1A70     	 strb r2,[r3]
+ 2793 025e 3B68     	 ldr r3,[r7]
+ 2794 0260 1933     	 adds r3,r3,#25
+ 2795 0262 7A68     	 ldr r2,[r7,#4]
+ 2796 0264 126A     	 ldr r2,[r2,#32]
+ 2797 0266 120C     	 lsrs r2,r2,#16
+ 2798 0268 D2B2     	 uxtb r2,r2
+ 2799 026a 1A70     	 strb r2,[r3]
+ 2800 026c 3B68     	 ldr r3,[r7]
+ 2801 026e 1A33     	 adds r3,r3,#26
+ 2802 0270 7A68     	 ldr r2,[r7,#4]
+ 2803 0272 126A     	 ldr r2,[r2,#32]
+ 2804 0274 120A     	 lsrs r2,r2,#8
+ 2805 0276 D2B2     	 uxtb r2,r2
+ 2806 0278 1A70     	 strb r2,[r3]
+ 2807 027a 3B68     	 ldr r3,[r7]
+ 2808 027c 1B33     	 adds r3,r3,#27
+ 2809 027e 7A68     	 ldr r2,[r7,#4]
+ 2810 0280 126A     	 ldr r2,[r2,#32]
+ 2811 0282 D2B2     	 uxtb r2,r2
+ 2812 0284 1A70     	 strb r2,[r3]
+ 391:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 392:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     if( ctx->is224 == 0 )
+ 2813              	 .loc 1 392 0
+ 2814 0286 7B68     	 ldr r3,[r7,#4]
+ 2815 0288 9B6E     	 ldr r3,[r3,#104]
+ 2816 028a 002B     	 cmp r3,#0
+ 2817 028c 1AD1     	 bne .L56
+ 393:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         PUT_UINT32_BE( ctx->state[7], output, 28 );
+ 2818              	 .loc 1 393 0
+ 2819 028e 3B68     	 ldr r3,[r7]
+ 2820 0290 1C33     	 adds r3,r3,#28
+ 2821 0292 7A68     	 ldr r2,[r7,#4]
+ 2822 0294 526A     	 ldr r2,[r2,#36]
+ 2823 0296 120E     	 lsrs r2,r2,#24
+ 2824 0298 D2B2     	 uxtb r2,r2
+ 2825 029a 1A70     	 strb r2,[r3]
+ 2826 029c 3B68     	 ldr r3,[r7]
+ 2827 029e 1D33     	 adds r3,r3,#29
+ 2828 02a0 7A68     	 ldr r2,[r7,#4]
+ 2829 02a2 526A     	 ldr r2,[r2,#36]
+ 2830 02a4 120C     	 lsrs r2,r2,#16
+ 2831 02a6 D2B2     	 uxtb r2,r2
+ 2832 02a8 1A70     	 strb r2,[r3]
+ 2833 02aa 3B68     	 ldr r3,[r7]
+ 2834 02ac 1E33     	 adds r3,r3,#30
+ 2835 02ae 7A68     	 ldr r2,[r7,#4]
+ 2836 02b0 526A     	 ldr r2,[r2,#36]
+ 2837 02b2 120A     	 lsrs r2,r2,#8
+ 2838 02b4 D2B2     	 uxtb r2,r2
+ 2839 02b6 1A70     	 strb r2,[r3]
+ 2840 02b8 3B68     	 ldr r3,[r7]
+ 2841 02ba 1F33     	 adds r3,r3,#31
+ 2842 02bc 7A68     	 ldr r2,[r7,#4]
+ 2843 02be 526A     	 ldr r2,[r2,#36]
+ 2844 02c0 D2B2     	 uxtb r2,r2
+ 2845 02c2 1A70     	 strb r2,[r3]
+ 2846              	.L56:
+ 394:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 395:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     return( 0 );
+ 2847              	 .loc 1 395 0
+ 2848 02c4 0023     	 movs r3,#0
+ 2849              	.L54:
+ 396:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+ 2850              	 .loc 1 396 0
+ 2851 02c6 1846     	 mov r0,r3
+ 2852 02c8 1837     	 adds r7,r7,#24
+ 2853              	.LCFI50:
+ 2854              	 .cfi_def_cfa_offset 8
+ 2855 02ca BD46     	 mov sp,r7
+ 2856              	.LCFI51:
+ 2857              	 .cfi_def_cfa_register 13
+ 2858              	 
+ 2859 02cc 80BD     	 pop {r7,pc}
+ 2860              	 .cfi_endproc
+ 2861              	.LFE9:
+ 2863 02ce 00BF     	 .section .text.mbedtls_sha256_finish,"ax",%progbits
+ 2864              	 .align 2
+ 2865              	 .global mbedtls_sha256_finish
+ 2866              	 .thumb
+ 2867              	 .thumb_func
+ 2869              	mbedtls_sha256_finish:
+ 2870              	.LFB10:
+ 397:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 398:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_DEPRECATED_REMOVED)
+ 399:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** void mbedtls_sha256_finish( mbedtls_sha256_context *ctx,
+ 400:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                             unsigned char output[32] )
+ 401:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+ 2871              	 .loc 1 401 0
+ 2872              	 .cfi_startproc
+ 2873              	 
+ 2874              	 
+ 2875 0000 80B5     	 push {r7,lr}
+ 2876              	.LCFI52:
+ 2877              	 .cfi_def_cfa_offset 8
+ 2878              	 .cfi_offset 7,-8
+ 2879              	 .cfi_offset 14,-4
+ 2880 0002 82B0     	 sub sp,sp,#8
+ 2881              	.LCFI53:
+ 2882              	 .cfi_def_cfa_offset 16
+ 2883 0004 00AF     	 add r7,sp,#0
+ 2884              	.LCFI54:
+ 2885              	 .cfi_def_cfa_register 7
+ 2886 0006 7860     	 str r0,[r7,#4]
+ 2887 0008 3960     	 str r1,[r7]
+ 402:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     mbedtls_sha256_finish_ret( ctx, output );
+ 2888              	 .loc 1 402 0
+ 2889 000a 7868     	 ldr r0,[r7,#4]
+ 2890 000c 3968     	 ldr r1,[r7]
+ 2891 000e FFF7FEFF 	 bl mbedtls_sha256_finish_ret
+ 403:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+ 2892              	 .loc 1 403 0
+ 2893 0012 0837     	 adds r7,r7,#8
+ 2894              	.LCFI55:
+ 2895              	 .cfi_def_cfa_offset 8
+ 2896 0014 BD46     	 mov sp,r7
+ 2897              	.LCFI56:
+ 2898              	 .cfi_def_cfa_register 13
+ 2899              	 
+ 2900 0016 80BD     	 pop {r7,pc}
+ 2901              	 .cfi_endproc
+ 2902              	.LFE10:
+ 2904              	 .section .text.mbedtls_sha256_ret,"ax",%progbits
+ 2905              	 .align 2
+ 2906              	 .global mbedtls_sha256_ret
+ 2907              	 .thumb
+ 2908              	 .thumb_func
+ 2910              	mbedtls_sha256_ret:
+ 2911              	.LFB11:
+ 404:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #endif
+ 405:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 406:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #endif /* !MBEDTLS_SHA256_ALT */
+ 407:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 408:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** /*
+ 409:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  * output = SHA-256( input buffer )
+ 410:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****  */
+ 411:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** int mbedtls_sha256_ret( const unsigned char *input,
+ 412:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                         size_t ilen,
+ 413:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                         unsigned char output[32],
+ 414:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                         int is224 )
+ 415:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+ 2912              	 .loc 1 415 0
+ 2913              	 .cfi_startproc
+ 2914              	 
+ 2915              	 
+ 2916 0000 80B5     	 push {r7,lr}
+ 2917              	.LCFI57:
+ 2918              	 .cfi_def_cfa_offset 8
+ 2919              	 .cfi_offset 7,-8
+ 2920              	 .cfi_offset 14,-4
+ 2921 0002 A0B0     	 sub sp,sp,#128
+ 2922              	.LCFI58:
+ 2923              	 .cfi_def_cfa_offset 136
+ 2924 0004 00AF     	 add r7,sp,#0
+ 2925              	.LCFI59:
+ 2926              	 .cfi_def_cfa_register 7
+ 2927 0006 F860     	 str r0,[r7,#12]
+ 2928 0008 B960     	 str r1,[r7,#8]
+ 2929 000a 7A60     	 str r2,[r7,#4]
+ 2930 000c 3B60     	 str r3,[r7]
+ 416:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     int ret;
+ 417:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     mbedtls_sha256_context ctx;
+ 418:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 419:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE_RET( is224 == 0 || is224 == 1 );
+ 420:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE_RET( ilen == 0 || input != NULL );
+ 421:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     SHA256_VALIDATE_RET( (unsigned char *)output != NULL );
+ 422:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 423:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     mbedtls_sha256_init( &ctx );
+ 2931              	 .loc 1 423 0
+ 2932 000e 07F11003 	 add r3,r7,#16
+ 2933 0012 1846     	 mov r0,r3
+ 2934 0014 FFF7FEFF 	 bl mbedtls_sha256_init
+ 424:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 425:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     if( ( ret = mbedtls_sha256_starts_ret( &ctx, is224 ) ) != 0 )
+ 2935              	 .loc 1 425 0
+ 2936 0018 07F11003 	 add r3,r7,#16
+ 2937 001c 1846     	 mov r0,r3
+ 2938 001e 3968     	 ldr r1,[r7]
+ 2939 0020 FFF7FEFF 	 bl mbedtls_sha256_starts_ret
+ 2940 0024 F867     	 str r0,[r7,#124]
+ 2941 0026 FB6F     	 ldr r3,[r7,#124]
+ 2942 0028 002B     	 cmp r3,#0
+ 2943 002a 00D0     	 beq .L59
+ 426:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         goto exit;
+ 2944              	 .loc 1 426 0
+ 2945 002c 16E0     	 b .L60
+ 2946              	.L59:
+ 427:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 428:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     if( ( ret = mbedtls_sha256_update_ret( &ctx, input, ilen ) ) != 0 )
+ 2947              	 .loc 1 428 0
+ 2948 002e 07F11003 	 add r3,r7,#16
+ 2949 0032 1846     	 mov r0,r3
+ 2950 0034 F968     	 ldr r1,[r7,#12]
+ 2951 0036 BA68     	 ldr r2,[r7,#8]
+ 2952 0038 FFF7FEFF 	 bl mbedtls_sha256_update_ret
+ 2953 003c F867     	 str r0,[r7,#124]
+ 2954 003e FB6F     	 ldr r3,[r7,#124]
+ 2955 0040 002B     	 cmp r3,#0
+ 2956 0042 00D0     	 beq .L61
+ 429:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         goto exit;
+ 2957              	 .loc 1 429 0
+ 2958 0044 0AE0     	 b .L60
+ 2959              	.L61:
+ 430:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 431:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     if( ( ret = mbedtls_sha256_finish_ret( &ctx, output ) ) != 0 )
+ 2960              	 .loc 1 431 0
+ 2961 0046 07F11003 	 add r3,r7,#16
+ 2962 004a 1846     	 mov r0,r3
+ 2963 004c 7968     	 ldr r1,[r7,#4]
+ 2964 004e FFF7FEFF 	 bl mbedtls_sha256_finish_ret
+ 2965 0052 F867     	 str r0,[r7,#124]
+ 2966 0054 FB6F     	 ldr r3,[r7,#124]
+ 2967 0056 002B     	 cmp r3,#0
+ 2968 0058 00D0     	 beq .L60
+ 432:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****         goto exit;
+ 2969              	 .loc 1 432 0
+ 2970 005a 00BF     	 nop
+ 2971              	.L60:
+ 433:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 434:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** exit:
+ 435:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     mbedtls_sha256_free( &ctx );
+ 2972              	 .loc 1 435 0
+ 2973 005c 07F11003 	 add r3,r7,#16
+ 2974 0060 1846     	 mov r0,r3
+ 2975 0062 FFF7FEFF 	 bl mbedtls_sha256_free
+ 436:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 437:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     return( ret );
+ 2976              	 .loc 1 437 0
+ 2977 0066 FB6F     	 ldr r3,[r7,#124]
+ 438:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+ 2978              	 .loc 1 438 0
+ 2979 0068 1846     	 mov r0,r3
+ 2980 006a 8037     	 adds r7,r7,#128
+ 2981              	.LCFI60:
+ 2982              	 .cfi_def_cfa_offset 8
+ 2983 006c BD46     	 mov sp,r7
+ 2984              	.LCFI61:
+ 2985              	 .cfi_def_cfa_register 13
+ 2986              	 
+ 2987 006e 80BD     	 pop {r7,pc}
+ 2988              	 .cfi_endproc
+ 2989              	.LFE11:
+ 2991              	 .section .text.mbedtls_sha256,"ax",%progbits
+ 2992              	 .align 2
+ 2993              	 .global mbedtls_sha256
+ 2994              	 .thumb
+ 2995              	 .thumb_func
+ 2997              	mbedtls_sha256:
+ 2998              	.LFB12:
+ 439:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** 
+ 440:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_DEPRECATED_REMOVED)
+ 441:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** void mbedtls_sha256( const unsigned char *input,
+ 442:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                      size_t ilen,
+ 443:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                      unsigned char output[32],
+ 444:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****                      int is224 )
+ 445:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** {
+ 2999              	 .loc 1 445 0
+ 3000              	 .cfi_startproc
+ 3001              	 
+ 3002              	 
+ 3003 0000 80B5     	 push {r7,lr}
+ 3004              	.LCFI62:
+ 3005              	 .cfi_def_cfa_offset 8
+ 3006              	 .cfi_offset 7,-8
+ 3007              	 .cfi_offset 14,-4
+ 3008 0002 84B0     	 sub sp,sp,#16
+ 3009              	.LCFI63:
+ 3010              	 .cfi_def_cfa_offset 24
+ 3011 0004 00AF     	 add r7,sp,#0
+ 3012              	.LCFI64:
+ 3013              	 .cfi_def_cfa_register 7
+ 3014 0006 F860     	 str r0,[r7,#12]
+ 3015 0008 B960     	 str r1,[r7,#8]
+ 3016 000a 7A60     	 str r2,[r7,#4]
+ 3017 000c 3B60     	 str r3,[r7]
+ 446:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c ****     mbedtls_sha256_ret( input, ilen, output, is224 );
+ 3018              	 .loc 1 446 0
+ 3019 000e F868     	 ldr r0,[r7,#12]
+ 3020 0010 B968     	 ldr r1,[r7,#8]
+ 3021 0012 7A68     	 ldr r2,[r7,#4]
+ 3022 0014 3B68     	 ldr r3,[r7]
+ 3023 0016 FFF7FEFF 	 bl mbedtls_sha256_ret
+ 447:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\sha256.c **** }
+ 3024              	 .loc 1 447 0
+ 3025 001a 1037     	 adds r7,r7,#16
+ 3026              	.LCFI65:
+ 3027              	 .cfi_def_cfa_offset 8
+ 3028 001c BD46     	 mov sp,r7
+ 3029              	.LCFI66:
+ 3030              	 .cfi_def_cfa_register 13
+ 3031              	 
+ 3032 001e 80BD     	 pop {r7,pc}
+ 3033              	 .cfi_endproc
+ 3034              	.LFE12:
+ 3036              	 .text
+ 3037              	.Letext0:
+ 3038              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\lib\\gcc\\arm-none-eabi\\4.9.3\\include\\stddef.h"
+ 3039              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 3040              	 .file 4 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 3041              	 .file 5 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/include/mbedtls/sha256.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 sha256.c
+    {standard input}:20     .text.mbedtls_sha256_init:00000000 $t
+    {standard input}:25     .text.mbedtls_sha256_init:00000000 mbedtls_sha256_init
+    {standard input}:62     .text.mbedtls_sha256_free:00000000 $t
+    {standard input}:67     .text.mbedtls_sha256_free:00000000 mbedtls_sha256_free
+    {standard input}:110    .text.mbedtls_sha256_clone:00000000 $t
+    {standard input}:115    .text.mbedtls_sha256_clone:00000000 mbedtls_sha256_clone
+    {standard input}:157    .text.mbedtls_sha256_starts_ret:00000000 $t
+    {standard input}:162    .text.mbedtls_sha256_starts_ret:00000000 mbedtls_sha256_starts_ret
+    {standard input}:283    .text.mbedtls_sha256_starts_ret:00000094 $d
+    {standard input}:303    .text.mbedtls_sha256_starts:00000000 $t
+    {standard input}:308    .text.mbedtls_sha256_starts:00000000 mbedtls_sha256_starts
+    {standard input}:344    .rodata.K:00000000 $d
+    {standard input}:347    .rodata.K:00000000 K
+    {standard input}:413    .text.mbedtls_internal_sha256_process:00000000 $t
+    {standard input}:418    .text.mbedtls_internal_sha256_process:00000000 mbedtls_internal_sha256_process
+    {standard input}:846    .text.mbedtls_internal_sha256_process:00000464 $d
+    {standard input}:848    .text.mbedtls_internal_sha256_process:00000468 $t
+    {standard input}:1148   .text.mbedtls_internal_sha256_process:000007bc $d
+    {standard input}:1151   .text.mbedtls_internal_sha256_process:000007c0 $t
+    {standard input}:1475   .text.mbedtls_internal_sha256_process:00000bb0 $d
+    {standard input}:1477   .text.mbedtls_internal_sha256_process:00000bb4 $t
+    {standard input}:1850   .text.mbedtls_internal_sha256_process:00001030 $d
+    {standard input}:1852   .text.mbedtls_internal_sha256_process:00001034 $t
+    {standard input}:2200   .text.mbedtls_internal_sha256_process:0000141c $d
+    {standard input}:2205   .text.mbedtls_sha256_process:00000000 $t
+    {standard input}:2210   .text.mbedtls_sha256_process:00000000 mbedtls_sha256_process
+    {standard input}:2246   .text.mbedtls_sha256_update_ret:00000000 $t
+    {standard input}:2251   .text.mbedtls_sha256_update_ret:00000000 mbedtls_sha256_update_ret
+    {standard input}:2418   .text.mbedtls_sha256_update:00000000 $t
+    {standard input}:2423   .text.mbedtls_sha256_update:00000000 mbedtls_sha256_update
+    {standard input}:2461   .text.mbedtls_sha256_finish_ret:00000000 $t
+    {standard input}:2466   .text.mbedtls_sha256_finish_ret:00000000 mbedtls_sha256_finish_ret
+    {standard input}:2864   .text.mbedtls_sha256_finish:00000000 $t
+    {standard input}:2869   .text.mbedtls_sha256_finish:00000000 mbedtls_sha256_finish
+    {standard input}:2905   .text.mbedtls_sha256_ret:00000000 $t
+    {standard input}:2910   .text.mbedtls_sha256_ret:00000000 mbedtls_sha256_ret
+    {standard input}:2992   .text.mbedtls_sha256:00000000 $t
+    {standard input}:2997   .text.mbedtls_sha256:00000000 mbedtls_sha256
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memset
+mbedtls_platform_zeroize
+memcpy

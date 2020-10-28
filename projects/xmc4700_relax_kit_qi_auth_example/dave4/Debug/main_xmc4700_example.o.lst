@@ -1,0 +1,194 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "main_xmc4700_example.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.main,"ax",%progbits
+  20              	 .align 2
+  21              	 .global main
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	main:
+  26              	.LFB387:
+  27              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/main_xmc4700_example.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** /** \example main_xmc4500.c
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** * \copyright
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** * Copyright� 2018, Infineon Technologies AG
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** * All rights reserved.
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** *
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** * This software is provided with terms and conditions as specified in OPTIGA� Trust X Evaluation 
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  * \endcopyright
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  *
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  * \author  Infineon AG
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  *
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  * \file
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  *
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  * \brief   This sample demonstrates OPTIGA use cases.
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  *
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  */
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** /*************************************************************************
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  *  required includes
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** *************************************************************************/
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** // Standard libs
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** #include "stdio.h"
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** #include "unistd.h"
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** // Platform dependent libs
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** #include <DAVE.h>			//Declarations from DAVE Code Generation (includes SFR declaration)
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** #include "optiga/common/optiga_lib_logger.h"
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** #include "optiga/pal/pal_os_timer.h"
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** #include "optiga/pal/pal_logger.h"
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** // QI Auth API
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** /*************************************************************************
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  *  main.c
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** *************************************************************************/
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** /*************************************************************************
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** *  defines
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** *************************************************************************/
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** /*************************************************************************
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** *  function prototypes
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** *************************************************************************/
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** //extern void optiga_shell_wait_for_user(void);
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** extern int qi_auth_ptx_prx_test(void);
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** /*************************************************************************
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** *  Global
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** *************************************************************************/
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** extern pal_logger_t logger_console;
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** /*************************************************************************
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** *  functions
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** *************************************************************************/
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** /**
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  * This function is the entry point of sample.
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  *
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  * \retval
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  *  0 on success
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  *  1 on failure
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****  */
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** int main(Void)
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** {
+  28              	 .loc 1 64 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32 0000 80B5     	 push {r7,lr}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 8
+  35              	 .cfi_offset 7,-8
+  36              	 .cfi_offset 14,-4
+  37 0002 82B0     	 sub sp,sp,#8
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 16
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 	//Return value
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 	int32_t status = (int32_t) 0;
+  43              	 .loc 1 66 0
+  44 0006 0023     	 movs r3,#0
+  45 0008 7B60     	 str r3,[r7,#4]
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 	// Initialisation of DAVE Apps
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****     if (DAVE_Init() == DAVE_STATUS_FAILURE)
+  46              	 .loc 1 69 0
+  47 000a FFF7FEFF 	 bl DAVE_Init
+  48 000e 0346     	 mov r3,r0
+  49 0010 012B     	 cmp r3,#1
+  50 0012 00D1     	 bne .L2
+  51              	.L3:
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****     {
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****         /* Placeholder for error handler code. The while loop below can be replaced with an user er
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****         while (1U) { }
+  52              	 .loc 1 72 0 discriminator 1
+  53 0014 FEE7     	 b .L3
+  54              	.L2:
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****     }
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****     pal_logger_init(&logger_console);
+  55              	 .loc 1 75 0
+  56 0016 0948     	 ldr r0,.L5
+  57 0018 FFF7FEFF 	 bl pal_logger_init
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****     pal_os_timer_delay_in_milliseconds(100);
+  58              	 .loc 1 77 0
+  59 001c 6420     	 movs r0,#100
+  60 001e FFF7FEFF 	 bl pal_os_timer_delay_in_milliseconds
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** //    optiga_shell_wait_for_user();
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c ****     qi_auth_ptx_prx_test();
+  61              	 .loc 1 81 0
+  62 0022 FFF7FEFF 	 bl qi_auth_ptx_prx_test
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** 	return ((status == 0)? 0:1);
+  63              	 .loc 1 83 0
+  64 0026 7B68     	 ldr r3,[r7,#4]
+  65 0028 002B     	 cmp r3,#0
+  66 002a 14BF     	 ite ne
+  67 002c 0123     	 movne r3,#1
+  68 002e 0023     	 moveq r3,#0
+  69 0030 DBB2     	 uxtb r3,r3
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example\main_xmc4700_example.c **** }
+  70              	 .loc 1 84 0
+  71 0032 1846     	 mov r0,r3
+  72 0034 0837     	 adds r7,r7,#8
+  73              	.LCFI3:
+  74              	 .cfi_def_cfa_offset 8
+  75 0036 BD46     	 mov sp,r7
+  76              	.LCFI4:
+  77              	 .cfi_def_cfa_register 13
+  78              	 
+  79 0038 80BD     	 pop {r7,pc}
+  80              	.L6:
+  81 003a 00BF     	 .align 2
+  82              	.L5:
+  83 003c 00000000 	 .word logger_console
+  84              	 .cfi_endproc
+  85              	.LFE387:
+  87              	 .text
+  88              	.Letext0:
+  89              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+  90              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+  91              	 .file 4 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+  92              	 .file 5 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usbd_regs.h"
+  93              	 .file 6 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usbd.h"
+  94              	 .file 7 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD/usbd.h"
+  95              	 .file 8 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/DAVE.h"
+  96              	 .file 9 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/pal/pal_logger.h"
+  97              	 .file 10 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Include/core_cm4.h"
+  98              	 .file 11 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+  99              	 .file 12 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD/usbd_extern.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 main_xmc4700_example.c
+    {standard input}:20     .text.main:00000000 $t
+    {standard input}:25     .text.main:00000000 main
+    {standard input}:83     .text.main:0000003c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+DAVE_Init
+pal_logger_init
+pal_os_timer_delay_in_milliseconds
+qi_auth_ptx_prx_test
+logger_console

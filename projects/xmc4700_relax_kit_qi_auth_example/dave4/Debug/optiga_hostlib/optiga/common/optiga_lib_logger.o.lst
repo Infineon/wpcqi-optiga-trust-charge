@@ -1,0 +1,1351 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "optiga_lib_logger.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.optiga_lib_byte_to_hex_string,"ax",%progbits
+  20              	 .align 2
+  21              	 .thumb
+  22              	 .thumb_func
+  24              	optiga_lib_byte_to_hex_string:
+  25              	.LFB0:
+  26              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common/optiga_lib_logger.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** /**
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * \copyright
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * MIT License
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** *
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * Copyright (c) 2020 Infineon Technologies AG
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** *
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * of this software and associated documentation files (the "Software"), to deal
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * in the Software without restriction, including without limitation the rights
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * copies of the Software, and to permit persons to whom the Software is
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * furnished to do so, subject to the following conditions:
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** *
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * The above copyright notice and this permission notice shall be included in all
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * copies or substantial portions of the Software.
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** *
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * SOFTWARE
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** *
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * \endcopyright
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** *
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * \author Infineon Technologies AG
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** *
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * \file optiga_lib_logger.c
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** *
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * \brief   This file implements the APIs for the OPTIGA library logger.
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** *
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * \ingroup  grOptigaLibCommon
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** *
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** * @{
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** */
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** #include "optiga/common/optiga_lib_common.h"
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** #include "optiga/common/optiga_lib_logger.h"
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** #include "optiga/pal/pal_logger.h"
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** #include "optiga/pal/pal_os_memory.h"
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** #define OPTIGA_LOGGER_NEW_LINE_CHAR          0x0D, 0x0A
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** extern pal_logger_t logger_console;
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** /*Convert Byte to HexString */
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** #define OPTIGA_LOGGER_CONVERT_BYTE_TO_HEX(hex_byte, p_hex_string, index) \
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** { \
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint8_t nibble;                       \
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     nibble = (hex_byte & 0xF0)>>4;         \
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     p_hex_string [index++] = ((nibble > 0x09)) ? (nibble + 0x37) : (nibble + 0x30); \
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     nibble = hex_byte & 0x0F;         \
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     p_hex_string [index++] = ((nibble > 0x09)) ? (nibble + 0x37) : (nibble + 0x30); \
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** }
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** /* Converts the uint8 array to hex string format */
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** _STATIC_H void optiga_lib_byte_to_hex_string(const uint8_t * p_array_buffer,
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****                                              uint8_t * p_hex_string,
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****                                              uint32_t length,
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****                                              bool_t is_input_byte_array)
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** {
+  27              	 .loc 1 63 0
+  28              	 .cfi_startproc
+  29              	 
+  30              	 
+  31              	 
+  32 0000 80B4     	 push {r7}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 4
+  35              	 .cfi_offset 7,-4
+  36 0002 87B0     	 sub sp,sp,#28
+  37              	.LCFI1:
+  38              	 .cfi_def_cfa_offset 32
+  39 0004 00AF     	 add r7,sp,#0
+  40              	.LCFI2:
+  41              	 .cfi_def_cfa_register 7
+  42 0006 F860     	 str r0,[r7,#12]
+  43 0008 B960     	 str r1,[r7,#8]
+  44 000a 7A60     	 str r2,[r7,#4]
+  45 000c FB70     	 strb r3,[r7,#3]
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint32_t loop = 0;
+  46              	 .loc 1 64 0
+  47 000e 0023     	 movs r3,#0
+  48 0010 7B61     	 str r3,[r7,#20]
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint8_t hex_byte = 0, index = 0;
+  49              	 .loc 1 65 0
+  50 0012 0023     	 movs r3,#0
+  51 0014 BB74     	 strb r3,[r7,#18]
+  52 0016 0023     	 movs r3,#0
+  53 0018 FB74     	 strb r3,[r7,#19]
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     do
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         if ((NULL == p_array_buffer) || (NULL == p_hex_string))
+  54              	 .loc 1 69 0
+  55 001a FB68     	 ldr r3,[r7,#12]
+  56 001c 002B     	 cmp r3,#0
+  57 001e 02D0     	 beq .L2
+  58              	 .loc 1 69 0 is_stmt 0 discriminator 1
+  59 0020 BB68     	 ldr r3,[r7,#8]
+  60 0022 002B     	 cmp r3,#0
+  61 0024 00D1     	 bne .L3
+  62              	.L2:
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         {
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****             return;
+  63              	 .loc 1 71 0 is_stmt 1
+  64 0026 5BE0     	 b .L1
+  65              	.L3:
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         }
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         for (loop = 0; loop < length; loop++)
+  66              	 .loc 1 74 0
+  67 0028 0023     	 movs r3,#0
+  68 002a 7B61     	 str r3,[r7,#20]
+  69 002c 51E0     	 b .L5
+  70              	.L11:
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         {
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****             index = 0;
+  71              	 .loc 1 76 0
+  72 002e 0023     	 movs r3,#0
+  73 0030 FB74     	 strb r3,[r7,#19]
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****             hex_byte = p_array_buffer[loop];
+  74              	 .loc 1 77 0
+  75 0032 FA68     	 ldr r2,[r7,#12]
+  76 0034 7B69     	 ldr r3,[r7,#20]
+  77 0036 1344     	 add r3,r3,r2
+  78 0038 1B78     	 ldrb r3,[r3]
+  79 003a BB74     	 strb r3,[r7,#18]
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****             if (TRUE == is_input_byte_array)
+  80              	 .loc 1 78 0
+  81 003c FB78     	 ldrb r3,[r7,#3]
+  82 003e 012B     	 cmp r3,#1
+  83 0040 0FD1     	 bne .L6
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****             {
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****                 p_hex_string [index++] = '0';
+  84              	 .loc 1 80 0
+  85 0042 FB7C     	 ldrb r3,[r7,#19]
+  86 0044 5A1C     	 adds r2,r3,#1
+  87 0046 FA74     	 strb r2,[r7,#19]
+  88 0048 1A46     	 mov r2,r3
+  89 004a BB68     	 ldr r3,[r7,#8]
+  90 004c 1344     	 add r3,r3,r2
+  91 004e 3022     	 movs r2,#48
+  92 0050 1A70     	 strb r2,[r3]
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****                 p_hex_string [index++] = 'x';
+  93              	 .loc 1 81 0
+  94 0052 FB7C     	 ldrb r3,[r7,#19]
+  95 0054 5A1C     	 adds r2,r3,#1
+  96 0056 FA74     	 strb r2,[r7,#19]
+  97 0058 1A46     	 mov r2,r3
+  98 005a BB68     	 ldr r3,[r7,#8]
+  99 005c 1344     	 add r3,r3,r2
+ 100 005e 7822     	 movs r2,#120
+ 101 0060 1A70     	 strb r2,[r3]
+ 102              	.L6:
+ 103              	.LBB2:
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****             }
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****             /*Convert Byte to HexString */
+  85:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****             OPTIGA_LOGGER_CONVERT_BYTE_TO_HEX(hex_byte,p_hex_string, index);
+ 104              	 .loc 1 85 0
+ 105 0062 BB7C     	 ldrb r3,[r7,#18]
+ 106 0064 1B09     	 lsrs r3,r3,#4
+ 107 0066 7B74     	 strb r3,[r7,#17]
+ 108 0068 FB7C     	 ldrb r3,[r7,#19]
+ 109 006a 5A1C     	 adds r2,r3,#1
+ 110 006c FA74     	 strb r2,[r7,#19]
+ 111 006e 1A46     	 mov r2,r3
+ 112 0070 BB68     	 ldr r3,[r7,#8]
+ 113 0072 1A44     	 add r2,r2,r3
+ 114 0074 7B7C     	 ldrb r3,[r7,#17]
+ 115 0076 092B     	 cmp r3,#9
+ 116 0078 03D9     	 bls .L7
+ 117              	 .loc 1 85 0 is_stmt 0 discriminator 1
+ 118 007a 7B7C     	 ldrb r3,[r7,#17]
+ 119 007c 3733     	 adds r3,r3,#55
+ 120 007e DBB2     	 uxtb r3,r3
+ 121 0080 02E0     	 b .L8
+ 122              	.L7:
+ 123              	 .loc 1 85 0 discriminator 2
+ 124 0082 7B7C     	 ldrb r3,[r7,#17]
+ 125 0084 3033     	 adds r3,r3,#48
+ 126 0086 DBB2     	 uxtb r3,r3
+ 127              	.L8:
+ 128              	 .loc 1 85 0 discriminator 4
+ 129 0088 1370     	 strb r3,[r2]
+ 130 008a BB7C     	 ldrb r3,[r7,#18]
+ 131 008c 03F00F03 	 and r3,r3,#15
+ 132 0090 7B74     	 strb r3,[r7,#17]
+ 133 0092 FB7C     	 ldrb r3,[r7,#19]
+ 134 0094 5A1C     	 adds r2,r3,#1
+ 135 0096 FA74     	 strb r2,[r7,#19]
+ 136 0098 1A46     	 mov r2,r3
+ 137 009a BB68     	 ldr r3,[r7,#8]
+ 138 009c 1A44     	 add r2,r2,r3
+ 139 009e 7B7C     	 ldrb r3,[r7,#17]
+ 140 00a0 092B     	 cmp r3,#9
+ 141 00a2 03D9     	 bls .L9
+ 142              	 .loc 1 85 0 discriminator 5
+ 143 00a4 7B7C     	 ldrb r3,[r7,#17]
+ 144 00a6 3733     	 adds r3,r3,#55
+ 145 00a8 DBB2     	 uxtb r3,r3
+ 146 00aa 02E0     	 b .L10
+ 147              	.L9:
+ 148              	 .loc 1 85 0 discriminator 6
+ 149 00ac 7B7C     	 ldrb r3,[r7,#17]
+ 150 00ae 3033     	 adds r3,r3,#48
+ 151 00b0 DBB2     	 uxtb r3,r3
+ 152              	.L10:
+ 153              	 .loc 1 85 0 discriminator 8
+ 154 00b2 1370     	 strb r3,[r2]
+ 155              	.LBE2:
+  86:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****             
+  87:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****             p_hex_string [index++] = ' ';
+ 156              	 .loc 1 87 0 is_stmt 1 discriminator 8
+ 157 00b4 FB7C     	 ldrb r3,[r7,#19]
+ 158 00b6 5A1C     	 adds r2,r3,#1
+ 159 00b8 FA74     	 strb r2,[r7,#19]
+ 160 00ba 1A46     	 mov r2,r3
+ 161 00bc BB68     	 ldr r3,[r7,#8]
+ 162 00be 1344     	 add r3,r3,r2
+ 163 00c0 2022     	 movs r2,#32
+ 164 00c2 1A70     	 strb r2,[r3]
+  88:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****             p_hex_string += index;
+ 165              	 .loc 1 88 0 discriminator 8
+ 166 00c4 FB7C     	 ldrb r3,[r7,#19]
+ 167 00c6 BA68     	 ldr r2,[r7,#8]
+ 168 00c8 1344     	 add r3,r3,r2
+ 169 00ca BB60     	 str r3,[r7,#8]
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         {
+ 170              	 .loc 1 74 0 discriminator 8
+ 171 00cc 7B69     	 ldr r3,[r7,#20]
+ 172 00ce 0133     	 adds r3,r3,#1
+ 173 00d0 7B61     	 str r3,[r7,#20]
+ 174              	.L5:
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         {
+ 175              	 .loc 1 74 0 is_stmt 0 discriminator 2
+ 176 00d2 7A69     	 ldr r2,[r7,#20]
+ 177 00d4 7B68     	 ldr r3,[r7,#4]
+ 178 00d6 9A42     	 cmp r2,r3
+ 179 00d8 A9D3     	 bcc .L11
+  89:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         }
+  90:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         *p_hex_string = 0x00;
+ 180              	 .loc 1 90 0 is_stmt 1
+ 181 00da BB68     	 ldr r3,[r7,#8]
+ 182 00dc 0022     	 movs r2,#0
+ 183 00de 1A70     	 strb r2,[r3]
+ 184              	.L1:
+  91:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     } while(0);
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** }
+ 185              	 .loc 1 92 0
+ 186 00e0 1C37     	 adds r7,r7,#28
+ 187              	.LCFI3:
+ 188              	 .cfi_def_cfa_offset 4
+ 189 00e2 BD46     	 mov sp,r7
+ 190              	.LCFI4:
+ 191              	 .cfi_def_cfa_register 13
+ 192              	 
+ 193 00e4 5DF8047B 	 ldr r7,[sp],#4
+ 194              	.LCFI5:
+ 195              	 .cfi_restore 7
+ 196              	 .cfi_def_cfa_offset 0
+ 197 00e8 7047     	 bx lr
+ 198              	 .cfi_endproc
+ 199              	.LFE0:
+ 201 00ea 00BF     	 .section .text.optiga_lib_word_to_hex_string,"ax",%progbits
+ 202              	 .align 2
+ 203              	 .thumb
+ 204              	 .thumb_func
+ 206              	optiga_lib_word_to_hex_string:
+ 207              	.LFB1:
+  93:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** /* Converts the uint16 value to hex string format */
+  94:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** _STATIC_H void optiga_lib_word_to_hex_string(uint16_t value,
+  95:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****                                              uint8_t * p_buffer)
+  96:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** {
+ 208              	 .loc 1 96 0
+ 209              	 .cfi_startproc
+ 210              	 
+ 211              	 
+ 212              	 
+ 213 0000 80B4     	 push {r7}
+ 214              	.LCFI6:
+ 215              	 .cfi_def_cfa_offset 4
+ 216              	 .cfi_offset 7,-4
+ 217 0002 87B0     	 sub sp,sp,#28
+ 218              	.LCFI7:
+ 219              	 .cfi_def_cfa_offset 32
+ 220 0004 00AF     	 add r7,sp,#0
+ 221              	.LCFI8:
+ 222              	 .cfi_def_cfa_register 7
+ 223 0006 0346     	 mov r3,r0
+ 224 0008 3960     	 str r1,[r7]
+ 225 000a FB80     	 strh r3,[r7,#6]
+  97:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint8_t array_buffer [5] = {0};   
+ 226              	 .loc 1 97 0
+ 227 000c 0023     	 movs r3,#0
+ 228 000e FB60     	 str r3,[r7,#12]
+ 229 0010 0023     	 movs r3,#0
+ 230 0012 3B74     	 strb r3,[r7,#16]
+  98:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint8_t loop, hex_byte = 0, index = 0;
+ 231              	 .loc 1 98 0
+ 232 0014 0023     	 movs r3,#0
+ 233 0016 7B75     	 strb r3,[r7,#21]
+ 234 0018 0023     	 movs r3,#0
+ 235 001a BB75     	 strb r3,[r7,#22]
+  99:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     
+ 100:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     array_buffer [0] = (uint8_t)((value & 0xFF00) >> 8);
+ 236              	 .loc 1 100 0
+ 237 001c FB88     	 ldrh r3,[r7,#6]
+ 238 001e 1B0A     	 lsrs r3,r3,#8
+ 239 0020 9BB2     	 uxth r3,r3
+ 240 0022 DBB2     	 uxtb r3,r3
+ 241 0024 3B73     	 strb r3,[r7,#12]
+ 101:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     array_buffer [1] = (uint8_t)((value & 0x00FF));
+ 242              	 .loc 1 101 0
+ 243 0026 FB88     	 ldrh r3,[r7,#6]
+ 244 0028 DBB2     	 uxtb r3,r3
+ 245 002a 7B73     	 strb r3,[r7,#13]
+ 102:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 103:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     p_buffer [index++] = '0';
+ 246              	 .loc 1 103 0
+ 247 002c BB7D     	 ldrb r3,[r7,#22]
+ 248 002e 5A1C     	 adds r2,r3,#1
+ 249 0030 BA75     	 strb r2,[r7,#22]
+ 250 0032 1A46     	 mov r2,r3
+ 251 0034 3B68     	 ldr r3,[r7]
+ 252 0036 1344     	 add r3,r3,r2
+ 253 0038 3022     	 movs r2,#48
+ 254 003a 1A70     	 strb r2,[r3]
+ 104:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     p_buffer [index++] = 'x';
+ 255              	 .loc 1 104 0
+ 256 003c BB7D     	 ldrb r3,[r7,#22]
+ 257 003e 5A1C     	 adds r2,r3,#1
+ 258 0040 BA75     	 strb r2,[r7,#22]
+ 259 0042 1A46     	 mov r2,r3
+ 260 0044 3B68     	 ldr r3,[r7]
+ 261 0046 1344     	 add r3,r3,r2
+ 262 0048 7822     	 movs r2,#120
+ 263 004a 1A70     	 strb r2,[r3]
+ 105:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     for (loop = 0; loop < 2; loop++)
+ 264              	 .loc 1 106 0
+ 265 004c 0023     	 movs r3,#0
+ 266 004e FB75     	 strb r3,[r7,#23]
+ 267 0050 32E0     	 b .L13
+ 268              	.L18:
+ 107:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 108:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         hex_byte = array_buffer[loop];
+ 269              	 .loc 1 108 0
+ 270 0052 FB7D     	 ldrb r3,[r7,#23]
+ 271 0054 07F11802 	 add r2,r7,#24
+ 272 0058 1344     	 add r3,r3,r2
+ 273 005a 13F80C3C 	 ldrb r3,[r3,#-12]
+ 274 005e 7B75     	 strb r3,[r7,#21]
+ 275              	.LBB3:
+ 109:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 110:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         /*Convert Byte to HexString */
+ 111:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         OPTIGA_LOGGER_CONVERT_BYTE_TO_HEX(hex_byte,p_buffer, index);
+ 276              	 .loc 1 111 0
+ 277 0060 7B7D     	 ldrb r3,[r7,#21]
+ 278 0062 1B09     	 lsrs r3,r3,#4
+ 279 0064 3B75     	 strb r3,[r7,#20]
+ 280 0066 BB7D     	 ldrb r3,[r7,#22]
+ 281 0068 5A1C     	 adds r2,r3,#1
+ 282 006a BA75     	 strb r2,[r7,#22]
+ 283 006c 1A46     	 mov r2,r3
+ 284 006e 3B68     	 ldr r3,[r7]
+ 285 0070 1A44     	 add r2,r2,r3
+ 286 0072 3B7D     	 ldrb r3,[r7,#20]
+ 287 0074 092B     	 cmp r3,#9
+ 288 0076 03D9     	 bls .L14
+ 289              	 .loc 1 111 0 is_stmt 0 discriminator 1
+ 290 0078 3B7D     	 ldrb r3,[r7,#20]
+ 291 007a 3733     	 adds r3,r3,#55
+ 292 007c DBB2     	 uxtb r3,r3
+ 293 007e 02E0     	 b .L15
+ 294              	.L14:
+ 295              	 .loc 1 111 0 discriminator 2
+ 296 0080 3B7D     	 ldrb r3,[r7,#20]
+ 297 0082 3033     	 adds r3,r3,#48
+ 298 0084 DBB2     	 uxtb r3,r3
+ 299              	.L15:
+ 300              	 .loc 1 111 0 discriminator 4
+ 301 0086 1370     	 strb r3,[r2]
+ 302 0088 7B7D     	 ldrb r3,[r7,#21]
+ 303 008a 03F00F03 	 and r3,r3,#15
+ 304 008e 3B75     	 strb r3,[r7,#20]
+ 305 0090 BB7D     	 ldrb r3,[r7,#22]
+ 306 0092 5A1C     	 adds r2,r3,#1
+ 307 0094 BA75     	 strb r2,[r7,#22]
+ 308 0096 1A46     	 mov r2,r3
+ 309 0098 3B68     	 ldr r3,[r7]
+ 310 009a 1A44     	 add r2,r2,r3
+ 311 009c 3B7D     	 ldrb r3,[r7,#20]
+ 312 009e 092B     	 cmp r3,#9
+ 313 00a0 03D9     	 bls .L16
+ 314              	 .loc 1 111 0 discriminator 5
+ 315 00a2 3B7D     	 ldrb r3,[r7,#20]
+ 316 00a4 3733     	 adds r3,r3,#55
+ 317 00a6 DBB2     	 uxtb r3,r3
+ 318 00a8 02E0     	 b .L17
+ 319              	.L16:
+ 320              	 .loc 1 111 0 discriminator 6
+ 321 00aa 3B7D     	 ldrb r3,[r7,#20]
+ 322 00ac 3033     	 adds r3,r3,#48
+ 323 00ae DBB2     	 uxtb r3,r3
+ 324              	.L17:
+ 325              	 .loc 1 111 0 discriminator 8
+ 326 00b0 1370     	 strb r3,[r2]
+ 327              	.LBE3:
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 328              	 .loc 1 106 0 is_stmt 1 discriminator 8
+ 329 00b2 FB7D     	 ldrb r3,[r7,#23]
+ 330 00b4 0133     	 adds r3,r3,#1
+ 331 00b6 FB75     	 strb r3,[r7,#23]
+ 332              	.L13:
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 333              	 .loc 1 106 0 is_stmt 0 discriminator 2
+ 334 00b8 FB7D     	 ldrb r3,[r7,#23]
+ 335 00ba 012B     	 cmp r3,#1
+ 336 00bc C9D9     	 bls .L18
+ 112:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     }    
+ 113:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 114:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** }
+ 337              	 .loc 1 114 0 is_stmt 1
+ 338 00be 1C37     	 adds r7,r7,#28
+ 339              	.LCFI9:
+ 340              	 .cfi_def_cfa_offset 4
+ 341 00c0 BD46     	 mov sp,r7
+ 342              	.LCFI10:
+ 343              	 .cfi_def_cfa_register 13
+ 344              	 
+ 345 00c2 5DF8047B 	 ldr r7,[sp],#4
+ 346              	.LCFI11:
+ 347              	 .cfi_restore 7
+ 348              	 .cfi_def_cfa_offset 0
+ 349 00c6 7047     	 bx lr
+ 350              	 .cfi_endproc
+ 351              	.LFE1:
+ 353              	 .section .rodata
+ 354              	 .align 2
+ 355              	.LC1:
+ 356 0000 25333773 	 .ascii "%37s\000"
+ 356      00
+ 357 0005 000000   	 .align 2
+ 358              	.LC2:
+ 359 0008 4C656E67 	 .ascii "Length of data - \000"
+ 359      7468206F 
+ 359      66206461 
+ 359      7461202D 
+ 359      2000
+ 360              	 .section .text.optiga_lib_print_length_of_data,"ax",%progbits
+ 361              	 .align 2
+ 362              	 .thumb
+ 363              	 .thumb_func
+ 365              	optiga_lib_print_length_of_data:
+ 366              	.LFB2:
+ 115:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 116:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** /* Converts the uint16 value to hex string format */
+ 117:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** _STATIC_H void optiga_lib_print_length_of_data(uint16_t value)
+ 118:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** {
+ 367              	 .loc 1 118 0
+ 368              	 .cfi_startproc
+ 369              	 
+ 370              	 
+ 371 0000 80B5     	 push {r7,lr}
+ 372              	.LCFI12:
+ 373              	 .cfi_def_cfa_offset 8
+ 374              	 .cfi_offset 7,-8
+ 375              	 .cfi_offset 14,-4
+ 376 0002 92B0     	 sub sp,sp,#72
+ 377              	.LCFI13:
+ 378              	 .cfi_def_cfa_offset 80
+ 379 0004 00AF     	 add r7,sp,#0
+ 380              	.LCFI14:
+ 381              	 .cfi_def_cfa_register 7
+ 382 0006 0346     	 mov r3,r0
+ 383 0008 FB80     	 strh r3,[r7,#6]
+ 119:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint8_t uint16t_conv_buffer [10] = {0};
+ 384              	 .loc 1 119 0
+ 385 000a 07F13C03 	 add r3,r7,#60
+ 386 000e 0022     	 movs r2,#0
+ 387 0010 1A60     	 str r2,[r3]
+ 388 0012 0433     	 adds r3,r3,#4
+ 389 0014 0022     	 movs r2,#0
+ 390 0016 1A60     	 str r2,[r3]
+ 391 0018 0433     	 adds r3,r3,#4
+ 392 001a 0022     	 movs r2,#0
+ 393 001c 1A80     	 strh r2,[r3]
+ 394 001e 0233     	 adds r3,r3,#2
+ 120:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     char_t print_buffer[50];      
+ 121:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 122:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     sprintf((char_t *)print_buffer, "%37s", "Length of data - ");
+ 395              	 .loc 1 122 0
+ 396 0020 07F10803 	 add r3,r7,#8
+ 397 0024 1846     	 mov r0,r3
+ 398 0026 0D49     	 ldr r1,.L20
+ 399 0028 0D4A     	 ldr r2,.L20+4
+ 400 002a FFF7FEFF 	 bl sprintf
+ 123:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     strcat(print_buffer,OPTIGA_HEX_BYTE_SEPERATOR);
+ 124:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     optiga_lib_word_to_hex_string(value,uint16t_conv_buffer);
+ 401              	 .loc 1 124 0
+ 402 002e FA88     	 ldrh r2,[r7,#6]
+ 403 0030 07F13C03 	 add r3,r7,#60
+ 404 0034 1046     	 mov r0,r2
+ 405 0036 1946     	 mov r1,r3
+ 406 0038 FFF7FEFF 	 bl optiga_lib_word_to_hex_string
+ 125:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     strcat(print_buffer,(char_t *)uint16t_conv_buffer); 
+ 407              	 .loc 1 125 0
+ 408 003c 07F10802 	 add r2,r7,#8
+ 409 0040 07F13C03 	 add r3,r7,#60
+ 410 0044 1046     	 mov r0,r2
+ 411 0046 1946     	 mov r1,r3
+ 412 0048 FFF7FEFF 	 bl strcat
+ 126:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     
+ 127:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     optiga_lib_print_string_with_newline(print_buffer);
+ 413              	 .loc 1 127 0
+ 414 004c 07F10803 	 add r3,r7,#8
+ 415 0050 1846     	 mov r0,r3
+ 416 0052 FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+ 128:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** }
+ 417              	 .loc 1 128 0
+ 418 0056 4837     	 adds r7,r7,#72
+ 419              	.LCFI15:
+ 420              	 .cfi_def_cfa_offset 8
+ 421 0058 BD46     	 mov sp,r7
+ 422              	.LCFI16:
+ 423              	 .cfi_def_cfa_register 13
+ 424              	 
+ 425 005a 80BD     	 pop {r7,pc}
+ 426              	.L21:
+ 427              	 .align 2
+ 428              	.L20:
+ 429 005c 00000000 	 .word .LC1
+ 430 0060 08000000 	 .word .LC2
+ 431              	 .cfi_endproc
+ 432              	.LFE2:
+ 434              	 .section .text.optiga_lib_print_string,"ax",%progbits
+ 435              	 .align 2
+ 436              	 .global optiga_lib_print_string
+ 437              	 .thumb
+ 438              	 .thumb_func
+ 440              	optiga_lib_print_string:
+ 441              	.LFB3:
+ 129:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 130:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** void optiga_lib_print_string(const char_t * p_log_string)
+ 131:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** {
+ 442              	 .loc 1 131 0
+ 443              	 .cfi_startproc
+ 444              	 
+ 445              	 
+ 446 0000 80B5     	 push {r7,lr}
+ 447              	.LCFI17:
+ 448              	 .cfi_def_cfa_offset 8
+ 449              	 .cfi_offset 7,-8
+ 450              	 .cfi_offset 14,-4
+ 451 0002 82B0     	 sub sp,sp,#8
+ 452              	.LCFI18:
+ 453              	 .cfi_def_cfa_offset 16
+ 454 0004 00AF     	 add r7,sp,#0
+ 455              	.LCFI19:
+ 456              	 .cfi_def_cfa_register 7
+ 457 0006 7860     	 str r0,[r7,#4]
+ 132:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     if (NULL == p_log_string)
+ 458              	 .loc 1 132 0
+ 459 0008 7B68     	 ldr r3,[r7,#4]
+ 460 000a 002B     	 cmp r3,#0
+ 461 000c 00D1     	 bne .L23
+ 133:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 134:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         return;
+ 462              	 .loc 1 134 0
+ 463 000e 08E0     	 b .L22
+ 464              	.L23:
+ 135:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     }
+ 136:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 137:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     //lint --e{534} The return value is not used hence not checked*/
+ 138:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     pal_logger_write(&logger_console, (const uint8_t *)p_log_string, strlen(p_log_string));
+ 465              	 .loc 1 138 0
+ 466 0010 7868     	 ldr r0,[r7,#4]
+ 467 0012 FFF7FEFF 	 bl strlen
+ 468 0016 0346     	 mov r3,r0
+ 469 0018 0348     	 ldr r0,.L25
+ 470 001a 7968     	 ldr r1,[r7,#4]
+ 471 001c 1A46     	 mov r2,r3
+ 472 001e FFF7FEFF 	 bl pal_logger_write
+ 473              	.L22:
+ 139:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** }
+ 474              	 .loc 1 139 0
+ 475 0022 0837     	 adds r7,r7,#8
+ 476              	.LCFI20:
+ 477              	 .cfi_def_cfa_offset 8
+ 478 0024 BD46     	 mov sp,r7
+ 479              	.LCFI21:
+ 480              	 .cfi_def_cfa_register 13
+ 481              	 
+ 482 0026 80BD     	 pop {r7,pc}
+ 483              	.L26:
+ 484              	 .align 2
+ 485              	.L25:
+ 486 0028 00000000 	 .word logger_console
+ 487              	 .cfi_endproc
+ 488              	.LFE3:
+ 490              	 .section .rodata
+ 491 001a 0000     	 .align 2
+ 492              	.LC0:
+ 493 001c 0D       	 .byte 13
+ 494 001d 0A       	 .byte 10
+ 495              	 .section .text.optiga_lib_print_string_with_newline,"ax",%progbits
+ 496              	 .align 2
+ 497              	 .global optiga_lib_print_string_with_newline
+ 498              	 .thumb
+ 499              	 .thumb_func
+ 501              	optiga_lib_print_string_with_newline:
+ 502              	.LFB4:
+ 140:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 141:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** void optiga_lib_print_string_with_newline(const char_t * p_log_string)
+ 142:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** {
+ 503              	 .loc 1 142 0
+ 504              	 .cfi_startproc
+ 505              	 
+ 506              	 
+ 507 0000 80B5     	 push {r7,lr}
+ 508              	.LCFI22:
+ 509              	 .cfi_def_cfa_offset 8
+ 510              	 .cfi_offset 7,-8
+ 511              	 .cfi_offset 14,-4
+ 512 0002 84B0     	 sub sp,sp,#16
+ 513              	.LCFI23:
+ 514              	 .cfi_def_cfa_offset 24
+ 515 0004 00AF     	 add r7,sp,#0
+ 516              	.LCFI24:
+ 517              	 .cfi_def_cfa_register 7
+ 518 0006 7860     	 str r0,[r7,#4]
+ 143:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint8_t new_line_characters [2] = {OPTIGA_LOGGER_NEW_LINE_CHAR};
+ 519              	 .loc 1 143 0
+ 520 0008 0D4A     	 ldr r2,.L30
+ 521 000a 07F10C03 	 add r3,r7,#12
+ 522 000e 1288     	 ldrh r2,[r2]
+ 523 0010 1A80     	 strh r2,[r3]
+ 144:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 145:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     if (NULL == p_log_string)
+ 524              	 .loc 1 145 0
+ 525 0012 7B68     	 ldr r3,[r7,#4]
+ 526 0014 002B     	 cmp r3,#0
+ 527 0016 0FD0     	 beq .L27
+ 146:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 147:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         return;
+ 148:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     }
+ 149:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 150:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     //lint --e{534} The return value is not used hence not checked*/
+ 151:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     pal_logger_write(&logger_console, (const uint8_t *)p_log_string, strlen(p_log_string));
+ 528              	 .loc 1 151 0
+ 529 0018 7868     	 ldr r0,[r7,#4]
+ 530 001a FFF7FEFF 	 bl strlen
+ 531 001e 0346     	 mov r3,r0
+ 532 0020 0848     	 ldr r0,.L30+4
+ 533 0022 7968     	 ldr r1,[r7,#4]
+ 534 0024 1A46     	 mov r2,r3
+ 535 0026 FFF7FEFF 	 bl pal_logger_write
+ 152:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     //lint --e{534} The return value is not used hence not checked*/
+ 153:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     pal_logger_write(&logger_console, new_line_characters, 2);
+ 536              	 .loc 1 153 0
+ 537 002a 07F10C03 	 add r3,r7,#12
+ 538 002e 0548     	 ldr r0,.L30+4
+ 539 0030 1946     	 mov r1,r3
+ 540 0032 0222     	 movs r2,#2
+ 541 0034 FFF7FEFF 	 bl pal_logger_write
+ 542              	.L27:
+ 154:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 155:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** }
+ 543              	 .loc 1 155 0
+ 544 0038 1037     	 adds r7,r7,#16
+ 545              	.LCFI25:
+ 546              	 .cfi_def_cfa_offset 8
+ 547 003a BD46     	 mov sp,r7
+ 548              	.LCFI26:
+ 549              	 .cfi_def_cfa_register 13
+ 550              	 
+ 551 003c 80BD     	 pop {r7,pc}
+ 552              	.L31:
+ 553 003e 00BF     	 .align 2
+ 554              	.L30:
+ 555 0040 1C000000 	 .word .LC0
+ 556 0044 00000000 	 .word logger_console
+ 557              	 .cfi_endproc
+ 558              	.LFE4:
+ 560              	 .section .rodata
+ 561 001e 0000     	 .align 2
+ 562              	.LC3:
+ 563 0020 25732573 	 .ascii "%s%s%s%s\000"
+ 563      25732573 
+ 563      00
+ 564 0029 000000   	 .align 2
+ 565              	.LC4:
+ 566 002c 1B5B306D 	 .ascii "\033[0m\000"
+ 566      00
+ 567              	 .section .text.optiga_lib_print_message,"ax",%progbits
+ 568              	 .align 2
+ 569              	 .global optiga_lib_print_message
+ 570              	 .thumb
+ 571              	 .thumb_func
+ 573              	optiga_lib_print_message:
+ 574              	.LFB5:
+ 156:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 157:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** void optiga_lib_print_message(const char_t * p_log_string,
+ 158:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****                               const char_t * p_log_layer,
+ 159:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****                               const char_t * p_log_color)                                  
+ 160:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** {
+ 575              	 .loc 1 160 0
+ 576              	 .cfi_startproc
+ 577              	 
+ 578              	 
+ 579 0000 80B5     	 push {r7,lr}
+ 580              	.LCFI27:
+ 581              	 .cfi_def_cfa_offset 8
+ 582              	 .cfi_offset 7,-8
+ 583              	 .cfi_offset 14,-4
+ 584 0002 ECB0     	 sub sp,sp,#432
+ 585              	.LCFI28:
+ 586              	 .cfi_def_cfa_offset 440
+ 587 0004 02AF     	 add r7,sp,#8
+ 588              	.LCFI29:
+ 589              	 .cfi_def_cfa 7,432
+ 590 0006 07F10C03 	 add r3,r7,#12
+ 591 000a 1860     	 str r0,[r3]
+ 592 000c 07F10803 	 add r3,r7,#8
+ 593 0010 1960     	 str r1,[r3]
+ 594 0012 3B1D     	 adds r3,r7,#4
+ 595 0014 1A60     	 str r2,[r3]
+ 161:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint8_t new_line_characters[2] = {OPTIGA_LOGGER_NEW_LINE_CHAR};
+ 596              	 .loc 1 161 0
+ 597 0016 1D4A     	 ldr r2,.L36
+ 598 0018 07F5D273 	 add r3,r7,#420
+ 599 001c 1288     	 ldrh r2,[r2]
+ 600 001e 1A80     	 strh r2,[r3]
+ 162:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     char_t color_buffer[400];
+ 163:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 164:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     if ((NULL == p_log_string) || (NULL == p_log_layer) || (NULL == p_log_color))
+ 601              	 .loc 1 164 0
+ 602 0020 07F10C03 	 add r3,r7,#12
+ 603 0024 1B68     	 ldr r3,[r3]
+ 604 0026 002B     	 cmp r3,#0
+ 605 0028 2BD0     	 beq .L32
+ 606              	 .loc 1 164 0 is_stmt 0 discriminator 1
+ 607 002a 07F10803 	 add r3,r7,#8
+ 608 002e 1B68     	 ldr r3,[r3]
+ 609 0030 002B     	 cmp r3,#0
+ 610 0032 26D0     	 beq .L32
+ 611              	 .loc 1 164 0 discriminator 2
+ 612 0034 3B1D     	 adds r3,r7,#4
+ 613 0036 1B68     	 ldr r3,[r3]
+ 614 0038 002B     	 cmp r3,#0
+ 615 003a 22D0     	 beq .L32
+ 165:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 166:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         return;
+ 167:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     }
+ 168:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 169:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     OPTIGA_LIB_LOGGER_PRINT_INFO(color_buffer, p_log_string, p_log_layer, p_log_color);
+ 616              	 .loc 1 169 0 is_stmt 1
+ 617 003c 07F11400 	 add r0,r7,#20
+ 618 0040 3A1D     	 adds r2,r7,#4
+ 619 0042 07F10803 	 add r3,r7,#8
+ 620 0046 07F10C01 	 add r1,r7,#12
+ 621 004a 0968     	 ldr r1,[r1]
+ 622 004c 0091     	 str r1,[sp]
+ 623 004e 1049     	 ldr r1,.L36+4
+ 624 0050 0191     	 str r1,[sp,#4]
+ 625 0052 1049     	 ldr r1,.L36+8
+ 626 0054 1268     	 ldr r2,[r2]
+ 627 0056 1B68     	 ldr r3,[r3]
+ 628 0058 FFF7FEFF 	 bl sprintf
+ 170:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     //lint --e{534} The return value is not used hence not checked*/
+ 171:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     pal_logger_write(&logger_console, (const uint8_t *)color_buffer, strlen(color_buffer));
+ 629              	 .loc 1 171 0
+ 630 005c 07F11403 	 add r3,r7,#20
+ 631 0060 1846     	 mov r0,r3
+ 632 0062 FFF7FEFF 	 bl strlen
+ 633 0066 0246     	 mov r2,r0
+ 634 0068 07F11403 	 add r3,r7,#20
+ 635 006c 0A48     	 ldr r0,.L36+12
+ 636 006e 1946     	 mov r1,r3
+ 637 0070 FFF7FEFF 	 bl pal_logger_write
+ 172:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     //lint --e{534} The return value is not used hence not checked*/
+ 173:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     pal_logger_write(&logger_console, new_line_characters, 2);
+ 638              	 .loc 1 173 0
+ 639 0074 07F5D273 	 add r3,r7,#420
+ 640 0078 0748     	 ldr r0,.L36+12
+ 641 007a 1946     	 mov r1,r3
+ 642 007c 0222     	 movs r2,#2
+ 643 007e FFF7FEFF 	 bl pal_logger_write
+ 644              	.L32:
+ 174:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** }
+ 645              	 .loc 1 174 0
+ 646 0082 07F5D477 	 add r7,r7,#424
+ 647              	.LCFI30:
+ 648              	 .cfi_def_cfa_offset 8
+ 649 0086 BD46     	 mov sp,r7
+ 650              	.LCFI31:
+ 651              	 .cfi_def_cfa_register 13
+ 652              	 
+ 653 0088 80BD     	 pop {r7,pc}
+ 654              	.L37:
+ 655 008a 00BF     	 .align 2
+ 656              	.L36:
+ 657 008c 1C000000 	 .word .LC0
+ 658 0090 2C000000 	 .word .LC4
+ 659 0094 20000000 	 .word .LC3
+ 660 0098 00000000 	 .word logger_console
+ 661              	 .cfi_endproc
+ 662              	.LFE5:
+ 664              	 .section .rodata
+ 665 0031 000000   	 .align 2
+ 666              	.LC5:
+ 667 0034 50617373 	 .ascii "Passed\000"
+ 667      656400
+ 668 003b 00       	 .align 2
+ 669              	.LC6:
+ 670 003c 4661696C 	 .ascii "Failed with return value - \000"
+ 670      65642077 
+ 670      69746820 
+ 670      72657475 
+ 670      726E2076 
+ 671              	 .section .text.optiga_lib_print_status,"ax",%progbits
+ 672              	 .align 2
+ 673              	 .global optiga_lib_print_status
+ 674              	 .thumb
+ 675              	 .thumb_func
+ 677              	optiga_lib_print_status:
+ 678              	.LFB6:
+ 175:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 176:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** void optiga_lib_print_status(const char_t * p_log_layer,
+ 177:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****                              const char_t * p_log_color,
+ 178:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****                              uint16_t return_value)
+ 179:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** {
+ 679              	 .loc 1 179 0
+ 680              	 .cfi_startproc
+ 681              	 
+ 682              	 
+ 683 0000 B0B5     	 push {r4,r5,r7,lr}
+ 684              	.LCFI32:
+ 685              	 .cfi_def_cfa_offset 16
+ 686              	 .cfi_offset 4,-16
+ 687              	 .cfi_offset 5,-12
+ 688              	 .cfi_offset 7,-8
+ 689              	 .cfi_offset 14,-4
+ 690 0002 ADF50C7D 	 sub sp,sp,#560
+ 691              	.LCFI33:
+ 692              	 .cfi_def_cfa_offset 576
+ 693 0006 02AF     	 add r7,sp,#8
+ 694              	.LCFI34:
+ 695              	 .cfi_def_cfa 7,568
+ 696 0008 07F10C03 	 add r3,r7,#12
+ 697 000c 1860     	 str r0,[r3]
+ 698 000e 07F10803 	 add r3,r7,#8
+ 699 0012 1960     	 str r1,[r3]
+ 700 0014 BB1D     	 adds r3,r7,#6
+ 701 0016 1A80     	 strh r2,[r3]
+ 180:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint8_t new_line_characters[2] = {OPTIGA_LOGGER_NEW_LINE_CHAR};
+ 702              	 .loc 1 180 0
+ 703 0018 524A     	 ldr r2,.L44
+ 704 001a 07F50973 	 add r3,r7,#548
+ 705 001e 1288     	 ldrh r2,[r2]
+ 706 0020 1A80     	 strh r2,[r3]
+ 181:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint8_t uint16t_conv_buffer[10] = {0};
+ 707              	 .loc 1 181 0
+ 708 0022 07F50673 	 add r3,r7,#536
+ 709 0026 0022     	 movs r2,#0
+ 710 0028 1A60     	 str r2,[r3]
+ 711 002a 0433     	 adds r3,r3,#4
+ 712 002c 0022     	 movs r2,#0
+ 713 002e 1A60     	 str r2,[r3]
+ 714 0030 0433     	 adds r3,r3,#4
+ 715 0032 0022     	 movs r2,#0
+ 716 0034 1A80     	 strh r2,[r3]
+ 717 0036 0233     	 adds r3,r3,#2
+ 182:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     char_t return_value_buffer[20] = {0};
+ 718              	 .loc 1 182 0
+ 719 0038 07F50173 	 add r3,r7,#516
+ 720 003c 0022     	 movs r2,#0
+ 721 003e 1A60     	 str r2,[r3]
+ 722 0040 0433     	 adds r3,r3,#4
+ 723 0042 0022     	 movs r2,#0
+ 724 0044 1A60     	 str r2,[r3]
+ 725 0046 0433     	 adds r3,r3,#4
+ 726 0048 0022     	 movs r2,#0
+ 727 004a 1A60     	 str r2,[r3]
+ 728 004c 0433     	 adds r3,r3,#4
+ 729 004e 0022     	 movs r2,#0
+ 730 0050 1A60     	 str r2,[r3]
+ 731 0052 0433     	 adds r3,r3,#4
+ 732 0054 0022     	 movs r2,#0
+ 733 0056 1A60     	 str r2,[r3]
+ 734 0058 0433     	 adds r3,r3,#4
+ 183:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     char_t string_buffer[100] = {0};
+ 735              	 .loc 1 183 0
+ 736 005a 07F5D073 	 add r3,r7,#416
+ 737 005e 6422     	 movs r2,#100
+ 738 0060 1846     	 mov r0,r3
+ 739 0062 0021     	 movs r1,#0
+ 740 0064 FFF7FEFF 	 bl memset
+ 184:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     char_t color_buffer[400];
+ 185:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 186:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     if ((NULL == p_log_layer) || (NULL == p_log_color))
+ 741              	 .loc 1 186 0
+ 742 0068 07F10C03 	 add r3,r7,#12
+ 743 006c 1B68     	 ldr r3,[r3]
+ 744 006e 002B     	 cmp r3,#0
+ 745 0070 74D0     	 beq .L38
+ 746              	 .loc 1 186 0 is_stmt 0 discriminator 1
+ 747 0072 07F10803 	 add r3,r7,#8
+ 748 0076 1B68     	 ldr r3,[r3]
+ 749 0078 002B     	 cmp r3,#0
+ 750 007a 6FD0     	 beq .L38
+ 187:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 188:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         return;
+ 189:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     }
+ 190:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 191:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     // if return value is successful, log SUCCESS
+ 192:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     if (OPTIGA_LIB_SUCCESS == return_value)
+ 751              	 .loc 1 192 0 is_stmt 1
+ 752 007c BB1D     	 adds r3,r7,#6
+ 753 007e 1B88     	 ldrh r3,[r3]
+ 754 0080 002B     	 cmp r3,#0
+ 755 0082 19D1     	 bne .L42
+ 193:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 194:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         strcat(string_buffer,p_log_layer);
+ 756              	 .loc 1 194 0
+ 757 0084 07F5D072 	 add r2,r7,#416
+ 758 0088 07F10C03 	 add r3,r7,#12
+ 759 008c 1046     	 mov r0,r2
+ 760 008e 1968     	 ldr r1,[r3]
+ 761 0090 FFF7FEFF 	 bl strcat
+ 195:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         strcat(string_buffer,"Passed");
+ 762              	 .loc 1 195 0
+ 763 0094 07F5D073 	 add r3,r7,#416
+ 764 0098 1846     	 mov r0,r3
+ 765 009a FFF7FEFF 	 bl strlen
+ 766 009e 0346     	 mov r3,r0
+ 767 00a0 1A46     	 mov r2,r3
+ 768 00a2 07F5D073 	 add r3,r7,#416
+ 769 00a6 1344     	 add r3,r3,r2
+ 770 00a8 2F4A     	 ldr r2,.L44+4
+ 771 00aa 1068     	 ldr r0,[r2]
+ 772 00ac 1860     	 str r0,[r3]
+ 773 00ae 9188     	 ldrh r1,[r2,#4]
+ 774 00b0 9279     	 ldrb r2,[r2,#6]
+ 775 00b2 9980     	 strh r1,[r3,#4]
+ 776 00b4 9A71     	 strb r2,[r3,#6]
+ 777 00b6 2DE0     	 b .L43
+ 778              	.L42:
+ 196:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         strcat(return_value_buffer,"");
+ 197:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     }
+ 198:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     else
+ 199:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 200:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         strcat(string_buffer,p_log_layer);
+ 779              	 .loc 1 200 0
+ 780 00b8 07F5D072 	 add r2,r7,#416
+ 781 00bc 07F10C03 	 add r3,r7,#12
+ 782 00c0 1046     	 mov r0,r2
+ 783 00c2 1968     	 ldr r1,[r3]
+ 784 00c4 FFF7FEFF 	 bl strcat
+ 201:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         strcat(string_buffer,"Failed with return value - ");
+ 785              	 .loc 1 201 0
+ 786 00c8 07F5D073 	 add r3,r7,#416
+ 787 00cc 1846     	 mov r0,r3
+ 788 00ce FFF7FEFF 	 bl strlen
+ 789 00d2 0346     	 mov r3,r0
+ 790 00d4 1A46     	 mov r2,r3
+ 791 00d6 07F5D073 	 add r3,r7,#416
+ 792 00da 1344     	 add r3,r3,r2
+ 793 00dc 234A     	 ldr r2,.L44+8
+ 794 00de 1D46     	 mov r5,r3
+ 795 00e0 1446     	 mov r4,r2
+ 796 00e2 0FCC     	 ldmia r4!,{r0,r1,r2,r3}
+ 797 00e4 2860     	 str r0,[r5]
+ 798 00e6 6960     	 str r1,[r5,#4]
+ 799 00e8 AA60     	 str r2,[r5,#8]
+ 800 00ea EB60     	 str r3,[r5,#12]
+ 801 00ec 07CC     	 ldmia r4!,{r0,r1,r2}
+ 802 00ee 2861     	 str r0,[r5,#16]
+ 803 00f0 6961     	 str r1,[r5,#20]
+ 804 00f2 AA61     	 str r2,[r5,#24]
+ 202:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         strcat(return_value_buffer,OPTIGA_HEX_BYTE_SEPERATOR);
+ 203:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         optiga_lib_word_to_hex_string(return_value,uint16t_conv_buffer);
+ 805              	 .loc 1 203 0
+ 806 00f4 BB1D     	 adds r3,r7,#6
+ 807 00f6 1A88     	 ldrh r2,[r3]
+ 808 00f8 07F50673 	 add r3,r7,#536
+ 809 00fc 1046     	 mov r0,r2
+ 810 00fe 1946     	 mov r1,r3
+ 811 0100 FFF7FEFF 	 bl optiga_lib_word_to_hex_string
+ 204:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         strcat(return_value_buffer,(char_t *)uint16t_conv_buffer);
+ 812              	 .loc 1 204 0
+ 813 0104 07F50172 	 add r2,r7,#516
+ 814 0108 07F50673 	 add r3,r7,#536
+ 815 010c 1046     	 mov r0,r2
+ 816 010e 1946     	 mov r1,r3
+ 817 0110 FFF7FEFF 	 bl strcat
+ 818              	.L43:
+ 205:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     }
+ 206:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 207:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     OPTIGA_LIB_LOGGER_PRINT_INFO(color_buffer, (char_t *)return_value_buffer, string_buffer, p_log_
+ 819              	 .loc 1 207 0
+ 820 0114 07F11001 	 add r1,r7,#16
+ 821 0118 07F10803 	 add r3,r7,#8
+ 822 011c 07F5D074 	 add r4,r7,#416
+ 823 0120 07F50172 	 add r2,r7,#516
+ 824 0124 0092     	 str r2,[sp]
+ 825 0126 124A     	 ldr r2,.L44+12
+ 826 0128 0192     	 str r2,[sp,#4]
+ 827 012a 0846     	 mov r0,r1
+ 828 012c 1149     	 ldr r1,.L44+16
+ 829 012e 1A68     	 ldr r2,[r3]
+ 830 0130 2346     	 mov r3,r4
+ 831 0132 FFF7FEFF 	 bl sprintf
+ 208:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 209:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     //lint --e{534} The return value is not used hence not checked*/
+ 210:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     pal_logger_write(&logger_console, (const uint8_t *)color_buffer, strlen(color_buffer));
+ 832              	 .loc 1 210 0
+ 833 0136 07F11003 	 add r3,r7,#16
+ 834 013a 1846     	 mov r0,r3
+ 835 013c FFF7FEFF 	 bl strlen
+ 836 0140 0246     	 mov r2,r0
+ 837 0142 07F11003 	 add r3,r7,#16
+ 838 0146 0C48     	 ldr r0,.L44+20
+ 839 0148 1946     	 mov r1,r3
+ 840 014a FFF7FEFF 	 bl pal_logger_write
+ 211:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     //Print new line
+ 212:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     //lint --e{534} The return value is not used hence not checked*/
+ 213:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     pal_logger_write(&logger_console, new_line_characters, 2);
+ 841              	 .loc 1 213 0
+ 842 014e 07F50973 	 add r3,r7,#548
+ 843 0152 0948     	 ldr r0,.L44+20
+ 844 0154 1946     	 mov r1,r3
+ 845 0156 0222     	 movs r2,#2
+ 846 0158 FFF7FEFF 	 bl pal_logger_write
+ 847              	.L38:
+ 214:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** }
+ 848              	 .loc 1 214 0
+ 849 015c 07F50A77 	 add r7,r7,#552
+ 850              	.LCFI35:
+ 851              	 .cfi_def_cfa_offset 16
+ 852 0160 BD46     	 mov sp,r7
+ 853              	.LCFI36:
+ 854              	 .cfi_def_cfa_register 13
+ 855              	 
+ 856 0162 B0BD     	 pop {r4,r5,r7,pc}
+ 857              	.L45:
+ 858              	 .align 2
+ 859              	.L44:
+ 860 0164 1C000000 	 .word .LC0
+ 861 0168 34000000 	 .word .LC5
+ 862 016c 3C000000 	 .word .LC6
+ 863 0170 2C000000 	 .word .LC4
+ 864 0174 20000000 	 .word .LC3
+ 865 0178 00000000 	 .word logger_console
+ 866              	 .cfi_endproc
+ 867              	.LFE6:
+ 869              	 .section .rodata
+ 870              	 .align 2
+ 871              	.LC7:
+ 872 0058 25323573 	 .ascii "%25s%s%s\000"
+ 872      25732573 
+ 872      00
+ 873 0061 000000   	 .section .text.optiga_lib_print_array_hex_format,"ax",%progbits
+ 874              	 .align 2
+ 875              	 .global optiga_lib_print_array_hex_format
+ 876              	 .thumb
+ 877              	 .thumb_func
+ 879              	optiga_lib_print_array_hex_format:
+ 880              	.LFB7:
+ 215:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 216:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** void optiga_lib_print_array_hex_format(const uint8_t * p_log_string,
+ 217:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****                                        uint16_t length,
+ 218:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****                                        const char_t * p_log_color)
+ 219:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** {
+ 881              	 .loc 1 219 0
+ 882              	 .cfi_startproc
+ 883              	 
+ 884              	 
+ 885 0000 90B5     	 push {r4,r7,lr}
+ 886              	.LCFI37:
+ 887              	 .cfi_def_cfa_offset 12
+ 888              	 .cfi_offset 4,-12
+ 889              	 .cfi_offset 7,-8
+ 890              	 .cfi_offset 14,-4
+ 891 0002 ADF5457D 	 sub sp,sp,#788
+ 892              	.LCFI38:
+ 893              	 .cfi_def_cfa_offset 800
+ 894 0006 02AF     	 add r7,sp,#8
+ 895              	.LCFI39:
+ 896              	 .cfi_def_cfa 7,792
+ 897 0008 07F10C03 	 add r3,r7,#12
+ 898 000c 1860     	 str r0,[r3]
+ 899 000e 3B1D     	 adds r3,r7,#4
+ 900 0010 1A60     	 str r2,[r3]
+ 901 0012 07F10A03 	 add r3,r7,#10
+ 902 0016 0A46     	 mov r2,r1
+ 903 0018 1A80     	 strh r2,[r3]
+ 220:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint8_t temp_buffer[350];
+ 221:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     char_t output_buffer[400];
+ 222:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint16_t index;
+ 223:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint16_t temp_length;
+ 224:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     char_t new_line_characters[2] = {OPTIGA_LOGGER_NEW_LINE_CHAR};
+ 904              	 .loc 1 224 0
+ 905 001a 07F11003 	 add r3,r7,#16
+ 906 001e 4D49     	 ldr r1,.L53
+ 907 0020 1A46     	 mov r2,r3
+ 908 0022 0B46     	 mov r3,r1
+ 909 0024 1B88     	 ldrh r3,[r3]
+ 910 0026 1380     	 strh r3,[r2]
+ 225:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     uint8_t buffer_window = 32; // Alignment of 16 bytes per line
+ 911              	 .loc 1 225 0
+ 912 0028 2023     	 movs r3,#32
+ 913 002a 87F80333 	 strb r3,[r7,#771]
+ 226:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 227:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     if ((NULL == p_log_string) || (NULL == p_log_color))
+ 914              	 .loc 1 227 0
+ 915 002e 07F10C03 	 add r3,r7,#12
+ 916 0032 1B68     	 ldr r3,[r3]
+ 917 0034 002B     	 cmp r3,#0
+ 918 0036 00F08880 	 beq .L46
+ 919              	 .loc 1 227 0 is_stmt 0 discriminator 1
+ 920 003a 3B1D     	 adds r3,r7,#4
+ 921 003c 1B68     	 ldr r3,[r3]
+ 922 003e 002B     	 cmp r3,#0
+ 923 0040 00F08380 	 beq .L46
+ 228:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 229:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         return;
+ 230:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     }
+ 231:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     
+ 232:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     optiga_lib_print_length_of_data(length);
+ 924              	 .loc 1 232 0 is_stmt 1
+ 925 0044 07F10A03 	 add r3,r7,#10
+ 926 0048 1B88     	 ldrh r3,[r3]
+ 927 004a 1846     	 mov r0,r3
+ 928 004c FFF7FEFF 	 bl optiga_lib_print_length_of_data
+ 233:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     
+ 234:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     //Logging the arrays in chunks of 16 bytes through chaining
+ 235:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     for (index = 0; index < length; index+=buffer_window)
+ 929              	 .loc 1 235 0
+ 930 0050 0023     	 movs r3,#0
+ 931 0052 A7F80633 	 strh r3,[r7,#774]
+ 932 0056 71E0     	 b .L50
+ 933              	.L52:
+ 236:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 237:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         temp_length = buffer_window;
+ 934              	 .loc 1 237 0
+ 935 0058 97F80333 	 ldrb r3,[r7,#771]
+ 936 005c A7F80433 	 strh r3,[r7,#772]
+ 238:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         if ((length - index) < buffer_window)
+ 937              	 .loc 1 238 0
+ 938 0060 07F10A03 	 add r3,r7,#10
+ 939 0064 1A88     	 ldrh r2,[r3]
+ 940 0066 B7F80633 	 ldrh r3,[r7,#774]
+ 941 006a D21A     	 subs r2,r2,r3
+ 942 006c 97F80333 	 ldrb r3,[r7,#771]
+ 943 0070 9A42     	 cmp r2,r3
+ 944 0072 07DA     	 bge .L51
+ 239:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         {
+ 240:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****             temp_length =  length - index;
+ 945              	 .loc 1 240 0
+ 946 0074 07F10A03 	 add r3,r7,#10
+ 947 0078 1A88     	 ldrh r2,[r3]
+ 948 007a B7F80633 	 ldrh r3,[r7,#774]
+ 949 007e D31A     	 subs r3,r2,r3
+ 950 0080 A7F80433 	 strh r3,[r7,#772]
+ 951              	.L51:
+ 241:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         }
+ 242:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 243:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         pal_os_memset(temp_buffer, 0x00, sizeof(temp_buffer));
+ 952              	 .loc 1 243 0 discriminator 2
+ 953 0084 07F5D273 	 add r3,r7,#420
+ 954 0088 1846     	 mov r0,r3
+ 955 008a 0021     	 movs r1,#0
+ 956 008c 4FF4AF72 	 mov r2,#350
+ 957 0090 FFF7FEFF 	 bl pal_os_memset
+ 244:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         pal_os_memset(output_buffer, 0x00, sizeof(output_buffer));
+ 958              	 .loc 1 244 0 discriminator 2
+ 959 0094 07F11403 	 add r3,r7,#20
+ 960 0098 1846     	 mov r0,r3
+ 961 009a 0021     	 movs r1,#0
+ 962 009c 4FF4C872 	 mov r2,#400
+ 963 00a0 FFF7FEFF 	 bl pal_os_memset
+ 245:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 246:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         optiga_lib_byte_to_hex_string((uint8_t*)(p_log_string + index), temp_buffer, temp_length, F
+ 964              	 .loc 1 246 0 discriminator 2
+ 965 00a4 B7F80633 	 ldrh r3,[r7,#774]
+ 966 00a8 07F10C02 	 add r2,r7,#12
+ 967 00ac 1268     	 ldr r2,[r2]
+ 968 00ae D118     	 adds r1,r2,r3
+ 969 00b0 B7F80433 	 ldrh r3,[r7,#772]
+ 970 00b4 07F5D272 	 add r2,r7,#420
+ 971 00b8 0846     	 mov r0,r1
+ 972 00ba 1146     	 mov r1,r2
+ 973 00bc 1A46     	 mov r2,r3
+ 974 00be 0023     	 movs r3,#0
+ 975 00c0 FFF7FEFF 	 bl optiga_lib_byte_to_hex_string
+ 247:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 248:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         OPTIGA_LIB_LOGGER_PRINT_ARRAY(output_buffer,temp_buffer, p_log_color);
+ 976              	 .loc 1 248 0 discriminator 2
+ 977 00c4 07F11401 	 add r1,r7,#20
+ 978 00c8 3B1D     	 adds r3,r7,#4
+ 979 00ca 07F5D274 	 add r4,r7,#420
+ 980 00ce 224A     	 ldr r2,.L53+4
+ 981 00d0 0092     	 str r2,[sp]
+ 982 00d2 0846     	 mov r0,r1
+ 983 00d4 2149     	 ldr r1,.L53+8
+ 984 00d6 1A68     	 ldr r2,[r3]
+ 985 00d8 2346     	 mov r3,r4
+ 986 00da FFF7FEFF 	 bl sprintf
+ 249:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** 
+ 250:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         // New line characted entered at the end of each segment
+ 251:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         output_buffer[strlen(output_buffer)] = new_line_characters[0];
+ 987              	 .loc 1 251 0 discriminator 2
+ 988 00de 07F11403 	 add r3,r7,#20
+ 989 00e2 1846     	 mov r0,r3
+ 990 00e4 FFF7FEFF 	 bl strlen
+ 991 00e8 0246     	 mov r2,r0
+ 992 00ea 07F11003 	 add r3,r7,#16
+ 993 00ee 1978     	 ldrb r1,[r3]
+ 994 00f0 07F11403 	 add r3,r7,#20
+ 995 00f4 9954     	 strb r1,[r3,r2]
+ 252:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         output_buffer[strlen(output_buffer)+1] = new_line_characters[1];
+ 996              	 .loc 1 252 0 discriminator 2
+ 997 00f6 07F11403 	 add r3,r7,#20
+ 998 00fa 1846     	 mov r0,r3
+ 999 00fc FFF7FEFF 	 bl strlen
+ 1000 0100 0346     	 mov r3,r0
+ 1001 0102 0133     	 adds r3,r3,#1
+ 1002 0104 07F11002 	 add r2,r7,#16
+ 1003 0108 5178     	 ldrb r1,[r2,#1]
+ 1004 010a 07F11402 	 add r2,r7,#20
+ 1005 010e D154     	 strb r1,[r2,r3]
+ 253:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         //lint --e{534} The return value is not used hence not checked*/
+ 254:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****         pal_logger_write(&logger_console, (const uint8_t *)output_buffer, strlen(output_buffer) + 2
+ 1006              	 .loc 1 254 0 discriminator 2
+ 1007 0110 07F11403 	 add r3,r7,#20
+ 1008 0114 1846     	 mov r0,r3
+ 1009 0116 FFF7FEFF 	 bl strlen
+ 1010 011a 0346     	 mov r3,r0
+ 1011 011c 0233     	 adds r3,r3,#2
+ 1012 011e 07F11402 	 add r2,r7,#20
+ 1013 0122 0F48     	 ldr r0,.L53+12
+ 1014 0124 1146     	 mov r1,r2
+ 1015 0126 1A46     	 mov r2,r3
+ 1016 0128 FFF7FEFF 	 bl pal_logger_write
+ 235:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 1017              	 .loc 1 235 0 discriminator 2
+ 1018 012c 97F80333 	 ldrb r3,[r7,#771]
+ 1019 0130 9AB2     	 uxth r2,r3
+ 1020 0132 B7F80633 	 ldrh r3,[r7,#774]
+ 1021 0136 1344     	 add r3,r3,r2
+ 1022 0138 A7F80633 	 strh r3,[r7,#774]
+ 1023              	.L50:
+ 235:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     {
+ 1024              	 .loc 1 235 0 is_stmt 0 discriminator 1
+ 1025 013c 07F10A03 	 add r3,r7,#10
+ 1026 0140 B7F80623 	 ldrh r2,[r7,#774]
+ 1027 0144 1B88     	 ldrh r3,[r3]
+ 1028 0146 9A42     	 cmp r2,r3
+ 1029 0148 86D3     	 bcc .L52
+ 1030              	.L46:
+ 255:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c ****     }
+ 256:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/common\optiga_lib_logger.c **** }
+ 1031              	 .loc 1 256 0 is_stmt 1
+ 1032 014a 07F54377 	 add r7,r7,#780
+ 1033              	.LCFI40:
+ 1034              	 .cfi_def_cfa_offset 12
+ 1035 014e BD46     	 mov sp,r7
+ 1036              	.LCFI41:
+ 1037              	 .cfi_def_cfa_register 13
+ 1038              	 
+ 1039 0150 90BD     	 pop {r4,r7,pc}
+ 1040              	.L54:
+ 1041 0152 00BF     	 .align 2
+ 1042              	.L53:
+ 1043 0154 1C000000 	 .word .LC0
+ 1044 0158 2C000000 	 .word .LC4
+ 1045 015c 58000000 	 .word .LC7
+ 1046 0160 00000000 	 .word logger_console
+ 1047              	 .cfi_endproc
+ 1048              	.LFE7:
+ 1050              	 .text
+ 1051              	.Letext0:
+ 1052              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 1053              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 1054              	 .file 4 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/common/optiga_lib_types.h"
+ 1055              	 .file 5 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/pal/pal_logger.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 optiga_lib_logger.c
+    {standard input}:20     .text.optiga_lib_byte_to_hex_string:00000000 $t
+    {standard input}:24     .text.optiga_lib_byte_to_hex_string:00000000 optiga_lib_byte_to_hex_string
+    {standard input}:202    .text.optiga_lib_word_to_hex_string:00000000 $t
+    {standard input}:206    .text.optiga_lib_word_to_hex_string:00000000 optiga_lib_word_to_hex_string
+    {standard input}:354    .rodata:00000000 $d
+    {standard input}:361    .text.optiga_lib_print_length_of_data:00000000 $t
+    {standard input}:365    .text.optiga_lib_print_length_of_data:00000000 optiga_lib_print_length_of_data
+    {standard input}:501    .text.optiga_lib_print_string_with_newline:00000000 optiga_lib_print_string_with_newline
+    {standard input}:429    .text.optiga_lib_print_length_of_data:0000005c $d
+    {standard input}:435    .text.optiga_lib_print_string:00000000 $t
+    {standard input}:440    .text.optiga_lib_print_string:00000000 optiga_lib_print_string
+    {standard input}:486    .text.optiga_lib_print_string:00000028 $d
+    {standard input}:496    .text.optiga_lib_print_string_with_newline:00000000 $t
+    {standard input}:555    .text.optiga_lib_print_string_with_newline:00000040 $d
+    {standard input}:568    .text.optiga_lib_print_message:00000000 $t
+    {standard input}:573    .text.optiga_lib_print_message:00000000 optiga_lib_print_message
+    {standard input}:657    .text.optiga_lib_print_message:0000008c $d
+    {standard input}:672    .text.optiga_lib_print_status:00000000 $t
+    {standard input}:677    .text.optiga_lib_print_status:00000000 optiga_lib_print_status
+    {standard input}:860    .text.optiga_lib_print_status:00000164 $d
+    {standard input}:874    .text.optiga_lib_print_array_hex_format:00000000 $t
+    {standard input}:879    .text.optiga_lib_print_array_hex_format:00000000 optiga_lib_print_array_hex_format
+    {standard input}:1043   .text.optiga_lib_print_array_hex_format:00000154 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+sprintf
+strcat
+strlen
+pal_logger_write
+logger_console
+memset
+pal_os_memset

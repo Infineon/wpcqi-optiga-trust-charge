@@ -1,0 +1,433 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "pal_os_timer.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .bss.g_tick_count,"aw",%nobits
+  20              	 .align 2
+  23              	g_tick_count:
+  24 0000 00000000 	 .space 4
+  25              	 .section .text.CCU41_1_IRQHandler,"ax",%progbits
+  26              	 .align 2
+  27              	 .global CCU41_1_IRQHandler
+  28              	 .thumb
+  29              	 .thumb_func
+  31              	CCU41_1_IRQHandler:
+  32              	.LFB387:
+  33              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700/pal_os_timer.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** /**
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * \copyright
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * MIT License
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** *
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * Copyright (c) 2020 Infineon Technologies AG
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** *
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * of this software and associated documentation files (the "Software"), to deal
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * in the Software without restriction, including without limitation the rights
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * copies of the Software, and to permit persons to whom the Software is
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * furnished to do so, subject to the following conditions:
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** *
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * The above copyright notice and this permission notice shall be included in all
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * copies or substantial portions of the Software.
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** *
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * SOFTWARE
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** *
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * \endcopyright
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** *
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * \author Infineon Technologies AG
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** *
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * \file pal_os_timer.c
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** *
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * \brief   This file implements the platform abstraction layer APIs for timer.
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** *
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * \ingroup  grPAL
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** *
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** * @{
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** */
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** 
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** #include <DAVE.h>
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** #include "optiga/pal/pal_os_timer.h"
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** 
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** /// @cond hidden
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** static volatile uint32_t g_tick_count = 0;
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** 
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** void delay_timer_isr(void)
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** {
+  34              	 .loc 1 45 0
+  35              	 .cfi_startproc
+  36              	 
+  37              	 
+  38 0000 80B5     	 push {r7,lr}
+  39              	.LCFI0:
+  40              	 .cfi_def_cfa_offset 8
+  41              	 .cfi_offset 7,-8
+  42              	 .cfi_offset 14,-4
+  43 0002 00AF     	 add r7,sp,#0
+  44              	.LCFI1:
+  45              	 .cfi_def_cfa_register 7
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     TIMER_ClearEvent(&tick_timer);
+  46              	 .loc 1 46 0
+  47 0004 0548     	 ldr r0,.L2
+  48 0006 FFF7FEFF 	 bl TIMER_ClearEvent
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     (void)TIMER_Clear(&tick_timer);
+  49              	 .loc 1 47 0
+  50 000a 0448     	 ldr r0,.L2
+  51 000c FFF7FEFF 	 bl TIMER_Clear
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     g_tick_count += 1U;
+  52              	 .loc 1 48 0
+  53 0010 034B     	 ldr r3,.L2+4
+  54 0012 1B68     	 ldr r3,[r3]
+  55 0014 0133     	 adds r3,r3,#1
+  56 0016 024A     	 ldr r2,.L2+4
+  57 0018 1360     	 str r3,[r2]
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** }
+  58              	 .loc 1 49 0
+  59 001a 80BD     	 pop {r7,pc}
+  60              	.L3:
+  61              	 .align 2
+  62              	.L2:
+  63 001c 00000000 	 .word tick_timer
+  64 0020 00000000 	 .word g_tick_count
+  65              	 .cfi_endproc
+  66              	.LFE387:
+  68              	 .section .text.pal_os_timer_get_time_in_microseconds,"ax",%progbits
+  69              	 .align 2
+  70              	 .global pal_os_timer_get_time_in_microseconds
+  71              	 .thumb
+  72              	 .thumb_func
+  74              	pal_os_timer_get_time_in_microseconds:
+  75              	.LFB388:
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** 
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** /// @endcond
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** 
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** 
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** uint32_t pal_os_timer_get_time_in_microseconds(void)
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** {
+  76              	 .loc 1 55 0
+  77              	 .cfi_startproc
+  78              	 
+  79              	 
+  80              	 
+  81 0000 80B4     	 push {r7}
+  82              	.LCFI2:
+  83              	 .cfi_def_cfa_offset 4
+  84              	 .cfi_offset 7,-4
+  85 0002 00AF     	 add r7,sp,#0
+  86              	.LCFI3:
+  87              	 .cfi_def_cfa_register 7
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     // !!!OPTIGA_LIB_PORTING_REQUIRED
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     // This API is needed to support optiga cmd scheduler. 
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     static uint32_t count = 0;
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     // The implementation must ensure that every invocation of this API returns a unique value.
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     return (count++);
+  88              	 .loc 1 60 0
+  89 0004 044B     	 ldr r3,.L6
+  90 0006 1B68     	 ldr r3,[r3]
+  91 0008 5A1C     	 adds r2,r3,#1
+  92 000a 0349     	 ldr r1,.L6
+  93 000c 0A60     	 str r2,[r1]
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** }
+  94              	 .loc 1 61 0
+  95 000e 1846     	 mov r0,r3
+  96 0010 BD46     	 mov sp,r7
+  97              	.LCFI4:
+  98              	 .cfi_def_cfa_register 13
+  99              	 
+ 100 0012 5DF8047B 	 ldr r7,[sp],#4
+ 101              	.LCFI5:
+ 102              	 .cfi_restore 7
+ 103              	 .cfi_def_cfa_offset 0
+ 104 0016 7047     	 bx lr
+ 105              	.L7:
+ 106              	 .align 2
+ 107              	.L6:
+ 108 0018 00000000 	 .word count.12662
+ 109              	 .cfi_endproc
+ 110              	.LFE388:
+ 112              	 .section .text.pal_os_timer_get_time_in_milliseconds,"ax",%progbits
+ 113              	 .align 2
+ 114              	 .global pal_os_timer_get_time_in_milliseconds
+ 115              	 .thumb
+ 116              	 .thumb_func
+ 118              	pal_os_timer_get_time_in_milliseconds:
+ 119              	.LFB389:
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** 
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** uint32_t pal_os_timer_get_time_in_milliseconds(void)
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** {
+ 120              	 .loc 1 64 0
+ 121              	 .cfi_startproc
+ 122              	 
+ 123              	 
+ 124              	 
+ 125 0000 80B4     	 push {r7}
+ 126              	.LCFI6:
+ 127              	 .cfi_def_cfa_offset 4
+ 128              	 .cfi_offset 7,-4
+ 129 0002 00AF     	 add r7,sp,#0
+ 130              	.LCFI7:
+ 131              	 .cfi_def_cfa_register 7
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     return (g_tick_count);
+ 132              	 .loc 1 65 0
+ 133 0004 034B     	 ldr r3,.L10
+ 134 0006 1B68     	 ldr r3,[r3]
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** }
+ 135              	 .loc 1 66 0
+ 136 0008 1846     	 mov r0,r3
+ 137 000a BD46     	 mov sp,r7
+ 138              	.LCFI8:
+ 139              	 .cfi_def_cfa_register 13
+ 140              	 
+ 141 000c 5DF8047B 	 ldr r7,[sp],#4
+ 142              	.LCFI9:
+ 143              	 .cfi_restore 7
+ 144              	 .cfi_def_cfa_offset 0
+ 145 0010 7047     	 bx lr
+ 146              	.L11:
+ 147 0012 00BF     	 .align 2
+ 148              	.L10:
+ 149 0014 00000000 	 .word g_tick_count
+ 150              	 .cfi_endproc
+ 151              	.LFE389:
+ 153              	 .section .text.pal_os_timer_delay_in_milliseconds,"ax",%progbits
+ 154              	 .align 2
+ 155              	 .global pal_os_timer_delay_in_milliseconds
+ 156              	 .thumb
+ 157              	 .thumb_func
+ 159              	pal_os_timer_delay_in_milliseconds:
+ 160              	.LFB390:
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** 
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** void pal_os_timer_delay_in_milliseconds(uint16_t milliseconds)
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** {
+ 161              	 .loc 1 69 0
+ 162              	 .cfi_startproc
+ 163              	 
+ 164              	 
+ 165 0000 80B5     	 push {r7,lr}
+ 166              	.LCFI10:
+ 167              	 .cfi_def_cfa_offset 8
+ 168              	 .cfi_offset 7,-8
+ 169              	 .cfi_offset 14,-4
+ 170 0002 86B0     	 sub sp,sp,#24
+ 171              	.LCFI11:
+ 172              	 .cfi_def_cfa_offset 32
+ 173 0004 00AF     	 add r7,sp,#0
+ 174              	.LCFI12:
+ 175              	 .cfi_def_cfa_register 7
+ 176 0006 0346     	 mov r3,r0
+ 177 0008 FB80     	 strh r3,[r7,#6]
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     uint32_t start_time;
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     uint32_t current_time;
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     uint32_t time_stamp_diff;
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** 
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     start_time = pal_os_timer_get_time_in_milliseconds();
+ 178              	 .loc 1 74 0
+ 179 000a FFF7FEFF 	 bl pal_os_timer_get_time_in_milliseconds
+ 180 000e 3861     	 str r0,[r7,#16]
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     current_time = start_time;
+ 181              	 .loc 1 75 0
+ 182 0010 3B69     	 ldr r3,[r7,#16]
+ 183 0012 FB60     	 str r3,[r7,#12]
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     time_stamp_diff = current_time - start_time;
+ 184              	 .loc 1 76 0
+ 185 0014 FA68     	 ldr r2,[r7,#12]
+ 186 0016 3B69     	 ldr r3,[r7,#16]
+ 187 0018 D31A     	 subs r3,r2,r3
+ 188 001a 7B61     	 str r3,[r7,#20]
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     while (time_stamp_diff <= (uint32_t)milliseconds)
+ 189              	 .loc 1 77 0
+ 190 001c 0EE0     	 b .L13
+ 191              	.L14:
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     {
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****         current_time = pal_os_timer_get_time_in_milliseconds();
+ 192              	 .loc 1 79 0
+ 193 001e FFF7FEFF 	 bl pal_os_timer_get_time_in_milliseconds
+ 194 0022 F860     	 str r0,[r7,#12]
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****         time_stamp_diff = current_time - start_time;
+ 195              	 .loc 1 80 0
+ 196 0024 FA68     	 ldr r2,[r7,#12]
+ 197 0026 3B69     	 ldr r3,[r7,#16]
+ 198 0028 D31A     	 subs r3,r2,r3
+ 199 002a 7B61     	 str r3,[r7,#20]
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****         if (start_time > current_time)
+ 200              	 .loc 1 81 0
+ 201 002c 3A69     	 ldr r2,[r7,#16]
+ 202 002e FB68     	 ldr r3,[r7,#12]
+ 203 0030 9A42     	 cmp r2,r3
+ 204 0032 03D9     	 bls .L13
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****         {
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****             time_stamp_diff = (0xFFFFFFFF + (current_time - start_time)) + 0x01;
+ 205              	 .loc 1 83 0
+ 206 0034 FA68     	 ldr r2,[r7,#12]
+ 207 0036 3B69     	 ldr r3,[r7,#16]
+ 208 0038 D31A     	 subs r3,r2,r3
+ 209 003a 7B61     	 str r3,[r7,#20]
+ 210              	.L13:
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     {
+ 211              	 .loc 1 77 0
+ 212 003c FA88     	 ldrh r2,[r7,#6]
+ 213 003e 7B69     	 ldr r3,[r7,#20]
+ 214 0040 9A42     	 cmp r2,r3
+ 215 0042 ECD2     	 bcs .L14
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****         }        
+  85:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     }
+  86:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** }
+ 216              	 .loc 1 86 0
+ 217 0044 1837     	 adds r7,r7,#24
+ 218              	.LCFI13:
+ 219              	 .cfi_def_cfa_offset 8
+ 220 0046 BD46     	 mov sp,r7
+ 221              	.LCFI14:
+ 222              	 .cfi_def_cfa_register 13
+ 223              	 
+ 224 0048 80BD     	 pop {r7,pc}
+ 225              	 .cfi_endproc
+ 226              	.LFE390:
+ 228 004a 00BF     	 .section .text.pal_timer_init,"ax",%progbits
+ 229              	 .align 2
+ 230              	 .global pal_timer_init
+ 231              	 .thumb
+ 232              	 .thumb_func
+ 234              	pal_timer_init:
+ 235              	.LFB391:
+  87:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** 
+  88:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** //lint --e{714} suppress "This is implemented for overall completion of API"
+  89:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** pal_status_t pal_timer_init(void)
+  90:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** {
+ 236              	 .loc 1 90 0
+ 237              	 .cfi_startproc
+ 238              	 
+ 239              	 
+ 240              	 
+ 241 0000 80B4     	 push {r7}
+ 242              	.LCFI15:
+ 243              	 .cfi_def_cfa_offset 4
+ 244              	 .cfi_offset 7,-4
+ 245 0002 00AF     	 add r7,sp,#0
+ 246              	.LCFI16:
+ 247              	 .cfi_def_cfa_register 7
+  91:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     return PAL_STATUS_SUCCESS;
+ 248              	 .loc 1 91 0
+ 249 0004 0023     	 movs r3,#0
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** }
+ 250              	 .loc 1 92 0
+ 251 0006 1846     	 mov r0,r3
+ 252 0008 BD46     	 mov sp,r7
+ 253              	.LCFI17:
+ 254              	 .cfi_def_cfa_register 13
+ 255              	 
+ 256 000a 5DF8047B 	 ldr r7,[sp],#4
+ 257              	.LCFI18:
+ 258              	 .cfi_restore 7
+ 259              	 .cfi_def_cfa_offset 0
+ 260 000e 7047     	 bx lr
+ 261              	 .cfi_endproc
+ 262              	.LFE391:
+ 264              	 .section .text.pal_timer_deinit,"ax",%progbits
+ 265              	 .align 2
+ 266              	 .global pal_timer_deinit
+ 267              	 .thumb
+ 268              	 .thumb_func
+ 270              	pal_timer_deinit:
+ 271              	.LFB392:
+  93:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** 
+  94:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** //lint --e{714} suppress "This is implemented for overall completion of API"
+  95:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** pal_status_t pal_timer_deinit(void)
+  96:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** {
+ 272              	 .loc 1 96 0
+ 273              	 .cfi_startproc
+ 274              	 
+ 275              	 
+ 276              	 
+ 277 0000 80B4     	 push {r7}
+ 278              	.LCFI19:
+ 279              	 .cfi_def_cfa_offset 4
+ 280              	 .cfi_offset 7,-4
+ 281 0002 00AF     	 add r7,sp,#0
+ 282              	.LCFI20:
+ 283              	 .cfi_def_cfa_register 7
+  97:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c ****     return PAL_STATUS_SUCCESS;
+ 284              	 .loc 1 97 0
+ 285 0004 0023     	 movs r3,#0
+  98:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_timer.c **** }
+ 286              	 .loc 1 98 0
+ 287 0006 1846     	 mov r0,r3
+ 288 0008 BD46     	 mov sp,r7
+ 289              	.LCFI21:
+ 290              	 .cfi_def_cfa_register 13
+ 291              	 
+ 292 000a 5DF8047B 	 ldr r7,[sp],#4
+ 293              	.LCFI22:
+ 294              	 .cfi_restore 7
+ 295              	 .cfi_def_cfa_offset 0
+ 296 000e 7047     	 bx lr
+ 297              	 .cfi_endproc
+ 298              	.LFE392:
+ 300              	 .section .bss.count.12662,"aw",%nobits
+ 301              	 .align 2
+ 304              	count.12662:
+ 305 0000 00000000 	 .space 4
+ 306              	 .text
+ 307              	.Letext0:
+ 308              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 309              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 310              	 .file 4 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+ 311              	 .file 5 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc4_scu.h"
+ 312              	 .file 6 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usic.h"
+ 313              	 .file 7 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usbd_regs.h"
+ 314              	 .file 8 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usbd.h"
+ 315              	 .file 9 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD/usbd.h"
+ 316              	 .file 10 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_ccu4.h"
+ 317              	 .file 11 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/GLOBAL_CCU4/global_ccu4.h"
+ 318              	 .file 12 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/TIMER/timer.h"
+ 319              	 .file 13 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/pal/pal.h"
+ 320              	 .file 14 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Include/core_cm4.h"
+ 321              	 .file 15 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+ 322              	 .file 16 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD/usbd_extern.h"
+ 323              	 .file 17 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/TIMER/timer_extern.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 pal_os_timer.c
+    {standard input}:20     .bss.g_tick_count:00000000 $d
+    {standard input}:23     .bss.g_tick_count:00000000 g_tick_count
+    {standard input}:26     .text.CCU41_1_IRQHandler:00000000 $t
+    {standard input}:31     .text.CCU41_1_IRQHandler:00000000 CCU41_1_IRQHandler
+    {standard input}:63     .text.CCU41_1_IRQHandler:0000001c $d
+    {standard input}:69     .text.pal_os_timer_get_time_in_microseconds:00000000 $t
+    {standard input}:74     .text.pal_os_timer_get_time_in_microseconds:00000000 pal_os_timer_get_time_in_microseconds
+    {standard input}:108    .text.pal_os_timer_get_time_in_microseconds:00000018 $d
+    {standard input}:304    .bss.count.12662:00000000 count.12662
+    {standard input}:113    .text.pal_os_timer_get_time_in_milliseconds:00000000 $t
+    {standard input}:118    .text.pal_os_timer_get_time_in_milliseconds:00000000 pal_os_timer_get_time_in_milliseconds
+    {standard input}:149    .text.pal_os_timer_get_time_in_milliseconds:00000014 $d
+    {standard input}:154    .text.pal_os_timer_delay_in_milliseconds:00000000 $t
+    {standard input}:159    .text.pal_os_timer_delay_in_milliseconds:00000000 pal_os_timer_delay_in_milliseconds
+    {standard input}:229    .text.pal_timer_init:00000000 $t
+    {standard input}:234    .text.pal_timer_init:00000000 pal_timer_init
+    {standard input}:265    .text.pal_timer_deinit:00000000 $t
+    {standard input}:270    .text.pal_timer_deinit:00000000 pal_timer_deinit
+    {standard input}:301    .bss.count.12662:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+TIMER_ClearEvent
+TIMER_Clear
+tick_timer

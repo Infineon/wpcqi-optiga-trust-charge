@@ -1,0 +1,1840 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "asn1parse.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.mbedtls_asn1_get_len,"ax",%progbits
+  20              	 .align 2
+  21              	 .global mbedtls_asn1_get_len
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	mbedtls_asn1_get_len:
+  26              	.LFB0:
+  27              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library/asn1parse.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** /*
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  Generic ASN.1 parsing
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  SPDX-License-Identifier: Apache-2.0
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  not use this file except in compliance with the License.
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  You may obtain a copy of the License at
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  Unless required by applicable law or agreed to in writing, software
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  See the License for the specific language governing permissions and
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  limitations under the License.
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  This file is part of mbed TLS (https://tls.mbed.org)
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  */
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #include "mbedtls/config.h"
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #else
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #include MBEDTLS_CONFIG_FILE
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #endif
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #if defined(MBEDTLS_ASN1_PARSE_C)
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #include "mbedtls/asn1.h"
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #include "mbedtls/platform_util.h"
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #include <string.h>
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #if defined(MBEDTLS_BIGNUM_C)
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #include "mbedtls/bignum.h"
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #endif
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #if defined(MBEDTLS_PLATFORM_C)
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #include "mbedtls/platform.h"
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #else
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #include <stdlib.h>
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #define mbedtls_calloc    calloc
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #define mbedtls_free       free
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #endif
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** /*
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  * ASN.1 DER decoding routines
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  */
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** int mbedtls_asn1_get_len( unsigned char **p,
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                   const unsigned char *end,
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                   size_t *len )
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+  28              	 .loc 1 53 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 85B0     	 sub sp,sp,#20
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 24
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( end - *p ) < 1 )
+  46              	 .loc 1 54 0
+  47 000c BB68     	 ldr r3,[r7,#8]
+  48 000e FA68     	 ldr r2,[r7,#12]
+  49 0010 1268     	 ldr r2,[r2]
+  50 0012 9B1A     	 subs r3,r3,r2
+  51 0014 002B     	 cmp r3,#0
+  52 0016 02DC     	 bgt .L2
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_OUT_OF_DATA );
+  53              	 .loc 1 55 0
+  54 0018 6FF05F03 	 mvn r3,#95
+  55 001c ACE0     	 b .L3
+  56              	.L2:
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( **p & 0x80 ) == 0 )
+  57              	 .loc 1 57 0
+  58 001e FB68     	 ldr r3,[r7,#12]
+  59 0020 1B68     	 ldr r3,[r3]
+  60 0022 1B78     	 ldrb r3,[r3]
+  61 0024 DBB2     	 uxtb r3,r3
+  62 0026 5BB2     	 sxtb r3,r3
+  63 0028 002B     	 cmp r3,#0
+  64 002a 09DB     	 blt .L4
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         *len = *(*p)++;
+  65              	 .loc 1 58 0
+  66 002c FB68     	 ldr r3,[r7,#12]
+  67 002e 1B68     	 ldr r3,[r3]
+  68 0030 591C     	 adds r1,r3,#1
+  69 0032 FA68     	 ldr r2,[r7,#12]
+  70 0034 1160     	 str r1,[r2]
+  71 0036 1B78     	 ldrb r3,[r3]
+  72 0038 1A46     	 mov r2,r3
+  73 003a 7B68     	 ldr r3,[r7,#4]
+  74 003c 1A60     	 str r2,[r3]
+  75 003e 8FE0     	 b .L5
+  76              	.L4:
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     else
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     {
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         switch( **p & 0x7F )
+  77              	 .loc 1 61 0
+  78 0040 FB68     	 ldr r3,[r7,#12]
+  79 0042 1B68     	 ldr r3,[r3]
+  80 0044 1B78     	 ldrb r3,[r3]
+  81 0046 03F07F03 	 and r3,r3,#127
+  82 004a 013B     	 subs r3,r3,#1
+  83 004c 032B     	 cmp r3,#3
+  84 004e 00F28480 	 bhi .L6
+  85 0052 01A2     	 adr r2,.L8
+  86 0054 52F823F0 	 ldr pc,[r2,r3,lsl#2]
+  87              	 .p2align 2
+  88              	.L8:
+  89 0058 69000000 	 .word .L7+1
+  90 005c 95000000 	 .word .L9+1
+  91 0060 CB000000 	 .word .L10+1
+  92 0064 0D010000 	 .word .L11+1
+  93              	 .p2align 1
+  94              	.L7:
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         {
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         case 1:
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             if( ( end - *p ) < 2 )
+  95              	 .loc 1 64 0
+  96 0068 BB68     	 ldr r3,[r7,#8]
+  97 006a FA68     	 ldr r2,[r7,#12]
+  98 006c 1268     	 ldr r2,[r2]
+  99 006e 9B1A     	 subs r3,r3,r2
+ 100 0070 012B     	 cmp r3,#1
+ 101 0072 02DC     	 bgt .L12
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                 return( MBEDTLS_ERR_ASN1_OUT_OF_DATA );
+ 102              	 .loc 1 65 0
+ 103 0074 6FF05F03 	 mvn r3,#95
+ 104 0078 7EE0     	 b .L3
+ 105              	.L12:
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             *len = (*p)[1];
+ 106              	 .loc 1 67 0
+ 107 007a FB68     	 ldr r3,[r7,#12]
+ 108 007c 1B68     	 ldr r3,[r3]
+ 109 007e 0133     	 adds r3,r3,#1
+ 110 0080 1B78     	 ldrb r3,[r3]
+ 111 0082 1A46     	 mov r2,r3
+ 112 0084 7B68     	 ldr r3,[r7,#4]
+ 113 0086 1A60     	 str r2,[r3]
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             (*p) += 2;
+ 114              	 .loc 1 68 0
+ 115 0088 FB68     	 ldr r3,[r7,#12]
+ 116 008a 1B68     	 ldr r3,[r3]
+ 117 008c 9A1C     	 adds r2,r3,#2
+ 118 008e FB68     	 ldr r3,[r7,#12]
+ 119 0090 1A60     	 str r2,[r3]
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             break;
+ 120              	 .loc 1 69 0
+ 121 0092 65E0     	 b .L5
+ 122              	.L9:
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         case 2:
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             if( ( end - *p ) < 3 )
+ 123              	 .loc 1 72 0
+ 124 0094 BB68     	 ldr r3,[r7,#8]
+ 125 0096 FA68     	 ldr r2,[r7,#12]
+ 126 0098 1268     	 ldr r2,[r2]
+ 127 009a 9B1A     	 subs r3,r3,r2
+ 128 009c 022B     	 cmp r3,#2
+ 129 009e 02DC     	 bgt .L13
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                 return( MBEDTLS_ERR_ASN1_OUT_OF_DATA );
+ 130              	 .loc 1 73 0
+ 131 00a0 6FF05F03 	 mvn r3,#95
+ 132 00a4 68E0     	 b .L3
+ 133              	.L13:
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             *len = ( (size_t)(*p)[1] << 8 ) | (*p)[2];
+ 134              	 .loc 1 75 0
+ 135 00a6 FB68     	 ldr r3,[r7,#12]
+ 136 00a8 1B68     	 ldr r3,[r3]
+ 137 00aa 0133     	 adds r3,r3,#1
+ 138 00ac 1B78     	 ldrb r3,[r3]
+ 139 00ae 1B02     	 lsls r3,r3,#8
+ 140 00b0 FA68     	 ldr r2,[r7,#12]
+ 141 00b2 1268     	 ldr r2,[r2]
+ 142 00b4 0232     	 adds r2,r2,#2
+ 143 00b6 1278     	 ldrb r2,[r2]
+ 144 00b8 1A43     	 orrs r2,r2,r3
+ 145 00ba 7B68     	 ldr r3,[r7,#4]
+ 146 00bc 1A60     	 str r2,[r3]
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             (*p) += 3;
+ 147              	 .loc 1 76 0
+ 148 00be FB68     	 ldr r3,[r7,#12]
+ 149 00c0 1B68     	 ldr r3,[r3]
+ 150 00c2 DA1C     	 adds r2,r3,#3
+ 151 00c4 FB68     	 ldr r3,[r7,#12]
+ 152 00c6 1A60     	 str r2,[r3]
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             break;
+ 153              	 .loc 1 77 0
+ 154 00c8 4AE0     	 b .L5
+ 155              	.L10:
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         case 3:
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             if( ( end - *p ) < 4 )
+ 156              	 .loc 1 80 0
+ 157 00ca BB68     	 ldr r3,[r7,#8]
+ 158 00cc FA68     	 ldr r2,[r7,#12]
+ 159 00ce 1268     	 ldr r2,[r2]
+ 160 00d0 9B1A     	 subs r3,r3,r2
+ 161 00d2 032B     	 cmp r3,#3
+ 162 00d4 02DC     	 bgt .L14
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                 return( MBEDTLS_ERR_ASN1_OUT_OF_DATA );
+ 163              	 .loc 1 81 0
+ 164 00d6 6FF05F03 	 mvn r3,#95
+ 165 00da 4DE0     	 b .L3
+ 166              	.L14:
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             *len = ( (size_t)(*p)[1] << 16 ) |
+ 167              	 .loc 1 83 0
+ 168 00dc FB68     	 ldr r3,[r7,#12]
+ 169 00de 1B68     	 ldr r3,[r3]
+ 170 00e0 0133     	 adds r3,r3,#1
+ 171 00e2 1B78     	 ldrb r3,[r3]
+ 172 00e4 1A04     	 lsls r2,r3,#16
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                    ( (size_t)(*p)[2] << 8  ) | (*p)[3];
+ 173              	 .loc 1 84 0
+ 174 00e6 FB68     	 ldr r3,[r7,#12]
+ 175 00e8 1B68     	 ldr r3,[r3]
+ 176 00ea 0233     	 adds r3,r3,#2
+ 177 00ec 1B78     	 ldrb r3,[r3]
+ 178 00ee 1B02     	 lsls r3,r3,#8
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                    ( (size_t)(*p)[2] << 8  ) | (*p)[3];
+ 179              	 .loc 1 83 0
+ 180 00f0 1343     	 orrs r3,r3,r2
+ 181              	 .loc 1 84 0
+ 182 00f2 FA68     	 ldr r2,[r7,#12]
+ 183 00f4 1268     	 ldr r2,[r2]
+ 184 00f6 0332     	 adds r2,r2,#3
+ 185 00f8 1278     	 ldrb r2,[r2]
+ 186 00fa 1A43     	 orrs r2,r2,r3
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                    ( (size_t)(*p)[2] << 8  ) | (*p)[3];
+ 187              	 .loc 1 83 0
+ 188 00fc 7B68     	 ldr r3,[r7,#4]
+ 189 00fe 1A60     	 str r2,[r3]
+  85:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             (*p) += 4;
+ 190              	 .loc 1 85 0
+ 191 0100 FB68     	 ldr r3,[r7,#12]
+ 192 0102 1B68     	 ldr r3,[r3]
+ 193 0104 1A1D     	 adds r2,r3,#4
+ 194 0106 FB68     	 ldr r3,[r7,#12]
+ 195 0108 1A60     	 str r2,[r3]
+  86:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             break;
+ 196              	 .loc 1 86 0
+ 197 010a 29E0     	 b .L5
+ 198              	.L11:
+  87:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  88:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         case 4:
+  89:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             if( ( end - *p ) < 5 )
+ 199              	 .loc 1 89 0
+ 200 010c BB68     	 ldr r3,[r7,#8]
+ 201 010e FA68     	 ldr r2,[r7,#12]
+ 202 0110 1268     	 ldr r2,[r2]
+ 203 0112 9B1A     	 subs r3,r3,r2
+ 204 0114 042B     	 cmp r3,#4
+ 205 0116 02DC     	 bgt .L15
+  90:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                 return( MBEDTLS_ERR_ASN1_OUT_OF_DATA );
+ 206              	 .loc 1 90 0
+ 207 0118 6FF05F03 	 mvn r3,#95
+ 208 011c 2CE0     	 b .L3
+ 209              	.L15:
+  91:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             *len = ( (size_t)(*p)[1] << 24 ) | ( (size_t)(*p)[2] << 16 ) |
+ 210              	 .loc 1 92 0
+ 211 011e FB68     	 ldr r3,[r7,#12]
+ 212 0120 1B68     	 ldr r3,[r3]
+ 213 0122 0133     	 adds r3,r3,#1
+ 214 0124 1B78     	 ldrb r3,[r3]
+ 215 0126 1A06     	 lsls r2,r3,#24
+ 216 0128 FB68     	 ldr r3,[r7,#12]
+ 217 012a 1B68     	 ldr r3,[r3]
+ 218 012c 0233     	 adds r3,r3,#2
+ 219 012e 1B78     	 ldrb r3,[r3]
+ 220 0130 1B04     	 lsls r3,r3,#16
+ 221 0132 1A43     	 orrs r2,r2,r3
+  93:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                    ( (size_t)(*p)[3] << 8  ) |           (*p)[4];
+ 222              	 .loc 1 93 0
+ 223 0134 FB68     	 ldr r3,[r7,#12]
+ 224 0136 1B68     	 ldr r3,[r3]
+ 225 0138 0333     	 adds r3,r3,#3
+ 226 013a 1B78     	 ldrb r3,[r3]
+ 227 013c 1B02     	 lsls r3,r3,#8
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                    ( (size_t)(*p)[3] << 8  ) |           (*p)[4];
+ 228              	 .loc 1 92 0
+ 229 013e 1343     	 orrs r3,r3,r2
+ 230              	 .loc 1 93 0
+ 231 0140 FA68     	 ldr r2,[r7,#12]
+ 232 0142 1268     	 ldr r2,[r2]
+ 233 0144 0432     	 adds r2,r2,#4
+ 234 0146 1278     	 ldrb r2,[r2]
+ 235 0148 1A43     	 orrs r2,r2,r3
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                    ( (size_t)(*p)[3] << 8  ) |           (*p)[4];
+ 236              	 .loc 1 92 0
+ 237 014a 7B68     	 ldr r3,[r7,#4]
+ 238 014c 1A60     	 str r2,[r3]
+  94:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             (*p) += 5;
+ 239              	 .loc 1 94 0
+ 240 014e FB68     	 ldr r3,[r7,#12]
+ 241 0150 1B68     	 ldr r3,[r3]
+ 242 0152 5A1D     	 adds r2,r3,#5
+ 243 0154 FB68     	 ldr r3,[r7,#12]
+ 244 0156 1A60     	 str r2,[r3]
+  95:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             break;
+ 245              	 .loc 1 95 0
+ 246 0158 02E0     	 b .L5
+ 247              	.L6:
+  96:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+  97:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         default:
+  98:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             return( MBEDTLS_ERR_ASN1_INVALID_LENGTH );
+ 248              	 .loc 1 98 0
+ 249 015a 6FF06303 	 mvn r3,#99
+ 250 015e 0BE0     	 b .L3
+ 251              	.L5:
+  99:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         }
+ 100:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     }
+ 101:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 102:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( *len > (size_t) ( end - *p ) )
+ 252              	 .loc 1 102 0
+ 253 0160 7B68     	 ldr r3,[r7,#4]
+ 254 0162 1B68     	 ldr r3,[r3]
+ 255 0164 BA68     	 ldr r2,[r7,#8]
+ 256 0166 F968     	 ldr r1,[r7,#12]
+ 257 0168 0968     	 ldr r1,[r1]
+ 258 016a 521A     	 subs r2,r2,r1
+ 259 016c 9342     	 cmp r3,r2
+ 260 016e 02D9     	 bls .L16
+ 103:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_OUT_OF_DATA );
+ 261              	 .loc 1 103 0
+ 262 0170 6FF05F03 	 mvn r3,#95
+ 263 0174 00E0     	 b .L3
+ 264              	.L16:
+ 104:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 105:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     return( 0 );
+ 265              	 .loc 1 105 0
+ 266 0176 0023     	 movs r3,#0
+ 267              	.L3:
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 268              	 .loc 1 106 0
+ 269 0178 1846     	 mov r0,r3
+ 270 017a 1437     	 adds r7,r7,#20
+ 271              	.LCFI3:
+ 272              	 .cfi_def_cfa_offset 4
+ 273 017c BD46     	 mov sp,r7
+ 274              	.LCFI4:
+ 275              	 .cfi_def_cfa_register 13
+ 276              	 
+ 277 017e 5DF8047B 	 ldr r7,[sp],#4
+ 278              	.LCFI5:
+ 279              	 .cfi_restore 7
+ 280              	 .cfi_def_cfa_offset 0
+ 281 0182 7047     	 bx lr
+ 282              	 .cfi_endproc
+ 283              	.LFE0:
+ 285              	 .section .text.mbedtls_asn1_get_tag,"ax",%progbits
+ 286              	 .align 2
+ 287              	 .global mbedtls_asn1_get_tag
+ 288              	 .thumb
+ 289              	 .thumb_func
+ 291              	mbedtls_asn1_get_tag:
+ 292              	.LFB1:
+ 107:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 108:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** int mbedtls_asn1_get_tag( unsigned char **p,
+ 109:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                   const unsigned char *end,
+ 110:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                   size_t *len, int tag )
+ 111:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+ 293              	 .loc 1 111 0
+ 294              	 .cfi_startproc
+ 295              	 
+ 296              	 
+ 297 0000 80B5     	 push {r7,lr}
+ 298              	.LCFI6:
+ 299              	 .cfi_def_cfa_offset 8
+ 300              	 .cfi_offset 7,-8
+ 301              	 .cfi_offset 14,-4
+ 302 0002 84B0     	 sub sp,sp,#16
+ 303              	.LCFI7:
+ 304              	 .cfi_def_cfa_offset 24
+ 305 0004 00AF     	 add r7,sp,#0
+ 306              	.LCFI8:
+ 307              	 .cfi_def_cfa_register 7
+ 308 0006 F860     	 str r0,[r7,#12]
+ 309 0008 B960     	 str r1,[r7,#8]
+ 310 000a 7A60     	 str r2,[r7,#4]
+ 311 000c 3B60     	 str r3,[r7]
+ 112:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( end - *p ) < 1 )
+ 312              	 .loc 1 112 0
+ 313 000e BB68     	 ldr r3,[r7,#8]
+ 314 0010 FA68     	 ldr r2,[r7,#12]
+ 315 0012 1268     	 ldr r2,[r2]
+ 316 0014 9B1A     	 subs r3,r3,r2
+ 317 0016 002B     	 cmp r3,#0
+ 318 0018 02DC     	 bgt .L18
+ 113:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_OUT_OF_DATA );
+ 319              	 .loc 1 113 0
+ 320 001a 6FF05F03 	 mvn r3,#95
+ 321 001e 14E0     	 b .L19
+ 322              	.L18:
+ 114:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 115:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( **p != tag )
+ 323              	 .loc 1 115 0
+ 324 0020 FB68     	 ldr r3,[r7,#12]
+ 325 0022 1B68     	 ldr r3,[r3]
+ 326 0024 1B78     	 ldrb r3,[r3]
+ 327 0026 1A46     	 mov r2,r3
+ 328 0028 3B68     	 ldr r3,[r7]
+ 329 002a 9A42     	 cmp r2,r3
+ 330 002c 02D0     	 beq .L20
+ 116:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_UNEXPECTED_TAG );
+ 331              	 .loc 1 116 0
+ 332 002e 6FF06103 	 mvn r3,#97
+ 333 0032 0AE0     	 b .L19
+ 334              	.L20:
+ 117:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 118:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     (*p)++;
+ 335              	 .loc 1 118 0
+ 336 0034 FB68     	 ldr r3,[r7,#12]
+ 337 0036 1B68     	 ldr r3,[r3]
+ 338 0038 5A1C     	 adds r2,r3,#1
+ 339 003a FB68     	 ldr r3,[r7,#12]
+ 340 003c 1A60     	 str r2,[r3]
+ 119:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 120:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     return( mbedtls_asn1_get_len( p, end, len ) );
+ 341              	 .loc 1 120 0
+ 342 003e F868     	 ldr r0,[r7,#12]
+ 343 0040 B968     	 ldr r1,[r7,#8]
+ 344 0042 7A68     	 ldr r2,[r7,#4]
+ 345 0044 FFF7FEFF 	 bl mbedtls_asn1_get_len
+ 346 0048 0346     	 mov r3,r0
+ 347              	.L19:
+ 121:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 348              	 .loc 1 121 0
+ 349 004a 1846     	 mov r0,r3
+ 350 004c 1037     	 adds r7,r7,#16
+ 351              	.LCFI9:
+ 352              	 .cfi_def_cfa_offset 8
+ 353 004e BD46     	 mov sp,r7
+ 354              	.LCFI10:
+ 355              	 .cfi_def_cfa_register 13
+ 356              	 
+ 357 0050 80BD     	 pop {r7,pc}
+ 358              	 .cfi_endproc
+ 359              	.LFE1:
+ 361 0052 00BF     	 .section .text.mbedtls_asn1_get_bool,"ax",%progbits
+ 362              	 .align 2
+ 363              	 .global mbedtls_asn1_get_bool
+ 364              	 .thumb
+ 365              	 .thumb_func
+ 367              	mbedtls_asn1_get_bool:
+ 368              	.LFB2:
+ 122:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 123:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** int mbedtls_asn1_get_bool( unsigned char **p,
+ 124:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                    const unsigned char *end,
+ 125:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                    int *val )
+ 126:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+ 369              	 .loc 1 126 0
+ 370              	 .cfi_startproc
+ 371              	 
+ 372              	 
+ 373 0000 80B5     	 push {r7,lr}
+ 374              	.LCFI11:
+ 375              	 .cfi_def_cfa_offset 8
+ 376              	 .cfi_offset 7,-8
+ 377              	 .cfi_offset 14,-4
+ 378 0002 86B0     	 sub sp,sp,#24
+ 379              	.LCFI12:
+ 380              	 .cfi_def_cfa_offset 32
+ 381 0004 00AF     	 add r7,sp,#0
+ 382              	.LCFI13:
+ 383              	 .cfi_def_cfa_register 7
+ 384 0006 F860     	 str r0,[r7,#12]
+ 385 0008 B960     	 str r1,[r7,#8]
+ 386 000a 7A60     	 str r2,[r7,#4]
+ 127:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     int ret;
+ 128:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     size_t len;
+ 129:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 130:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( ret = mbedtls_asn1_get_tag( p, end, &len, MBEDTLS_ASN1_BOOLEAN ) ) != 0 )
+ 387              	 .loc 1 130 0
+ 388 000c 07F11003 	 add r3,r7,#16
+ 389 0010 F868     	 ldr r0,[r7,#12]
+ 390 0012 B968     	 ldr r1,[r7,#8]
+ 391 0014 1A46     	 mov r2,r3
+ 392 0016 0123     	 movs r3,#1
+ 393 0018 FFF7FEFF 	 bl mbedtls_asn1_get_tag
+ 394 001c 7861     	 str r0,[r7,#20]
+ 395 001e 7B69     	 ldr r3,[r7,#20]
+ 396 0020 002B     	 cmp r3,#0
+ 397 0022 01D0     	 beq .L22
+ 131:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( ret );
+ 398              	 .loc 1 131 0
+ 399 0024 7B69     	 ldr r3,[r7,#20]
+ 400 0026 16E0     	 b .L25
+ 401              	.L22:
+ 132:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 133:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( len != 1 )
+ 402              	 .loc 1 133 0
+ 403 0028 3B69     	 ldr r3,[r7,#16]
+ 404 002a 012B     	 cmp r3,#1
+ 405 002c 02D0     	 beq .L24
+ 134:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_INVALID_LENGTH );
+ 406              	 .loc 1 134 0
+ 407 002e 6FF06303 	 mvn r3,#99
+ 408 0032 10E0     	 b .L25
+ 409              	.L24:
+ 135:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 136:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     *val = ( **p != 0 ) ? 1 : 0;
+ 410              	 .loc 1 136 0
+ 411 0034 FB68     	 ldr r3,[r7,#12]
+ 412 0036 1B68     	 ldr r3,[r3]
+ 413 0038 1B78     	 ldrb r3,[r3]
+ 414 003a 002B     	 cmp r3,#0
+ 415 003c 14BF     	 ite ne
+ 416 003e 0123     	 movne r3,#1
+ 417 0040 0023     	 moveq r3,#0
+ 418 0042 DBB2     	 uxtb r3,r3
+ 419 0044 1A46     	 mov r2,r3
+ 420 0046 7B68     	 ldr r3,[r7,#4]
+ 421 0048 1A60     	 str r2,[r3]
+ 137:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     (*p)++;
+ 422              	 .loc 1 137 0
+ 423 004a FB68     	 ldr r3,[r7,#12]
+ 424 004c 1B68     	 ldr r3,[r3]
+ 425 004e 5A1C     	 adds r2,r3,#1
+ 426 0050 FB68     	 ldr r3,[r7,#12]
+ 427 0052 1A60     	 str r2,[r3]
+ 138:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 139:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     return( 0 );
+ 428              	 .loc 1 139 0
+ 429 0054 0023     	 movs r3,#0
+ 430              	.L25:
+ 140:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 431              	 .loc 1 140 0 discriminator 1
+ 432 0056 1846     	 mov r0,r3
+ 433 0058 1837     	 adds r7,r7,#24
+ 434              	.LCFI14:
+ 435              	 .cfi_def_cfa_offset 8
+ 436 005a BD46     	 mov sp,r7
+ 437              	.LCFI15:
+ 438              	 .cfi_def_cfa_register 13
+ 439              	 
+ 440 005c 80BD     	 pop {r7,pc}
+ 441              	 .cfi_endproc
+ 442              	.LFE2:
+ 444 005e 00BF     	 .section .text.mbedtls_asn1_get_int,"ax",%progbits
+ 445              	 .align 2
+ 446              	 .global mbedtls_asn1_get_int
+ 447              	 .thumb
+ 448              	 .thumb_func
+ 450              	mbedtls_asn1_get_int:
+ 451              	.LFB3:
+ 141:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 142:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** int mbedtls_asn1_get_int( unsigned char **p,
+ 143:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                   const unsigned char *end,
+ 144:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                   int *val )
+ 145:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+ 452              	 .loc 1 145 0
+ 453              	 .cfi_startproc
+ 454              	 
+ 455              	 
+ 456 0000 80B5     	 push {r7,lr}
+ 457              	.LCFI16:
+ 458              	 .cfi_def_cfa_offset 8
+ 459              	 .cfi_offset 7,-8
+ 460              	 .cfi_offset 14,-4
+ 461 0002 86B0     	 sub sp,sp,#24
+ 462              	.LCFI17:
+ 463              	 .cfi_def_cfa_offset 32
+ 464 0004 00AF     	 add r7,sp,#0
+ 465              	.LCFI18:
+ 466              	 .cfi_def_cfa_register 7
+ 467 0006 F860     	 str r0,[r7,#12]
+ 468 0008 B960     	 str r1,[r7,#8]
+ 469 000a 7A60     	 str r2,[r7,#4]
+ 146:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     int ret;
+ 147:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     size_t len;
+ 148:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 149:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( ret = mbedtls_asn1_get_tag( p, end, &len, MBEDTLS_ASN1_INTEGER ) ) != 0 )
+ 470              	 .loc 1 149 0
+ 471 000c 07F11003 	 add r3,r7,#16
+ 472 0010 F868     	 ldr r0,[r7,#12]
+ 473 0012 B968     	 ldr r1,[r7,#8]
+ 474 0014 1A46     	 mov r2,r3
+ 475 0016 0223     	 movs r3,#2
+ 476 0018 FFF7FEFF 	 bl mbedtls_asn1_get_tag
+ 477 001c 7861     	 str r0,[r7,#20]
+ 478 001e 7B69     	 ldr r3,[r7,#20]
+ 479 0020 002B     	 cmp r3,#0
+ 480 0022 01D0     	 beq .L27
+ 150:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( ret );
+ 481              	 .loc 1 150 0
+ 482 0024 7B69     	 ldr r3,[r7,#20]
+ 483 0026 27E0     	 b .L33
+ 484              	.L27:
+ 151:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 152:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( len == 0 || len > sizeof( int ) || ( **p & 0x80 ) != 0 )
+ 485              	 .loc 1 152 0
+ 486 0028 3B69     	 ldr r3,[r7,#16]
+ 487 002a 002B     	 cmp r3,#0
+ 488 002c 09D0     	 beq .L29
+ 489              	 .loc 1 152 0 is_stmt 0 discriminator 1
+ 490 002e 3B69     	 ldr r3,[r7,#16]
+ 491 0030 042B     	 cmp r3,#4
+ 492 0032 06D8     	 bhi .L29
+ 493              	 .loc 1 152 0 discriminator 2
+ 494 0034 FB68     	 ldr r3,[r7,#12]
+ 495 0036 1B68     	 ldr r3,[r3]
+ 496 0038 1B78     	 ldrb r3,[r3]
+ 497 003a DBB2     	 uxtb r3,r3
+ 498 003c 5BB2     	 sxtb r3,r3
+ 499 003e 002B     	 cmp r3,#0
+ 500 0040 02DA     	 bge .L30
+ 501              	.L29:
+ 153:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_INVALID_LENGTH );
+ 502              	 .loc 1 153 0 is_stmt 1
+ 503 0042 6FF06303 	 mvn r3,#99
+ 504 0046 17E0     	 b .L33
+ 505              	.L30:
+ 154:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 155:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     *val = 0;
+ 506              	 .loc 1 155 0
+ 507 0048 7B68     	 ldr r3,[r7,#4]
+ 508 004a 0022     	 movs r2,#0
+ 509 004c 1A60     	 str r2,[r3]
+ 156:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 157:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     while( len-- > 0 )
+ 510              	 .loc 1 157 0
+ 511 004e 0DE0     	 b .L31
+ 512              	.L32:
+ 158:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     {
+ 159:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         *val = ( *val << 8 ) | **p;
+ 513              	 .loc 1 159 0
+ 514 0050 7B68     	 ldr r3,[r7,#4]
+ 515 0052 1B68     	 ldr r3,[r3]
+ 516 0054 1B02     	 lsls r3,r3,#8
+ 517 0056 FA68     	 ldr r2,[r7,#12]
+ 518 0058 1268     	 ldr r2,[r2]
+ 519 005a 1278     	 ldrb r2,[r2]
+ 520 005c 1A43     	 orrs r2,r2,r3
+ 521 005e 7B68     	 ldr r3,[r7,#4]
+ 522 0060 1A60     	 str r2,[r3]
+ 160:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         (*p)++;
+ 523              	 .loc 1 160 0
+ 524 0062 FB68     	 ldr r3,[r7,#12]
+ 525 0064 1B68     	 ldr r3,[r3]
+ 526 0066 5A1C     	 adds r2,r3,#1
+ 527 0068 FB68     	 ldr r3,[r7,#12]
+ 528 006a 1A60     	 str r2,[r3]
+ 529              	.L31:
+ 157:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     {
+ 530              	 .loc 1 157 0
+ 531 006c 3B69     	 ldr r3,[r7,#16]
+ 532 006e 5A1E     	 subs r2,r3,#1
+ 533 0070 3A61     	 str r2,[r7,#16]
+ 534 0072 002B     	 cmp r3,#0
+ 535 0074 ECD1     	 bne .L32
+ 161:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     }
+ 162:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 163:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     return( 0 );
+ 536              	 .loc 1 163 0
+ 537 0076 0023     	 movs r3,#0
+ 538              	.L33:
+ 164:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 539              	 .loc 1 164 0 discriminator 1
+ 540 0078 1846     	 mov r0,r3
+ 541 007a 1837     	 adds r7,r7,#24
+ 542              	.LCFI19:
+ 543              	 .cfi_def_cfa_offset 8
+ 544 007c BD46     	 mov sp,r7
+ 545              	.LCFI20:
+ 546              	 .cfi_def_cfa_register 13
+ 547              	 
+ 548 007e 80BD     	 pop {r7,pc}
+ 549              	 .cfi_endproc
+ 550              	.LFE3:
+ 552              	 .section .text.mbedtls_asn1_get_mpi,"ax",%progbits
+ 553              	 .align 2
+ 554              	 .global mbedtls_asn1_get_mpi
+ 555              	 .thumb
+ 556              	 .thumb_func
+ 558              	mbedtls_asn1_get_mpi:
+ 559              	.LFB4:
+ 165:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 166:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #if defined(MBEDTLS_BIGNUM_C)
+ 167:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** int mbedtls_asn1_get_mpi( unsigned char **p,
+ 168:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                   const unsigned char *end,
+ 169:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                   mbedtls_mpi *X )
+ 170:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+ 560              	 .loc 1 170 0
+ 561              	 .cfi_startproc
+ 562              	 
+ 563              	 
+ 564 0000 80B5     	 push {r7,lr}
+ 565              	.LCFI21:
+ 566              	 .cfi_def_cfa_offset 8
+ 567              	 .cfi_offset 7,-8
+ 568              	 .cfi_offset 14,-4
+ 569 0002 86B0     	 sub sp,sp,#24
+ 570              	.LCFI22:
+ 571              	 .cfi_def_cfa_offset 32
+ 572 0004 00AF     	 add r7,sp,#0
+ 573              	.LCFI23:
+ 574              	 .cfi_def_cfa_register 7
+ 575 0006 F860     	 str r0,[r7,#12]
+ 576 0008 B960     	 str r1,[r7,#8]
+ 577 000a 7A60     	 str r2,[r7,#4]
+ 171:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     int ret;
+ 172:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     size_t len;
+ 173:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 174:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( ret = mbedtls_asn1_get_tag( p, end, &len, MBEDTLS_ASN1_INTEGER ) ) != 0 )
+ 578              	 .loc 1 174 0
+ 579 000c 07F11003 	 add r3,r7,#16
+ 580 0010 F868     	 ldr r0,[r7,#12]
+ 581 0012 B968     	 ldr r1,[r7,#8]
+ 582 0014 1A46     	 mov r2,r3
+ 583 0016 0223     	 movs r3,#2
+ 584 0018 FFF7FEFF 	 bl mbedtls_asn1_get_tag
+ 585 001c 7861     	 str r0,[r7,#20]
+ 586 001e 7B69     	 ldr r3,[r7,#20]
+ 587 0020 002B     	 cmp r3,#0
+ 588 0022 01D0     	 beq .L35
+ 175:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( ret );
+ 589              	 .loc 1 175 0
+ 590 0024 7B69     	 ldr r3,[r7,#20]
+ 591 0026 0FE0     	 b .L37
+ 592              	.L35:
+ 176:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 177:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     ret = mbedtls_mpi_read_binary( X, *p, len );
+ 593              	 .loc 1 177 0
+ 594 0028 FB68     	 ldr r3,[r7,#12]
+ 595 002a 1A68     	 ldr r2,[r3]
+ 596 002c 3B69     	 ldr r3,[r7,#16]
+ 597 002e 7868     	 ldr r0,[r7,#4]
+ 598 0030 1146     	 mov r1,r2
+ 599 0032 1A46     	 mov r2,r3
+ 600 0034 FFF7FEFF 	 bl mbedtls_mpi_read_binary
+ 601 0038 7861     	 str r0,[r7,#20]
+ 178:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 179:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     *p += len;
+ 602              	 .loc 1 179 0
+ 603 003a FB68     	 ldr r3,[r7,#12]
+ 604 003c 1A68     	 ldr r2,[r3]
+ 605 003e 3B69     	 ldr r3,[r7,#16]
+ 606 0040 1A44     	 add r2,r2,r3
+ 607 0042 FB68     	 ldr r3,[r7,#12]
+ 608 0044 1A60     	 str r2,[r3]
+ 180:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 181:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     return( ret );
+ 609              	 .loc 1 181 0
+ 610 0046 7B69     	 ldr r3,[r7,#20]
+ 611              	.L37:
+ 182:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 612              	 .loc 1 182 0 discriminator 1
+ 613 0048 1846     	 mov r0,r3
+ 614 004a 1837     	 adds r7,r7,#24
+ 615              	.LCFI24:
+ 616              	 .cfi_def_cfa_offset 8
+ 617 004c BD46     	 mov sp,r7
+ 618              	.LCFI25:
+ 619              	 .cfi_def_cfa_register 13
+ 620              	 
+ 621 004e 80BD     	 pop {r7,pc}
+ 622              	 .cfi_endproc
+ 623              	.LFE4:
+ 625              	 .section .text.mbedtls_asn1_get_bitstring,"ax",%progbits
+ 626              	 .align 2
+ 627              	 .global mbedtls_asn1_get_bitstring
+ 628              	 .thumb
+ 629              	 .thumb_func
+ 631              	mbedtls_asn1_get_bitstring:
+ 632              	.LFB5:
+ 183:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** #endif /* MBEDTLS_BIGNUM_C */
+ 184:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 185:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** int mbedtls_asn1_get_bitstring( unsigned char **p, const unsigned char *end,
+ 186:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                         mbedtls_asn1_bitstring *bs)
+ 187:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+ 633              	 .loc 1 187 0
+ 634              	 .cfi_startproc
+ 635              	 
+ 636              	 
+ 637 0000 80B5     	 push {r7,lr}
+ 638              	.LCFI26:
+ 639              	 .cfi_def_cfa_offset 8
+ 640              	 .cfi_offset 7,-8
+ 641              	 .cfi_offset 14,-4
+ 642 0002 86B0     	 sub sp,sp,#24
+ 643              	.LCFI27:
+ 644              	 .cfi_def_cfa_offset 32
+ 645 0004 00AF     	 add r7,sp,#0
+ 646              	.LCFI28:
+ 647              	 .cfi_def_cfa_register 7
+ 648 0006 F860     	 str r0,[r7,#12]
+ 649 0008 B960     	 str r1,[r7,#8]
+ 650 000a 7A60     	 str r2,[r7,#4]
+ 188:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     int ret;
+ 189:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 190:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     /* Certificate type is a single byte bitstring */
+ 191:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( ret = mbedtls_asn1_get_tag( p, end, &bs->len, MBEDTLS_ASN1_BIT_STRING ) ) != 0 )
+ 651              	 .loc 1 191 0
+ 652 000c 7B68     	 ldr r3,[r7,#4]
+ 653 000e F868     	 ldr r0,[r7,#12]
+ 654 0010 B968     	 ldr r1,[r7,#8]
+ 655 0012 1A46     	 mov r2,r3
+ 656 0014 0323     	 movs r3,#3
+ 657 0016 FFF7FEFF 	 bl mbedtls_asn1_get_tag
+ 658 001a 7861     	 str r0,[r7,#20]
+ 659 001c 7B69     	 ldr r3,[r7,#20]
+ 660 001e 002B     	 cmp r3,#0
+ 661 0020 01D0     	 beq .L39
+ 192:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( ret );
+ 662              	 .loc 1 192 0
+ 663 0022 7B69     	 ldr r3,[r7,#20]
+ 664 0024 30E0     	 b .L40
+ 665              	.L39:
+ 193:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 194:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     /* Check length, subtract one for actual bit string length */
+ 195:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( bs->len < 1 )
+ 666              	 .loc 1 195 0
+ 667 0026 7B68     	 ldr r3,[r7,#4]
+ 668 0028 1B68     	 ldr r3,[r3]
+ 669 002a 002B     	 cmp r3,#0
+ 670 002c 02D1     	 bne .L41
+ 196:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_OUT_OF_DATA );
+ 671              	 .loc 1 196 0
+ 672 002e 6FF05F03 	 mvn r3,#95
+ 673 0032 29E0     	 b .L40
+ 674              	.L41:
+ 197:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     bs->len -= 1;
+ 675              	 .loc 1 197 0
+ 676 0034 7B68     	 ldr r3,[r7,#4]
+ 677 0036 1B68     	 ldr r3,[r3]
+ 678 0038 5A1E     	 subs r2,r3,#1
+ 679 003a 7B68     	 ldr r3,[r7,#4]
+ 680 003c 1A60     	 str r2,[r3]
+ 198:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 199:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     /* Get number of unused bits, ensure unused bits <= 7 */
+ 200:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     bs->unused_bits = **p;
+ 681              	 .loc 1 200 0
+ 682 003e FB68     	 ldr r3,[r7,#12]
+ 683 0040 1B68     	 ldr r3,[r3]
+ 684 0042 1A78     	 ldrb r2,[r3]
+ 685 0044 7B68     	 ldr r3,[r7,#4]
+ 686 0046 1A71     	 strb r2,[r3,#4]
+ 201:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( bs->unused_bits > 7 )
+ 687              	 .loc 1 201 0
+ 688 0048 7B68     	 ldr r3,[r7,#4]
+ 689 004a 1B79     	 ldrb r3,[r3,#4]
+ 690 004c 072B     	 cmp r3,#7
+ 691 004e 02D9     	 bls .L42
+ 202:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_INVALID_LENGTH );
+ 692              	 .loc 1 202 0
+ 693 0050 6FF06303 	 mvn r3,#99
+ 694 0054 18E0     	 b .L40
+ 695              	.L42:
+ 203:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     (*p)++;
+ 696              	 .loc 1 203 0
+ 697 0056 FB68     	 ldr r3,[r7,#12]
+ 698 0058 1B68     	 ldr r3,[r3]
+ 699 005a 5A1C     	 adds r2,r3,#1
+ 700 005c FB68     	 ldr r3,[r7,#12]
+ 701 005e 1A60     	 str r2,[r3]
+ 204:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 205:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     /* Get actual bitstring */
+ 206:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     bs->p = *p;
+ 702              	 .loc 1 206 0
+ 703 0060 FB68     	 ldr r3,[r7,#12]
+ 704 0062 1A68     	 ldr r2,[r3]
+ 705 0064 7B68     	 ldr r3,[r7,#4]
+ 706 0066 9A60     	 str r2,[r3,#8]
+ 207:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     *p += bs->len;
+ 707              	 .loc 1 207 0
+ 708 0068 FB68     	 ldr r3,[r7,#12]
+ 709 006a 1A68     	 ldr r2,[r3]
+ 710 006c 7B68     	 ldr r3,[r7,#4]
+ 711 006e 1B68     	 ldr r3,[r3]
+ 712 0070 1A44     	 add r2,r2,r3
+ 713 0072 FB68     	 ldr r3,[r7,#12]
+ 714 0074 1A60     	 str r2,[r3]
+ 208:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 209:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( *p != end )
+ 715              	 .loc 1 209 0
+ 716 0076 FB68     	 ldr r3,[r7,#12]
+ 717 0078 1A68     	 ldr r2,[r3]
+ 718 007a BB68     	 ldr r3,[r7,#8]
+ 719 007c 9A42     	 cmp r2,r3
+ 720 007e 02D0     	 beq .L43
+ 210:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_LENGTH_MISMATCH );
+ 721              	 .loc 1 210 0
+ 722 0080 6FF06503 	 mvn r3,#101
+ 723 0084 00E0     	 b .L40
+ 724              	.L43:
+ 211:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 212:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     return( 0 );
+ 725              	 .loc 1 212 0
+ 726 0086 0023     	 movs r3,#0
+ 727              	.L40:
+ 213:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 728              	 .loc 1 213 0
+ 729 0088 1846     	 mov r0,r3
+ 730 008a 1837     	 adds r7,r7,#24
+ 731              	.LCFI29:
+ 732              	 .cfi_def_cfa_offset 8
+ 733 008c BD46     	 mov sp,r7
+ 734              	.LCFI30:
+ 735              	 .cfi_def_cfa_register 13
+ 736              	 
+ 737 008e 80BD     	 pop {r7,pc}
+ 738              	 .cfi_endproc
+ 739              	.LFE5:
+ 741              	 .section .text.mbedtls_asn1_get_bitstring_null,"ax",%progbits
+ 742              	 .align 2
+ 743              	 .global mbedtls_asn1_get_bitstring_null
+ 744              	 .thumb
+ 745              	 .thumb_func
+ 747              	mbedtls_asn1_get_bitstring_null:
+ 748              	.LFB6:
+ 214:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 215:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** /*
+ 216:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  * Get a bit string without unused bits
+ 217:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  */
+ 218:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** int mbedtls_asn1_get_bitstring_null( unsigned char **p, const unsigned char *end,
+ 219:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                              size_t *len )
+ 220:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+ 749              	 .loc 1 220 0
+ 750              	 .cfi_startproc
+ 751              	 
+ 752              	 
+ 753 0000 80B5     	 push {r7,lr}
+ 754              	.LCFI31:
+ 755              	 .cfi_def_cfa_offset 8
+ 756              	 .cfi_offset 7,-8
+ 757              	 .cfi_offset 14,-4
+ 758 0002 86B0     	 sub sp,sp,#24
+ 759              	.LCFI32:
+ 760              	 .cfi_def_cfa_offset 32
+ 761 0004 00AF     	 add r7,sp,#0
+ 762              	.LCFI33:
+ 763              	 .cfi_def_cfa_register 7
+ 764 0006 F860     	 str r0,[r7,#12]
+ 765 0008 B960     	 str r1,[r7,#8]
+ 766 000a 7A60     	 str r2,[r7,#4]
+ 221:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     int ret;
+ 222:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 223:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( ret = mbedtls_asn1_get_tag( p, end, len, MBEDTLS_ASN1_BIT_STRING ) ) != 0 )
+ 767              	 .loc 1 223 0
+ 768 000c F868     	 ldr r0,[r7,#12]
+ 769 000e B968     	 ldr r1,[r7,#8]
+ 770 0010 7A68     	 ldr r2,[r7,#4]
+ 771 0012 0323     	 movs r3,#3
+ 772 0014 FFF7FEFF 	 bl mbedtls_asn1_get_tag
+ 773 0018 7861     	 str r0,[r7,#20]
+ 774 001a 7B69     	 ldr r3,[r7,#20]
+ 775 001c 002B     	 cmp r3,#0
+ 776 001e 01D0     	 beq .L45
+ 224:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( ret );
+ 777              	 .loc 1 224 0
+ 778 0020 7B69     	 ldr r3,[r7,#20]
+ 779 0022 12E0     	 b .L46
+ 780              	.L45:
+ 225:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 226:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( (*len)-- < 2 || *(*p)++ != 0 )
+ 781              	 .loc 1 226 0
+ 782 0024 7B68     	 ldr r3,[r7,#4]
+ 783 0026 1B68     	 ldr r3,[r3]
+ 784 0028 591E     	 subs r1,r3,#1
+ 785 002a 7A68     	 ldr r2,[r7,#4]
+ 786 002c 1160     	 str r1,[r2]
+ 787 002e 012B     	 cmp r3,#1
+ 788 0030 07D9     	 bls .L47
+ 789              	 .loc 1 226 0 is_stmt 0 discriminator 1
+ 790 0032 FB68     	 ldr r3,[r7,#12]
+ 791 0034 1B68     	 ldr r3,[r3]
+ 792 0036 591C     	 adds r1,r3,#1
+ 793 0038 FA68     	 ldr r2,[r7,#12]
+ 794 003a 1160     	 str r1,[r2]
+ 795 003c 1B78     	 ldrb r3,[r3]
+ 796 003e 002B     	 cmp r3,#0
+ 797 0040 02D0     	 beq .L48
+ 798              	.L47:
+ 227:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_INVALID_DATA );
+ 799              	 .loc 1 227 0 is_stmt 1
+ 800 0042 6FF06703 	 mvn r3,#103
+ 801 0046 00E0     	 b .L46
+ 802              	.L48:
+ 228:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 229:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     return( 0 );
+ 803              	 .loc 1 229 0
+ 804 0048 0023     	 movs r3,#0
+ 805              	.L46:
+ 230:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 806              	 .loc 1 230 0
+ 807 004a 1846     	 mov r0,r3
+ 808 004c 1837     	 adds r7,r7,#24
+ 809              	.LCFI34:
+ 810              	 .cfi_def_cfa_offset 8
+ 811 004e BD46     	 mov sp,r7
+ 812              	.LCFI35:
+ 813              	 .cfi_def_cfa_register 13
+ 814              	 
+ 815 0050 80BD     	 pop {r7,pc}
+ 816              	 .cfi_endproc
+ 817              	.LFE6:
+ 819 0052 00BF     	 .section .text.mbedtls_asn1_get_sequence_of,"ax",%progbits
+ 820              	 .align 2
+ 821              	 .global mbedtls_asn1_get_sequence_of
+ 822              	 .thumb
+ 823              	 .thumb_func
+ 825              	mbedtls_asn1_get_sequence_of:
+ 826              	.LFB7:
+ 231:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 232:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 233:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 234:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** /*
+ 235:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  *  Parses and splits an ASN.1 "SEQUENCE OF <tag>"
+ 236:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****  */
+ 237:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** int mbedtls_asn1_get_sequence_of( unsigned char **p,
+ 238:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                           const unsigned char *end,
+ 239:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                           mbedtls_asn1_sequence *cur,
+ 240:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                           int tag)
+ 241:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+ 827              	 .loc 1 241 0
+ 828              	 .cfi_startproc
+ 829              	 
+ 830              	 
+ 831 0000 80B5     	 push {r7,lr}
+ 832              	.LCFI36:
+ 833              	 .cfi_def_cfa_offset 8
+ 834              	 .cfi_offset 7,-8
+ 835              	 .cfi_offset 14,-4
+ 836 0002 88B0     	 sub sp,sp,#32
+ 837              	.LCFI37:
+ 838              	 .cfi_def_cfa_offset 40
+ 839 0004 00AF     	 add r7,sp,#0
+ 840              	.LCFI38:
+ 841              	 .cfi_def_cfa_register 7
+ 842 0006 F860     	 str r0,[r7,#12]
+ 843 0008 B960     	 str r1,[r7,#8]
+ 844 000a 7A60     	 str r2,[r7,#4]
+ 845 000c 3B60     	 str r3,[r7]
+ 242:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     int ret;
+ 243:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     size_t len;
+ 244:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     mbedtls_asn1_buf *buf;
+ 245:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 246:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     /* Get main sequence tag */
+ 247:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( ret = mbedtls_asn1_get_tag( p, end, &len,
+ 846              	 .loc 1 247 0
+ 847 000e 07F11403 	 add r3,r7,#20
+ 848 0012 F868     	 ldr r0,[r7,#12]
+ 849 0014 B968     	 ldr r1,[r7,#8]
+ 850 0016 1A46     	 mov r2,r3
+ 851 0018 3023     	 movs r3,#48
+ 852 001a FFF7FEFF 	 bl mbedtls_asn1_get_tag
+ 853 001e F861     	 str r0,[r7,#28]
+ 854 0020 FB69     	 ldr r3,[r7,#28]
+ 855 0022 002B     	 cmp r3,#0
+ 856 0024 01D0     	 beq .L50
+ 248:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             MBEDTLS_ASN1_CONSTRUCTED | MBEDTLS_ASN1_SEQUENCE ) ) != 0 )
+ 249:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( ret );
+ 857              	 .loc 1 249 0
+ 858 0026 FB69     	 ldr r3,[r7,#28]
+ 859 0028 53E0     	 b .L58
+ 860              	.L50:
+ 250:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 251:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( *p + len != end )
+ 861              	 .loc 1 251 0
+ 862 002a FB68     	 ldr r3,[r7,#12]
+ 863 002c 1A68     	 ldr r2,[r3]
+ 864 002e 7B69     	 ldr r3,[r7,#20]
+ 865 0030 1A44     	 add r2,r2,r3
+ 866 0032 BB68     	 ldr r3,[r7,#8]
+ 867 0034 9A42     	 cmp r2,r3
+ 868 0036 02D0     	 beq .L52
+ 252:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_LENGTH_MISMATCH );
+ 869              	 .loc 1 252 0
+ 870 0038 6FF06503 	 mvn r3,#101
+ 871 003c 49E0     	 b .L58
+ 872              	.L52:
+ 253:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 254:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     while( *p < end )
+ 873              	 .loc 1 254 0
+ 874 003e 37E0     	 b .L53
+ 875              	.L56:
+ 255:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     {
+ 256:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         buf = &(cur->buf);
+ 876              	 .loc 1 256 0
+ 877 0040 7B68     	 ldr r3,[r7,#4]
+ 878 0042 BB61     	 str r3,[r7,#24]
+ 257:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         buf->tag = **p;
+ 879              	 .loc 1 257 0
+ 880 0044 FB68     	 ldr r3,[r7,#12]
+ 881 0046 1B68     	 ldr r3,[r3]
+ 882 0048 1B78     	 ldrb r3,[r3]
+ 883 004a 1A46     	 mov r2,r3
+ 884 004c BB69     	 ldr r3,[r7,#24]
+ 885 004e 1A60     	 str r2,[r3]
+ 258:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 259:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         if( ( ret = mbedtls_asn1_get_tag( p, end, &buf->len, tag ) ) != 0 )
+ 886              	 .loc 1 259 0
+ 887 0050 BB69     	 ldr r3,[r7,#24]
+ 888 0052 0433     	 adds r3,r3,#4
+ 889 0054 F868     	 ldr r0,[r7,#12]
+ 890 0056 B968     	 ldr r1,[r7,#8]
+ 891 0058 1A46     	 mov r2,r3
+ 892 005a 3B68     	 ldr r3,[r7]
+ 893 005c FFF7FEFF 	 bl mbedtls_asn1_get_tag
+ 894 0060 F861     	 str r0,[r7,#28]
+ 895 0062 FB69     	 ldr r3,[r7,#28]
+ 896 0064 002B     	 cmp r3,#0
+ 897 0066 01D0     	 beq .L54
+ 260:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             return( ret );
+ 898              	 .loc 1 260 0
+ 899 0068 FB69     	 ldr r3,[r7,#28]
+ 900 006a 32E0     	 b .L58
+ 901              	.L54:
+ 261:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 262:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         buf->p = *p;
+ 902              	 .loc 1 262 0
+ 903 006c FB68     	 ldr r3,[r7,#12]
+ 904 006e 1A68     	 ldr r2,[r3]
+ 905 0070 BB69     	 ldr r3,[r7,#24]
+ 906 0072 9A60     	 str r2,[r3,#8]
+ 263:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         *p += buf->len;
+ 907              	 .loc 1 263 0
+ 908 0074 FB68     	 ldr r3,[r7,#12]
+ 909 0076 1A68     	 ldr r2,[r3]
+ 910 0078 BB69     	 ldr r3,[r7,#24]
+ 911 007a 5B68     	 ldr r3,[r3,#4]
+ 912 007c 1A44     	 add r2,r2,r3
+ 913 007e FB68     	 ldr r3,[r7,#12]
+ 914 0080 1A60     	 str r2,[r3]
+ 264:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 265:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         /* Allocate and assign next pointer */
+ 266:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         if( *p < end )
+ 915              	 .loc 1 266 0
+ 916 0082 FB68     	 ldr r3,[r7,#12]
+ 917 0084 1A68     	 ldr r2,[r3]
+ 918 0086 BB68     	 ldr r3,[r7,#8]
+ 919 0088 9A42     	 cmp r2,r3
+ 920 008a 11D2     	 bcs .L53
+ 267:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         {
+ 268:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             cur->next = (mbedtls_asn1_sequence*)mbedtls_calloc( 1,
+ 921              	 .loc 1 268 0
+ 922 008c 0120     	 movs r0,#1
+ 923 008e 1021     	 movs r1,#16
+ 924 0090 FFF7FEFF 	 bl calloc
+ 925 0094 0346     	 mov r3,r0
+ 926 0096 1A46     	 mov r2,r3
+ 927 0098 7B68     	 ldr r3,[r7,#4]
+ 928 009a DA60     	 str r2,[r3,#12]
+ 269:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                                             sizeof( mbedtls_asn1_sequence ) );
+ 270:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 271:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             if( cur->next == NULL )
+ 929              	 .loc 1 271 0
+ 930 009c 7B68     	 ldr r3,[r7,#4]
+ 931 009e DB68     	 ldr r3,[r3,#12]
+ 932 00a0 002B     	 cmp r3,#0
+ 933 00a2 02D1     	 bne .L55
+ 272:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                 return( MBEDTLS_ERR_ASN1_ALLOC_FAILED );
+ 934              	 .loc 1 272 0
+ 935 00a4 6FF06903 	 mvn r3,#105
+ 936 00a8 13E0     	 b .L58
+ 937              	.L55:
+ 273:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 274:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             cur = cur->next;
+ 938              	 .loc 1 274 0
+ 939 00aa 7B68     	 ldr r3,[r7,#4]
+ 940 00ac DB68     	 ldr r3,[r3,#12]
+ 941 00ae 7B60     	 str r3,[r7,#4]
+ 942              	.L53:
+ 254:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     {
+ 943              	 .loc 1 254 0
+ 944 00b0 FB68     	 ldr r3,[r7,#12]
+ 945 00b2 1A68     	 ldr r2,[r3]
+ 946 00b4 BB68     	 ldr r3,[r7,#8]
+ 947 00b6 9A42     	 cmp r2,r3
+ 948 00b8 C2D3     	 bcc .L56
+ 275:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         }
+ 276:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     }
+ 277:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 278:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     /* Set final sequence entry's next pointer to NULL */
+ 279:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     cur->next = NULL;
+ 949              	 .loc 1 279 0
+ 950 00ba 7B68     	 ldr r3,[r7,#4]
+ 951 00bc 0022     	 movs r2,#0
+ 952 00be DA60     	 str r2,[r3,#12]
+ 280:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 281:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( *p != end )
+ 953              	 .loc 1 281 0
+ 954 00c0 FB68     	 ldr r3,[r7,#12]
+ 955 00c2 1A68     	 ldr r2,[r3]
+ 956 00c4 BB68     	 ldr r3,[r7,#8]
+ 957 00c6 9A42     	 cmp r2,r3
+ 958 00c8 02D0     	 beq .L57
+ 282:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_LENGTH_MISMATCH );
+ 959              	 .loc 1 282 0
+ 960 00ca 6FF06503 	 mvn r3,#101
+ 961 00ce 00E0     	 b .L58
+ 962              	.L57:
+ 283:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 284:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     return( 0 );
+ 963              	 .loc 1 284 0
+ 964 00d0 0023     	 movs r3,#0
+ 965              	.L58:
+ 285:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 966              	 .loc 1 285 0 discriminator 1
+ 967 00d2 1846     	 mov r0,r3
+ 968 00d4 2037     	 adds r7,r7,#32
+ 969              	.LCFI39:
+ 970              	 .cfi_def_cfa_offset 8
+ 971 00d6 BD46     	 mov sp,r7
+ 972              	.LCFI40:
+ 973              	 .cfi_def_cfa_register 13
+ 974              	 
+ 975 00d8 80BD     	 pop {r7,pc}
+ 976              	 .cfi_endproc
+ 977              	.LFE7:
+ 979 00da 00BF     	 .section .text.mbedtls_asn1_get_alg,"ax",%progbits
+ 980              	 .align 2
+ 981              	 .global mbedtls_asn1_get_alg
+ 982              	 .thumb
+ 983              	 .thumb_func
+ 985              	mbedtls_asn1_get_alg:
+ 986              	.LFB8:
+ 286:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 287:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** int mbedtls_asn1_get_alg( unsigned char **p,
+ 288:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                   const unsigned char *end,
+ 289:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                   mbedtls_asn1_buf *alg, mbedtls_asn1_buf *params )
+ 290:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+ 987              	 .loc 1 290 0
+ 988              	 .cfi_startproc
+ 989              	 
+ 990              	 
+ 991 0000 80B5     	 push {r7,lr}
+ 992              	.LCFI41:
+ 993              	 .cfi_def_cfa_offset 8
+ 994              	 .cfi_offset 7,-8
+ 995              	 .cfi_offset 14,-4
+ 996 0002 86B0     	 sub sp,sp,#24
+ 997              	.LCFI42:
+ 998              	 .cfi_def_cfa_offset 32
+ 999 0004 00AF     	 add r7,sp,#0
+ 1000              	.LCFI43:
+ 1001              	 .cfi_def_cfa_register 7
+ 1002 0006 F860     	 str r0,[r7,#12]
+ 1003 0008 B960     	 str r1,[r7,#8]
+ 1004 000a 7A60     	 str r2,[r7,#4]
+ 1005 000c 3B60     	 str r3,[r7]
+ 291:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     int ret;
+ 292:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     size_t len;
+ 293:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 294:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( ret = mbedtls_asn1_get_tag( p, end, &len,
+ 1006              	 .loc 1 294 0
+ 1007 000e 07F11003 	 add r3,r7,#16
+ 1008 0012 F868     	 ldr r0,[r7,#12]
+ 1009 0014 B968     	 ldr r1,[r7,#8]
+ 1010 0016 1A46     	 mov r2,r3
+ 1011 0018 3023     	 movs r3,#48
+ 1012 001a FFF7FEFF 	 bl mbedtls_asn1_get_tag
+ 1013 001e 7861     	 str r0,[r7,#20]
+ 1014 0020 7B69     	 ldr r3,[r7,#20]
+ 1015 0022 002B     	 cmp r3,#0
+ 1016 0024 01D0     	 beq .L60
+ 295:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             MBEDTLS_ASN1_CONSTRUCTED | MBEDTLS_ASN1_SEQUENCE ) ) != 0 )
+ 296:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( ret );
+ 1017              	 .loc 1 296 0
+ 1018 0026 7B69     	 ldr r3,[r7,#20]
+ 1019 0028 63E0     	 b .L67
+ 1020              	.L60:
+ 297:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 298:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( end - *p ) < 1 )
+ 1021              	 .loc 1 298 0
+ 1022 002a BB68     	 ldr r3,[r7,#8]
+ 1023 002c FA68     	 ldr r2,[r7,#12]
+ 1024 002e 1268     	 ldr r2,[r2]
+ 1025 0030 9B1A     	 subs r3,r3,r2
+ 1026 0032 002B     	 cmp r3,#0
+ 1027 0034 02DC     	 bgt .L62
+ 299:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_OUT_OF_DATA );
+ 1028              	 .loc 1 299 0
+ 1029 0036 6FF05F03 	 mvn r3,#95
+ 1030 003a 5AE0     	 b .L67
+ 1031              	.L62:
+ 300:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 301:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     alg->tag = **p;
+ 1032              	 .loc 1 301 0
+ 1033 003c FB68     	 ldr r3,[r7,#12]
+ 1034 003e 1B68     	 ldr r3,[r3]
+ 1035 0040 1B78     	 ldrb r3,[r3]
+ 1036 0042 1A46     	 mov r2,r3
+ 1037 0044 7B68     	 ldr r3,[r7,#4]
+ 1038 0046 1A60     	 str r2,[r3]
+ 302:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     end = *p + len;
+ 1039              	 .loc 1 302 0
+ 1040 0048 FB68     	 ldr r3,[r7,#12]
+ 1041 004a 1A68     	 ldr r2,[r3]
+ 1042 004c 3B69     	 ldr r3,[r7,#16]
+ 1043 004e 1344     	 add r3,r3,r2
+ 1044 0050 BB60     	 str r3,[r7,#8]
+ 303:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 304:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( ret = mbedtls_asn1_get_tag( p, end, &alg->len, MBEDTLS_ASN1_OID ) ) != 0 )
+ 1045              	 .loc 1 304 0
+ 1046 0052 7B68     	 ldr r3,[r7,#4]
+ 1047 0054 0433     	 adds r3,r3,#4
+ 1048 0056 F868     	 ldr r0,[r7,#12]
+ 1049 0058 B968     	 ldr r1,[r7,#8]
+ 1050 005a 1A46     	 mov r2,r3
+ 1051 005c 0623     	 movs r3,#6
+ 1052 005e FFF7FEFF 	 bl mbedtls_asn1_get_tag
+ 1053 0062 7861     	 str r0,[r7,#20]
+ 1054 0064 7B69     	 ldr r3,[r7,#20]
+ 1055 0066 002B     	 cmp r3,#0
+ 1056 0068 01D0     	 beq .L63
+ 305:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( ret );
+ 1057              	 .loc 1 305 0
+ 1058 006a 7B69     	 ldr r3,[r7,#20]
+ 1059 006c 41E0     	 b .L67
+ 1060              	.L63:
+ 306:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 307:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     alg->p = *p;
+ 1061              	 .loc 1 307 0
+ 1062 006e FB68     	 ldr r3,[r7,#12]
+ 1063 0070 1A68     	 ldr r2,[r3]
+ 1064 0072 7B68     	 ldr r3,[r7,#4]
+ 1065 0074 9A60     	 str r2,[r3,#8]
+ 308:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     *p += alg->len;
+ 1066              	 .loc 1 308 0
+ 1067 0076 FB68     	 ldr r3,[r7,#12]
+ 1068 0078 1A68     	 ldr r2,[r3]
+ 1069 007a 7B68     	 ldr r3,[r7,#4]
+ 1070 007c 5B68     	 ldr r3,[r3,#4]
+ 1071 007e 1A44     	 add r2,r2,r3
+ 1072 0080 FB68     	 ldr r3,[r7,#12]
+ 1073 0082 1A60     	 str r2,[r3]
+ 309:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 310:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( *p == end )
+ 1074              	 .loc 1 310 0
+ 1075 0084 FB68     	 ldr r3,[r7,#12]
+ 1076 0086 1A68     	 ldr r2,[r3]
+ 1077 0088 BB68     	 ldr r3,[r7,#8]
+ 1078 008a 9A42     	 cmp r2,r3
+ 1079 008c 05D1     	 bne .L64
+ 311:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     {
+ 312:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         mbedtls_platform_zeroize( params, sizeof(mbedtls_asn1_buf) );
+ 1080              	 .loc 1 312 0
+ 1081 008e 3868     	 ldr r0,[r7]
+ 1082 0090 0C21     	 movs r1,#12
+ 1083 0092 FFF7FEFF 	 bl mbedtls_platform_zeroize
+ 313:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( 0 );
+ 1084              	 .loc 1 313 0
+ 1085 0096 0023     	 movs r3,#0
+ 1086 0098 2BE0     	 b .L67
+ 1087              	.L64:
+ 314:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     }
+ 315:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 316:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     params->tag = **p;
+ 1088              	 .loc 1 316 0
+ 1089 009a FB68     	 ldr r3,[r7,#12]
+ 1090 009c 1B68     	 ldr r3,[r3]
+ 1091 009e 1B78     	 ldrb r3,[r3]
+ 1092 00a0 1A46     	 mov r2,r3
+ 1093 00a2 3B68     	 ldr r3,[r7]
+ 1094 00a4 1A60     	 str r2,[r3]
+ 317:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     (*p)++;
+ 1095              	 .loc 1 317 0
+ 1096 00a6 FB68     	 ldr r3,[r7,#12]
+ 1097 00a8 1B68     	 ldr r3,[r3]
+ 1098 00aa 5A1C     	 adds r2,r3,#1
+ 1099 00ac FB68     	 ldr r3,[r7,#12]
+ 1100 00ae 1A60     	 str r2,[r3]
+ 318:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 319:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( ret = mbedtls_asn1_get_len( p, end, &params->len ) ) != 0 )
+ 1101              	 .loc 1 319 0
+ 1102 00b0 3B68     	 ldr r3,[r7]
+ 1103 00b2 0433     	 adds r3,r3,#4
+ 1104 00b4 F868     	 ldr r0,[r7,#12]
+ 1105 00b6 B968     	 ldr r1,[r7,#8]
+ 1106 00b8 1A46     	 mov r2,r3
+ 1107 00ba FFF7FEFF 	 bl mbedtls_asn1_get_len
+ 1108 00be 7861     	 str r0,[r7,#20]
+ 1109 00c0 7B69     	 ldr r3,[r7,#20]
+ 1110 00c2 002B     	 cmp r3,#0
+ 1111 00c4 01D0     	 beq .L65
+ 320:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( ret );
+ 1112              	 .loc 1 320 0
+ 1113 00c6 7B69     	 ldr r3,[r7,#20]
+ 1114 00c8 13E0     	 b .L67
+ 1115              	.L65:
+ 321:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 322:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     params->p = *p;
+ 1116              	 .loc 1 322 0
+ 1117 00ca FB68     	 ldr r3,[r7,#12]
+ 1118 00cc 1A68     	 ldr r2,[r3]
+ 1119 00ce 3B68     	 ldr r3,[r7]
+ 1120 00d0 9A60     	 str r2,[r3,#8]
+ 323:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     *p += params->len;
+ 1121              	 .loc 1 323 0
+ 1122 00d2 FB68     	 ldr r3,[r7,#12]
+ 1123 00d4 1A68     	 ldr r2,[r3]
+ 1124 00d6 3B68     	 ldr r3,[r7]
+ 1125 00d8 5B68     	 ldr r3,[r3,#4]
+ 1126 00da 1A44     	 add r2,r2,r3
+ 1127 00dc FB68     	 ldr r3,[r7,#12]
+ 1128 00de 1A60     	 str r2,[r3]
+ 324:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 325:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( *p != end )
+ 1129              	 .loc 1 325 0
+ 1130 00e0 FB68     	 ldr r3,[r7,#12]
+ 1131 00e2 1A68     	 ldr r2,[r3]
+ 1132 00e4 BB68     	 ldr r3,[r7,#8]
+ 1133 00e6 9A42     	 cmp r2,r3
+ 1134 00e8 02D0     	 beq .L66
+ 326:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_LENGTH_MISMATCH );
+ 1135              	 .loc 1 326 0
+ 1136 00ea 6FF06503 	 mvn r3,#101
+ 1137 00ee 00E0     	 b .L67
+ 1138              	.L66:
+ 327:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 328:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     return( 0 );
+ 1139              	 .loc 1 328 0
+ 1140 00f0 0023     	 movs r3,#0
+ 1141              	.L67:
+ 329:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 1142              	 .loc 1 329 0 discriminator 1
+ 1143 00f2 1846     	 mov r0,r3
+ 1144 00f4 1837     	 adds r7,r7,#24
+ 1145              	.LCFI44:
+ 1146              	 .cfi_def_cfa_offset 8
+ 1147 00f6 BD46     	 mov sp,r7
+ 1148              	.LCFI45:
+ 1149              	 .cfi_def_cfa_register 13
+ 1150              	 
+ 1151 00f8 80BD     	 pop {r7,pc}
+ 1152              	 .cfi_endproc
+ 1153              	.LFE8:
+ 1155 00fa 00BF     	 .section .text.mbedtls_asn1_get_alg_null,"ax",%progbits
+ 1156              	 .align 2
+ 1157              	 .global mbedtls_asn1_get_alg_null
+ 1158              	 .thumb
+ 1159              	 .thumb_func
+ 1161              	mbedtls_asn1_get_alg_null:
+ 1162              	.LFB9:
+ 330:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 331:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** int mbedtls_asn1_get_alg_null( unsigned char **p,
+ 332:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                        const unsigned char *end,
+ 333:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                        mbedtls_asn1_buf *alg )
+ 334:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+ 1163              	 .loc 1 334 0
+ 1164              	 .cfi_startproc
+ 1165              	 
+ 1166              	 
+ 1167 0000 80B5     	 push {r7,lr}
+ 1168              	.LCFI46:
+ 1169              	 .cfi_def_cfa_offset 8
+ 1170              	 .cfi_offset 7,-8
+ 1171              	 .cfi_offset 14,-4
+ 1172 0002 88B0     	 sub sp,sp,#32
+ 1173              	.LCFI47:
+ 1174              	 .cfi_def_cfa_offset 40
+ 1175 0004 00AF     	 add r7,sp,#0
+ 1176              	.LCFI48:
+ 1177              	 .cfi_def_cfa_register 7
+ 1178 0006 F860     	 str r0,[r7,#12]
+ 1179 0008 B960     	 str r1,[r7,#8]
+ 1180 000a 7A60     	 str r2,[r7,#4]
+ 335:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     int ret;
+ 336:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     mbedtls_asn1_buf params;
+ 337:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 338:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     memset( &params, 0, sizeof(mbedtls_asn1_buf) );
+ 1181              	 .loc 1 338 0
+ 1182 000c 07F11003 	 add r3,r7,#16
+ 1183 0010 1846     	 mov r0,r3
+ 1184 0012 0021     	 movs r1,#0
+ 1185 0014 0C22     	 movs r2,#12
+ 1186 0016 FFF7FEFF 	 bl memset
+ 339:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 340:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( ret = mbedtls_asn1_get_alg( p, end, alg, &params ) ) != 0 )
+ 1187              	 .loc 1 340 0
+ 1188 001a 07F11003 	 add r3,r7,#16
+ 1189 001e F868     	 ldr r0,[r7,#12]
+ 1190 0020 B968     	 ldr r1,[r7,#8]
+ 1191 0022 7A68     	 ldr r2,[r7,#4]
+ 1192 0024 FFF7FEFF 	 bl mbedtls_asn1_get_alg
+ 1193 0028 F861     	 str r0,[r7,#28]
+ 1194 002a FB69     	 ldr r3,[r7,#28]
+ 1195 002c 002B     	 cmp r3,#0
+ 1196 002e 01D0     	 beq .L69
+ 341:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( ret );
+ 1197              	 .loc 1 341 0
+ 1198 0030 FB69     	 ldr r3,[r7,#28]
+ 1199 0032 0CE0     	 b .L74
+ 1200              	.L69:
+ 342:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 343:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( ( params.tag != MBEDTLS_ASN1_NULL && params.tag != 0 ) || params.len != 0 )
+ 1201              	 .loc 1 343 0
+ 1202 0034 3B69     	 ldr r3,[r7,#16]
+ 1203 0036 052B     	 cmp r3,#5
+ 1204 0038 02D0     	 beq .L71
+ 1205              	 .loc 1 343 0 is_stmt 0 discriminator 1
+ 1206 003a 3B69     	 ldr r3,[r7,#16]
+ 1207 003c 002B     	 cmp r3,#0
+ 1208 003e 02D1     	 bne .L72
+ 1209              	.L71:
+ 1210              	 .loc 1 343 0 discriminator 3
+ 1211 0040 7B69     	 ldr r3,[r7,#20]
+ 1212 0042 002B     	 cmp r3,#0
+ 1213 0044 02D0     	 beq .L73
+ 1214              	.L72:
+ 344:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return( MBEDTLS_ERR_ASN1_INVALID_DATA );
+ 1215              	 .loc 1 344 0 is_stmt 1
+ 1216 0046 6FF06703 	 mvn r3,#103
+ 1217 004a 00E0     	 b .L74
+ 1218              	.L73:
+ 345:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 346:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     return( 0 );
+ 1219              	 .loc 1 346 0
+ 1220 004c 0023     	 movs r3,#0
+ 1221              	.L74:
+ 347:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 1222              	 .loc 1 347 0 discriminator 1
+ 1223 004e 1846     	 mov r0,r3
+ 1224 0050 2037     	 adds r7,r7,#32
+ 1225              	.LCFI49:
+ 1226              	 .cfi_def_cfa_offset 8
+ 1227 0052 BD46     	 mov sp,r7
+ 1228              	.LCFI50:
+ 1229              	 .cfi_def_cfa_register 13
+ 1230              	 
+ 1231 0054 80BD     	 pop {r7,pc}
+ 1232              	 .cfi_endproc
+ 1233              	.LFE9:
+ 1235 0056 00BF     	 .section .text.mbedtls_asn1_free_named_data,"ax",%progbits
+ 1236              	 .align 2
+ 1237              	 .global mbedtls_asn1_free_named_data
+ 1238              	 .thumb
+ 1239              	 .thumb_func
+ 1241              	mbedtls_asn1_free_named_data:
+ 1242              	.LFB10:
+ 348:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 349:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** void mbedtls_asn1_free_named_data( mbedtls_asn1_named_data *cur )
+ 350:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+ 1243              	 .loc 1 350 0
+ 1244              	 .cfi_startproc
+ 1245              	 
+ 1246              	 
+ 1247 0000 80B5     	 push {r7,lr}
+ 1248              	.LCFI51:
+ 1249              	 .cfi_def_cfa_offset 8
+ 1250              	 .cfi_offset 7,-8
+ 1251              	 .cfi_offset 14,-4
+ 1252 0002 82B0     	 sub sp,sp,#8
+ 1253              	.LCFI52:
+ 1254              	 .cfi_def_cfa_offset 16
+ 1255 0004 00AF     	 add r7,sp,#0
+ 1256              	.LCFI53:
+ 1257              	 .cfi_def_cfa_register 7
+ 1258 0006 7860     	 str r0,[r7,#4]
+ 351:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     if( cur == NULL )
+ 1259              	 .loc 1 351 0
+ 1260 0008 7B68     	 ldr r3,[r7,#4]
+ 1261 000a 002B     	 cmp r3,#0
+ 1262 000c 00D1     	 bne .L76
+ 352:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         return;
+ 1263              	 .loc 1 352 0
+ 1264 000e 0DE0     	 b .L75
+ 1265              	.L76:
+ 353:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 354:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     mbedtls_free( cur->oid.p );
+ 1266              	 .loc 1 354 0
+ 1267 0010 7B68     	 ldr r3,[r7,#4]
+ 1268 0012 9B68     	 ldr r3,[r3,#8]
+ 1269 0014 1846     	 mov r0,r3
+ 1270 0016 FFF7FEFF 	 bl free
+ 355:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     mbedtls_free( cur->val.p );
+ 1271              	 .loc 1 355 0
+ 1272 001a 7B68     	 ldr r3,[r7,#4]
+ 1273 001c 5B69     	 ldr r3,[r3,#20]
+ 1274 001e 1846     	 mov r0,r3
+ 1275 0020 FFF7FEFF 	 bl free
+ 356:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 357:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     mbedtls_platform_zeroize( cur, sizeof( mbedtls_asn1_named_data ) );
+ 1276              	 .loc 1 357 0
+ 1277 0024 7868     	 ldr r0,[r7,#4]
+ 1278 0026 2021     	 movs r1,#32
+ 1279 0028 FFF7FEFF 	 bl mbedtls_platform_zeroize
+ 1280              	.L75:
+ 358:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 1281              	 .loc 1 358 0
+ 1282 002c 0837     	 adds r7,r7,#8
+ 1283              	.LCFI54:
+ 1284              	 .cfi_def_cfa_offset 8
+ 1285 002e BD46     	 mov sp,r7
+ 1286              	.LCFI55:
+ 1287              	 .cfi_def_cfa_register 13
+ 1288              	 
+ 1289 0030 80BD     	 pop {r7,pc}
+ 1290              	 .cfi_endproc
+ 1291              	.LFE10:
+ 1293 0032 00BF     	 .section .text.mbedtls_asn1_free_named_data_list,"ax",%progbits
+ 1294              	 .align 2
+ 1295              	 .global mbedtls_asn1_free_named_data_list
+ 1296              	 .thumb
+ 1297              	 .thumb_func
+ 1299              	mbedtls_asn1_free_named_data_list:
+ 1300              	.LFB11:
+ 359:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 360:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** void mbedtls_asn1_free_named_data_list( mbedtls_asn1_named_data **head )
+ 361:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+ 1301              	 .loc 1 361 0
+ 1302              	 .cfi_startproc
+ 1303              	 
+ 1304              	 
+ 1305 0000 80B5     	 push {r7,lr}
+ 1306              	.LCFI56:
+ 1307              	 .cfi_def_cfa_offset 8
+ 1308              	 .cfi_offset 7,-8
+ 1309              	 .cfi_offset 14,-4
+ 1310 0002 84B0     	 sub sp,sp,#16
+ 1311              	.LCFI57:
+ 1312              	 .cfi_def_cfa_offset 24
+ 1313 0004 00AF     	 add r7,sp,#0
+ 1314              	.LCFI58:
+ 1315              	 .cfi_def_cfa_register 7
+ 1316 0006 7860     	 str r0,[r7,#4]
+ 362:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     mbedtls_asn1_named_data *cur;
+ 363:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 364:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     while( ( cur = *head ) != NULL )
+ 1317              	 .loc 1 364 0
+ 1318 0008 09E0     	 b .L79
+ 1319              	.L80:
+ 365:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     {
+ 366:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         *head = cur->next;
+ 1320              	 .loc 1 366 0
+ 1321 000a FB68     	 ldr r3,[r7,#12]
+ 1322 000c 9A69     	 ldr r2,[r3,#24]
+ 1323 000e 7B68     	 ldr r3,[r7,#4]
+ 1324 0010 1A60     	 str r2,[r3]
+ 367:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         mbedtls_asn1_free_named_data( cur );
+ 1325              	 .loc 1 367 0
+ 1326 0012 F868     	 ldr r0,[r7,#12]
+ 1327 0014 FFF7FEFF 	 bl mbedtls_asn1_free_named_data
+ 368:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         mbedtls_free( cur );
+ 1328              	 .loc 1 368 0
+ 1329 0018 F868     	 ldr r0,[r7,#12]
+ 1330 001a FFF7FEFF 	 bl free
+ 1331              	.L79:
+ 364:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     {
+ 1332              	 .loc 1 364 0
+ 1333 001e 7B68     	 ldr r3,[r7,#4]
+ 1334 0020 1B68     	 ldr r3,[r3]
+ 1335 0022 FB60     	 str r3,[r7,#12]
+ 1336 0024 FB68     	 ldr r3,[r7,#12]
+ 1337 0026 002B     	 cmp r3,#0
+ 1338 0028 EFD1     	 bne .L80
+ 369:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     }
+ 370:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 1339              	 .loc 1 370 0
+ 1340 002a 1037     	 adds r7,r7,#16
+ 1341              	.LCFI59:
+ 1342              	 .cfi_def_cfa_offset 8
+ 1343 002c BD46     	 mov sp,r7
+ 1344              	.LCFI60:
+ 1345              	 .cfi_def_cfa_register 13
+ 1346              	 
+ 1347 002e 80BD     	 pop {r7,pc}
+ 1348              	 .cfi_endproc
+ 1349              	.LFE11:
+ 1351              	 .section .text.mbedtls_asn1_find_named_data,"ax",%progbits
+ 1352              	 .align 2
+ 1353              	 .global mbedtls_asn1_find_named_data
+ 1354              	 .thumb
+ 1355              	 .thumb_func
+ 1357              	mbedtls_asn1_find_named_data:
+ 1358              	.LFB12:
+ 371:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 372:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** mbedtls_asn1_named_data *mbedtls_asn1_find_named_data( mbedtls_asn1_named_data *list,
+ 373:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****                                        const char *oid, size_t len )
+ 374:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** {
+ 1359              	 .loc 1 374 0
+ 1360              	 .cfi_startproc
+ 1361              	 
+ 1362              	 
+ 1363 0000 80B5     	 push {r7,lr}
+ 1364              	.LCFI61:
+ 1365              	 .cfi_def_cfa_offset 8
+ 1366              	 .cfi_offset 7,-8
+ 1367              	 .cfi_offset 14,-4
+ 1368 0002 84B0     	 sub sp,sp,#16
+ 1369              	.LCFI62:
+ 1370              	 .cfi_def_cfa_offset 24
+ 1371 0004 00AF     	 add r7,sp,#0
+ 1372              	.LCFI63:
+ 1373              	 .cfi_def_cfa_register 7
+ 1374 0006 F860     	 str r0,[r7,#12]
+ 1375 0008 B960     	 str r1,[r7,#8]
+ 1376 000a 7A60     	 str r2,[r7,#4]
+ 375:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     while( list != NULL )
+ 1377              	 .loc 1 375 0
+ 1378 000c 12E0     	 b .L82
+ 1379              	.L85:
+ 376:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     {
+ 377:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         if( list->oid.len == len &&
+ 1380              	 .loc 1 377 0
+ 1381 000e FB68     	 ldr r3,[r7,#12]
+ 1382 0010 5A68     	 ldr r2,[r3,#4]
+ 1383 0012 7B68     	 ldr r3,[r7,#4]
+ 1384 0014 9A42     	 cmp r2,r3
+ 1385 0016 0AD1     	 bne .L83
+ 378:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             memcmp( list->oid.p, oid, len ) == 0 )
+ 1386              	 .loc 1 378 0 discriminator 1
+ 1387 0018 FB68     	 ldr r3,[r7,#12]
+ 1388 001a 9B68     	 ldr r3,[r3,#8]
+ 1389 001c 1846     	 mov r0,r3
+ 1390 001e B968     	 ldr r1,[r7,#8]
+ 1391 0020 7A68     	 ldr r2,[r7,#4]
+ 1392 0022 FFF7FEFF 	 bl memcmp
+ 1393 0026 0346     	 mov r3,r0
+ 377:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             memcmp( list->oid.p, oid, len ) == 0 )
+ 1394              	 .loc 1 377 0 discriminator 1
+ 1395 0028 002B     	 cmp r3,#0
+ 1396 002a 00D1     	 bne .L83
+ 379:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         {
+ 380:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****             break;
+ 1397              	 .loc 1 380 0
+ 1398 002c 05E0     	 b .L84
+ 1399              	.L83:
+ 381:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         }
+ 382:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 383:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****         list = list->next;
+ 1400              	 .loc 1 383 0
+ 1401 002e FB68     	 ldr r3,[r7,#12]
+ 1402 0030 9B69     	 ldr r3,[r3,#24]
+ 1403 0032 FB60     	 str r3,[r7,#12]
+ 1404              	.L82:
+ 375:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     {
+ 1405              	 .loc 1 375 0
+ 1406 0034 FB68     	 ldr r3,[r7,#12]
+ 1407 0036 002B     	 cmp r3,#0
+ 1408 0038 E9D1     	 bne .L85
+ 1409              	.L84:
+ 384:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     }
+ 385:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** 
+ 386:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c ****     return( list );
+ 1410              	 .loc 1 386 0
+ 1411 003a FB68     	 ldr r3,[r7,#12]
+ 387:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\asn1parse.c **** }
+ 1412              	 .loc 1 387 0
+ 1413 003c 1846     	 mov r0,r3
+ 1414 003e 1037     	 adds r7,r7,#16
+ 1415              	.LCFI64:
+ 1416              	 .cfi_def_cfa_offset 8
+ 1417 0040 BD46     	 mov sp,r7
+ 1418              	.LCFI65:
+ 1419              	 .cfi_def_cfa_register 13
+ 1420              	 
+ 1421 0042 80BD     	 pop {r7,pc}
+ 1422              	 .cfi_endproc
+ 1423              	.LFE12:
+ 1425              	 .text
+ 1426              	.Letext0:
+ 1427              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\lib\\gcc\\arm-none-eabi\\4.9.3\\include\\stddef.h"
+ 1428              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 1429              	 .file 4 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 1430              	 .file 5 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/include/mbedtls/bignum.h"
+ 1431              	 .file 6 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/include/mbedtls/asn1.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 asn1parse.c
+    {standard input}:20     .text.mbedtls_asn1_get_len:00000000 $t
+    {standard input}:25     .text.mbedtls_asn1_get_len:00000000 mbedtls_asn1_get_len
+    {standard input}:89     .text.mbedtls_asn1_get_len:00000058 $d
+    {standard input}:93     .text.mbedtls_asn1_get_len:00000068 $t
+    {standard input}:286    .text.mbedtls_asn1_get_tag:00000000 $t
+    {standard input}:291    .text.mbedtls_asn1_get_tag:00000000 mbedtls_asn1_get_tag
+    {standard input}:362    .text.mbedtls_asn1_get_bool:00000000 $t
+    {standard input}:367    .text.mbedtls_asn1_get_bool:00000000 mbedtls_asn1_get_bool
+    {standard input}:445    .text.mbedtls_asn1_get_int:00000000 $t
+    {standard input}:450    .text.mbedtls_asn1_get_int:00000000 mbedtls_asn1_get_int
+    {standard input}:553    .text.mbedtls_asn1_get_mpi:00000000 $t
+    {standard input}:558    .text.mbedtls_asn1_get_mpi:00000000 mbedtls_asn1_get_mpi
+    {standard input}:626    .text.mbedtls_asn1_get_bitstring:00000000 $t
+    {standard input}:631    .text.mbedtls_asn1_get_bitstring:00000000 mbedtls_asn1_get_bitstring
+    {standard input}:742    .text.mbedtls_asn1_get_bitstring_null:00000000 $t
+    {standard input}:747    .text.mbedtls_asn1_get_bitstring_null:00000000 mbedtls_asn1_get_bitstring_null
+    {standard input}:820    .text.mbedtls_asn1_get_sequence_of:00000000 $t
+    {standard input}:825    .text.mbedtls_asn1_get_sequence_of:00000000 mbedtls_asn1_get_sequence_of
+    {standard input}:980    .text.mbedtls_asn1_get_alg:00000000 $t
+    {standard input}:985    .text.mbedtls_asn1_get_alg:00000000 mbedtls_asn1_get_alg
+    {standard input}:1156   .text.mbedtls_asn1_get_alg_null:00000000 $t
+    {standard input}:1161   .text.mbedtls_asn1_get_alg_null:00000000 mbedtls_asn1_get_alg_null
+    {standard input}:1236   .text.mbedtls_asn1_free_named_data:00000000 $t
+    {standard input}:1241   .text.mbedtls_asn1_free_named_data:00000000 mbedtls_asn1_free_named_data
+    {standard input}:1294   .text.mbedtls_asn1_free_named_data_list:00000000 $t
+    {standard input}:1299   .text.mbedtls_asn1_free_named_data_list:00000000 mbedtls_asn1_free_named_data_list
+    {standard input}:1352   .text.mbedtls_asn1_find_named_data:00000000 $t
+    {standard input}:1357   .text.mbedtls_asn1_find_named_data:00000000 mbedtls_asn1_find_named_data
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+mbedtls_mpi_read_binary
+calloc
+mbedtls_platform_zeroize
+memset
+free
+memcmp

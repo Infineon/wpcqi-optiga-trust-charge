@@ -1,0 +1,1262 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "ecp_curves.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .rodata.secp256r1_p,"a",%progbits
+  20              	 .align 2
+  23              	secp256r1_p:
+  24 0000 FFFFFFFF 	 .word -1
+  25 0004 FFFFFFFF 	 .word -1
+  26 0008 FFFFFFFF 	 .word -1
+  27 000c 00000000 	 .word 0
+  28 0010 00000000 	 .word 0
+  29 0014 00000000 	 .word 0
+  30 0018 01000000 	 .word 1
+  31 001c FFFFFFFF 	 .word -1
+  32              	 .section .rodata.secp256r1_b,"a",%progbits
+  33              	 .align 2
+  36              	secp256r1_b:
+  37 0000 4B60D227 	 .word 668098635
+  38 0004 3E3CCE3B 	 .word 1003371582
+  39 0008 F6B053CC 	 .word -866930442
+  40 000c B0061D65 	 .word 1696401072
+  41 0010 BC869876 	 .word 1989707452
+  42 0014 55BDEBB3 	 .word -1276396203
+  43 0018 E7933AAA 	 .word -1439001625
+  44 001c D835C65A 	 .word 1522939352
+  45              	 .section .rodata.secp256r1_gx,"a",%progbits
+  46              	 .align 2
+  49              	secp256r1_gx:
+  50 0000 96C298D8 	 .word -661077354
+  51 0004 4539A1F4 	 .word -190760635
+  52 0008 A033EB2D 	 .word 770388896
+  53 000c 817D0377 	 .word 1996717441
+  54 0010 F240A463 	 .word 1671708914
+  55 0014 E5E6BCF8 	 .word -121837851
+  56 0018 47422CE1 	 .word -517193145
+  57 001c F2D1176B 	 .word 1796723186
+  58              	 .section .rodata.secp256r1_gy,"a",%progbits
+  59              	 .align 2
+  62              	secp256r1_gy:
+  63 0000 F551BF37 	 .word 935285237
+  64 0004 6840B6CB 	 .word -877248408
+  65 0008 CE5E316B 	 .word 1798397646
+  66 000c 5733CE2B 	 .word 734933847
+  67 0010 169E0F7C 	 .word 2081398294
+  68 0014 4AEBE78E 	 .word -1897403574
+  69 0018 9B7F1AFE 	 .word -31817829
+  70 001c E242E34F 	 .word 1340293858
+  71              	 .section .rodata.secp256r1_n,"a",%progbits
+  72              	 .align 2
+  75              	secp256r1_n:
+  76 0000 512563FC 	 .word -60611247
+  77 0004 C2CAB9F3 	 .word -205927742
+  78 0008 849E17A7 	 .word -1491624316
+  79 000c ADFAE6BC 	 .word -1125713235
+  80 0010 FFFFFFFF 	 .word -1
+  81 0014 FFFFFFFF 	 .word -1
+  82 0018 00000000 	 .word 0
+  83 001c FFFFFFFF 	 .word -1
+  84              	 .section .text.ecp_mpi_load,"ax",%progbits
+  85              	 .align 2
+  86              	 .thumb
+  87              	 .thumb_func
+  89              	ecp_mpi_load:
+  90              	.LFB0:
+  91              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library/ecp_curves.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  Elliptic curves over GF(p): curve-specific data and functions
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  SPDX-License-Identifier: Apache-2.0
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  not use this file except in compliance with the License.
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  You may obtain a copy of the License at
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  Unless required by applicable law or agreed to in writing, software
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  See the License for the specific language governing permissions and
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  limitations under the License.
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  *  This file is part of mbed TLS (https://tls.mbed.org)
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #include "mbedtls/config.h"
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #else
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #include MBEDTLS_CONFIG_FILE
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_C)
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #include "mbedtls/ecp.h"
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #include "mbedtls/platform_util.h"
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #include <string.h>
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if !defined(MBEDTLS_ECP_ALT)
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /* Parameter validation macros based on platform_util.h */
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define ECP_VALIDATE_RET( cond )    \
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_INTERNAL_VALIDATE_RET( cond, MBEDTLS_ERR_ECP_BAD_INPUT_DATA )
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define ECP_VALIDATE( cond )        \
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_INTERNAL_VALIDATE( cond )
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if ( defined(__ARMCC_VERSION) || defined(_MSC_VER) ) && \
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     !defined(inline) && !defined(__cplusplus)
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define inline __inline
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Conversion macros for embedded constants:
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * build lists of mbedtls_mpi_uint's from lists of unsigned char's grouped by 8, 4 or 2
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_HAVE_INT32)
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define BYTES_TO_T_UINT_4( a, b, c, d )             \
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) a <<  0 ) |                          \
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) b <<  8 ) |                          \
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) c << 16 ) |                          \
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) d << 24 )
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define BYTES_TO_T_UINT_2( a, b )                   \
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( a, b, 0, 0 )
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define BYTES_TO_T_UINT_8( a, b, c, d, e, f, g, h ) \
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( a, b, c, d ),                \
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( e, f, g, h )
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #else /* 64-bits */
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define BYTES_TO_T_UINT_8( a, b, c, d, e, f, g, h ) \
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) a <<  0 ) |                          \
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) b <<  8 ) |                          \
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) c << 16 ) |                          \
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) d << 24 ) |                          \
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) e << 32 ) |                          \
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) f << 40 ) |                          \
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) g << 48 ) |                          \
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) h << 56 )
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define BYTES_TO_T_UINT_4( a, b, c, d )             \
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( a, b, c, d, 0, 0, 0, 0 )
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define BYTES_TO_T_UINT_2( a, b )                   \
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( a, b, 0, 0, 0, 0, 0, 0 )
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  85:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* bits in mbedtls_mpi_uint */
+  86:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  87:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+  88:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Note: the constants are in little-endian order
+  89:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * to be directly usable in MPIs
+  90:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+  91:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+  93:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Domain parameters for secp192r1
+  94:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+  95:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192R1_ENABLED)
+  96:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192r1_p[] = {
+  97:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+  98:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+  99:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 100:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 101:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192r1_b[] = {
+ 102:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB1, 0xB9, 0x46, 0xC1, 0xEC, 0xDE, 0xB8, 0xFE ),
+ 103:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x49, 0x30, 0x24, 0x72, 0xAB, 0xE9, 0xA7, 0x0F ),
+ 104:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE7, 0x80, 0x9C, 0xE5, 0x19, 0x05, 0x21, 0x64 ),
+ 105:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192r1_gx[] = {
+ 107:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x12, 0x10, 0xFF, 0x82, 0xFD, 0x0A, 0xFF, 0xF4 ),
+ 108:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x88, 0xA1, 0x43, 0xEB, 0x20, 0xBF, 0x7C ),
+ 109:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF6, 0x90, 0x30, 0xB0, 0x0E, 0xA8, 0x8D, 0x18 ),
+ 110:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 111:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192r1_gy[] = {
+ 112:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x11, 0x48, 0x79, 0x1E, 0xA1, 0x77, 0xF9, 0x73 ),
+ 113:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD5, 0xCD, 0x24, 0x6B, 0xED, 0x11, 0x10, 0x63 ),
+ 114:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x78, 0xDA, 0xC8, 0xFF, 0x95, 0x2B, 0x19, 0x07 ),
+ 115:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 116:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192r1_n[] = {
+ 117:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x31, 0x28, 0xD2, 0xB4, 0xB1, 0xC9, 0x6B, 0x14 ),
+ 118:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x36, 0xF8, 0xDE, 0x99, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 119:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 120:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 121:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP192R1_ENABLED */
+ 122:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 123:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 124:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Domain parameters for secp224r1
+ 125:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 126:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224R1_ENABLED)
+ 127:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224r1_p[] = {
+ 128:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ),
+ 129:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 130:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 131:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00 ),
+ 132:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 133:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224r1_b[] = {
+ 134:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB4, 0xFF, 0x55, 0x23, 0x43, 0x39, 0x0B, 0x27 ),
+ 135:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBA, 0xD8, 0xBF, 0xD7, 0xB7, 0xB0, 0x44, 0x50 ),
+ 136:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x56, 0x32, 0x41, 0xF5, 0xAB, 0xB3, 0x04, 0x0C ),
+ 137:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0x85, 0x0A, 0x05, 0xB4 ),
+ 138:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 139:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224r1_gx[] = {
+ 140:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x21, 0x1D, 0x5C, 0x11, 0xD6, 0x80, 0x32, 0x34 ),
+ 141:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x22, 0x11, 0xC2, 0x56, 0xD3, 0xC1, 0x03, 0x4A ),
+ 142:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB9, 0x90, 0x13, 0x32, 0x7F, 0xBF, 0xB4, 0x6B ),
+ 143:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0xBD, 0x0C, 0x0E, 0xB7 ),
+ 144:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 145:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224r1_gy[] = {
+ 146:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x34, 0x7E, 0x00, 0x85, 0x99, 0x81, 0xD5, 0x44 ),
+ 147:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x64, 0x47, 0x07, 0x5A, 0xA0, 0x75, 0x43, 0xCD ),
+ 148:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE6, 0xDF, 0x22, 0x4C, 0xFB, 0x23, 0xF7, 0xB5 ),
+ 149:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0x88, 0x63, 0x37, 0xBD ),
+ 150:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 151:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224r1_n[] = {
+ 152:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x3D, 0x2A, 0x5C, 0x5C, 0x45, 0x29, 0xDD, 0x13 ),
+ 153:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x3E, 0xF0, 0xB8, 0xE0, 0xA2, 0x16, 0xFF, 0xFF ),
+ 154:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 155:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0xFF, 0xFF, 0xFF, 0xFF ),
+ 156:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 157:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP224R1_ENABLED */
+ 158:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 159:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 160:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Domain parameters for secp256r1
+ 161:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 162:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256R1_ENABLED)
+ 163:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256r1_p[] = {
+ 164:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 165:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00 ),
+ 166:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ),
+ 167:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x01, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 168:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 169:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256r1_b[] = {
+ 170:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x4B, 0x60, 0xD2, 0x27, 0x3E, 0x3C, 0xCE, 0x3B ),
+ 171:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF6, 0xB0, 0x53, 0xCC, 0xB0, 0x06, 0x1D, 0x65 ),
+ 172:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBC, 0x86, 0x98, 0x76, 0x55, 0xBD, 0xEB, 0xB3 ),
+ 173:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE7, 0x93, 0x3A, 0xAA, 0xD8, 0x35, 0xC6, 0x5A ),
+ 174:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 175:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256r1_gx[] = {
+ 176:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x96, 0xC2, 0x98, 0xD8, 0x45, 0x39, 0xA1, 0xF4 ),
+ 177:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA0, 0x33, 0xEB, 0x2D, 0x81, 0x7D, 0x03, 0x77 ),
+ 178:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF2, 0x40, 0xA4, 0x63, 0xE5, 0xE6, 0xBC, 0xF8 ),
+ 179:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x47, 0x42, 0x2C, 0xE1, 0xF2, 0xD1, 0x17, 0x6B ),
+ 180:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 181:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256r1_gy[] = {
+ 182:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF5, 0x51, 0xBF, 0x37, 0x68, 0x40, 0xB6, 0xCB ),
+ 183:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xCE, 0x5E, 0x31, 0x6B, 0x57, 0x33, 0xCE, 0x2B ),
+ 184:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x16, 0x9E, 0x0F, 0x7C, 0x4A, 0xEB, 0xE7, 0x8E ),
+ 185:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x9B, 0x7F, 0x1A, 0xFE, 0xE2, 0x42, 0xE3, 0x4F ),
+ 186:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 187:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256r1_n[] = {
+ 188:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x51, 0x25, 0x63, 0xFC, 0xC2, 0xCA, 0xB9, 0xF3 ),
+ 189:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x84, 0x9E, 0x17, 0xA7, 0xAD, 0xFA, 0xE6, 0xBC ),
+ 190:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 191:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 192:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 193:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP256R1_ENABLED */
+ 194:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 195:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 196:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Domain parameters for secp384r1
+ 197:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 198:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP384R1_ENABLED)
+ 199:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp384r1_p[] = {
+ 200:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00 ),
+ 201:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 202:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 203:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 204:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 205:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 206:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 207:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp384r1_b[] = {
+ 208:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xEF, 0x2A, 0xEC, 0xD3, 0xED, 0xC8, 0x85, 0x2A ),
+ 209:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x9D, 0xD1, 0x2E, 0x8A, 0x8D, 0x39, 0x56, 0xC6 ),
+ 210:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x5A, 0x87, 0x13, 0x50, 0x8F, 0x08, 0x14, 0x03 ),
+ 211:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x12, 0x41, 0x81, 0xFE, 0x6E, 0x9C, 0x1D, 0x18 ),
+ 212:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x19, 0x2D, 0xF8, 0xE3, 0x6B, 0x05, 0x8E, 0x98 ),
+ 213:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE4, 0xE7, 0x3E, 0xE2, 0xA7, 0x2F, 0x31, 0xB3 ),
+ 214:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 215:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp384r1_gx[] = {
+ 216:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB7, 0x0A, 0x76, 0x72, 0x38, 0x5E, 0x54, 0x3A ),
+ 217:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x6C, 0x29, 0x55, 0xBF, 0x5D, 0xF2, 0x02, 0x55 ),
+ 218:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x38, 0x2A, 0x54, 0x82, 0xE0, 0x41, 0xF7, 0x59 ),
+ 219:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x98, 0x9B, 0xA7, 0x8B, 0x62, 0x3B, 0x1D, 0x6E ),
+ 220:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x74, 0xAD, 0x20, 0xF3, 0x1E, 0xC7, 0xB1, 0x8E ),
+ 221:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x37, 0x05, 0x8B, 0xBE, 0x22, 0xCA, 0x87, 0xAA ),
+ 222:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 223:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp384r1_gy[] = {
+ 224:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x5F, 0x0E, 0xEA, 0x90, 0x7C, 0x1D, 0x43, 0x7A ),
+ 225:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x9D, 0x81, 0x7E, 0x1D, 0xCE, 0xB1, 0x60, 0x0A ),
+ 226:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xC0, 0xB8, 0xF0, 0xB5, 0x13, 0x31, 0xDA, 0xE9 ),
+ 227:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x7C, 0x14, 0x9A, 0x28, 0xBD, 0x1D, 0xF4, 0xF8 ),
+ 228:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x29, 0xDC, 0x92, 0x92, 0xBF, 0x98, 0x9E, 0x5D ),
+ 229:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x6F, 0x2C, 0x26, 0x96, 0x4A, 0xDE, 0x17, 0x36 ),
+ 230:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 231:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp384r1_n[] = {
+ 232:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x73, 0x29, 0xC5, 0xCC, 0x6A, 0x19, 0xEC, 0xEC ),
+ 233:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x7A, 0xA7, 0xB0, 0x48, 0xB2, 0x0D, 0x1A, 0x58 ),
+ 234:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xDF, 0x2D, 0x37, 0xF4, 0x81, 0x4D, 0x63, 0xC7 ),
+ 235:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 236:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 237:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 238:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 239:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP384R1_ENABLED */
+ 240:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 241:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 242:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Domain parameters for secp521r1
+ 243:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 244:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP521R1_ENABLED)
+ 245:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp521r1_p[] = {
+ 246:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 247:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 248:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 249:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 250:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 251:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 252:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 253:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 254:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0xFF, 0x01 ),
+ 255:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 256:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp521r1_b[] = {
+ 257:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x3F, 0x50, 0x6B, 0xD4, 0x1F, 0x45, 0xEF ),
+ 258:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF1, 0x34, 0x2C, 0x3D, 0x88, 0xDF, 0x73, 0x35 ),
+ 259:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x07, 0xBF, 0xB1, 0x3B, 0xBD, 0xC0, 0x52, 0x16 ),
+ 260:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x7B, 0x93, 0x7E, 0xEC, 0x51, 0x39, 0x19, 0x56 ),
+ 261:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE1, 0x09, 0xF1, 0x8E, 0x91, 0x89, 0xB4, 0xB8 ),
+ 262:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF3, 0x15, 0xB3, 0x99, 0x5B, 0x72, 0xDA, 0xA2 ),
+ 263:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xEE, 0x40, 0x85, 0xB6, 0xA0, 0x21, 0x9A, 0x92 ),
+ 264:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x1F, 0x9A, 0x1C, 0x8E, 0x61, 0xB9, 0x3E, 0x95 ),
+ 265:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x51, 0x00 ),
+ 266:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 267:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp521r1_gx[] = {
+ 268:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x66, 0xBD, 0xE5, 0xC2, 0x31, 0x7E, 0x7E, 0xF9 ),
+ 269:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x9B, 0x42, 0x6A, 0x85, 0xC1, 0xB3, 0x48, 0x33 ),
+ 270:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xDE, 0xA8, 0xFF, 0xA2, 0x27, 0xC1, 0x1D, 0xFE ),
+ 271:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x28, 0x59, 0xE7, 0xEF, 0x77, 0x5E, 0x4B, 0xA1 ),
+ 272:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBA, 0x3D, 0x4D, 0x6B, 0x60, 0xAF, 0x28, 0xF8 ),
+ 273:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x21, 0xB5, 0x3F, 0x05, 0x39, 0x81, 0x64, 0x9C ),
+ 274:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x42, 0xB4, 0x95, 0x23, 0x66, 0xCB, 0x3E, 0x9E ),
+ 275:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xCD, 0xE9, 0x04, 0x04, 0xB7, 0x06, 0x8E, 0x85 ),
+ 276:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0xC6, 0x00 ),
+ 277:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 278:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp521r1_gy[] = {
+ 279:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x50, 0x66, 0xD1, 0x9F, 0x76, 0x94, 0xBE, 0x88 ),
+ 280:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x40, 0xC2, 0x72, 0xA2, 0x86, 0x70, 0x3C, 0x35 ),
+ 281:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x61, 0x07, 0xAD, 0x3F, 0x01, 0xB9, 0x50, 0xC5 ),
+ 282:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x40, 0x26, 0xF4, 0x5E, 0x99, 0x72, 0xEE, 0x97 ),
+ 283:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x2C, 0x66, 0x3E, 0x27, 0x17, 0xBD, 0xAF, 0x17 ),
+ 284:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x68, 0x44, 0x9B, 0x57, 0x49, 0x44, 0xF5, 0x98 ),
+ 285:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD9, 0x1B, 0x7D, 0x2C, 0xB4, 0x5F, 0x8A, 0x5C ),
+ 286:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x04, 0xC0, 0x3B, 0x9A, 0x78, 0x6A, 0x29, 0x39 ),
+ 287:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x18, 0x01 ),
+ 288:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 289:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp521r1_n[] = {
+ 290:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x09, 0x64, 0x38, 0x91, 0x1E, 0xB7, 0x6F, 0xBB ),
+ 291:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xAE, 0x47, 0x9C, 0x89, 0xB8, 0xC9, 0xB5, 0x3B ),
+ 292:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD0, 0xA5, 0x09, 0xF7, 0x48, 0x01, 0xCC, 0x7F ),
+ 293:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x6B, 0x96, 0x2F, 0xBF, 0x83, 0x87, 0x86, 0x51 ),
+ 294:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFA, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 295:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 296:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 297:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 298:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0xFF, 0x01 ),
+ 299:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 300:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP521R1_ENABLED */
+ 301:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 302:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192K1_ENABLED)
+ 303:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192k1_p[] = {
+ 304:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x37, 0xEE, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF ),
+ 305:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 306:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 307:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 308:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192k1_a[] = {
+ 309:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x00, 0x00 ),
+ 310:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 311:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192k1_b[] = {
+ 312:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x03, 0x00 ),
+ 313:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 314:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192k1_gx[] = {
+ 315:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x7D, 0x6C, 0xE0, 0xEA, 0xB1, 0xD1, 0xA5, 0x1D ),
+ 316:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x34, 0xF4, 0xB7, 0x80, 0x02, 0x7D, 0xB0, 0x26 ),
+ 317:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xAE, 0xE9, 0x57, 0xC0, 0x0E, 0xF1, 0x4F, 0xDB ),
+ 318:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 319:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192k1_gy[] = {
+ 320:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x9D, 0x2F, 0x5E, 0xD9, 0x88, 0xAA, 0x82, 0x40 ),
+ 321:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x34, 0x86, 0xBE, 0x15, 0xD0, 0x63, 0x41, 0x84 ),
+ 322:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA7, 0x28, 0x56, 0x9C, 0x6D, 0x2F, 0x2F, 0x9B ),
+ 323:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 324:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192k1_n[] = {
+ 325:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x8D, 0xFD, 0xDE, 0x74, 0x6A, 0x46, 0x69, 0x0F ),
+ 326:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x17, 0xFC, 0xF2, 0x26, 0xFE, 0xFF, 0xFF, 0xFF ),
+ 327:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 328:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 329:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP192K1_ENABLED */
+ 330:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 331:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224K1_ENABLED)
+ 332:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224k1_p[] = {
+ 333:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x6D, 0xE5, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF ),
+ 334:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 335:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 336:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0xFF, 0xFF, 0xFF, 0xFF ),
+ 337:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 338:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224k1_a[] = {
+ 339:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x00, 0x00 ),
+ 340:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 341:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224k1_b[] = {
+ 342:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x05, 0x00 ),
+ 343:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 344:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224k1_gx[] = {
+ 345:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x5C, 0xA4, 0xB7, 0xB6, 0x0E, 0x65, 0x7E, 0x0F ),
+ 346:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA9, 0x75, 0x70, 0xE4, 0xE9, 0x67, 0xA4, 0x69 ),
+ 347:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA1, 0x28, 0xFC, 0x30, 0xDF, 0x99, 0xF0, 0x4D ),
+ 348:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0x33, 0x5B, 0x45, 0xA1 ),
+ 349:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 350:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224k1_gy[] = {
+ 351:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA5, 0x61, 0x6D, 0x55, 0xDB, 0x4B, 0xCA, 0xE2 ),
+ 352:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x59, 0xBD, 0xB0, 0xC0, 0xF7, 0x19, 0xE3, 0xF7 ),
+ 353:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD6, 0xFB, 0xCA, 0x82, 0x42, 0x34, 0xBA, 0x7F ),
+ 354:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0xED, 0x9F, 0x08, 0x7E ),
+ 355:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 356:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224k1_n[] = {
+ 357:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF7, 0xB1, 0x9F, 0x76, 0x71, 0xA9, 0xF0, 0xCA ),
+ 358:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x84, 0x61, 0xEC, 0xD2, 0xE8, 0xDC, 0x01, 0x00 ),
+ 359:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ),
+ 360:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00 ),
+ 361:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 362:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP224K1_ENABLED */
+ 363:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 364:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256K1_ENABLED)
+ 365:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256k1_p[] = {
+ 366:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x2F, 0xFC, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF ),
+ 367:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 368:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 369:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 370:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 371:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256k1_a[] = {
+ 372:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x00, 0x00 ),
+ 373:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 374:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256k1_b[] = {
+ 375:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x07, 0x00 ),
+ 376:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 377:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256k1_gx[] = {
+ 378:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x98, 0x17, 0xF8, 0x16, 0x5B, 0x81, 0xF2, 0x59 ),
+ 379:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD9, 0x28, 0xCE, 0x2D, 0xDB, 0xFC, 0x9B, 0x02 ),
+ 380:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x07, 0x0B, 0x87, 0xCE, 0x95, 0x62, 0xA0, 0x55 ),
+ 381:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xAC, 0xBB, 0xDC, 0xF9, 0x7E, 0x66, 0xBE, 0x79 ),
+ 382:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 383:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256k1_gy[] = {
+ 384:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB8, 0xD4, 0x10, 0xFB, 0x8F, 0xD0, 0x47, 0x9C ),
+ 385:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x19, 0x54, 0x85, 0xA6, 0x48, 0xB4, 0x17, 0xFD ),
+ 386:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA8, 0x08, 0x11, 0x0E, 0xFC, 0xFB, 0xA4, 0x5D ),
+ 387:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x65, 0xC4, 0xA3, 0x26, 0x77, 0xDA, 0x3A, 0x48 ),
+ 388:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 389:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256k1_n[] = {
+ 390:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x41, 0x41, 0x36, 0xD0, 0x8C, 0x5E, 0xD2, 0xBF ),
+ 391:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x3B, 0xA0, 0x48, 0xAF, 0xE6, 0xDC, 0xAE, 0xBA ),
+ 392:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 393:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 394:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 395:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP256K1_ENABLED */
+ 396:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 397:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 398:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Domain parameters for brainpoolP256r1 (RFC 5639 3.4)
+ 399:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 400:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_BP256R1_ENABLED)
+ 401:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP256r1_p[] = {
+ 402:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x77, 0x53, 0x6E, 0x1F, 0x1D, 0x48, 0x13, 0x20 ),
+ 403:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x28, 0x20, 0x26, 0xD5, 0x23, 0xF6, 0x3B, 0x6E ),
+ 404:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x72, 0x8D, 0x83, 0x9D, 0x90, 0x0A, 0x66, 0x3E ),
+ 405:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBC, 0xA9, 0xEE, 0xA1, 0xDB, 0x57, 0xFB, 0xA9 ),
+ 406:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 407:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP256r1_a[] = {
+ 408:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD9, 0xB5, 0x30, 0xF3, 0x44, 0x4B, 0x4A, 0xE9 ),
+ 409:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x6C, 0x5C, 0xDC, 0x26, 0xC1, 0x55, 0x80, 0xFB ),
+ 410:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE7, 0xFF, 0x7A, 0x41, 0x30, 0x75, 0xF6, 0xEE ),
+ 411:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x57, 0x30, 0x2C, 0xFC, 0x75, 0x09, 0x5A, 0x7D ),
+ 412:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 413:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP256r1_b[] = {
+ 414:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB6, 0x07, 0x8C, 0xFF, 0x18, 0xDC, 0xCC, 0x6B ),
+ 415:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xCE, 0xE1, 0xF7, 0x5C, 0x29, 0x16, 0x84, 0x95 ),
+ 416:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBF, 0x7C, 0xD7, 0xBB, 0xD9, 0xB5, 0x30, 0xF3 ),
+ 417:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x44, 0x4B, 0x4A, 0xE9, 0x6C, 0x5C, 0xDC, 0x26 ),
+ 418:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 419:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP256r1_gx[] = {
+ 420:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x62, 0x32, 0xCE, 0x9A, 0xBD, 0x53, 0x44, 0x3A ),
+ 421:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xC2, 0x23, 0xBD, 0xE3, 0xE1, 0x27, 0xDE, 0xB9 ),
+ 422:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xAF, 0xB7, 0x81, 0xFC, 0x2F, 0x48, 0x4B, 0x2C ),
+ 423:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xCB, 0x57, 0x7E, 0xCB, 0xB9, 0xAE, 0xD2, 0x8B ),
+ 424:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 425:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP256r1_gy[] = {
+ 426:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x97, 0x69, 0x04, 0x2F, 0xC7, 0x54, 0x1D, 0x5C ),
+ 427:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x54, 0x8E, 0xED, 0x2D, 0x13, 0x45, 0x77, 0xC2 ),
+ 428:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xC9, 0x1D, 0x61, 0x14, 0x1A, 0x46, 0xF8, 0x97 ),
+ 429:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFD, 0xC4, 0xDA, 0xC3, 0x35, 0xF8, 0x7E, 0x54 ),
+ 430:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 431:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP256r1_n[] = {
+ 432:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA7, 0x56, 0x48, 0x97, 0x82, 0x0E, 0x1E, 0x90 ),
+ 433:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF7, 0xA6, 0x61, 0xB5, 0xA3, 0x7A, 0x39, 0x8C ),
+ 434:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x71, 0x8D, 0x83, 0x9D, 0x90, 0x0A, 0x66, 0x3E ),
+ 435:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBC, 0xA9, 0xEE, 0xA1, 0xDB, 0x57, 0xFB, 0xA9 ),
+ 436:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 437:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_BP256R1_ENABLED */
+ 438:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 439:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 440:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Domain parameters for brainpoolP384r1 (RFC 5639 3.6)
+ 441:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 442:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_BP384R1_ENABLED)
+ 443:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP384r1_p[] = {
+ 444:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x53, 0xEC, 0x07, 0x31, 0x13, 0x00, 0x47, 0x87 ),
+ 445:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x71, 0x1A, 0x1D, 0x90, 0x29, 0xA7, 0xD3, 0xAC ),
+ 446:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x23, 0x11, 0xB7, 0x7F, 0x19, 0xDA, 0xB1, 0x12 ),
+ 447:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB4, 0x56, 0x54, 0xED, 0x09, 0x71, 0x2F, 0x15 ),
+ 448:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xDF, 0x41, 0xE6, 0x50, 0x7E, 0x6F, 0x5D, 0x0F ),
+ 449:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x28, 0x6D, 0x38, 0xA3, 0x82, 0x1E, 0xB9, 0x8C ),
+ 450:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 451:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP384r1_a[] = {
+ 452:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x26, 0x28, 0xCE, 0x22, 0xDD, 0xC7, 0xA8, 0x04 ),
+ 453:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xEB, 0xD4, 0x3A, 0x50, 0x4A, 0x81, 0xA5, 0x8A ),
+ 454:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x0F, 0xF9, 0x91, 0xBA, 0xEF, 0x65, 0x91, 0x13 ),
+ 455:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x87, 0x27, 0xB2, 0x4F, 0x8E, 0xA2, 0xBE, 0xC2 ),
+ 456:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA0, 0xAF, 0x05, 0xCE, 0x0A, 0x08, 0x72, 0x3C ),
+ 457:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x0C, 0x15, 0x8C, 0x3D, 0xC6, 0x82, 0xC3, 0x7B ),
+ 458:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 459:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP384r1_b[] = {
+ 460:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x11, 0x4C, 0x50, 0xFA, 0x96, 0x86, 0xB7, 0x3A ),
+ 461:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x94, 0xC9, 0xDB, 0x95, 0x02, 0x39, 0xB4, 0x7C ),
+ 462:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD5, 0x62, 0xEB, 0x3E, 0xA5, 0x0E, 0x88, 0x2E ),
+ 463:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA6, 0xD2, 0xDC, 0x07, 0xE1, 0x7D, 0xB7, 0x2F ),
+ 464:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x7C, 0x44, 0xF0, 0x16, 0x54, 0xB5, 0x39, 0x8B ),
+ 465:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x26, 0x28, 0xCE, 0x22, 0xDD, 0xC7, 0xA8, 0x04 ),
+ 466:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 467:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP384r1_gx[] = {
+ 468:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x1E, 0xAF, 0xD4, 0x47, 0xE2, 0xB2, 0x87, 0xEF ),
+ 469:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xAA, 0x46, 0xD6, 0x36, 0x34, 0xE0, 0x26, 0xE8 ),
+ 470:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE8, 0x10, 0xBD, 0x0C, 0xFE, 0xCA, 0x7F, 0xDB ),
+ 471:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE3, 0x4F, 0xF1, 0x7E, 0xE7, 0xA3, 0x47, 0x88 ),
+ 472:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x6B, 0x3F, 0xC1, 0xB7, 0x81, 0x3A, 0xA6, 0xA2 ),
+ 473:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0x45, 0xCF, 0x68, 0xF0, 0x64, 0x1C, 0x1D ),
+ 474:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 475:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP384r1_gy[] = {
+ 476:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x15, 0x53, 0x3C, 0x26, 0x41, 0x03, 0x82, 0x42 ),
+ 477:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x11, 0x81, 0x91, 0x77, 0x21, 0x46, 0x46, 0x0E ),
+ 478:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x28, 0x29, 0x91, 0xF9, 0x4F, 0x05, 0x9C, 0xE1 ),
+ 479:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x64, 0x58, 0xEC, 0xFE, 0x29, 0x0B, 0xB7, 0x62 ),
+ 480:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x52, 0xD5, 0xCF, 0x95, 0x8E, 0xEB, 0xB1, 0x5C ),
+ 481:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA4, 0xC2, 0xF9, 0x20, 0x75, 0x1D, 0xBE, 0x8A ),
+ 482:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 483:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP384r1_n[] = {
+ 484:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x65, 0x65, 0x04, 0xE9, 0x02, 0x32, 0x88, 0x3B ),
+ 485:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x10, 0xC3, 0x7F, 0x6B, 0xAF, 0xB6, 0x3A, 0xCF ),
+ 486:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA7, 0x25, 0x04, 0xAC, 0x6C, 0x6E, 0x16, 0x1F ),
+ 487:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB3, 0x56, 0x54, 0xED, 0x09, 0x71, 0x2F, 0x15 ),
+ 488:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xDF, 0x41, 0xE6, 0x50, 0x7E, 0x6F, 0x5D, 0x0F ),
+ 489:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x28, 0x6D, 0x38, 0xA3, 0x82, 0x1E, 0xB9, 0x8C ),
+ 490:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 491:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_BP384R1_ENABLED */
+ 492:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 493:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 494:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Domain parameters for brainpoolP512r1 (RFC 5639 3.7)
+ 495:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 496:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_BP512R1_ENABLED)
+ 497:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP512r1_p[] = {
+ 498:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF3, 0x48, 0x3A, 0x58, 0x56, 0x60, 0xAA, 0x28 ),
+ 499:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x85, 0xC6, 0x82, 0x2D, 0x2F, 0xFF, 0x81, 0x28 ),
+ 500:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE6, 0x80, 0xA3, 0xE6, 0x2A, 0xA1, 0xCD, 0xAE ),
+ 501:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x42, 0x68, 0xC6, 0x9B, 0x00, 0x9B, 0x4D, 0x7D ),
+ 502:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x71, 0x08, 0x33, 0x70, 0xCA, 0x9C, 0x63, 0xD6 ),
+ 503:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x0E, 0xD2, 0xC9, 0xB3, 0xB3, 0x8D, 0x30, 0xCB ),
+ 504:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x07, 0xFC, 0xC9, 0x33, 0xAE, 0xE6, 0xD4, 0x3F ),
+ 505:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x8B, 0xC4, 0xE9, 0xDB, 0xB8, 0x9D, 0xDD, 0xAA ),
+ 506:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 507:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP512r1_a[] = {
+ 508:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xCA, 0x94, 0xFC, 0x77, 0x4D, 0xAC, 0xC1, 0xE7 ),
+ 509:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB9, 0xC7, 0xF2, 0x2B, 0xA7, 0x17, 0x11, 0x7F ),
+ 510:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB5, 0xC8, 0x9A, 0x8B, 0xC9, 0xF1, 0x2E, 0x0A ),
+ 511:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA1, 0x3A, 0x25, 0xA8, 0x5A, 0x5D, 0xED, 0x2D ),
+ 512:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBC, 0x63, 0x98, 0xEA, 0xCA, 0x41, 0x34, 0xA8 ),
+ 513:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x10, 0x16, 0xF9, 0x3D, 0x8D, 0xDD, 0xCB, 0x94 ),
+ 514:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xC5, 0x4C, 0x23, 0xAC, 0x45, 0x71, 0x32, 0xE2 ),
+ 515:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x89, 0x3B, 0x60, 0x8B, 0x31, 0xA3, 0x30, 0x78 ),
+ 516:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 517:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP512r1_b[] = {
+ 518:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x23, 0xF7, 0x16, 0x80, 0x63, 0xBD, 0x09, 0x28 ),
+ 519:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xDD, 0xE5, 0xBA, 0x5E, 0xB7, 0x50, 0x40, 0x98 ),
+ 520:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x67, 0x3E, 0x08, 0xDC, 0xCA, 0x94, 0xFC, 0x77 ),
+ 521:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x4D, 0xAC, 0xC1, 0xE7, 0xB9, 0xC7, 0xF2, 0x2B ),
+ 522:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA7, 0x17, 0x11, 0x7F, 0xB5, 0xC8, 0x9A, 0x8B ),
+ 523:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xC9, 0xF1, 0x2E, 0x0A, 0xA1, 0x3A, 0x25, 0xA8 ),
+ 524:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x5A, 0x5D, 0xED, 0x2D, 0xBC, 0x63, 0x98, 0xEA ),
+ 525:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xCA, 0x41, 0x34, 0xA8, 0x10, 0x16, 0xF9, 0x3D ),
+ 526:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 527:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP512r1_gx[] = {
+ 528:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x22, 0xF8, 0xB9, 0xBC, 0x09, 0x22, 0x35, 0x8B ),
+ 529:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x68, 0x5E, 0x6A, 0x40, 0x47, 0x50, 0x6D, 0x7C ),
+ 530:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x5F, 0x7D, 0xB9, 0x93, 0x7B, 0x68, 0xD1, 0x50 ),
+ 531:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x8D, 0xD4, 0xD0, 0xE2, 0x78, 0x1F, 0x3B, 0xFF ),
+ 532:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x8E, 0x09, 0xD0, 0xF4, 0xEE, 0x62, 0x3B, 0xB4 ),
+ 533:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xC1, 0x16, 0xD9, 0xB5, 0x70, 0x9F, 0xED, 0x85 ),
+ 534:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x93, 0x6A, 0x4C, 0x9C, 0x2E, 0x32, 0x21, 0x5A ),
+ 535:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x64, 0xD9, 0x2E, 0xD8, 0xBD, 0xE4, 0xAE, 0x81 ),
+ 536:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 537:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP512r1_gy[] = {
+ 538:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x92, 0x08, 0xD8, 0x3A, 0x0F, 0x1E, 0xCD, 0x78 ),
+ 539:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x06, 0x54, 0xF0, 0xA8, 0x2F, 0x2B, 0xCA, 0xD1 ),
+ 540:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xAE, 0x63, 0x27, 0x8A, 0xD8, 0x4B, 0xCA, 0x5B ),
+ 541:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x5E, 0x48, 0x5F, 0x4A, 0x49, 0xDE, 0xDC, 0xB2 ),
+ 542:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x11, 0x81, 0x1F, 0x88, 0x5B, 0xC5, 0x00, 0xA0 ),
+ 543:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x1A, 0x7B, 0xA5, 0x24, 0x00, 0xF7, 0x09, 0xF2 ),
+ 544:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFD, 0x22, 0x78, 0xCF, 0xA9, 0xBF, 0xEA, 0xC0 ),
+ 545:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xEC, 0x32, 0x63, 0x56, 0x5D, 0x38, 0xDE, 0x7D ),
+ 546:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 547:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP512r1_n[] = {
+ 548:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x69, 0x00, 0xA9, 0x9C, 0x82, 0x96, 0x87, 0xB5 ),
+ 549:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xDD, 0xDA, 0x5D, 0x08, 0x81, 0xD3, 0xB1, 0x1D ),
+ 550:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x47, 0x10, 0xAC, 0x7F, 0x19, 0x61, 0x86, 0x41 ),
+ 551:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x19, 0x26, 0xA9, 0x4C, 0x41, 0x5C, 0x3E, 0x55 ),
+ 552:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x70, 0x08, 0x33, 0x70, 0xCA, 0x9C, 0x63, 0xD6 ),
+ 553:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x0E, 0xD2, 0xC9, 0xB3, 0xB3, 0x8D, 0x30, 0xCB ),
+ 554:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x07, 0xFC, 0xC9, 0x33, 0xAE, 0xE6, 0xD4, 0x3F ),
+ 555:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x8B, 0xC4, 0xE9, 0xDB, 0xB8, 0x9D, 0xDD, 0xAA ),
+ 556:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** };
+ 557:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_BP512R1_ENABLED */
+ 558:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 559:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 560:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Create an MPI from embedded constants
+ 561:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * (assumes len is an exact multiple of sizeof mbedtls_mpi_uint)
+ 562:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 563:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static inline void ecp_mpi_load( mbedtls_mpi *X, const mbedtls_mpi_uint *p, size_t len )
+ 564:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** {
+  92              	 .loc 1 564 0
+  93              	 .cfi_startproc
+  94              	 
+  95              	 
+  96              	 
+  97 0000 80B4     	 push {r7}
+  98              	.LCFI0:
+  99              	 .cfi_def_cfa_offset 4
+ 100              	 .cfi_offset 7,-4
+ 101 0002 85B0     	 sub sp,sp,#20
+ 102              	.LCFI1:
+ 103              	 .cfi_def_cfa_offset 24
+ 104 0004 00AF     	 add r7,sp,#0
+ 105              	.LCFI2:
+ 106              	 .cfi_def_cfa_register 7
+ 107 0006 F860     	 str r0,[r7,#12]
+ 108 0008 B960     	 str r1,[r7,#8]
+ 109 000a 7A60     	 str r2,[r7,#4]
+ 565:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     X->s = 1;
+ 110              	 .loc 1 565 0
+ 111 000c FB68     	 ldr r3,[r7,#12]
+ 112 000e 0122     	 movs r2,#1
+ 113 0010 1A60     	 str r2,[r3]
+ 566:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     X->n = len / sizeof( mbedtls_mpi_uint );
+ 114              	 .loc 1 566 0
+ 115 0012 7B68     	 ldr r3,[r7,#4]
+ 116 0014 9A08     	 lsrs r2,r3,#2
+ 117 0016 FB68     	 ldr r3,[r7,#12]
+ 118 0018 5A60     	 str r2,[r3,#4]
+ 567:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     X->p = (mbedtls_mpi_uint *) p;
+ 119              	 .loc 1 567 0
+ 120 001a FB68     	 ldr r3,[r7,#12]
+ 121 001c BA68     	 ldr r2,[r7,#8]
+ 122 001e 9A60     	 str r2,[r3,#8]
+ 568:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** }
+ 123              	 .loc 1 568 0
+ 124 0020 1437     	 adds r7,r7,#20
+ 125              	.LCFI3:
+ 126              	 .cfi_def_cfa_offset 4
+ 127 0022 BD46     	 mov sp,r7
+ 128              	.LCFI4:
+ 129              	 .cfi_def_cfa_register 13
+ 130              	 
+ 131 0024 5DF8047B 	 ldr r7,[sp],#4
+ 132              	.LCFI5:
+ 133              	 .cfi_restore 7
+ 134              	 .cfi_def_cfa_offset 0
+ 135 0028 7047     	 bx lr
+ 136              	 .cfi_endproc
+ 137              	.LFE0:
+ 139 002a 00BF     	 .section .text.ecp_mpi_set1,"ax",%progbits
+ 140              	 .align 2
+ 141              	 .thumb
+ 142              	 .thumb_func
+ 144              	ecp_mpi_set1:
+ 145              	.LFB1:
+ 569:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 570:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 571:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Set an MPI to static value 1
+ 572:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 573:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static inline void ecp_mpi_set1( mbedtls_mpi *X )
+ 574:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** {
+ 146              	 .loc 1 574 0
+ 147              	 .cfi_startproc
+ 148              	 
+ 149              	 
+ 150              	 
+ 151 0000 80B4     	 push {r7}
+ 152              	.LCFI6:
+ 153              	 .cfi_def_cfa_offset 4
+ 154              	 .cfi_offset 7,-4
+ 155 0002 83B0     	 sub sp,sp,#12
+ 156              	.LCFI7:
+ 157              	 .cfi_def_cfa_offset 16
+ 158 0004 00AF     	 add r7,sp,#0
+ 159              	.LCFI8:
+ 160              	 .cfi_def_cfa_register 7
+ 161 0006 7860     	 str r0,[r7,#4]
+ 575:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     static mbedtls_mpi_uint one[] = { 1 };
+ 576:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     X->s = 1;
+ 162              	 .loc 1 576 0
+ 163 0008 7B68     	 ldr r3,[r7,#4]
+ 164 000a 0122     	 movs r2,#1
+ 165 000c 1A60     	 str r2,[r3]
+ 577:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     X->n = 1;
+ 166              	 .loc 1 577 0
+ 167 000e 7B68     	 ldr r3,[r7,#4]
+ 168 0010 0122     	 movs r2,#1
+ 169 0012 5A60     	 str r2,[r3,#4]
+ 578:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     X->p = one;
+ 170              	 .loc 1 578 0
+ 171 0014 7B68     	 ldr r3,[r7,#4]
+ 172 0016 034A     	 ldr r2,.L3
+ 173 0018 9A60     	 str r2,[r3,#8]
+ 579:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** }
+ 174              	 .loc 1 579 0
+ 175 001a 0C37     	 adds r7,r7,#12
+ 176              	.LCFI9:
+ 177              	 .cfi_def_cfa_offset 4
+ 178 001c BD46     	 mov sp,r7
+ 179              	.LCFI10:
+ 180              	 .cfi_def_cfa_register 13
+ 181              	 
+ 182 001e 5DF8047B 	 ldr r7,[sp],#4
+ 183              	.LCFI11:
+ 184              	 .cfi_restore 7
+ 185              	 .cfi_def_cfa_offset 0
+ 186 0022 7047     	 bx lr
+ 187              	.L4:
+ 188              	 .align 2
+ 189              	.L3:
+ 190 0024 00000000 	 .word one.4853
+ 191              	 .cfi_endproc
+ 192              	.LFE1:
+ 194              	 .section .text.ecp_group_load,"ax",%progbits
+ 195              	 .align 2
+ 196              	 .thumb
+ 197              	 .thumb_func
+ 199              	ecp_group_load:
+ 200              	.LFB2:
+ 580:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 581:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 582:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Make group available from embedded constants
+ 583:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 584:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_group_load( mbedtls_ecp_group *grp,
+ 585:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                            const mbedtls_mpi_uint *p,  size_t plen,
+ 586:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                            const mbedtls_mpi_uint *a,  size_t alen,
+ 587:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                            const mbedtls_mpi_uint *b,  size_t blen,
+ 588:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                            const mbedtls_mpi_uint *gx, size_t gxlen,
+ 589:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                            const mbedtls_mpi_uint *gy, size_t gylen,
+ 590:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                            const mbedtls_mpi_uint *n,  size_t nlen)
+ 591:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** {
+ 201              	 .loc 1 591 0
+ 202              	 .cfi_startproc
+ 203              	 
+ 204              	 
+ 205 0000 80B5     	 push {r7,lr}
+ 206              	.LCFI12:
+ 207              	 .cfi_def_cfa_offset 8
+ 208              	 .cfi_offset 7,-8
+ 209              	 .cfi_offset 14,-4
+ 210 0002 84B0     	 sub sp,sp,#16
+ 211              	.LCFI13:
+ 212              	 .cfi_def_cfa_offset 24
+ 213 0004 00AF     	 add r7,sp,#0
+ 214              	.LCFI14:
+ 215              	 .cfi_def_cfa_register 7
+ 216 0006 F860     	 str r0,[r7,#12]
+ 217 0008 B960     	 str r1,[r7,#8]
+ 218 000a 7A60     	 str r2,[r7,#4]
+ 219 000c 3B60     	 str r3,[r7]
+ 592:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ecp_mpi_load( &grp->P, p, plen );
+ 220              	 .loc 1 592 0
+ 221 000e FB68     	 ldr r3,[r7,#12]
+ 222 0010 0433     	 adds r3,r3,#4
+ 223 0012 1846     	 mov r0,r3
+ 224 0014 B968     	 ldr r1,[r7,#8]
+ 225 0016 7A68     	 ldr r2,[r7,#4]
+ 226 0018 FFF7FEFF 	 bl ecp_mpi_load
+ 593:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     if( a != NULL )
+ 227              	 .loc 1 593 0
+ 228 001c 3B68     	 ldr r3,[r7]
+ 229 001e 002B     	 cmp r3,#0
+ 230 0020 06D0     	 beq .L6
+ 594:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         ecp_mpi_load( &grp->A, a, alen );
+ 231              	 .loc 1 594 0
+ 232 0022 FB68     	 ldr r3,[r7,#12]
+ 233 0024 1033     	 adds r3,r3,#16
+ 234 0026 1846     	 mov r0,r3
+ 235 0028 3968     	 ldr r1,[r7]
+ 236 002a BA69     	 ldr r2,[r7,#24]
+ 237 002c FFF7FEFF 	 bl ecp_mpi_load
+ 238              	.L6:
+ 595:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ecp_mpi_load( &grp->B, b, blen );
+ 239              	 .loc 1 595 0
+ 240 0030 FB68     	 ldr r3,[r7,#12]
+ 241 0032 1C33     	 adds r3,r3,#28
+ 242 0034 1846     	 mov r0,r3
+ 243 0036 F969     	 ldr r1,[r7,#28]
+ 244 0038 3A6A     	 ldr r2,[r7,#32]
+ 245 003a FFF7FEFF 	 bl ecp_mpi_load
+ 596:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ecp_mpi_load( &grp->N, n, nlen );
+ 246              	 .loc 1 596 0
+ 247 003e FB68     	 ldr r3,[r7,#12]
+ 248 0040 4C33     	 adds r3,r3,#76
+ 249 0042 1846     	 mov r0,r3
+ 250 0044 796B     	 ldr r1,[r7,#52]
+ 251 0046 BA6B     	 ldr r2,[r7,#56]
+ 252 0048 FFF7FEFF 	 bl ecp_mpi_load
+ 597:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 598:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ecp_mpi_load( &grp->G.X, gx, gxlen );
+ 253              	 .loc 1 598 0
+ 254 004c FB68     	 ldr r3,[r7,#12]
+ 255 004e 2833     	 adds r3,r3,#40
+ 256 0050 1846     	 mov r0,r3
+ 257 0052 796A     	 ldr r1,[r7,#36]
+ 258 0054 BA6A     	 ldr r2,[r7,#40]
+ 259 0056 FFF7FEFF 	 bl ecp_mpi_load
+ 599:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ecp_mpi_load( &grp->G.Y, gy, gylen );
+ 260              	 .loc 1 599 0
+ 261 005a FB68     	 ldr r3,[r7,#12]
+ 262 005c 3433     	 adds r3,r3,#52
+ 263 005e 1846     	 mov r0,r3
+ 264 0060 F96A     	 ldr r1,[r7,#44]
+ 265 0062 3A6B     	 ldr r2,[r7,#48]
+ 266 0064 FFF7FEFF 	 bl ecp_mpi_load
+ 600:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ecp_mpi_set1( &grp->G.Z );
+ 267              	 .loc 1 600 0
+ 268 0068 FB68     	 ldr r3,[r7,#12]
+ 269 006a 4033     	 adds r3,r3,#64
+ 270 006c 1846     	 mov r0,r3
+ 271 006e FFF7FEFF 	 bl ecp_mpi_set1
+ 601:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 602:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     grp->pbits = mbedtls_mpi_bitlen( &grp->P );
+ 272              	 .loc 1 602 0
+ 273 0072 FB68     	 ldr r3,[r7,#12]
+ 274 0074 0433     	 adds r3,r3,#4
+ 275 0076 1846     	 mov r0,r3
+ 276 0078 FFF7FEFF 	 bl mbedtls_mpi_bitlen
+ 277 007c 0246     	 mov r2,r0
+ 278 007e FB68     	 ldr r3,[r7,#12]
+ 279 0080 9A65     	 str r2,[r3,#88]
+ 603:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     grp->nbits = mbedtls_mpi_bitlen( &grp->N );
+ 280              	 .loc 1 603 0
+ 281 0082 FB68     	 ldr r3,[r7,#12]
+ 282 0084 4C33     	 adds r3,r3,#76
+ 283 0086 1846     	 mov r0,r3
+ 284 0088 FFF7FEFF 	 bl mbedtls_mpi_bitlen
+ 285 008c 0246     	 mov r2,r0
+ 286 008e FB68     	 ldr r3,[r7,#12]
+ 287 0090 DA65     	 str r2,[r3,#92]
+ 604:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 605:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     grp->h = 1;
+ 288              	 .loc 1 605 0
+ 289 0092 FB68     	 ldr r3,[r7,#12]
+ 290 0094 0122     	 movs r2,#1
+ 291 0096 1A66     	 str r2,[r3,#96]
+ 606:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 607:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     return( 0 );
+ 292              	 .loc 1 607 0
+ 293 0098 0023     	 movs r3,#0
+ 608:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** }
+ 294              	 .loc 1 608 0
+ 295 009a 1846     	 mov r0,r3
+ 296 009c 1037     	 adds r7,r7,#16
+ 297              	.LCFI15:
+ 298              	 .cfi_def_cfa_offset 8
+ 299 009e BD46     	 mov sp,r7
+ 300              	.LCFI16:
+ 301              	 .cfi_def_cfa_register 13
+ 302              	 
+ 303 00a0 80BD     	 pop {r7,pc}
+ 304              	 .cfi_endproc
+ 305              	.LFE2:
+ 307 00a2 00BF     	 .section .text.mbedtls_ecp_group_load,"ax",%progbits
+ 308              	 .align 2
+ 309              	 .global mbedtls_ecp_group_load
+ 310              	 .thumb
+ 311              	 .thumb_func
+ 313              	mbedtls_ecp_group_load:
+ 314              	.LFB3:
+ 609:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 610:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_NIST_OPTIM)
+ 611:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /* Forward declarations */
+ 612:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192R1_ENABLED)
+ 613:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_mod_p192( mbedtls_mpi * );
+ 614:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif
+ 615:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224R1_ENABLED)
+ 616:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_mod_p224( mbedtls_mpi * );
+ 617:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif
+ 618:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256R1_ENABLED)
+ 619:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_mod_p256( mbedtls_mpi * );
+ 620:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif
+ 621:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP384R1_ENABLED)
+ 622:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_mod_p384( mbedtls_mpi * );
+ 623:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif
+ 624:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP521R1_ENABLED)
+ 625:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_mod_p521( mbedtls_mpi * );
+ 626:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif
+ 627:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 628:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define NIST_MODP( P )      grp->modp = ecp_mod_ ## P;
+ 629:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #else
+ 630:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define NIST_MODP( P )
+ 631:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_NIST_OPTIM */
+ 632:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 633:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /* Additional forward declarations */
+ 634:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_CURVE25519_ENABLED)
+ 635:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_mod_p255( mbedtls_mpi * );
+ 636:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif
+ 637:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_CURVE448_ENABLED)
+ 638:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_mod_p448( mbedtls_mpi * );
+ 639:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif
+ 640:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192K1_ENABLED)
+ 641:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_mod_p192k1( mbedtls_mpi * );
+ 642:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif
+ 643:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224K1_ENABLED)
+ 644:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_mod_p224k1( mbedtls_mpi * );
+ 645:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif
+ 646:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256K1_ENABLED)
+ 647:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_mod_p256k1( mbedtls_mpi * );
+ 648:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif
+ 649:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 650:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define LOAD_GROUP_A( G )   ecp_group_load( grp,            \
+ 651:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                             G ## _p,  sizeof( G ## _p  ),   \
+ 652:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                             G ## _a,  sizeof( G ## _a  ),   \
+ 653:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                             G ## _b,  sizeof( G ## _b  ),   \
+ 654:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                             G ## _gx, sizeof( G ## _gx ),   \
+ 655:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                             G ## _gy, sizeof( G ## _gy ),   \
+ 656:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                             G ## _n,  sizeof( G ## _n  ) )
+ 657:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 658:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #define LOAD_GROUP( G )     ecp_group_load( grp,            \
+ 659:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                             G ## _p,  sizeof( G ## _p  ),   \
+ 660:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                             NULL,     0,                    \
+ 661:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                             G ## _b,  sizeof( G ## _b  ),   \
+ 662:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                             G ## _gx, sizeof( G ## _gx ),   \
+ 663:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                             G ## _gy, sizeof( G ## _gy ),   \
+ 664:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                             G ## _n,  sizeof( G ## _n  ) )
+ 665:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 666:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_CURVE25519_ENABLED)
+ 667:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 668:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Specialized function for creating the Curve25519 group
+ 669:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 670:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_use_curve25519( mbedtls_ecp_group *grp )
+ 671:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** {
+ 672:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     int ret;
+ 673:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 674:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     /* Actually ( A + 2 ) / 4 */
+ 675:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_read_string( &grp->A, 16, "01DB42" ) );
+ 676:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 677:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     /* P = 2^255 - 19 */
+ 678:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_lset( &grp->P, 1 ) );
+ 679:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_shift_l( &grp->P, 255 ) );
+ 680:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_sub_int( &grp->P, &grp->P, 19 ) );
+ 681:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     grp->pbits = mbedtls_mpi_bitlen( &grp->P );
+ 682:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 683:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     /* N = 2^252 + 27742317777372353535851937790883648493 */
+ 684:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_read_string( &grp->N, 16,
+ 685:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                                               "14DEF9DEA2F79CD65812631A5CF5D3ED" ) );
+ 686:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_set_bit( &grp->N, 252, 1 ) );
+ 687:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 688:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     /* Y intentionally not set, since we use x/z coordinates.
+ 689:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****      * This is used as a marker to identify Montgomery curves! */
+ 690:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_lset( &grp->G.X, 9 ) );
+ 691:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_lset( &grp->G.Z, 1 ) );
+ 692:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     mbedtls_mpi_free( &grp->G.Y );
+ 693:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 694:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     /* Actually, the required msb for private keys */
+ 695:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     grp->nbits = 254;
+ 696:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 697:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** cleanup:
+ 698:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     if( ret != 0 )
+ 699:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         mbedtls_ecp_group_free( grp );
+ 700:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 701:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     return( ret );
+ 702:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** }
+ 703:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_CURVE25519_ENABLED */
+ 704:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 705:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_CURVE448_ENABLED)
+ 706:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 707:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Specialized function for creating the Curve448 group
+ 708:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 709:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** static int ecp_use_curve448( mbedtls_ecp_group *grp )
+ 710:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** {
+ 711:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     mbedtls_mpi Ns;
+ 712:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     int ret;
+ 713:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 714:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     mbedtls_mpi_init( &Ns );
+ 715:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 716:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     /* Actually ( A + 2 ) / 4 */
+ 717:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_read_string( &grp->A, 16, "98AA" ) );
+ 718:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 719:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     /* P = 2^448 - 2^224 - 1 */
+ 720:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_lset( &grp->P, 1 ) );
+ 721:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_shift_l( &grp->P, 224 ) );
+ 722:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_sub_int( &grp->P, &grp->P, 1 ) );
+ 723:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_shift_l( &grp->P, 224 ) );
+ 724:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_sub_int( &grp->P, &grp->P, 1 ) );
+ 725:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     grp->pbits = mbedtls_mpi_bitlen( &grp->P );
+ 726:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 727:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     /* Y intentionally not set, since we use x/z coordinates.
+ 728:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****      * This is used as a marker to identify Montgomery curves! */
+ 729:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_lset( &grp->G.X, 5 ) );
+ 730:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_lset( &grp->G.Z, 1 ) );
+ 731:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     mbedtls_mpi_free( &grp->G.Y );
+ 732:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 733:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     /* N = 2^446 - 13818066809895115352007386748515426880336692474882178609894547503885 */
+ 734:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_set_bit( &grp->N, 446, 1 ) );
+ 735:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_read_string( &Ns, 16,
+ 736:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****                                               "8335DC163BB124B65129C96FDE933D8D723A70AADC873D6D54A7
+ 737:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_sub_mpi( &grp->N, &grp->N, &Ns ) );
+ 738:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 739:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     /* Actually, the required msb for private keys */
+ 740:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     grp->nbits = 447;
+ 741:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 742:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** cleanup:
+ 743:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     mbedtls_mpi_free( &Ns );
+ 744:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     if( ret != 0 )
+ 745:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         mbedtls_ecp_group_free( grp );
+ 746:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 747:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     return( ret );
+ 748:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** }
+ 749:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_CURVE448_ENABLED */
+ 750:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 751:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** /*
+ 752:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  * Set a group using well-known domain parameters
+ 753:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****  */
+ 754:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** int mbedtls_ecp_group_load( mbedtls_ecp_group *grp, mbedtls_ecp_group_id id )
+ 755:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** {
+ 315              	 .loc 1 755 0
+ 316              	 .cfi_startproc
+ 317              	 
+ 318              	 
+ 319 0000 80B5     	 push {r7,lr}
+ 320              	.LCFI17:
+ 321              	 .cfi_def_cfa_offset 8
+ 322              	 .cfi_offset 7,-8
+ 323              	 .cfi_offset 14,-4
+ 324 0002 8CB0     	 sub sp,sp,#48
+ 325              	.LCFI18:
+ 326              	 .cfi_def_cfa_offset 56
+ 327 0004 0AAF     	 add r7,sp,#40
+ 328              	.LCFI19:
+ 329              	 .cfi_def_cfa 7,16
+ 330 0006 7860     	 str r0,[r7,#4]
+ 331 0008 0B46     	 mov r3,r1
+ 332 000a FB70     	 strb r3,[r7,#3]
+ 756:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     ECP_VALIDATE_RET( grp != NULL );
+ 757:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     mbedtls_ecp_group_free( grp );
+ 333              	 .loc 1 757 0
+ 334 000c 7868     	 ldr r0,[r7,#4]
+ 335 000e FFF7FEFF 	 bl mbedtls_ecp_group_free
+ 758:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 759:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     grp->id = id;
+ 336              	 .loc 1 759 0
+ 337 0012 7B68     	 ldr r3,[r7,#4]
+ 338 0014 FA78     	 ldrb r2,[r7,#3]
+ 339 0016 1A70     	 strb r2,[r3]
+ 760:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 761:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     switch( id )
+ 340              	 .loc 1 761 0
+ 341 0018 FB78     	 ldrb r3,[r7,#3]
+ 342 001a 032B     	 cmp r3,#3
+ 343 001c 19D1     	 bne .L12
+ 762:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     {
+ 763:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192R1_ENABLED)
+ 764:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP192R1:
+ 765:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             NIST_MODP( p192 );
+ 766:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP( secp192r1 ) );
+ 767:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP192R1_ENABLED */
+ 768:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 769:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224R1_ENABLED)
+ 770:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP224R1:
+ 771:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             NIST_MODP( p224 );
+ 772:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP( secp224r1 ) );
+ 773:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP224R1_ENABLED */
+ 774:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 775:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256R1_ENABLED)
+ 776:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP256R1:
+ 777:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             NIST_MODP( p256 );
+ 778:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP( secp256r1 ) );
+ 344              	 .loc 1 778 0
+ 345 001e 0023     	 movs r3,#0
+ 346 0020 0093     	 str r3,[sp]
+ 347 0022 104B     	 ldr r3,.L13
+ 348 0024 0193     	 str r3,[sp,#4]
+ 349 0026 2023     	 movs r3,#32
+ 350 0028 0293     	 str r3,[sp,#8]
+ 351 002a 0F4B     	 ldr r3,.L13+4
+ 352 002c 0393     	 str r3,[sp,#12]
+ 353 002e 2023     	 movs r3,#32
+ 354 0030 0493     	 str r3,[sp,#16]
+ 355 0032 0E4B     	 ldr r3,.L13+8
+ 356 0034 0593     	 str r3,[sp,#20]
+ 357 0036 2023     	 movs r3,#32
+ 358 0038 0693     	 str r3,[sp,#24]
+ 359 003a 0D4B     	 ldr r3,.L13+12
+ 360 003c 0793     	 str r3,[sp,#28]
+ 361 003e 2023     	 movs r3,#32
+ 362 0040 0893     	 str r3,[sp,#32]
+ 363 0042 7868     	 ldr r0,[r7,#4]
+ 364 0044 0B49     	 ldr r1,.L13+16
+ 365 0046 2022     	 movs r2,#32
+ 366 0048 0023     	 movs r3,#0
+ 367 004a FFF7FEFF 	 bl ecp_group_load
+ 368 004e 0346     	 mov r3,r0
+ 369 0050 03E0     	 b .L11
+ 370              	.L12:
+ 779:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP256R1_ENABLED */
+ 780:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 781:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP384R1_ENABLED)
+ 782:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP384R1:
+ 783:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             NIST_MODP( p384 );
+ 784:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP( secp384r1 ) );
+ 785:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP384R1_ENABLED */
+ 786:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 787:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP521R1_ENABLED)
+ 788:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP521R1:
+ 789:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             NIST_MODP( p521 );
+ 790:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP( secp521r1 ) );
+ 791:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP521R1_ENABLED */
+ 792:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 793:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192K1_ENABLED)
+ 794:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP192K1:
+ 795:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             grp->modp = ecp_mod_p192k1;
+ 796:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP_A( secp192k1 ) );
+ 797:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP192K1_ENABLED */
+ 798:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 799:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224K1_ENABLED)
+ 800:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP224K1:
+ 801:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             grp->modp = ecp_mod_p224k1;
+ 802:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP_A( secp224k1 ) );
+ 803:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP224K1_ENABLED */
+ 804:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 805:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256K1_ENABLED)
+ 806:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP256K1:
+ 807:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             grp->modp = ecp_mod_p256k1;
+ 808:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP_A( secp256k1 ) );
+ 809:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP256K1_ENABLED */
+ 810:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 811:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_BP256R1_ENABLED)
+ 812:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_BP256R1:
+ 813:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP_A( brainpoolP256r1 ) );
+ 814:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_BP256R1_ENABLED */
+ 815:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 816:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_BP384R1_ENABLED)
+ 817:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_BP384R1:
+ 818:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP_A( brainpoolP384r1 ) );
+ 819:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_BP384R1_ENABLED */
+ 820:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 821:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_BP512R1_ENABLED)
+ 822:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_BP512R1:
+ 823:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP_A( brainpoolP512r1 ) );
+ 824:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_BP512R1_ENABLED */
+ 825:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 826:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_CURVE25519_ENABLED)
+ 827:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_CURVE25519:
+ 828:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             grp->modp = ecp_mod_p255;
+ 829:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( ecp_use_curve25519( grp ) );
+ 830:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_CURVE25519_ENABLED */
+ 831:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 832:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_CURVE448_ENABLED)
+ 833:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_CURVE448:
+ 834:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             grp->modp = ecp_mod_p448;
+ 835:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( ecp_use_curve448( grp ) );
+ 836:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_CURVE448_ENABLED */
+ 837:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** 
+ 838:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****         default:
+ 839:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             mbedtls_ecp_group_free( grp );
+ 371              	 .loc 1 839 0
+ 372 0052 7868     	 ldr r0,[r7,#4]
+ 373 0054 FFF7FEFF 	 bl mbedtls_ecp_group_free
+ 840:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****             return( MBEDTLS_ERR_ECP_FEATURE_UNAVAILABLE );
+ 374              	 .loc 1 840 0
+ 375 0058 074B     	 ldr r3,.L13+20
+ 376              	.L11:
+ 841:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c ****     }
+ 842:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecp_curves.c **** }
+ 377              	 .loc 1 842 0
+ 378 005a 1846     	 mov r0,r3
+ 379 005c 0837     	 adds r7,r7,#8
+ 380              	.LCFI20:
+ 381              	 .cfi_def_cfa_offset 8
+ 382 005e BD46     	 mov sp,r7
+ 383              	.LCFI21:
+ 384              	 .cfi_def_cfa_register 13
+ 385              	 
+ 386 0060 80BD     	 pop {r7,pc}
+ 387              	.L14:
+ 388 0062 00BF     	 .align 2
+ 389              	.L13:
+ 390 0064 00000000 	 .word secp256r1_b
+ 391 0068 00000000 	 .word secp256r1_gx
+ 392 006c 00000000 	 .word secp256r1_gy
+ 393 0070 00000000 	 .word secp256r1_n
+ 394 0074 00000000 	 .word secp256r1_p
+ 395 0078 80B1FFFF 	 .word -20096
+ 396              	 .cfi_endproc
+ 397              	.LFE3:
+ 399              	 .section .data.one.4853,"aw",%progbits
+ 400              	 .align 2
+ 403              	one.4853:
+ 404 0000 01000000 	 .word 1
+ 405              	 .text
+ 406              	.Letext0:
+ 407              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\lib\\gcc\\arm-none-eabi\\4.9.3\\include\\stddef.h"
+ 408              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 409              	 .file 4 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 410              	 .file 5 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/include/mbedtls/bignum.h"
+ 411              	 .file 6 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/include/mbedtls/ecp.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 ecp_curves.c
+    {standard input}:20     .rodata.secp256r1_p:00000000 $d
+    {standard input}:23     .rodata.secp256r1_p:00000000 secp256r1_p
+    {standard input}:33     .rodata.secp256r1_b:00000000 $d
+    {standard input}:36     .rodata.secp256r1_b:00000000 secp256r1_b
+    {standard input}:46     .rodata.secp256r1_gx:00000000 $d
+    {standard input}:49     .rodata.secp256r1_gx:00000000 secp256r1_gx
+    {standard input}:59     .rodata.secp256r1_gy:00000000 $d
+    {standard input}:62     .rodata.secp256r1_gy:00000000 secp256r1_gy
+    {standard input}:72     .rodata.secp256r1_n:00000000 $d
+    {standard input}:75     .rodata.secp256r1_n:00000000 secp256r1_n
+    {standard input}:85     .text.ecp_mpi_load:00000000 $t
+    {standard input}:89     .text.ecp_mpi_load:00000000 ecp_mpi_load
+    {standard input}:140    .text.ecp_mpi_set1:00000000 $t
+    {standard input}:144    .text.ecp_mpi_set1:00000000 ecp_mpi_set1
+    {standard input}:190    .text.ecp_mpi_set1:00000024 $d
+    {standard input}:403    .data.one.4853:00000000 one.4853
+    {standard input}:195    .text.ecp_group_load:00000000 $t
+    {standard input}:199    .text.ecp_group_load:00000000 ecp_group_load
+    {standard input}:308    .text.mbedtls_ecp_group_load:00000000 $t
+    {standard input}:313    .text.mbedtls_ecp_group_load:00000000 mbedtls_ecp_group_load
+    {standard input}:390    .text.mbedtls_ecp_group_load:00000064 $d
+    {standard input}:400    .data.one.4853:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+mbedtls_mpi_bitlen
+mbedtls_ecp_group_free

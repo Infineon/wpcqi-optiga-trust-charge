@@ -1,0 +1,35 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 305458945 (0x1234ef01)
+    Signature Algorithm: ecdsa-with-SHA256
+        Issuer: CN = CAFE-1A
+        Validity
+            Not Before: Jan  1 00:00:00 1970 GMT
+            Not After : Dec 31 23:59:59 9999 GMT
+        Subject: CN = 006386
+        Subject Public Key Info:
+            Public Key Algorithm: id-ecPublicKey
+                Public-Key: (256 bit)
+                pub:
+                    03:3b:a9:27:eb:4f:ed:fa:fe:18:00:37:1e:c2:e8:
+                    69:45:70:a5:03:de:46:43:e0:9f:6a:bb:93:0f:ae:
+                    52:97:3e
+                ASN1 OID: prime256v1
+                NIST CURVE: P-256
+        X509v3 extensions:
+            2.23.255.1.2: 
+                ......
+    Signature Algorithm: ecdsa-with-SHA256
+         30:44:02:20:42:b1:69:c1:63:da:b9:53:3c:a2:4b:b0:49:b1:
+         1e:a3:14:8e:36:5a:5b:94:69:d3:9e:45:27:0c:a1:65:f5:17:
+         02:20:3b:ae:63:74:e6:99:d6:69:df:30:c6:c5:29:48:72:4b:
+         ea:5a:88:fe:04:83:66:d9:e0:f7:66:4f:69:7d:9a:df
+-----BEGIN CERTIFICATE-----
+MIIBCDCBsKADAgECAgQSNO8BMAoGCCqGSM49BAMCMBIxEDAOBgNVBAMMB0NBRkUt
+MUEwIBcNNzAwMTAxMDAwMDAwWhgPOTk5OTEyMzEyMzU5NTlaMBExDzANBgNVBAMM
+BjAwNjM4NjA5MBMGByqGSM49AgEGCCqGSM49AwEHAyIAAzupJ+tP7fr+GAA3HsLo
+aUVwpQPeRkPgn2q7kw+uUpc+oxMwETAPBgVngX8BAgQGBAQAAAABMAoGCCqGSM49
+BAMCA0cAMEQCIEKxacFj2rlTPKJLsEmxHqMUjjZaW5Rp055FJwyhZfUXAiA7rmN0
+5pnWad8wxsUpSHJL6lqI/gSDZtng92ZPaX2a3w==
+-----END CERTIFICATE-----

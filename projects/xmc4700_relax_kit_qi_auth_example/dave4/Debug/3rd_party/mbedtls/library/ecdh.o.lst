@@ -1,0 +1,2249 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "ecdh.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.ecdh_gen_public_restartable,"ax",%progbits
+  20              	 .align 2
+  21              	 .thumb
+  22              	 .thumb_func
+  24              	ecdh_gen_public_restartable:
+  25              	.LFB0:
+  26              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library/ecdh.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  Elliptic curve Diffie-Hellman
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  SPDX-License-Identifier: Apache-2.0
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  not use this file except in compliance with the License.
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  You may obtain a copy of the License at
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  Unless required by applicable law or agreed to in writing, software
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  See the License for the specific language governing permissions and
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  limitations under the License.
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *  This file is part of mbed TLS (https://tls.mbed.org)
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * References:
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * SEC1 http://www.secg.org/index.php?action=secg,docs_secg
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * RFC 4492
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #include "mbedtls/config.h"
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #include MBEDTLS_CONFIG_FILE
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECDH_C)
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #include "mbedtls/ecdh.h"
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #include "mbedtls/platform_util.h"
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #include <string.h>
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /* Parameter validation macros based on platform_util.h */
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #define ECDH_VALIDATE_RET( cond )    \
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     MBEDTLS_INTERNAL_VALIDATE_RET( cond, MBEDTLS_ERR_ECP_BAD_INPUT_DATA )
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #define ECDH_VALIDATE( cond )        \
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     MBEDTLS_INTERNAL_VALIDATE( cond )
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECDH_LEGACY_CONTEXT)
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** typedef mbedtls_ecdh_context mbedtls_ecdh_context_mbed;
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if !defined(MBEDTLS_ECDH_GEN_PUBLIC_ALT)
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Generate public key (restartable version)
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Note: this internal function relies on its caller preserving the value of
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * the output parameter 'd' across continuation calls. This would not be
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * acceptable for a public function but is OK here as we control call sites.
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** static int ecdh_gen_public_restartable( mbedtls_ecp_group *grp,
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                     mbedtls_mpi *d, mbedtls_ecp_point *Q,
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                     int (*f_rng)(void *, unsigned char *, size_t),
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                     void *p_rng,
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                     mbedtls_ecp_restart_ctx *rs_ctx )
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+  27              	 .loc 1 65 0
+  28              	 .cfi_startproc
+  29              	 
+  30              	 
+  31 0000 90B5     	 push {r4,r7,lr}
+  32              	.LCFI0:
+  33              	 .cfi_def_cfa_offset 12
+  34              	 .cfi_offset 4,-12
+  35              	 .cfi_offset 7,-8
+  36              	 .cfi_offset 14,-4
+  37 0002 8BB0     	 sub sp,sp,#44
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 56
+  40 0004 04AF     	 add r7,sp,#16
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa 7,40
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+  46 000c 3B60     	 str r3,[r7]
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int ret;
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     /* If multiplication is in progress, we already generated a privkey */
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( rs_ctx == NULL || rs_ctx->rsm == NULL )
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         MBEDTLS_MPI_CHK( mbedtls_ecp_gen_privkey( grp, d, f_rng, p_rng ) );
+  47              	 .loc 1 72 0
+  48 000e F868     	 ldr r0,[r7,#12]
+  49 0010 B968     	 ldr r1,[r7,#8]
+  50 0012 3A68     	 ldr r2,[r7]
+  51 0014 BB6A     	 ldr r3,[r7,#40]
+  52 0016 FFF7FEFF 	 bl mbedtls_ecp_gen_privkey
+  53 001a 7861     	 str r0,[r7,#20]
+  54 001c 7B69     	 ldr r3,[r7,#20]
+  55 001e 002B     	 cmp r3,#0
+  56 0020 00D0     	 beq .L2
+  57 0022 13E0     	 b .L3
+  58              	.L2:
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     MBEDTLS_MPI_CHK( mbedtls_ecp_mul_restartable( grp, Q, d, &grp->G,
+  59              	 .loc 1 74 0
+  60 0024 FB68     	 ldr r3,[r7,#12]
+  61 0026 03F12804 	 add r4,r3,#40
+  62 002a 3B68     	 ldr r3,[r7]
+  63 002c 0093     	 str r3,[sp]
+  64 002e BB6A     	 ldr r3,[r7,#40]
+  65 0030 0193     	 str r3,[sp,#4]
+  66 0032 FB6A     	 ldr r3,[r7,#44]
+  67 0034 0293     	 str r3,[sp,#8]
+  68 0036 F868     	 ldr r0,[r7,#12]
+  69 0038 7968     	 ldr r1,[r7,#4]
+  70 003a BA68     	 ldr r2,[r7,#8]
+  71 003c 2346     	 mov r3,r4
+  72 003e FFF7FEFF 	 bl mbedtls_ecp_mul_restartable
+  73 0042 7861     	 str r0,[r7,#20]
+  74 0044 7B69     	 ldr r3,[r7,#20]
+  75 0046 002B     	 cmp r3,#0
+  76 0048 00D0     	 beq .L3
+  77 004a 00BF     	 nop
+  78              	.L3:
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                   f_rng, p_rng, rs_ctx ) );
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** cleanup:
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( ret );
+  79              	 .loc 1 78 0
+  80 004c 7B69     	 ldr r3,[r7,#20]
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+  81              	 .loc 1 79 0
+  82 004e 1846     	 mov r0,r3
+  83 0050 1C37     	 adds r7,r7,#28
+  84              	.LCFI3:
+  85              	 .cfi_def_cfa_offset 12
+  86 0052 BD46     	 mov sp,r7
+  87              	.LCFI4:
+  88              	 .cfi_def_cfa_register 13
+  89              	 
+  90 0054 90BD     	 pop {r4,r7,pc}
+  91              	 .cfi_endproc
+  92              	.LFE0:
+  94 0056 00BF     	 .section .text.mbedtls_ecdh_gen_public,"ax",%progbits
+  95              	 .align 2
+  96              	 .global mbedtls_ecdh_gen_public
+  97              	 .thumb
+  98              	 .thumb_func
+ 100              	mbedtls_ecdh_gen_public:
+ 101              	.LFB1:
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Generate public key
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** int mbedtls_ecdh_gen_public( mbedtls_ecp_group *grp, mbedtls_mpi *d, mbedtls_ecp_point *Q,
+  85:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                      int (*f_rng)(void *, unsigned char *, size_t),
+  86:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                      void *p_rng )
+  87:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 102              	 .loc 1 87 0
+ 103              	 .cfi_startproc
+ 104              	 
+ 105              	 
+ 106 0000 80B5     	 push {r7,lr}
+ 107              	.LCFI5:
+ 108              	 .cfi_def_cfa_offset 8
+ 109              	 .cfi_offset 7,-8
+ 110              	 .cfi_offset 14,-4
+ 111 0002 86B0     	 sub sp,sp,#24
+ 112              	.LCFI6:
+ 113              	 .cfi_def_cfa_offset 32
+ 114 0004 02AF     	 add r7,sp,#8
+ 115              	.LCFI7:
+ 116              	 .cfi_def_cfa 7,24
+ 117 0006 F860     	 str r0,[r7,#12]
+ 118 0008 B960     	 str r1,[r7,#8]
+ 119 000a 7A60     	 str r2,[r7,#4]
+ 120 000c 3B60     	 str r3,[r7]
+  88:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( grp != NULL );
+  89:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( d != NULL );
+  90:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( Q != NULL );
+  91:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( f_rng != NULL );
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( ecdh_gen_public_restartable( grp, d, Q, f_rng, p_rng, NULL ) );
+ 121              	 .loc 1 92 0
+ 122 000e BB69     	 ldr r3,[r7,#24]
+ 123 0010 0093     	 str r3,[sp]
+ 124 0012 0023     	 movs r3,#0
+ 125 0014 0193     	 str r3,[sp,#4]
+ 126 0016 F868     	 ldr r0,[r7,#12]
+ 127 0018 B968     	 ldr r1,[r7,#8]
+ 128 001a 7A68     	 ldr r2,[r7,#4]
+ 129 001c 3B68     	 ldr r3,[r7]
+ 130 001e FFF7FEFF 	 bl ecdh_gen_public_restartable
+ 131 0022 0346     	 mov r3,r0
+  93:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 132              	 .loc 1 93 0
+ 133 0024 1846     	 mov r0,r3
+ 134 0026 1037     	 adds r7,r7,#16
+ 135              	.LCFI8:
+ 136              	 .cfi_def_cfa_offset 8
+ 137 0028 BD46     	 mov sp,r7
+ 138              	.LCFI9:
+ 139              	 .cfi_def_cfa_register 13
+ 140              	 
+ 141 002a 80BD     	 pop {r7,pc}
+ 142              	 .cfi_endproc
+ 143              	.LFE1:
+ 145              	 .section .text.ecdh_compute_shared_restartable,"ax",%progbits
+ 146              	 .align 2
+ 147              	 .thumb
+ 148              	 .thumb_func
+ 150              	ecdh_compute_shared_restartable:
+ 151              	.LFB2:
+  94:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif /* !MBEDTLS_ECDH_GEN_PUBLIC_ALT */
+  95:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+  96:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if !defined(MBEDTLS_ECDH_COMPUTE_SHARED_ALT)
+  97:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+  98:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Compute shared secret (SEC1 3.3.1)
+  99:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+ 100:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** static int ecdh_compute_shared_restartable( mbedtls_ecp_group *grp,
+ 101:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                          mbedtls_mpi *z,
+ 102:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                          const mbedtls_ecp_point *Q, const mbedtls_mpi *d,
+ 103:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                          int (*f_rng)(void *, unsigned char *, size_t),
+ 104:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                          void *p_rng,
+ 105:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                          mbedtls_ecp_restart_ctx *rs_ctx )
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 152              	 .loc 1 106 0
+ 153              	 .cfi_startproc
+ 154              	 
+ 155              	 
+ 156 0000 80B5     	 push {r7,lr}
+ 157              	.LCFI10:
+ 158              	 .cfi_def_cfa_offset 8
+ 159              	 .cfi_offset 7,-8
+ 160              	 .cfi_offset 14,-4
+ 161 0002 92B0     	 sub sp,sp,#72
+ 162              	.LCFI11:
+ 163              	 .cfi_def_cfa_offset 80
+ 164 0004 04AF     	 add r7,sp,#16
+ 165              	.LCFI12:
+ 166              	 .cfi_def_cfa 7,64
+ 167 0006 F860     	 str r0,[r7,#12]
+ 168 0008 B960     	 str r1,[r7,#8]
+ 169 000a 7A60     	 str r2,[r7,#4]
+ 170 000c 3B60     	 str r3,[r7]
+ 107:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int ret;
+ 108:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_point P;
+ 109:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 110:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_point_init( &P );
+ 171              	 .loc 1 110 0
+ 172 000e 07F11003 	 add r3,r7,#16
+ 173 0012 1846     	 mov r0,r3
+ 174 0014 FFF7FEFF 	 bl mbedtls_ecp_point_init
+ 111:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 112:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     MBEDTLS_MPI_CHK( mbedtls_ecp_mul_restartable( grp, &P, d, Q,
+ 175              	 .loc 1 112 0
+ 176 0018 07F11002 	 add r2,r7,#16
+ 177 001c 3B6C     	 ldr r3,[r7,#64]
+ 178 001e 0093     	 str r3,[sp]
+ 179 0020 7B6C     	 ldr r3,[r7,#68]
+ 180 0022 0193     	 str r3,[sp,#4]
+ 181 0024 BB6C     	 ldr r3,[r7,#72]
+ 182 0026 0293     	 str r3,[sp,#8]
+ 183 0028 F868     	 ldr r0,[r7,#12]
+ 184 002a 1146     	 mov r1,r2
+ 185 002c 3A68     	 ldr r2,[r7]
+ 186 002e 7B68     	 ldr r3,[r7,#4]
+ 187 0030 FFF7FEFF 	 bl mbedtls_ecp_mul_restartable
+ 188 0034 7863     	 str r0,[r7,#52]
+ 189 0036 7B6B     	 ldr r3,[r7,#52]
+ 190 0038 002B     	 cmp r3,#0
+ 191 003a 00D0     	 beq .L8
+ 192 003c 15E0     	 b .L9
+ 193              	.L8:
+ 113:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                   f_rng, p_rng, rs_ctx ) );
+ 114:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 115:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( mbedtls_ecp_is_zero( &P ) )
+ 194              	 .loc 1 115 0
+ 195 003e 07F11003 	 add r3,r7,#16
+ 196 0042 1846     	 mov r0,r3
+ 197 0044 FFF7FEFF 	 bl mbedtls_ecp_is_zero
+ 198 0048 0346     	 mov r3,r0
+ 199 004a 002B     	 cmp r3,#0
+ 200 004c 02D0     	 beq .L10
+ 116:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     {
+ 117:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         ret = MBEDTLS_ERR_ECP_BAD_INPUT_DATA;
+ 201              	 .loc 1 117 0
+ 202 004e 0C4B     	 ldr r3,.L12
+ 203 0050 7B63     	 str r3,[r7,#52]
+ 118:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         goto cleanup;
+ 204              	 .loc 1 118 0
+ 205 0052 0AE0     	 b .L9
+ 206              	.L10:
+ 119:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     }
+ 120:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 121:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_copy( z, &P.X ) );
+ 207              	 .loc 1 121 0
+ 208 0054 07F11003 	 add r3,r7,#16
+ 209 0058 B868     	 ldr r0,[r7,#8]
+ 210 005a 1946     	 mov r1,r3
+ 211 005c FFF7FEFF 	 bl mbedtls_mpi_copy
+ 212 0060 7863     	 str r0,[r7,#52]
+ 213 0062 7B6B     	 ldr r3,[r7,#52]
+ 214 0064 002B     	 cmp r3,#0
+ 215 0066 00D0     	 beq .L9
+ 216 0068 00BF     	 nop
+ 217              	.L9:
+ 122:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 123:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** cleanup:
+ 124:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_point_free( &P );
+ 218              	 .loc 1 124 0
+ 219 006a 07F11003 	 add r3,r7,#16
+ 220 006e 1846     	 mov r0,r3
+ 221 0070 FFF7FEFF 	 bl mbedtls_ecp_point_free
+ 125:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 126:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( ret );
+ 222              	 .loc 1 126 0
+ 223 0074 7B6B     	 ldr r3,[r7,#52]
+ 127:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 224              	 .loc 1 127 0
+ 225 0076 1846     	 mov r0,r3
+ 226 0078 3837     	 adds r7,r7,#56
+ 227              	.LCFI13:
+ 228              	 .cfi_def_cfa_offset 8
+ 229 007a BD46     	 mov sp,r7
+ 230              	.LCFI14:
+ 231              	 .cfi_def_cfa_register 13
+ 232              	 
+ 233 007c 80BD     	 pop {r7,pc}
+ 234              	.L13:
+ 235 007e 00BF     	 .align 2
+ 236              	.L12:
+ 237 0080 80B0FFFF 	 .word -20352
+ 238              	 .cfi_endproc
+ 239              	.LFE2:
+ 241              	 .section .text.mbedtls_ecdh_compute_shared,"ax",%progbits
+ 242              	 .align 2
+ 243              	 .global mbedtls_ecdh_compute_shared
+ 244              	 .thumb
+ 245              	 .thumb_func
+ 247              	mbedtls_ecdh_compute_shared:
+ 248              	.LFB3:
+ 128:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 129:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+ 130:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Compute shared secret (SEC1 3.3.1)
+ 131:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+ 132:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** int mbedtls_ecdh_compute_shared( mbedtls_ecp_group *grp, mbedtls_mpi *z,
+ 133:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                          const mbedtls_ecp_point *Q, const mbedtls_mpi *d,
+ 134:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                          int (*f_rng)(void *, unsigned char *, size_t),
+ 135:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                          void *p_rng )
+ 136:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 249              	 .loc 1 136 0
+ 250              	 .cfi_startproc
+ 251              	 
+ 252              	 
+ 253 0000 80B5     	 push {r7,lr}
+ 254              	.LCFI15:
+ 255              	 .cfi_def_cfa_offset 8
+ 256              	 .cfi_offset 7,-8
+ 257              	 .cfi_offset 14,-4
+ 258 0002 88B0     	 sub sp,sp,#32
+ 259              	.LCFI16:
+ 260              	 .cfi_def_cfa_offset 40
+ 261 0004 04AF     	 add r7,sp,#16
+ 262              	.LCFI17:
+ 263              	 .cfi_def_cfa 7,24
+ 264 0006 F860     	 str r0,[r7,#12]
+ 265 0008 B960     	 str r1,[r7,#8]
+ 266 000a 7A60     	 str r2,[r7,#4]
+ 267 000c 3B60     	 str r3,[r7]
+ 137:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( grp != NULL );
+ 138:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( Q != NULL );
+ 139:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( d != NULL );
+ 140:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( z != NULL );
+ 141:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( ecdh_compute_shared_restartable( grp, z, Q, d,
+ 268              	 .loc 1 141 0
+ 269 000e BB69     	 ldr r3,[r7,#24]
+ 270 0010 0093     	 str r3,[sp]
+ 271 0012 FB69     	 ldr r3,[r7,#28]
+ 272 0014 0193     	 str r3,[sp,#4]
+ 273 0016 0023     	 movs r3,#0
+ 274 0018 0293     	 str r3,[sp,#8]
+ 275 001a F868     	 ldr r0,[r7,#12]
+ 276 001c B968     	 ldr r1,[r7,#8]
+ 277 001e 7A68     	 ldr r2,[r7,#4]
+ 278 0020 3B68     	 ldr r3,[r7]
+ 279 0022 FFF7FEFF 	 bl ecdh_compute_shared_restartable
+ 280 0026 0346     	 mov r3,r0
+ 142:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                              f_rng, p_rng, NULL ) );
+ 143:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 281              	 .loc 1 143 0
+ 282 0028 1846     	 mov r0,r3
+ 283 002a 1037     	 adds r7,r7,#16
+ 284              	.LCFI18:
+ 285              	 .cfi_def_cfa_offset 8
+ 286 002c BD46     	 mov sp,r7
+ 287              	.LCFI19:
+ 288              	 .cfi_def_cfa_register 13
+ 289              	 
+ 290 002e 80BD     	 pop {r7,pc}
+ 291              	 .cfi_endproc
+ 292              	.LFE3:
+ 294              	 .section .text.ecdh_init_internal,"ax",%progbits
+ 295              	 .align 2
+ 296              	 .thumb
+ 297              	 .thumb_func
+ 299              	ecdh_init_internal:
+ 300              	.LFB4:
+ 144:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif /* !MBEDTLS_ECDH_COMPUTE_SHARED_ALT */
+ 145:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 146:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** static void ecdh_init_internal( mbedtls_ecdh_context_mbed *ctx )
+ 147:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 301              	 .loc 1 147 0
+ 302              	 .cfi_startproc
+ 303              	 
+ 304              	 
+ 305 0000 80B5     	 push {r7,lr}
+ 306              	.LCFI20:
+ 307              	 .cfi_def_cfa_offset 8
+ 308              	 .cfi_offset 7,-8
+ 309              	 .cfi_offset 14,-4
+ 310 0002 82B0     	 sub sp,sp,#8
+ 311              	.LCFI21:
+ 312              	 .cfi_def_cfa_offset 16
+ 313 0004 00AF     	 add r7,sp,#0
+ 314              	.LCFI22:
+ 315              	 .cfi_def_cfa_register 7
+ 316 0006 7860     	 str r0,[r7,#4]
+ 148:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_group_init( &ctx->grp );
+ 317              	 .loc 1 148 0
+ 318 0008 7B68     	 ldr r3,[r7,#4]
+ 319 000a 1846     	 mov r0,r3
+ 320 000c FFF7FEFF 	 bl mbedtls_ecp_group_init
+ 149:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_mpi_init( &ctx->d  );
+ 321              	 .loc 1 149 0
+ 322 0010 7B68     	 ldr r3,[r7,#4]
+ 323 0012 7C33     	 adds r3,r3,#124
+ 324 0014 1846     	 mov r0,r3
+ 325 0016 FFF7FEFF 	 bl mbedtls_mpi_init
+ 150:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_point_init( &ctx->Q   );
+ 326              	 .loc 1 150 0
+ 327 001a 7B68     	 ldr r3,[r7,#4]
+ 328 001c 8833     	 adds r3,r3,#136
+ 329 001e 1846     	 mov r0,r3
+ 330 0020 FFF7FEFF 	 bl mbedtls_ecp_point_init
+ 151:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_point_init( &ctx->Qp  );
+ 331              	 .loc 1 151 0
+ 332 0024 7B68     	 ldr r3,[r7,#4]
+ 333 0026 AC33     	 adds r3,r3,#172
+ 334 0028 1846     	 mov r0,r3
+ 335 002a FFF7FEFF 	 bl mbedtls_ecp_point_init
+ 152:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_mpi_init( &ctx->z  );
+ 336              	 .loc 1 152 0
+ 337 002e 7B68     	 ldr r3,[r7,#4]
+ 338 0030 D033     	 adds r3,r3,#208
+ 339 0032 1846     	 mov r0,r3
+ 340 0034 FFF7FEFF 	 bl mbedtls_mpi_init
+ 153:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 154:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 155:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_restart_init( &ctx->rs );
+ 156:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 157:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 341              	 .loc 1 157 0
+ 342 0038 0837     	 adds r7,r7,#8
+ 343              	.LCFI23:
+ 344              	 .cfi_def_cfa_offset 8
+ 345 003a BD46     	 mov sp,r7
+ 346              	.LCFI24:
+ 347              	 .cfi_def_cfa_register 13
+ 348              	 
+ 349 003c 80BD     	 pop {r7,pc}
+ 350              	 .cfi_endproc
+ 351              	.LFE4:
+ 353 003e 00BF     	 .section .text.mbedtls_ecdh_init,"ax",%progbits
+ 354              	 .align 2
+ 355              	 .global mbedtls_ecdh_init
+ 356              	 .thumb
+ 357              	 .thumb_func
+ 359              	mbedtls_ecdh_init:
+ 360              	.LFB5:
+ 158:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 159:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+ 160:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Initialize context
+ 161:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+ 162:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** void mbedtls_ecdh_init( mbedtls_ecdh_context *ctx )
+ 163:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 361              	 .loc 1 163 0
+ 362              	 .cfi_startproc
+ 363              	 
+ 364              	 
+ 365 0000 80B5     	 push {r7,lr}
+ 366              	.LCFI25:
+ 367              	 .cfi_def_cfa_offset 8
+ 368              	 .cfi_offset 7,-8
+ 369              	 .cfi_offset 14,-4
+ 370 0002 82B0     	 sub sp,sp,#8
+ 371              	.LCFI26:
+ 372              	 .cfi_def_cfa_offset 16
+ 373 0004 00AF     	 add r7,sp,#0
+ 374              	.LCFI27:
+ 375              	 .cfi_def_cfa_register 7
+ 376 0006 7860     	 str r0,[r7,#4]
+ 164:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE( ctx != NULL );
+ 165:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 166:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECDH_LEGACY_CONTEXT)
+ 167:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ecdh_init_internal( ctx );
+ 377              	 .loc 1 167 0
+ 378 0008 7868     	 ldr r0,[r7,#4]
+ 379 000a FFF7FEFF 	 bl ecdh_init_internal
+ 168:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_point_init( &ctx->Vi  );
+ 380              	 .loc 1 168 0
+ 381 000e 7B68     	 ldr r3,[r7,#4]
+ 382 0010 E033     	 adds r3,r3,#224
+ 383 0012 1846     	 mov r0,r3
+ 384 0014 FFF7FEFF 	 bl mbedtls_ecp_point_init
+ 169:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_point_init( &ctx->Vf  );
+ 385              	 .loc 1 169 0
+ 386 0018 7B68     	 ldr r3,[r7,#4]
+ 387 001a 03F58273 	 add r3,r3,#260
+ 388 001e 1846     	 mov r0,r3
+ 389 0020 FFF7FEFF 	 bl mbedtls_ecp_point_init
+ 170:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_mpi_init( &ctx->_d );
+ 390              	 .loc 1 170 0
+ 391 0024 7B68     	 ldr r3,[r7,#4]
+ 392 0026 03F59473 	 add r3,r3,#296
+ 393 002a 1846     	 mov r0,r3
+ 394 002c FFF7FEFF 	 bl mbedtls_mpi_init
+ 171:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 172:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     memset( ctx, 0, sizeof( mbedtls_ecdh_context ) );
+ 173:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 174:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ctx->var = MBEDTLS_ECDH_VARIANT_NONE;
+ 175:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 176:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ctx->point_format = MBEDTLS_ECP_PF_UNCOMPRESSED;
+ 395              	 .loc 1 176 0
+ 396 0030 7B68     	 ldr r3,[r7,#4]
+ 397 0032 0022     	 movs r2,#0
+ 398 0034 C3F8DC20 	 str r2,[r3,#220]
+ 177:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 178:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ctx->restart_enabled = 0;
+ 179:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 180:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 399              	 .loc 1 180 0
+ 400 0038 0837     	 adds r7,r7,#8
+ 401              	.LCFI28:
+ 402              	 .cfi_def_cfa_offset 8
+ 403 003a BD46     	 mov sp,r7
+ 404              	.LCFI29:
+ 405              	 .cfi_def_cfa_register 13
+ 406              	 
+ 407 003c 80BD     	 pop {r7,pc}
+ 408              	 .cfi_endproc
+ 409              	.LFE5:
+ 411 003e 00BF     	 .section .text.ecdh_setup_internal,"ax",%progbits
+ 412              	 .align 2
+ 413              	 .thumb
+ 414              	 .thumb_func
+ 416              	ecdh_setup_internal:
+ 417              	.LFB6:
+ 181:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 182:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** static int ecdh_setup_internal( mbedtls_ecdh_context_mbed *ctx,
+ 183:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                 mbedtls_ecp_group_id grp_id )
+ 184:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 418              	 .loc 1 184 0
+ 419              	 .cfi_startproc
+ 420              	 
+ 421              	 
+ 422 0000 80B5     	 push {r7,lr}
+ 423              	.LCFI30:
+ 424              	 .cfi_def_cfa_offset 8
+ 425              	 .cfi_offset 7,-8
+ 426              	 .cfi_offset 14,-4
+ 427 0002 84B0     	 sub sp,sp,#16
+ 428              	.LCFI31:
+ 429              	 .cfi_def_cfa_offset 24
+ 430 0004 00AF     	 add r7,sp,#0
+ 431              	.LCFI32:
+ 432              	 .cfi_def_cfa_register 7
+ 433 0006 7860     	 str r0,[r7,#4]
+ 434 0008 0B46     	 mov r3,r1
+ 435 000a FB70     	 strb r3,[r7,#3]
+ 185:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int ret;
+ 186:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 187:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ret = mbedtls_ecp_group_load( &ctx->grp, grp_id );
+ 436              	 .loc 1 187 0
+ 437 000c 7A68     	 ldr r2,[r7,#4]
+ 438 000e FB78     	 ldrb r3,[r7,#3]
+ 439 0010 1046     	 mov r0,r2
+ 440 0012 1946     	 mov r1,r3
+ 441 0014 FFF7FEFF 	 bl mbedtls_ecp_group_load
+ 442 0018 F860     	 str r0,[r7,#12]
+ 188:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ret != 0 )
+ 443              	 .loc 1 188 0
+ 444 001a FB68     	 ldr r3,[r7,#12]
+ 445 001c 002B     	 cmp r3,#0
+ 446 001e 01D0     	 beq .L19
+ 189:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     {
+ 190:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( MBEDTLS_ERR_ECP_FEATURE_UNAVAILABLE );
+ 447              	 .loc 1 190 0
+ 448 0020 034B     	 ldr r3,.L21
+ 449 0022 00E0     	 b .L20
+ 450              	.L19:
+ 191:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     }
+ 192:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 193:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( 0 );
+ 451              	 .loc 1 193 0
+ 452 0024 0023     	 movs r3,#0
+ 453              	.L20:
+ 194:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 454              	 .loc 1 194 0
+ 455 0026 1846     	 mov r0,r3
+ 456 0028 1037     	 adds r7,r7,#16
+ 457              	.LCFI33:
+ 458              	 .cfi_def_cfa_offset 8
+ 459 002a BD46     	 mov sp,r7
+ 460              	.LCFI34:
+ 461              	 .cfi_def_cfa_register 13
+ 462              	 
+ 463 002c 80BD     	 pop {r7,pc}
+ 464              	.L22:
+ 465 002e 00BF     	 .align 2
+ 466              	.L21:
+ 467 0030 80B1FFFF 	 .word -20096
+ 468              	 .cfi_endproc
+ 469              	.LFE6:
+ 471              	 .section .text.mbedtls_ecdh_setup,"ax",%progbits
+ 472              	 .align 2
+ 473              	 .global mbedtls_ecdh_setup
+ 474              	 .thumb
+ 475              	 .thumb_func
+ 477              	mbedtls_ecdh_setup:
+ 478              	.LFB7:
+ 195:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 196:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+ 197:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Setup context
+ 198:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+ 199:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** int mbedtls_ecdh_setup( mbedtls_ecdh_context *ctx, mbedtls_ecp_group_id grp_id )
+ 200:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 479              	 .loc 1 200 0
+ 480              	 .cfi_startproc
+ 481              	 
+ 482              	 
+ 483 0000 80B5     	 push {r7,lr}
+ 484              	.LCFI35:
+ 485              	 .cfi_def_cfa_offset 8
+ 486              	 .cfi_offset 7,-8
+ 487              	 .cfi_offset 14,-4
+ 488 0002 82B0     	 sub sp,sp,#8
+ 489              	.LCFI36:
+ 490              	 .cfi_def_cfa_offset 16
+ 491 0004 00AF     	 add r7,sp,#0
+ 492              	.LCFI37:
+ 493              	 .cfi_def_cfa_register 7
+ 494 0006 7860     	 str r0,[r7,#4]
+ 495 0008 0B46     	 mov r3,r1
+ 496 000a FB70     	 strb r3,[r7,#3]
+ 201:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( ctx != NULL );
+ 202:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 203:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECDH_LEGACY_CONTEXT)
+ 204:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( ecdh_setup_internal( ctx, grp_id ) );
+ 497              	 .loc 1 204 0
+ 498 000c FB78     	 ldrb r3,[r7,#3]
+ 499 000e 7868     	 ldr r0,[r7,#4]
+ 500 0010 1946     	 mov r1,r3
+ 501 0012 FFF7FEFF 	 bl ecdh_setup_internal
+ 502 0016 0346     	 mov r3,r0
+ 205:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 206:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     switch( grp_id )
+ 207:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     {
+ 208:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         default:
+ 209:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             ctx->point_format = MBEDTLS_ECP_PF_UNCOMPRESSED;
+ 210:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             ctx->var = MBEDTLS_ECDH_VARIANT_MBEDTLS_2_0;
+ 211:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             ctx->grp_id = grp_id;
+ 212:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             ecdh_init_internal( &ctx->ctx.mbed_ecdh );
+ 213:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return( ecdh_setup_internal( &ctx->ctx.mbed_ecdh, grp_id ) );
+ 214:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     }
+ 215:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 216:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 503              	 .loc 1 216 0
+ 504 0018 1846     	 mov r0,r3
+ 505 001a 0837     	 adds r7,r7,#8
+ 506              	.LCFI38:
+ 507              	 .cfi_def_cfa_offset 8
+ 508 001c BD46     	 mov sp,r7
+ 509              	.LCFI39:
+ 510              	 .cfi_def_cfa_register 13
+ 511              	 
+ 512 001e 80BD     	 pop {r7,pc}
+ 513              	 .cfi_endproc
+ 514              	.LFE7:
+ 516              	 .section .text.ecdh_free_internal,"ax",%progbits
+ 517              	 .align 2
+ 518              	 .thumb
+ 519              	 .thumb_func
+ 521              	ecdh_free_internal:
+ 522              	.LFB8:
+ 217:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 218:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** static void ecdh_free_internal( mbedtls_ecdh_context_mbed *ctx )
+ 219:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 523              	 .loc 1 219 0
+ 524              	 .cfi_startproc
+ 525              	 
+ 526              	 
+ 527 0000 80B5     	 push {r7,lr}
+ 528              	.LCFI40:
+ 529              	 .cfi_def_cfa_offset 8
+ 530              	 .cfi_offset 7,-8
+ 531              	 .cfi_offset 14,-4
+ 532 0002 82B0     	 sub sp,sp,#8
+ 533              	.LCFI41:
+ 534              	 .cfi_def_cfa_offset 16
+ 535 0004 00AF     	 add r7,sp,#0
+ 536              	.LCFI42:
+ 537              	 .cfi_def_cfa_register 7
+ 538 0006 7860     	 str r0,[r7,#4]
+ 220:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_group_free( &ctx->grp );
+ 539              	 .loc 1 220 0
+ 540 0008 7B68     	 ldr r3,[r7,#4]
+ 541 000a 1846     	 mov r0,r3
+ 542 000c FFF7FEFF 	 bl mbedtls_ecp_group_free
+ 221:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_mpi_free( &ctx->d  );
+ 543              	 .loc 1 221 0
+ 544 0010 7B68     	 ldr r3,[r7,#4]
+ 545 0012 7C33     	 adds r3,r3,#124
+ 546 0014 1846     	 mov r0,r3
+ 547 0016 FFF7FEFF 	 bl mbedtls_mpi_free
+ 222:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_point_free( &ctx->Q   );
+ 548              	 .loc 1 222 0
+ 549 001a 7B68     	 ldr r3,[r7,#4]
+ 550 001c 8833     	 adds r3,r3,#136
+ 551 001e 1846     	 mov r0,r3
+ 552 0020 FFF7FEFF 	 bl mbedtls_ecp_point_free
+ 223:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_point_free( &ctx->Qp  );
+ 553              	 .loc 1 223 0
+ 554 0024 7B68     	 ldr r3,[r7,#4]
+ 555 0026 AC33     	 adds r3,r3,#172
+ 556 0028 1846     	 mov r0,r3
+ 557 002a FFF7FEFF 	 bl mbedtls_ecp_point_free
+ 224:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_mpi_free( &ctx->z  );
+ 558              	 .loc 1 224 0
+ 559 002e 7B68     	 ldr r3,[r7,#4]
+ 560 0030 D033     	 adds r3,r3,#208
+ 561 0032 1846     	 mov r0,r3
+ 562 0034 FFF7FEFF 	 bl mbedtls_mpi_free
+ 225:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 226:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 227:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_restart_free( &ctx->rs );
+ 228:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 229:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 563              	 .loc 1 229 0
+ 564 0038 0837     	 adds r7,r7,#8
+ 565              	.LCFI43:
+ 566              	 .cfi_def_cfa_offset 8
+ 567 003a BD46     	 mov sp,r7
+ 568              	.LCFI44:
+ 569              	 .cfi_def_cfa_register 13
+ 570              	 
+ 571 003c 80BD     	 pop {r7,pc}
+ 572              	 .cfi_endproc
+ 573              	.LFE8:
+ 575 003e 00BF     	 .section .text.mbedtls_ecdh_free,"ax",%progbits
+ 576              	 .align 2
+ 577              	 .global mbedtls_ecdh_free
+ 578              	 .thumb
+ 579              	 .thumb_func
+ 581              	mbedtls_ecdh_free:
+ 582              	.LFB9:
+ 230:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 231:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 232:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+ 233:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Enable restartable operations for context
+ 234:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+ 235:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** void mbedtls_ecdh_enable_restart( mbedtls_ecdh_context *ctx )
+ 236:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 237:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE( ctx != NULL );
+ 238:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 239:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ctx->restart_enabled = 1;
+ 240:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 241:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 242:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 243:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+ 244:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Free context
+ 245:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+ 246:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** void mbedtls_ecdh_free( mbedtls_ecdh_context *ctx )
+ 247:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 583              	 .loc 1 247 0
+ 584              	 .cfi_startproc
+ 585              	 
+ 586              	 
+ 587 0000 80B5     	 push {r7,lr}
+ 588              	.LCFI45:
+ 589              	 .cfi_def_cfa_offset 8
+ 590              	 .cfi_offset 7,-8
+ 591              	 .cfi_offset 14,-4
+ 592 0002 82B0     	 sub sp,sp,#8
+ 593              	.LCFI46:
+ 594              	 .cfi_def_cfa_offset 16
+ 595 0004 00AF     	 add r7,sp,#0
+ 596              	.LCFI47:
+ 597              	 .cfi_def_cfa_register 7
+ 598 0006 7860     	 str r0,[r7,#4]
+ 248:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ctx == NULL )
+ 599              	 .loc 1 248 0
+ 600 0008 7B68     	 ldr r3,[r7,#4]
+ 601 000a 002B     	 cmp r3,#0
+ 602 000c 00D1     	 bne .L27
+ 249:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return;
+ 603              	 .loc 1 249 0
+ 604 000e 13E0     	 b .L26
+ 605              	.L27:
+ 250:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 251:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECDH_LEGACY_CONTEXT)
+ 252:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_point_free( &ctx->Vi );
+ 606              	 .loc 1 252 0
+ 607 0010 7B68     	 ldr r3,[r7,#4]
+ 608 0012 E033     	 adds r3,r3,#224
+ 609 0014 1846     	 mov r0,r3
+ 610 0016 FFF7FEFF 	 bl mbedtls_ecp_point_free
+ 253:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_point_free( &ctx->Vf );
+ 611              	 .loc 1 253 0
+ 612 001a 7B68     	 ldr r3,[r7,#4]
+ 613 001c 03F58273 	 add r3,r3,#260
+ 614 0020 1846     	 mov r0,r3
+ 615 0022 FFF7FEFF 	 bl mbedtls_ecp_point_free
+ 254:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_mpi_free( &ctx->_d );
+ 616              	 .loc 1 254 0
+ 617 0026 7B68     	 ldr r3,[r7,#4]
+ 618 0028 03F59473 	 add r3,r3,#296
+ 619 002c 1846     	 mov r0,r3
+ 620 002e FFF7FEFF 	 bl mbedtls_mpi_free
+ 255:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ecdh_free_internal( ctx );
+ 621              	 .loc 1 255 0
+ 622 0032 7868     	 ldr r0,[r7,#4]
+ 623 0034 FFF7FEFF 	 bl ecdh_free_internal
+ 624              	.L26:
+ 256:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 257:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     switch( ctx->var )
+ 258:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     {
+ 259:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         case MBEDTLS_ECDH_VARIANT_MBEDTLS_2_0:
+ 260:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             ecdh_free_internal( &ctx->ctx.mbed_ecdh );
+ 261:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             break;
+ 262:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         default:
+ 263:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             break;
+ 264:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     }
+ 265:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 266:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ctx->point_format = MBEDTLS_ECP_PF_UNCOMPRESSED;
+ 267:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ctx->var = MBEDTLS_ECDH_VARIANT_NONE;
+ 268:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ctx->grp_id = MBEDTLS_ECP_DP_NONE;
+ 269:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 270:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 625              	 .loc 1 270 0
+ 626 0038 0837     	 adds r7,r7,#8
+ 627              	.LCFI48:
+ 628              	 .cfi_def_cfa_offset 8
+ 629 003a BD46     	 mov sp,r7
+ 630              	.LCFI49:
+ 631              	 .cfi_def_cfa_register 13
+ 632              	 
+ 633 003c 80BD     	 pop {r7,pc}
+ 634              	 .cfi_endproc
+ 635              	.LFE9:
+ 637 003e 00BF     	 .section .text.ecdh_make_params_internal,"ax",%progbits
+ 638              	 .align 2
+ 639              	 .thumb
+ 640              	 .thumb_func
+ 642              	ecdh_make_params_internal:
+ 643              	.LFB10:
+ 271:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 272:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** static int ecdh_make_params_internal( mbedtls_ecdh_context_mbed *ctx,
+ 273:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       size_t *olen, int point_format,
+ 274:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       unsigned char *buf, size_t blen,
+ 275:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       int (*f_rng)(void *,
+ 276:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                    unsigned char *,
+ 277:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                    size_t),
+ 278:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       void *p_rng,
+ 279:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       int restart_enabled )
+ 280:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 644              	 .loc 1 280 0
+ 645              	 .cfi_startproc
+ 646              	 
+ 647              	 
+ 648 0000 90B5     	 push {r4,r7,lr}
+ 649              	.LCFI50:
+ 650              	 .cfi_def_cfa_offset 12
+ 651              	 .cfi_offset 4,-12
+ 652              	 .cfi_offset 7,-8
+ 653              	 .cfi_offset 14,-4
+ 654 0002 8BB0     	 sub sp,sp,#44
+ 655              	.LCFI51:
+ 656              	 .cfi_def_cfa_offset 56
+ 657 0004 02AF     	 add r7,sp,#8
+ 658              	.LCFI52:
+ 659              	 .cfi_def_cfa 7,48
+ 660 0006 F860     	 str r0,[r7,#12]
+ 661 0008 B960     	 str r1,[r7,#8]
+ 662 000a 7A60     	 str r2,[r7,#4]
+ 663 000c 3B60     	 str r3,[r7]
+ 281:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int ret;
+ 282:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     size_t grp_len, pt_len;
+ 283:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 284:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_restart_ctx *rs_ctx = NULL;
+ 285:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 286:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 287:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ctx->grp.pbits == 0 )
+ 664              	 .loc 1 287 0
+ 665 000e FB68     	 ldr r3,[r7,#12]
+ 666 0010 9B6D     	 ldr r3,[r3,#88]
+ 667 0012 002B     	 cmp r3,#0
+ 668 0014 01D1     	 bne .L30
+ 288:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( MBEDTLS_ERR_ECP_BAD_INPUT_DATA );
+ 669              	 .loc 1 288 0
+ 670 0016 254B     	 ldr r3,.L36
+ 671 0018 44E0     	 b .L35
+ 672              	.L30:
+ 289:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 290:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 291:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( restart_enabled )
+ 292:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         rs_ctx = &ctx->rs;
+ 293:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 294:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     (void) restart_enabled;
+ 295:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 296:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 297:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 298:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 299:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = ecdh_gen_public_restartable( &ctx->grp, &ctx->d, &ctx->Q,
+ 300:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                              f_rng, p_rng, rs_ctx ) ) != 0 )
+ 301:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 302:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 303:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = mbedtls_ecdh_gen_public( &ctx->grp, &ctx->d, &ctx->Q,
+ 673              	 .loc 1 303 0
+ 674 001a F868     	 ldr r0,[r7,#12]
+ 675 001c FB68     	 ldr r3,[r7,#12]
+ 676 001e 03F17C01 	 add r1,r3,#124
+ 677 0022 FB68     	 ldr r3,[r7,#12]
+ 678 0024 03F18802 	 add r2,r3,#136
+ 679 0028 BB6B     	 ldr r3,[r7,#56]
+ 680 002a 0093     	 str r3,[sp]
+ 681 002c 7B6B     	 ldr r3,[r7,#52]
+ 682 002e FFF7FEFF 	 bl mbedtls_ecdh_gen_public
+ 683 0032 F861     	 str r0,[r7,#28]
+ 684 0034 FB69     	 ldr r3,[r7,#28]
+ 685 0036 002B     	 cmp r3,#0
+ 686 0038 01D0     	 beq .L32
+ 304:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                          f_rng, p_rng ) ) != 0 )
+ 305:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 687              	 .loc 1 305 0
+ 688 003a FB69     	 ldr r3,[r7,#28]
+ 689 003c 32E0     	 b .L35
+ 690              	.L32:
+ 306:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif /* MBEDTLS_ECP_RESTARTABLE */
+ 307:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 308:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = mbedtls_ecp_tls_write_group( &ctx->grp, &grp_len, buf,
+ 691              	 .loc 1 308 0
+ 692 003e FA68     	 ldr r2,[r7,#12]
+ 693 0040 07F11803 	 add r3,r7,#24
+ 694 0044 1046     	 mov r0,r2
+ 695 0046 1946     	 mov r1,r3
+ 696 0048 3A68     	 ldr r2,[r7]
+ 697 004a 3B6B     	 ldr r3,[r7,#48]
+ 698 004c FFF7FEFF 	 bl mbedtls_ecp_tls_write_group
+ 699 0050 F861     	 str r0,[r7,#28]
+ 700 0052 FB69     	 ldr r3,[r7,#28]
+ 701 0054 002B     	 cmp r3,#0
+ 702 0056 01D0     	 beq .L33
+ 309:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                              blen ) ) != 0 )
+ 310:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 703              	 .loc 1 310 0
+ 704 0058 FB69     	 ldr r3,[r7,#28]
+ 705 005a 23E0     	 b .L35
+ 706              	.L33:
+ 311:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 312:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     buf += grp_len;
+ 707              	 .loc 1 312 0
+ 708 005c BB69     	 ldr r3,[r7,#24]
+ 709 005e 3A68     	 ldr r2,[r7]
+ 710 0060 1344     	 add r3,r3,r2
+ 711 0062 3B60     	 str r3,[r7]
+ 313:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     blen -= grp_len;
+ 712              	 .loc 1 313 0
+ 713 0064 BB69     	 ldr r3,[r7,#24]
+ 714 0066 3A6B     	 ldr r2,[r7,#48]
+ 715 0068 D31A     	 subs r3,r2,r3
+ 716 006a 3B63     	 str r3,[r7,#48]
+ 314:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 315:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = mbedtls_ecp_tls_write_point( &ctx->grp, &ctx->Q, point_format,
+ 717              	 .loc 1 315 0
+ 718 006c F968     	 ldr r1,[r7,#12]
+ 719 006e FB68     	 ldr r3,[r7,#12]
+ 720 0070 03F18802 	 add r2,r3,#136
+ 721 0074 07F11404 	 add r4,r7,#20
+ 722 0078 3B68     	 ldr r3,[r7]
+ 723 007a 0093     	 str r3,[sp]
+ 724 007c 3B6B     	 ldr r3,[r7,#48]
+ 725 007e 0193     	 str r3,[sp,#4]
+ 726 0080 0846     	 mov r0,r1
+ 727 0082 1146     	 mov r1,r2
+ 728 0084 7A68     	 ldr r2,[r7,#4]
+ 729 0086 2346     	 mov r3,r4
+ 730 0088 FFF7FEFF 	 bl mbedtls_ecp_tls_write_point
+ 731 008c F861     	 str r0,[r7,#28]
+ 732 008e FB69     	 ldr r3,[r7,#28]
+ 733 0090 002B     	 cmp r3,#0
+ 734 0092 01D0     	 beq .L34
+ 316:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                              &pt_len, buf, blen ) ) != 0 )
+ 317:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 735              	 .loc 1 317 0
+ 736 0094 FB69     	 ldr r3,[r7,#28]
+ 737 0096 05E0     	 b .L35
+ 738              	.L34:
+ 318:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 319:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     *olen = grp_len + pt_len;
+ 739              	 .loc 1 319 0
+ 740 0098 BA69     	 ldr r2,[r7,#24]
+ 741 009a 7B69     	 ldr r3,[r7,#20]
+ 742 009c 1A44     	 add r2,r2,r3
+ 743 009e BB68     	 ldr r3,[r7,#8]
+ 744 00a0 1A60     	 str r2,[r3]
+ 320:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( 0 );
+ 745              	 .loc 1 320 0
+ 746 00a2 0023     	 movs r3,#0
+ 747              	.L35:
+ 321:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 748              	 .loc 1 321 0 discriminator 1
+ 749 00a4 1846     	 mov r0,r3
+ 750 00a6 2437     	 adds r7,r7,#36
+ 751              	.LCFI53:
+ 752              	 .cfi_def_cfa_offset 12
+ 753 00a8 BD46     	 mov sp,r7
+ 754              	.LCFI54:
+ 755              	 .cfi_def_cfa_register 13
+ 756              	 
+ 757 00aa 90BD     	 pop {r4,r7,pc}
+ 758              	.L37:
+ 759              	 .align 2
+ 760              	.L36:
+ 761 00ac 80B0FFFF 	 .word -20352
+ 762              	 .cfi_endproc
+ 763              	.LFE10:
+ 765              	 .section .text.mbedtls_ecdh_make_params,"ax",%progbits
+ 766              	 .align 2
+ 767              	 .global mbedtls_ecdh_make_params
+ 768              	 .thumb
+ 769              	 .thumb_func
+ 771              	mbedtls_ecdh_make_params:
+ 772              	.LFB11:
+ 322:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 323:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+ 324:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Setup and write the ServerKeyExhange parameters (RFC 4492)
+ 325:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *      struct {
+ 326:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *          ECParameters    curve_params;
+ 327:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *          ECPoint         public;
+ 328:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *      } ServerECDHParams;
+ 329:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+ 330:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** int mbedtls_ecdh_make_params( mbedtls_ecdh_context *ctx, size_t *olen,
+ 331:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                               unsigned char *buf, size_t blen,
+ 332:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                               int (*f_rng)(void *, unsigned char *, size_t),
+ 333:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                               void *p_rng )
+ 334:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 773              	 .loc 1 334 0
+ 774              	 .cfi_startproc
+ 775              	 
+ 776              	 
+ 777 0000 80B5     	 push {r7,lr}
+ 778              	.LCFI55:
+ 779              	 .cfi_def_cfa_offset 8
+ 780              	 .cfi_offset 7,-8
+ 781              	 .cfi_offset 14,-4
+ 782 0002 8AB0     	 sub sp,sp,#40
+ 783              	.LCFI56:
+ 784              	 .cfi_def_cfa_offset 48
+ 785 0004 04AF     	 add r7,sp,#16
+ 786              	.LCFI57:
+ 787              	 .cfi_def_cfa 7,32
+ 788 0006 F860     	 str r0,[r7,#12]
+ 789 0008 B960     	 str r1,[r7,#8]
+ 790 000a 7A60     	 str r2,[r7,#4]
+ 791 000c 3B60     	 str r3,[r7]
+ 335:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int restart_enabled = 0;
+ 792              	 .loc 1 335 0
+ 793 000e 0023     	 movs r3,#0
+ 794 0010 7B61     	 str r3,[r7,#20]
+ 336:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( ctx != NULL );
+ 337:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( olen != NULL );
+ 338:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( buf != NULL );
+ 339:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( f_rng != NULL );
+ 340:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 341:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 342:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     restart_enabled = ctx->restart_enabled;
+ 343:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 344:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     (void) restart_enabled;
+ 345:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 346:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 347:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECDH_LEGACY_CONTEXT)
+ 348:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( ecdh_make_params_internal( ctx, olen, ctx->point_format, buf, blen,
+ 795              	 .loc 1 348 0
+ 796 0012 FB68     	 ldr r3,[r7,#12]
+ 797 0014 D3F8DC20 	 ldr r2,[r3,#220]
+ 798 0018 3B68     	 ldr r3,[r7]
+ 799 001a 0093     	 str r3,[sp]
+ 800 001c 3B6A     	 ldr r3,[r7,#32]
+ 801 001e 0193     	 str r3,[sp,#4]
+ 802 0020 7B6A     	 ldr r3,[r7,#36]
+ 803 0022 0293     	 str r3,[sp,#8]
+ 804 0024 7B69     	 ldr r3,[r7,#20]
+ 805 0026 0393     	 str r3,[sp,#12]
+ 806 0028 F868     	 ldr r0,[r7,#12]
+ 807 002a B968     	 ldr r1,[r7,#8]
+ 808 002c 7B68     	 ldr r3,[r7,#4]
+ 809 002e FFF7FEFF 	 bl ecdh_make_params_internal
+ 810 0032 0346     	 mov r3,r0
+ 349:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                        f_rng, p_rng, restart_enabled ) );
+ 350:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 351:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     switch( ctx->var )
+ 352:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     {
+ 353:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         case MBEDTLS_ECDH_VARIANT_MBEDTLS_2_0:
+ 354:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return( ecdh_make_params_internal( &ctx->ctx.mbed_ecdh, olen,
+ 355:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                ctx->point_format, buf, blen,
+ 356:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                f_rng, p_rng,
+ 357:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                restart_enabled ) );
+ 358:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         default:
+ 359:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return MBEDTLS_ERR_ECP_BAD_INPUT_DATA;
+ 360:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     }
+ 361:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 362:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 811              	 .loc 1 362 0
+ 812 0034 1846     	 mov r0,r3
+ 813 0036 1837     	 adds r7,r7,#24
+ 814              	.LCFI58:
+ 815              	 .cfi_def_cfa_offset 8
+ 816 0038 BD46     	 mov sp,r7
+ 817              	.LCFI59:
+ 818              	 .cfi_def_cfa_register 13
+ 819              	 
+ 820 003a 80BD     	 pop {r7,pc}
+ 821              	 .cfi_endproc
+ 822              	.LFE11:
+ 824              	 .section .text.ecdh_read_params_internal,"ax",%progbits
+ 825              	 .align 2
+ 826              	 .thumb
+ 827              	 .thumb_func
+ 829              	ecdh_read_params_internal:
+ 830              	.LFB12:
+ 363:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 364:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** static int ecdh_read_params_internal( mbedtls_ecdh_context_mbed *ctx,
+ 365:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       const unsigned char **buf,
+ 366:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       const unsigned char *end )
+ 367:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 831              	 .loc 1 367 0
+ 832              	 .cfi_startproc
+ 833              	 
+ 834              	 
+ 835 0000 80B5     	 push {r7,lr}
+ 836              	.LCFI60:
+ 837              	 .cfi_def_cfa_offset 8
+ 838              	 .cfi_offset 7,-8
+ 839              	 .cfi_offset 14,-4
+ 840 0002 84B0     	 sub sp,sp,#16
+ 841              	.LCFI61:
+ 842              	 .cfi_def_cfa_offset 24
+ 843 0004 00AF     	 add r7,sp,#0
+ 844              	.LCFI62:
+ 845              	 .cfi_def_cfa_register 7
+ 846 0006 F860     	 str r0,[r7,#12]
+ 847 0008 B960     	 str r1,[r7,#8]
+ 848 000a 7A60     	 str r2,[r7,#4]
+ 368:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( mbedtls_ecp_tls_read_point( &ctx->grp, &ctx->Qp, buf,
+ 849              	 .loc 1 368 0
+ 850 000c F868     	 ldr r0,[r7,#12]
+ 851 000e FB68     	 ldr r3,[r7,#12]
+ 852 0010 03F1AC01 	 add r1,r3,#172
+ 369:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                         end - *buf ) );
+ 853              	 .loc 1 369 0
+ 854 0014 7B68     	 ldr r3,[r7,#4]
+ 855 0016 BA68     	 ldr r2,[r7,#8]
+ 856 0018 1268     	 ldr r2,[r2]
+ 857 001a 9B1A     	 subs r3,r3,r2
+ 368:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( mbedtls_ecp_tls_read_point( &ctx->grp, &ctx->Qp, buf,
+ 858              	 .loc 1 368 0
+ 859 001c BA68     	 ldr r2,[r7,#8]
+ 860 001e FFF7FEFF 	 bl mbedtls_ecp_tls_read_point
+ 861 0022 0346     	 mov r3,r0
+ 370:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 862              	 .loc 1 370 0
+ 863 0024 1846     	 mov r0,r3
+ 864 0026 1037     	 adds r7,r7,#16
+ 865              	.LCFI63:
+ 866              	 .cfi_def_cfa_offset 8
+ 867 0028 BD46     	 mov sp,r7
+ 868              	.LCFI64:
+ 869              	 .cfi_def_cfa_register 13
+ 870              	 
+ 871 002a 80BD     	 pop {r7,pc}
+ 872              	 .cfi_endproc
+ 873              	.LFE12:
+ 875              	 .section .text.mbedtls_ecdh_read_params,"ax",%progbits
+ 876              	 .align 2
+ 877              	 .global mbedtls_ecdh_read_params
+ 878              	 .thumb
+ 879              	 .thumb_func
+ 881              	mbedtls_ecdh_read_params:
+ 882              	.LFB13:
+ 371:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 372:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+ 373:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Read the ServerKeyExhange parameters (RFC 4492)
+ 374:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *      struct {
+ 375:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *          ECParameters    curve_params;
+ 376:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *          ECPoint         public;
+ 377:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  *      } ServerECDHParams;
+ 378:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+ 379:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** int mbedtls_ecdh_read_params( mbedtls_ecdh_context *ctx,
+ 380:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                               const unsigned char **buf,
+ 381:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                               const unsigned char *end )
+ 382:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 883              	 .loc 1 382 0
+ 884              	 .cfi_startproc
+ 885              	 
+ 886              	 
+ 887 0000 80B5     	 push {r7,lr}
+ 888              	.LCFI65:
+ 889              	 .cfi_def_cfa_offset 8
+ 890              	 .cfi_offset 7,-8
+ 891              	 .cfi_offset 14,-4
+ 892 0002 86B0     	 sub sp,sp,#24
+ 893              	.LCFI66:
+ 894              	 .cfi_def_cfa_offset 32
+ 895 0004 00AF     	 add r7,sp,#0
+ 896              	.LCFI67:
+ 897              	 .cfi_def_cfa_register 7
+ 898 0006 F860     	 str r0,[r7,#12]
+ 899 0008 B960     	 str r1,[r7,#8]
+ 900 000a 7A60     	 str r2,[r7,#4]
+ 383:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int ret;
+ 384:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_group_id grp_id;
+ 385:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( ctx != NULL );
+ 386:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( buf != NULL );
+ 387:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( *buf != NULL );
+ 388:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( end != NULL );
+ 389:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 390:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = mbedtls_ecp_tls_read_group_id( &grp_id, buf, end - *buf ) )
+ 901              	 .loc 1 390 0
+ 902 000c 7B68     	 ldr r3,[r7,#4]
+ 903 000e BA68     	 ldr r2,[r7,#8]
+ 904 0010 1268     	 ldr r2,[r2]
+ 905 0012 9B1A     	 subs r3,r3,r2
+ 906 0014 1A46     	 mov r2,r3
+ 907 0016 07F11303 	 add r3,r7,#19
+ 908 001a 1846     	 mov r0,r3
+ 909 001c B968     	 ldr r1,[r7,#8]
+ 910 001e FFF7FEFF 	 bl mbedtls_ecp_tls_read_group_id
+ 911 0022 7861     	 str r0,[r7,#20]
+ 912 0024 7B69     	 ldr r3,[r7,#20]
+ 913 0026 002B     	 cmp r3,#0
+ 914 0028 01D0     	 beq .L43
+ 391:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             != 0 )
+ 392:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 915              	 .loc 1 392 0
+ 916 002a 7B69     	 ldr r3,[r7,#20]
+ 917 002c 10E0     	 b .L46
+ 918              	.L43:
+ 393:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 394:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = mbedtls_ecdh_setup( ctx, grp_id ) ) != 0 )
+ 919              	 .loc 1 394 0
+ 920 002e FB7C     	 ldrb r3,[r7,#19]
+ 921 0030 F868     	 ldr r0,[r7,#12]
+ 922 0032 1946     	 mov r1,r3
+ 923 0034 FFF7FEFF 	 bl mbedtls_ecdh_setup
+ 924 0038 7861     	 str r0,[r7,#20]
+ 925 003a 7B69     	 ldr r3,[r7,#20]
+ 926 003c 002B     	 cmp r3,#0
+ 927 003e 01D0     	 beq .L45
+ 395:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 928              	 .loc 1 395 0
+ 929 0040 7B69     	 ldr r3,[r7,#20]
+ 930 0042 05E0     	 b .L46
+ 931              	.L45:
+ 396:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 397:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECDH_LEGACY_CONTEXT)
+ 398:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( ecdh_read_params_internal( ctx, buf, end ) );
+ 932              	 .loc 1 398 0
+ 933 0044 F868     	 ldr r0,[r7,#12]
+ 934 0046 B968     	 ldr r1,[r7,#8]
+ 935 0048 7A68     	 ldr r2,[r7,#4]
+ 936 004a FFF7FEFF 	 bl ecdh_read_params_internal
+ 937 004e 0346     	 mov r3,r0
+ 938              	.L46:
+ 399:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 400:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     switch( ctx->var )
+ 401:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     {
+ 402:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         case MBEDTLS_ECDH_VARIANT_MBEDTLS_2_0:
+ 403:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return( ecdh_read_params_internal( &ctx->ctx.mbed_ecdh,
+ 404:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                buf, end ) );
+ 405:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         default:
+ 406:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return MBEDTLS_ERR_ECP_BAD_INPUT_DATA;
+ 407:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     }
+ 408:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 409:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 939              	 .loc 1 409 0 discriminator 1
+ 940 0050 1846     	 mov r0,r3
+ 941 0052 1837     	 adds r7,r7,#24
+ 942              	.LCFI68:
+ 943              	 .cfi_def_cfa_offset 8
+ 944 0054 BD46     	 mov sp,r7
+ 945              	.LCFI69:
+ 946              	 .cfi_def_cfa_register 13
+ 947              	 
+ 948 0056 80BD     	 pop {r7,pc}
+ 949              	 .cfi_endproc
+ 950              	.LFE13:
+ 952              	 .section .text.ecdh_get_params_internal,"ax",%progbits
+ 953              	 .align 2
+ 954              	 .thumb
+ 955              	 .thumb_func
+ 957              	ecdh_get_params_internal:
+ 958              	.LFB14:
+ 410:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 411:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** static int ecdh_get_params_internal( mbedtls_ecdh_context_mbed *ctx,
+ 412:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                      const mbedtls_ecp_keypair *key,
+ 413:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                      mbedtls_ecdh_side side )
+ 414:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 959              	 .loc 1 414 0
+ 960              	 .cfi_startproc
+ 961              	 
+ 962              	 
+ 963 0000 80B5     	 push {r7,lr}
+ 964              	.LCFI70:
+ 965              	 .cfi_def_cfa_offset 8
+ 966              	 .cfi_offset 7,-8
+ 967              	 .cfi_offset 14,-4
+ 968 0002 86B0     	 sub sp,sp,#24
+ 969              	.LCFI71:
+ 970              	 .cfi_def_cfa_offset 32
+ 971 0004 00AF     	 add r7,sp,#0
+ 972              	.LCFI72:
+ 973              	 .cfi_def_cfa_register 7
+ 974 0006 F860     	 str r0,[r7,#12]
+ 975 0008 B960     	 str r1,[r7,#8]
+ 976 000a 1346     	 mov r3,r2
+ 977 000c FB71     	 strb r3,[r7,#7]
+ 415:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int ret;
+ 416:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 417:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     /* If it's not our key, just import the public part as Qp */
+ 418:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( side == MBEDTLS_ECDH_THEIRS )
+ 978              	 .loc 1 418 0
+ 979 000e FB79     	 ldrb r3,[r7,#7]
+ 980 0010 012B     	 cmp r3,#1
+ 981 0012 0AD1     	 bne .L48
+ 419:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( mbedtls_ecp_copy( &ctx->Qp, &key->Q ) );
+ 982              	 .loc 1 419 0
+ 983 0014 FB68     	 ldr r3,[r7,#12]
+ 984 0016 03F1AC02 	 add r2,r3,#172
+ 985 001a BB68     	 ldr r3,[r7,#8]
+ 986 001c 8833     	 adds r3,r3,#136
+ 987 001e 1046     	 mov r0,r2
+ 988 0020 1946     	 mov r1,r3
+ 989 0022 FFF7FEFF 	 bl mbedtls_ecp_copy
+ 990 0026 0346     	 mov r3,r0
+ 991 0028 21E0     	 b .L49
+ 992              	.L48:
+ 420:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 421:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     /* Our key: import public (as Q) and private parts */
+ 422:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( side != MBEDTLS_ECDH_OURS )
+ 993              	 .loc 1 422 0
+ 994 002a FB79     	 ldrb r3,[r7,#7]
+ 995 002c 002B     	 cmp r3,#0
+ 996 002e 01D0     	 beq .L50
+ 423:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( MBEDTLS_ERR_ECP_BAD_INPUT_DATA );
+ 997              	 .loc 1 423 0
+ 998 0030 114B     	 ldr r3,.L53
+ 999 0032 1CE0     	 b .L49
+ 1000              	.L50:
+ 424:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 425:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = mbedtls_ecp_copy( &ctx->Q, &key->Q ) ) != 0 ||
+ 1001              	 .loc 1 425 0
+ 1002 0034 FB68     	 ldr r3,[r7,#12]
+ 1003 0036 03F18802 	 add r2,r3,#136
+ 1004 003a BB68     	 ldr r3,[r7,#8]
+ 1005 003c 8833     	 adds r3,r3,#136
+ 1006 003e 1046     	 mov r0,r2
+ 1007 0040 1946     	 mov r1,r3
+ 1008 0042 FFF7FEFF 	 bl mbedtls_ecp_copy
+ 1009 0046 7861     	 str r0,[r7,#20]
+ 1010 0048 7B69     	 ldr r3,[r7,#20]
+ 1011 004a 002B     	 cmp r3,#0
+ 1012 004c 0CD1     	 bne .L51
+ 426:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         ( ret = mbedtls_mpi_copy( &ctx->d, &key->d ) ) != 0 )
+ 1013              	 .loc 1 426 0 discriminator 1
+ 1014 004e FB68     	 ldr r3,[r7,#12]
+ 1015 0050 03F17C02 	 add r2,r3,#124
+ 1016 0054 BB68     	 ldr r3,[r7,#8]
+ 1017 0056 7C33     	 adds r3,r3,#124
+ 425:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         ( ret = mbedtls_mpi_copy( &ctx->d, &key->d ) ) != 0 )
+ 1018              	 .loc 1 425 0 discriminator 1
+ 1019 0058 1046     	 mov r0,r2
+ 1020 005a 1946     	 mov r1,r3
+ 1021 005c FFF7FEFF 	 bl mbedtls_mpi_copy
+ 1022 0060 7861     	 str r0,[r7,#20]
+ 1023 0062 7B69     	 ldr r3,[r7,#20]
+ 1024 0064 002B     	 cmp r3,#0
+ 1025 0066 01D0     	 beq .L52
+ 1026              	.L51:
+ 427:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 1027              	 .loc 1 427 0
+ 1028 0068 7B69     	 ldr r3,[r7,#20]
+ 1029 006a 00E0     	 b .L49
+ 1030              	.L52:
+ 428:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 429:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( 0 );
+ 1031              	 .loc 1 429 0
+ 1032 006c 0023     	 movs r3,#0
+ 1033              	.L49:
+ 430:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 1034              	 .loc 1 430 0
+ 1035 006e 1846     	 mov r0,r3
+ 1036 0070 1837     	 adds r7,r7,#24
+ 1037              	.LCFI73:
+ 1038              	 .cfi_def_cfa_offset 8
+ 1039 0072 BD46     	 mov sp,r7
+ 1040              	.LCFI74:
+ 1041              	 .cfi_def_cfa_register 13
+ 1042              	 
+ 1043 0074 80BD     	 pop {r7,pc}
+ 1044              	.L54:
+ 1045 0076 00BF     	 .align 2
+ 1046              	.L53:
+ 1047 0078 80B0FFFF 	 .word -20352
+ 1048              	 .cfi_endproc
+ 1049              	.LFE14:
+ 1051              	 .section .text.mbedtls_ecdh_get_params,"ax",%progbits
+ 1052              	 .align 2
+ 1053              	 .global mbedtls_ecdh_get_params
+ 1054              	 .thumb
+ 1055              	 .thumb_func
+ 1057              	mbedtls_ecdh_get_params:
+ 1058              	.LFB15:
+ 431:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 432:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+ 433:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Get parameters from a keypair
+ 434:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+ 435:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** int mbedtls_ecdh_get_params( mbedtls_ecdh_context *ctx,
+ 436:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                              const mbedtls_ecp_keypair *key,
+ 437:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                              mbedtls_ecdh_side side )
+ 438:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 1059              	 .loc 1 438 0
+ 1060              	 .cfi_startproc
+ 1061              	 
+ 1062              	 
+ 1063 0000 80B5     	 push {r7,lr}
+ 1064              	.LCFI75:
+ 1065              	 .cfi_def_cfa_offset 8
+ 1066              	 .cfi_offset 7,-8
+ 1067              	 .cfi_offset 14,-4
+ 1068 0002 86B0     	 sub sp,sp,#24
+ 1069              	.LCFI76:
+ 1070              	 .cfi_def_cfa_offset 32
+ 1071 0004 00AF     	 add r7,sp,#0
+ 1072              	.LCFI77:
+ 1073              	 .cfi_def_cfa_register 7
+ 1074 0006 F860     	 str r0,[r7,#12]
+ 1075 0008 B960     	 str r1,[r7,#8]
+ 1076 000a 1346     	 mov r3,r2
+ 1077 000c FB71     	 strb r3,[r7,#7]
+ 439:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int ret;
+ 440:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( ctx != NULL );
+ 441:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( key != NULL );
+ 442:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( side == MBEDTLS_ECDH_OURS ||
+ 443:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                        side == MBEDTLS_ECDH_THEIRS );
+ 444:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 445:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = mbedtls_ecdh_setup( ctx, key->grp.id ) ) != 0 )
+ 1078              	 .loc 1 445 0
+ 1079 000e BB68     	 ldr r3,[r7,#8]
+ 1080 0010 1B78     	 ldrb r3,[r3]
+ 1081 0012 F868     	 ldr r0,[r7,#12]
+ 1082 0014 1946     	 mov r1,r3
+ 1083 0016 FFF7FEFF 	 bl mbedtls_ecdh_setup
+ 1084 001a 7861     	 str r0,[r7,#20]
+ 1085 001c 7B69     	 ldr r3,[r7,#20]
+ 1086 001e 002B     	 cmp r3,#0
+ 1087 0020 01D0     	 beq .L56
+ 446:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 1088              	 .loc 1 446 0
+ 1089 0022 7B69     	 ldr r3,[r7,#20]
+ 1090 0024 06E0     	 b .L57
+ 1091              	.L56:
+ 447:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 448:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECDH_LEGACY_CONTEXT)
+ 449:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( ecdh_get_params_internal( ctx, key, side ) );
+ 1092              	 .loc 1 449 0
+ 1093 0026 FB79     	 ldrb r3,[r7,#7]
+ 1094 0028 F868     	 ldr r0,[r7,#12]
+ 1095 002a B968     	 ldr r1,[r7,#8]
+ 1096 002c 1A46     	 mov r2,r3
+ 1097 002e FFF7FEFF 	 bl ecdh_get_params_internal
+ 1098 0032 0346     	 mov r3,r0
+ 1099              	.L57:
+ 450:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 451:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     switch( ctx->var )
+ 452:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     {
+ 453:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         case MBEDTLS_ECDH_VARIANT_MBEDTLS_2_0:
+ 454:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return( ecdh_get_params_internal( &ctx->ctx.mbed_ecdh,
+ 455:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                               key, side ) );
+ 456:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         default:
+ 457:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return MBEDTLS_ERR_ECP_BAD_INPUT_DATA;
+ 458:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     }
+ 459:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 460:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 1100              	 .loc 1 460 0
+ 1101 0034 1846     	 mov r0,r3
+ 1102 0036 1837     	 adds r7,r7,#24
+ 1103              	.LCFI78:
+ 1104              	 .cfi_def_cfa_offset 8
+ 1105 0038 BD46     	 mov sp,r7
+ 1106              	.LCFI79:
+ 1107              	 .cfi_def_cfa_register 13
+ 1108              	 
+ 1109 003a 80BD     	 pop {r7,pc}
+ 1110              	 .cfi_endproc
+ 1111              	.LFE15:
+ 1113              	 .section .text.ecdh_make_public_internal,"ax",%progbits
+ 1114              	 .align 2
+ 1115              	 .thumb
+ 1116              	 .thumb_func
+ 1118              	ecdh_make_public_internal:
+ 1119              	.LFB16:
+ 461:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 462:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** static int ecdh_make_public_internal( mbedtls_ecdh_context_mbed *ctx,
+ 463:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       size_t *olen, int point_format,
+ 464:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       unsigned char *buf, size_t blen,
+ 465:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       int (*f_rng)(void *,
+ 466:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                    unsigned char *,
+ 467:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                    size_t),
+ 468:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       void *p_rng,
+ 469:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       int restart_enabled )
+ 470:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 1120              	 .loc 1 470 0
+ 1121              	 .cfi_startproc
+ 1122              	 
+ 1123              	 
+ 1124 0000 80B5     	 push {r7,lr}
+ 1125              	.LCFI80:
+ 1126              	 .cfi_def_cfa_offset 8
+ 1127              	 .cfi_offset 7,-8
+ 1128              	 .cfi_offset 14,-4
+ 1129 0002 88B0     	 sub sp,sp,#32
+ 1130              	.LCFI81:
+ 1131              	 .cfi_def_cfa_offset 40
+ 1132 0004 02AF     	 add r7,sp,#8
+ 1133              	.LCFI82:
+ 1134              	 .cfi_def_cfa 7,32
+ 1135 0006 F860     	 str r0,[r7,#12]
+ 1136 0008 B960     	 str r1,[r7,#8]
+ 1137 000a 7A60     	 str r2,[r7,#4]
+ 1138 000c 3B60     	 str r3,[r7]
+ 471:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int ret;
+ 472:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 473:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_restart_ctx *rs_ctx = NULL;
+ 474:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 475:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 476:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ctx->grp.pbits == 0 )
+ 1139              	 .loc 1 476 0
+ 1140 000e FB68     	 ldr r3,[r7,#12]
+ 1141 0010 9B6D     	 ldr r3,[r3,#88]
+ 1142 0012 002B     	 cmp r3,#0
+ 1143 0014 01D1     	 bne .L59
+ 477:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( MBEDTLS_ERR_ECP_BAD_INPUT_DATA );
+ 1144              	 .loc 1 477 0
+ 1145 0016 134B     	 ldr r3,.L62
+ 1146 0018 20E0     	 b .L60
+ 1147              	.L59:
+ 478:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 479:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 480:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( restart_enabled )
+ 481:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         rs_ctx = &ctx->rs;
+ 482:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 483:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     (void) restart_enabled;
+ 484:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 485:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 486:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 487:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = ecdh_gen_public_restartable( &ctx->grp, &ctx->d, &ctx->Q,
+ 488:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                              f_rng, p_rng, rs_ctx ) ) != 0 )
+ 489:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 490:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 491:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = mbedtls_ecdh_gen_public( &ctx->grp, &ctx->d, &ctx->Q,
+ 1148              	 .loc 1 491 0
+ 1149 001a F868     	 ldr r0,[r7,#12]
+ 1150 001c FB68     	 ldr r3,[r7,#12]
+ 1151 001e 03F17C01 	 add r1,r3,#124
+ 1152 0022 FB68     	 ldr r3,[r7,#12]
+ 1153 0024 03F18802 	 add r2,r3,#136
+ 1154 0028 BB6A     	 ldr r3,[r7,#40]
+ 1155 002a 0093     	 str r3,[sp]
+ 1156 002c 7B6A     	 ldr r3,[r7,#36]
+ 1157 002e FFF7FEFF 	 bl mbedtls_ecdh_gen_public
+ 1158 0032 7861     	 str r0,[r7,#20]
+ 1159 0034 7B69     	 ldr r3,[r7,#20]
+ 1160 0036 002B     	 cmp r3,#0
+ 1161 0038 01D0     	 beq .L61
+ 492:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                          f_rng, p_rng ) ) != 0 )
+ 493:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 1162              	 .loc 1 493 0
+ 1163 003a 7B69     	 ldr r3,[r7,#20]
+ 1164 003c 0EE0     	 b .L60
+ 1165              	.L61:
+ 494:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif /* MBEDTLS_ECP_RESTARTABLE */
+ 495:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 496:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return mbedtls_ecp_tls_write_point( &ctx->grp, &ctx->Q, point_format, olen,
+ 1166              	 .loc 1 496 0
+ 1167 003e F968     	 ldr r1,[r7,#12]
+ 1168 0040 FB68     	 ldr r3,[r7,#12]
+ 1169 0042 03F18802 	 add r2,r3,#136
+ 1170 0046 3B68     	 ldr r3,[r7]
+ 1171 0048 0093     	 str r3,[sp]
+ 1172 004a 3B6A     	 ldr r3,[r7,#32]
+ 1173 004c 0193     	 str r3,[sp,#4]
+ 1174 004e 0846     	 mov r0,r1
+ 1175 0050 1146     	 mov r1,r2
+ 1176 0052 7A68     	 ldr r2,[r7,#4]
+ 1177 0054 BB68     	 ldr r3,[r7,#8]
+ 1178 0056 FFF7FEFF 	 bl mbedtls_ecp_tls_write_point
+ 1179 005a 0346     	 mov r3,r0
+ 1180              	.L60:
+ 497:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                         buf, blen );
+ 498:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 1181              	 .loc 1 498 0
+ 1182 005c 1846     	 mov r0,r3
+ 1183 005e 1837     	 adds r7,r7,#24
+ 1184              	.LCFI83:
+ 1185              	 .cfi_def_cfa_offset 8
+ 1186 0060 BD46     	 mov sp,r7
+ 1187              	.LCFI84:
+ 1188              	 .cfi_def_cfa_register 13
+ 1189              	 
+ 1190 0062 80BD     	 pop {r7,pc}
+ 1191              	.L63:
+ 1192              	 .align 2
+ 1193              	.L62:
+ 1194 0064 80B0FFFF 	 .word -20352
+ 1195              	 .cfi_endproc
+ 1196              	.LFE16:
+ 1198              	 .section .text.mbedtls_ecdh_make_public,"ax",%progbits
+ 1199              	 .align 2
+ 1200              	 .global mbedtls_ecdh_make_public
+ 1201              	 .thumb
+ 1202              	 .thumb_func
+ 1204              	mbedtls_ecdh_make_public:
+ 1205              	.LFB17:
+ 499:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 500:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+ 501:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Setup and export the client public value
+ 502:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+ 503:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** int mbedtls_ecdh_make_public( mbedtls_ecdh_context *ctx, size_t *olen,
+ 504:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                               unsigned char *buf, size_t blen,
+ 505:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                               int (*f_rng)(void *, unsigned char *, size_t),
+ 506:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                               void *p_rng )
+ 507:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 1206              	 .loc 1 507 0
+ 1207              	 .cfi_startproc
+ 1208              	 
+ 1209              	 
+ 1210 0000 80B5     	 push {r7,lr}
+ 1211              	.LCFI85:
+ 1212              	 .cfi_def_cfa_offset 8
+ 1213              	 .cfi_offset 7,-8
+ 1214              	 .cfi_offset 14,-4
+ 1215 0002 8AB0     	 sub sp,sp,#40
+ 1216              	.LCFI86:
+ 1217              	 .cfi_def_cfa_offset 48
+ 1218 0004 04AF     	 add r7,sp,#16
+ 1219              	.LCFI87:
+ 1220              	 .cfi_def_cfa 7,32
+ 1221 0006 F860     	 str r0,[r7,#12]
+ 1222 0008 B960     	 str r1,[r7,#8]
+ 1223 000a 7A60     	 str r2,[r7,#4]
+ 1224 000c 3B60     	 str r3,[r7]
+ 508:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int restart_enabled = 0;
+ 1225              	 .loc 1 508 0
+ 1226 000e 0023     	 movs r3,#0
+ 1227 0010 7B61     	 str r3,[r7,#20]
+ 509:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( ctx != NULL );
+ 510:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( olen != NULL );
+ 511:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( buf != NULL );
+ 512:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( f_rng != NULL );
+ 513:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 514:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 515:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     restart_enabled = ctx->restart_enabled;
+ 516:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 517:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 518:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECDH_LEGACY_CONTEXT)
+ 519:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( ecdh_make_public_internal( ctx, olen, ctx->point_format, buf, blen,
+ 1228              	 .loc 1 519 0
+ 1229 0012 FB68     	 ldr r3,[r7,#12]
+ 1230 0014 D3F8DC20 	 ldr r2,[r3,#220]
+ 1231 0018 3B68     	 ldr r3,[r7]
+ 1232 001a 0093     	 str r3,[sp]
+ 1233 001c 3B6A     	 ldr r3,[r7,#32]
+ 1234 001e 0193     	 str r3,[sp,#4]
+ 1235 0020 7B6A     	 ldr r3,[r7,#36]
+ 1236 0022 0293     	 str r3,[sp,#8]
+ 1237 0024 7B69     	 ldr r3,[r7,#20]
+ 1238 0026 0393     	 str r3,[sp,#12]
+ 1239 0028 F868     	 ldr r0,[r7,#12]
+ 1240 002a B968     	 ldr r1,[r7,#8]
+ 1241 002c 7B68     	 ldr r3,[r7,#4]
+ 1242 002e FFF7FEFF 	 bl ecdh_make_public_internal
+ 1243 0032 0346     	 mov r3,r0
+ 520:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                        f_rng, p_rng, restart_enabled ) );
+ 521:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 522:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     switch( ctx->var )
+ 523:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     {
+ 524:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         case MBEDTLS_ECDH_VARIANT_MBEDTLS_2_0:
+ 525:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return( ecdh_make_public_internal( &ctx->ctx.mbed_ecdh, olen,
+ 526:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                ctx->point_format, buf, blen,
+ 527:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                f_rng, p_rng,
+ 528:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                restart_enabled ) );
+ 529:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         default:
+ 530:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return MBEDTLS_ERR_ECP_BAD_INPUT_DATA;
+ 531:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     }
+ 532:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 533:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 1244              	 .loc 1 533 0
+ 1245 0034 1846     	 mov r0,r3
+ 1246 0036 1837     	 adds r7,r7,#24
+ 1247              	.LCFI88:
+ 1248              	 .cfi_def_cfa_offset 8
+ 1249 0038 BD46     	 mov sp,r7
+ 1250              	.LCFI89:
+ 1251              	 .cfi_def_cfa_register 13
+ 1252              	 
+ 1253 003a 80BD     	 pop {r7,pc}
+ 1254              	 .cfi_endproc
+ 1255              	.LFE17:
+ 1257              	 .section .text.ecdh_read_public_internal,"ax",%progbits
+ 1258              	 .align 2
+ 1259              	 .thumb
+ 1260              	 .thumb_func
+ 1262              	ecdh_read_public_internal:
+ 1263              	.LFB18:
+ 534:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 535:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** static int ecdh_read_public_internal( mbedtls_ecdh_context_mbed *ctx,
+ 536:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       const unsigned char *buf, size_t blen )
+ 537:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 1264              	 .loc 1 537 0
+ 1265              	 .cfi_startproc
+ 1266              	 
+ 1267              	 
+ 1268 0000 80B5     	 push {r7,lr}
+ 1269              	.LCFI90:
+ 1270              	 .cfi_def_cfa_offset 8
+ 1271              	 .cfi_offset 7,-8
+ 1272              	 .cfi_offset 14,-4
+ 1273 0002 86B0     	 sub sp,sp,#24
+ 1274              	.LCFI91:
+ 1275              	 .cfi_def_cfa_offset 32
+ 1276 0004 00AF     	 add r7,sp,#0
+ 1277              	.LCFI92:
+ 1278              	 .cfi_def_cfa_register 7
+ 1279 0006 F860     	 str r0,[r7,#12]
+ 1280 0008 B960     	 str r1,[r7,#8]
+ 1281 000a 7A60     	 str r2,[r7,#4]
+ 538:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int ret;
+ 539:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     const unsigned char *p = buf;
+ 1282              	 .loc 1 539 0
+ 1283 000c BB68     	 ldr r3,[r7,#8]
+ 1284 000e 3B61     	 str r3,[r7,#16]
+ 540:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 541:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = mbedtls_ecp_tls_read_point( &ctx->grp, &ctx->Qp, &p,
+ 1285              	 .loc 1 541 0
+ 1286 0010 F968     	 ldr r1,[r7,#12]
+ 1287 0012 FB68     	 ldr r3,[r7,#12]
+ 1288 0014 03F1AC02 	 add r2,r3,#172
+ 1289 0018 07F11003 	 add r3,r7,#16
+ 1290 001c 0846     	 mov r0,r1
+ 1291 001e 1146     	 mov r1,r2
+ 1292 0020 1A46     	 mov r2,r3
+ 1293 0022 7B68     	 ldr r3,[r7,#4]
+ 1294 0024 FFF7FEFF 	 bl mbedtls_ecp_tls_read_point
+ 1295 0028 7861     	 str r0,[r7,#20]
+ 1296 002a 7B69     	 ldr r3,[r7,#20]
+ 1297 002c 002B     	 cmp r3,#0
+ 1298 002e 01D0     	 beq .L67
+ 542:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                             blen ) ) != 0 )
+ 543:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 1299              	 .loc 1 543 0
+ 1300 0030 7B69     	 ldr r3,[r7,#20]
+ 1301 0032 0AE0     	 b .L70
+ 1302              	.L67:
+ 544:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 545:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( (size_t)( p - buf ) != blen )
+ 1303              	 .loc 1 545 0
+ 1304 0034 3B69     	 ldr r3,[r7,#16]
+ 1305 0036 1A46     	 mov r2,r3
+ 1306 0038 BB68     	 ldr r3,[r7,#8]
+ 1307 003a D31A     	 subs r3,r2,r3
+ 1308 003c 1A46     	 mov r2,r3
+ 1309 003e 7B68     	 ldr r3,[r7,#4]
+ 1310 0040 9A42     	 cmp r2,r3
+ 1311 0042 01D0     	 beq .L69
+ 546:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( MBEDTLS_ERR_ECP_BAD_INPUT_DATA );
+ 1312              	 .loc 1 546 0
+ 1313 0044 034B     	 ldr r3,.L71
+ 1314 0046 00E0     	 b .L70
+ 1315              	.L69:
+ 547:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 548:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( 0 );
+ 1316              	 .loc 1 548 0
+ 1317 0048 0023     	 movs r3,#0
+ 1318              	.L70:
+ 549:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 1319              	 .loc 1 549 0 discriminator 1
+ 1320 004a 1846     	 mov r0,r3
+ 1321 004c 1837     	 adds r7,r7,#24
+ 1322              	.LCFI93:
+ 1323              	 .cfi_def_cfa_offset 8
+ 1324 004e BD46     	 mov sp,r7
+ 1325              	.LCFI94:
+ 1326              	 .cfi_def_cfa_register 13
+ 1327              	 
+ 1328 0050 80BD     	 pop {r7,pc}
+ 1329              	.L72:
+ 1330 0052 00BF     	 .align 2
+ 1331              	.L71:
+ 1332 0054 80B0FFFF 	 .word -20352
+ 1333              	 .cfi_endproc
+ 1334              	.LFE18:
+ 1336              	 .section .text.mbedtls_ecdh_read_public,"ax",%progbits
+ 1337              	 .align 2
+ 1338              	 .global mbedtls_ecdh_read_public
+ 1339              	 .thumb
+ 1340              	 .thumb_func
+ 1342              	mbedtls_ecdh_read_public:
+ 1343              	.LFB19:
+ 550:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 551:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+ 552:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Parse and import the client's public value
+ 553:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+ 554:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** int mbedtls_ecdh_read_public( mbedtls_ecdh_context *ctx,
+ 555:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                               const unsigned char *buf, size_t blen )
+ 556:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 1344              	 .loc 1 556 0
+ 1345              	 .cfi_startproc
+ 1346              	 
+ 1347              	 
+ 1348 0000 80B5     	 push {r7,lr}
+ 1349              	.LCFI95:
+ 1350              	 .cfi_def_cfa_offset 8
+ 1351              	 .cfi_offset 7,-8
+ 1352              	 .cfi_offset 14,-4
+ 1353 0002 84B0     	 sub sp,sp,#16
+ 1354              	.LCFI96:
+ 1355              	 .cfi_def_cfa_offset 24
+ 1356 0004 00AF     	 add r7,sp,#0
+ 1357              	.LCFI97:
+ 1358              	 .cfi_def_cfa_register 7
+ 1359 0006 F860     	 str r0,[r7,#12]
+ 1360 0008 B960     	 str r1,[r7,#8]
+ 1361 000a 7A60     	 str r2,[r7,#4]
+ 557:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( ctx != NULL );
+ 558:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( buf != NULL );
+ 559:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 560:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECDH_LEGACY_CONTEXT)
+ 561:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( ecdh_read_public_internal( ctx, buf, blen ) );
+ 1362              	 .loc 1 561 0
+ 1363 000c F868     	 ldr r0,[r7,#12]
+ 1364 000e B968     	 ldr r1,[r7,#8]
+ 1365 0010 7A68     	 ldr r2,[r7,#4]
+ 1366 0012 FFF7FEFF 	 bl ecdh_read_public_internal
+ 1367 0016 0346     	 mov r3,r0
+ 562:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 563:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     switch( ctx->var )
+ 564:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     {
+ 565:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         case MBEDTLS_ECDH_VARIANT_MBEDTLS_2_0:
+ 566:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return( ecdh_read_public_internal( &ctx->ctx.mbed_ecdh,
+ 567:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                        buf, blen ) );
+ 568:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         default:
+ 569:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return MBEDTLS_ERR_ECP_BAD_INPUT_DATA;
+ 570:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     }
+ 571:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 572:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 1368              	 .loc 1 572 0
+ 1369 0018 1846     	 mov r0,r3
+ 1370 001a 1037     	 adds r7,r7,#16
+ 1371              	.LCFI98:
+ 1372              	 .cfi_def_cfa_offset 8
+ 1373 001c BD46     	 mov sp,r7
+ 1374              	.LCFI99:
+ 1375              	 .cfi_def_cfa_register 13
+ 1376              	 
+ 1377 001e 80BD     	 pop {r7,pc}
+ 1378              	 .cfi_endproc
+ 1379              	.LFE19:
+ 1381              	 .section .text.ecdh_calc_secret_internal,"ax",%progbits
+ 1382              	 .align 2
+ 1383              	 .thumb
+ 1384              	 .thumb_func
+ 1386              	ecdh_calc_secret_internal:
+ 1387              	.LFB20:
+ 573:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 574:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** static int ecdh_calc_secret_internal( mbedtls_ecdh_context_mbed *ctx,
+ 575:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       size_t *olen, unsigned char *buf,
+ 576:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       size_t blen,
+ 577:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       int (*f_rng)(void *,
+ 578:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                    unsigned char *,
+ 579:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                    size_t),
+ 580:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       void *p_rng,
+ 581:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                       int restart_enabled )
+ 582:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 1388              	 .loc 1 582 0
+ 1389              	 .cfi_startproc
+ 1390              	 
+ 1391              	 
+ 1392 0000 90B5     	 push {r4,r7,lr}
+ 1393              	.LCFI100:
+ 1394              	 .cfi_def_cfa_offset 12
+ 1395              	 .cfi_offset 4,-12
+ 1396              	 .cfi_offset 7,-8
+ 1397              	 .cfi_offset 14,-4
+ 1398 0002 89B0     	 sub sp,sp,#36
+ 1399              	.LCFI101:
+ 1400              	 .cfi_def_cfa_offset 48
+ 1401 0004 02AF     	 add r7,sp,#8
+ 1402              	.LCFI102:
+ 1403              	 .cfi_def_cfa 7,40
+ 1404 0006 F860     	 str r0,[r7,#12]
+ 1405 0008 B960     	 str r1,[r7,#8]
+ 1406 000a 7A60     	 str r2,[r7,#4]
+ 1407 000c 3B60     	 str r3,[r7]
+ 583:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int ret;
+ 584:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 585:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     mbedtls_ecp_restart_ctx *rs_ctx = NULL;
+ 586:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 587:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 588:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ctx == NULL || ctx->grp.pbits == 0 )
+ 1408              	 .loc 1 588 0
+ 1409 000e FB68     	 ldr r3,[r7,#12]
+ 1410 0010 002B     	 cmp r3,#0
+ 1411 0012 03D0     	 beq .L76
+ 1412              	 .loc 1 588 0 is_stmt 0 discriminator 1
+ 1413 0014 FB68     	 ldr r3,[r7,#12]
+ 1414 0016 9B6D     	 ldr r3,[r3,#88]
+ 1415 0018 002B     	 cmp r3,#0
+ 1416 001a 01D1     	 bne .L77
+ 1417              	.L76:
+ 589:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( MBEDTLS_ERR_ECP_BAD_INPUT_DATA );
+ 1418              	 .loc 1 589 0 is_stmt 1
+ 1419 001c 204B     	 ldr r3,.L81
+ 1420 001e 3BE0     	 b .L78
+ 1421              	.L77:
+ 590:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 591:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 592:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( restart_enabled )
+ 593:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         rs_ctx = &ctx->rs;
+ 594:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 595:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     (void) restart_enabled;
+ 596:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 597:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 598:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 599:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = ecdh_compute_shared_restartable( &ctx->grp, &ctx->z, &ctx->Qp,
+ 600:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                  &ctx->d, f_rng, p_rng,
+ 601:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                  rs_ctx ) ) != 0 )
+ 602:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     {
+ 603:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 604:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     }
+ 605:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 606:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( ( ret = mbedtls_ecdh_compute_shared( &ctx->grp, &ctx->z, &ctx->Qp,
+ 1422              	 .loc 1 606 0
+ 1423 0020 F868     	 ldr r0,[r7,#12]
+ 1424 0022 FB68     	 ldr r3,[r7,#12]
+ 1425 0024 03F1D001 	 add r1,r3,#208
+ 1426 0028 FB68     	 ldr r3,[r7,#12]
+ 1427 002a 03F1AC02 	 add r2,r3,#172
+ 607:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                              &ctx->d, f_rng, p_rng ) ) != 0 )
+ 1428              	 .loc 1 607 0
+ 1429 002e FB68     	 ldr r3,[r7,#12]
+ 1430 0030 03F17C04 	 add r4,r3,#124
+ 606:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                              &ctx->d, f_rng, p_rng ) ) != 0 )
+ 1431              	 .loc 1 606 0
+ 1432 0034 BB6A     	 ldr r3,[r7,#40]
+ 1433 0036 0093     	 str r3,[sp]
+ 1434 0038 FB6A     	 ldr r3,[r7,#44]
+ 1435 003a 0193     	 str r3,[sp,#4]
+ 1436 003c 2346     	 mov r3,r4
+ 1437 003e FFF7FEFF 	 bl mbedtls_ecdh_compute_shared
+ 1438 0042 7861     	 str r0,[r7,#20]
+ 1439 0044 7B69     	 ldr r3,[r7,#20]
+ 1440 0046 002B     	 cmp r3,#0
+ 1441 0048 01D0     	 beq .L79
+ 608:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     {
+ 609:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( ret );
+ 1442              	 .loc 1 609 0
+ 1443 004a 7B69     	 ldr r3,[r7,#20]
+ 1444 004c 24E0     	 b .L78
+ 1445              	.L79:
+ 610:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     }
+ 611:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif /* MBEDTLS_ECP_RESTARTABLE */
+ 612:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 613:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     if( mbedtls_mpi_size( &ctx->z ) > blen )
+ 1446              	 .loc 1 613 0
+ 1447 004e FB68     	 ldr r3,[r7,#12]
+ 1448 0050 D033     	 adds r3,r3,#208
+ 1449 0052 1846     	 mov r0,r3
+ 1450 0054 FFF7FEFF 	 bl mbedtls_mpi_size
+ 1451 0058 0246     	 mov r2,r0
+ 1452 005a 3B68     	 ldr r3,[r7]
+ 1453 005c 9A42     	 cmp r2,r3
+ 1454 005e 01D9     	 bls .L80
+ 614:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         return( MBEDTLS_ERR_ECP_BAD_INPUT_DATA );
+ 1455              	 .loc 1 614 0
+ 1456 0060 0F4B     	 ldr r3,.L81
+ 1457 0062 19E0     	 b .L78
+ 1458              	.L80:
+ 615:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 616:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     *olen = ctx->grp.pbits / 8 + ( ( ctx->grp.pbits % 8 ) != 0 );
+ 1459              	 .loc 1 616 0
+ 1460 0064 FB68     	 ldr r3,[r7,#12]
+ 1461 0066 9B6D     	 ldr r3,[r3,#88]
+ 1462 0068 DB08     	 lsrs r3,r3,#3
+ 1463 006a FA68     	 ldr r2,[r7,#12]
+ 1464 006c 926D     	 ldr r2,[r2,#88]
+ 1465 006e 02F00702 	 and r2,r2,#7
+ 1466 0072 002A     	 cmp r2,#0
+ 1467 0074 14BF     	 ite ne
+ 1468 0076 0122     	 movne r2,#1
+ 1469 0078 0022     	 moveq r2,#0
+ 1470 007a D2B2     	 uxtb r2,r2
+ 1471 007c 1A44     	 add r2,r2,r3
+ 1472 007e BB68     	 ldr r3,[r7,#8]
+ 1473 0080 1A60     	 str r2,[r3]
+ 617:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return mbedtls_mpi_write_binary( &ctx->z, buf, *olen );
+ 1474              	 .loc 1 617 0
+ 1475 0082 FB68     	 ldr r3,[r7,#12]
+ 1476 0084 03F1D002 	 add r2,r3,#208
+ 1477 0088 BB68     	 ldr r3,[r7,#8]
+ 1478 008a 1B68     	 ldr r3,[r3]
+ 1479 008c 1046     	 mov r0,r2
+ 1480 008e 7968     	 ldr r1,[r7,#4]
+ 1481 0090 1A46     	 mov r2,r3
+ 1482 0092 FFF7FEFF 	 bl mbedtls_mpi_write_binary
+ 1483 0096 0346     	 mov r3,r0
+ 1484              	.L78:
+ 618:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 1485              	 .loc 1 618 0
+ 1486 0098 1846     	 mov r0,r3
+ 1487 009a 1C37     	 adds r7,r7,#28
+ 1488              	.LCFI103:
+ 1489              	 .cfi_def_cfa_offset 12
+ 1490 009c BD46     	 mov sp,r7
+ 1491              	.LCFI104:
+ 1492              	 .cfi_def_cfa_register 13
+ 1493              	 
+ 1494 009e 90BD     	 pop {r4,r7,pc}
+ 1495              	.L82:
+ 1496              	 .align 2
+ 1497              	.L81:
+ 1498 00a0 80B0FFFF 	 .word -20352
+ 1499              	 .cfi_endproc
+ 1500              	.LFE20:
+ 1502              	 .section .text.mbedtls_ecdh_calc_secret,"ax",%progbits
+ 1503              	 .align 2
+ 1504              	 .global mbedtls_ecdh_calc_secret
+ 1505              	 .thumb
+ 1506              	 .thumb_func
+ 1508              	mbedtls_ecdh_calc_secret:
+ 1509              	.LFB21:
+ 619:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 620:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** /*
+ 621:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  * Derive and export the shared secret
+ 622:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****  */
+ 623:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** int mbedtls_ecdh_calc_secret( mbedtls_ecdh_context *ctx, size_t *olen,
+ 624:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                               unsigned char *buf, size_t blen,
+ 625:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                               int (*f_rng)(void *, unsigned char *, size_t),
+ 626:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                               void *p_rng )
+ 627:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** {
+ 1510              	 .loc 1 627 0
+ 1511              	 .cfi_startproc
+ 1512              	 
+ 1513              	 
+ 1514 0000 80B5     	 push {r7,lr}
+ 1515              	.LCFI105:
+ 1516              	 .cfi_def_cfa_offset 8
+ 1517              	 .cfi_offset 7,-8
+ 1518              	 .cfi_offset 14,-4
+ 1519 0002 8AB0     	 sub sp,sp,#40
+ 1520              	.LCFI106:
+ 1521              	 .cfi_def_cfa_offset 48
+ 1522 0004 04AF     	 add r7,sp,#16
+ 1523              	.LCFI107:
+ 1524              	 .cfi_def_cfa 7,32
+ 1525 0006 F860     	 str r0,[r7,#12]
+ 1526 0008 B960     	 str r1,[r7,#8]
+ 1527 000a 7A60     	 str r2,[r7,#4]
+ 1528 000c 3B60     	 str r3,[r7]
+ 628:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     int restart_enabled = 0;
+ 1529              	 .loc 1 628 0
+ 1530 000e 0023     	 movs r3,#0
+ 1531 0010 7B61     	 str r3,[r7,#20]
+ 629:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( ctx != NULL );
+ 630:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( olen != NULL );
+ 631:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     ECDH_VALIDATE_RET( buf != NULL );
+ 632:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 633:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECP_RESTARTABLE)
+ 634:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     restart_enabled = ctx->restart_enabled;
+ 635:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 636:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** 
+ 637:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #if defined(MBEDTLS_ECDH_LEGACY_CONTEXT)
+ 638:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     return( ecdh_calc_secret_internal( ctx, olen, buf, blen, f_rng, p_rng,
+ 1532              	 .loc 1 638 0
+ 1533 0012 3B6A     	 ldr r3,[r7,#32]
+ 1534 0014 0093     	 str r3,[sp]
+ 1535 0016 7B6A     	 ldr r3,[r7,#36]
+ 1536 0018 0193     	 str r3,[sp,#4]
+ 1537 001a 7B69     	 ldr r3,[r7,#20]
+ 1538 001c 0293     	 str r3,[sp,#8]
+ 1539 001e F868     	 ldr r0,[r7,#12]
+ 1540 0020 B968     	 ldr r1,[r7,#8]
+ 1541 0022 7A68     	 ldr r2,[r7,#4]
+ 1542 0024 3B68     	 ldr r3,[r7]
+ 1543 0026 FFF7FEFF 	 bl ecdh_calc_secret_internal
+ 1544 002a 0346     	 mov r3,r0
+ 639:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                        restart_enabled ) );
+ 640:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #else
+ 641:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     switch( ctx->var )
+ 642:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     {
+ 643:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         case MBEDTLS_ECDH_VARIANT_MBEDTLS_2_0:
+ 644:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return( ecdh_calc_secret_internal( &ctx->ctx.mbed_ecdh, olen, buf,
+ 645:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                blen, f_rng, p_rng,
+ 646:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****                                                restart_enabled ) );
+ 647:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****         default:
+ 648:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****             return( MBEDTLS_ERR_ECP_BAD_INPUT_DATA );
+ 649:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c ****     }
+ 650:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** #endif
+ 651:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\ecdh.c **** }
+ 1545              	 .loc 1 651 0
+ 1546 002c 1846     	 mov r0,r3
+ 1547 002e 1837     	 adds r7,r7,#24
+ 1548              	.LCFI108:
+ 1549              	 .cfi_def_cfa_offset 8
+ 1550 0030 BD46     	 mov sp,r7
+ 1551              	.LCFI109:
+ 1552              	 .cfi_def_cfa_register 13
+ 1553              	 
+ 1554 0032 80BD     	 pop {r7,pc}
+ 1555              	 .cfi_endproc
+ 1556              	.LFE21:
+ 1558              	 .text
+ 1559              	.Letext0:
+ 1560              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\lib\\gcc\\arm-none-eabi\\4.9.3\\include\\stddef.h"
+ 1561              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 1562              	 .file 4 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 1563              	 .file 5 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/include/mbedtls/bignum.h"
+ 1564              	 .file 6 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/include/mbedtls/ecp.h"
+ 1565              	 .file 7 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/include/mbedtls/ecdh.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 ecdh.c
+    {standard input}:20     .text.ecdh_gen_public_restartable:00000000 $t
+    {standard input}:24     .text.ecdh_gen_public_restartable:00000000 ecdh_gen_public_restartable
+    {standard input}:95     .text.mbedtls_ecdh_gen_public:00000000 $t
+    {standard input}:100    .text.mbedtls_ecdh_gen_public:00000000 mbedtls_ecdh_gen_public
+    {standard input}:146    .text.ecdh_compute_shared_restartable:00000000 $t
+    {standard input}:150    .text.ecdh_compute_shared_restartable:00000000 ecdh_compute_shared_restartable
+    {standard input}:237    .text.ecdh_compute_shared_restartable:00000080 $d
+    {standard input}:242    .text.mbedtls_ecdh_compute_shared:00000000 $t
+    {standard input}:247    .text.mbedtls_ecdh_compute_shared:00000000 mbedtls_ecdh_compute_shared
+    {standard input}:295    .text.ecdh_init_internal:00000000 $t
+    {standard input}:299    .text.ecdh_init_internal:00000000 ecdh_init_internal
+    {standard input}:354    .text.mbedtls_ecdh_init:00000000 $t
+    {standard input}:359    .text.mbedtls_ecdh_init:00000000 mbedtls_ecdh_init
+    {standard input}:412    .text.ecdh_setup_internal:00000000 $t
+    {standard input}:416    .text.ecdh_setup_internal:00000000 ecdh_setup_internal
+    {standard input}:467    .text.ecdh_setup_internal:00000030 $d
+    {standard input}:472    .text.mbedtls_ecdh_setup:00000000 $t
+    {standard input}:477    .text.mbedtls_ecdh_setup:00000000 mbedtls_ecdh_setup
+    {standard input}:517    .text.ecdh_free_internal:00000000 $t
+    {standard input}:521    .text.ecdh_free_internal:00000000 ecdh_free_internal
+    {standard input}:576    .text.mbedtls_ecdh_free:00000000 $t
+    {standard input}:581    .text.mbedtls_ecdh_free:00000000 mbedtls_ecdh_free
+    {standard input}:638    .text.ecdh_make_params_internal:00000000 $t
+    {standard input}:642    .text.ecdh_make_params_internal:00000000 ecdh_make_params_internal
+    {standard input}:761    .text.ecdh_make_params_internal:000000ac $d
+    {standard input}:766    .text.mbedtls_ecdh_make_params:00000000 $t
+    {standard input}:771    .text.mbedtls_ecdh_make_params:00000000 mbedtls_ecdh_make_params
+    {standard input}:825    .text.ecdh_read_params_internal:00000000 $t
+    {standard input}:829    .text.ecdh_read_params_internal:00000000 ecdh_read_params_internal
+    {standard input}:876    .text.mbedtls_ecdh_read_params:00000000 $t
+    {standard input}:881    .text.mbedtls_ecdh_read_params:00000000 mbedtls_ecdh_read_params
+    {standard input}:953    .text.ecdh_get_params_internal:00000000 $t
+    {standard input}:957    .text.ecdh_get_params_internal:00000000 ecdh_get_params_internal
+    {standard input}:1047   .text.ecdh_get_params_internal:00000078 $d
+    {standard input}:1052   .text.mbedtls_ecdh_get_params:00000000 $t
+    {standard input}:1057   .text.mbedtls_ecdh_get_params:00000000 mbedtls_ecdh_get_params
+    {standard input}:1114   .text.ecdh_make_public_internal:00000000 $t
+    {standard input}:1118   .text.ecdh_make_public_internal:00000000 ecdh_make_public_internal
+    {standard input}:1194   .text.ecdh_make_public_internal:00000064 $d
+    {standard input}:1199   .text.mbedtls_ecdh_make_public:00000000 $t
+    {standard input}:1204   .text.mbedtls_ecdh_make_public:00000000 mbedtls_ecdh_make_public
+    {standard input}:1258   .text.ecdh_read_public_internal:00000000 $t
+    {standard input}:1262   .text.ecdh_read_public_internal:00000000 ecdh_read_public_internal
+    {standard input}:1332   .text.ecdh_read_public_internal:00000054 $d
+    {standard input}:1337   .text.mbedtls_ecdh_read_public:00000000 $t
+    {standard input}:1342   .text.mbedtls_ecdh_read_public:00000000 mbedtls_ecdh_read_public
+    {standard input}:1382   .text.ecdh_calc_secret_internal:00000000 $t
+    {standard input}:1386   .text.ecdh_calc_secret_internal:00000000 ecdh_calc_secret_internal
+    {standard input}:1498   .text.ecdh_calc_secret_internal:000000a0 $d
+    {standard input}:1503   .text.mbedtls_ecdh_calc_secret:00000000 $t
+    {standard input}:1508   .text.mbedtls_ecdh_calc_secret:00000000 mbedtls_ecdh_calc_secret
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+mbedtls_ecp_gen_privkey
+mbedtls_ecp_mul_restartable
+mbedtls_ecp_point_init
+mbedtls_ecp_is_zero
+mbedtls_mpi_copy
+mbedtls_ecp_point_free
+mbedtls_ecp_group_init
+mbedtls_mpi_init
+mbedtls_ecp_group_load
+mbedtls_ecp_group_free
+mbedtls_mpi_free
+mbedtls_ecp_tls_write_group
+mbedtls_ecp_tls_write_point
+mbedtls_ecp_tls_read_point
+mbedtls_ecp_tls_read_group_id
+mbedtls_ecp_copy
+mbedtls_mpi_size
+mbedtls_mpi_write_binary

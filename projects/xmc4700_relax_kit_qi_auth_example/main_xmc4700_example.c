@@ -29,7 +29,6 @@
 #include "optiga/pal/pal_logger.h"
 
 // QI Auth API
-#include "qi_auth.h"
 /*************************************************************************
  *  main.c
 *************************************************************************/
@@ -42,7 +41,8 @@
 /*************************************************************************
 *  function prototypes
 *************************************************************************/
-extern void optiga_shell_wait_for_user(void);
+//extern void optiga_shell_wait_for_user(void);
+extern int qi_auth_ptx_prx_test(void);
 /*************************************************************************
 *  Global
 *************************************************************************/
@@ -76,9 +76,9 @@ int main(Void)
 
     pal_os_timer_delay_in_milliseconds(100);
 
-    optiga_shell_wait_for_user();
+//    optiga_shell_wait_for_user();
 
-	qi_auth_test();
+    qi_auth_ptx_prx_test();
 
 	return ((status == 0)? 0:1);
 }

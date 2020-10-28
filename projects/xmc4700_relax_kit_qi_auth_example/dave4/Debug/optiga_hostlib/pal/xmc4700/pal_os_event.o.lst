@@ -1,0 +1,492 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "pal_os_event.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .bss.pal_os_event_0,"aw",%nobits
+  20              	 .align 2
+  23              	pal_os_event_0:
+  24 0000 00000000 	 .space 16
+  24      00000000 
+  24      00000000 
+  24      00000000 
+  25              	 .section .text.pal_os_event_start,"ax",%progbits
+  26              	 .align 2
+  27              	 .global pal_os_event_start
+  28              	 .thumb
+  29              	 .thumb_func
+  31              	pal_os_event_start:
+  32              	.LFB387:
+  33              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700/pal_os_event.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** /**
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * \copyright
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * MIT License
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** *
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * Copyright (c) 2020 Infineon Technologies AG
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** *
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * of this software and associated documentation files (the "Software"), to deal
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * in the Software without restriction, including without limitation the rights
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * copies of the Software, and to permit persons to whom the Software is
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * furnished to do so, subject to the following conditions:
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** *
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * The above copyright notice and this permission notice shall be included in all
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * copies or substantial portions of the Software.
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** *
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * SOFTWARE
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** *
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * \endcopyright
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** *
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * \author Infineon Technologies AG
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** *
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * \file pal_os_event.c
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** *
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * \brief   This file implements the platform abstraction layer APIs for os event/scheduler.
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** *
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * \ingroup  grPAL
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** *
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** * @{
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** */
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** #include <DAVE.h>
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** #include "optiga/pal/pal_os_event.h"
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** /// @cond hidden
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** static pal_os_event_t pal_os_event_0 = {0};
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** void pal_os_event_start(pal_os_event_t * p_pal_os_event, register_callback callback, void * callbac
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** {
+  34              	 .loc 1 47 0
+  35              	 .cfi_startproc
+  36              	 
+  37              	 
+  38 0000 80B5     	 push {r7,lr}
+  39              	.LCFI0:
+  40              	 .cfi_def_cfa_offset 8
+  41              	 .cfi_offset 7,-8
+  42              	 .cfi_offset 14,-4
+  43 0002 84B0     	 sub sp,sp,#16
+  44              	.LCFI1:
+  45              	 .cfi_def_cfa_offset 24
+  46 0004 00AF     	 add r7,sp,#0
+  47              	.LCFI2:
+  48              	 .cfi_def_cfa_register 7
+  49 0006 F860     	 str r0,[r7,#12]
+  50 0008 B960     	 str r1,[r7,#8]
+  51 000a 7A60     	 str r2,[r7,#4]
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     if (FALSE == p_pal_os_event->is_event_triggered)
+  52              	 .loc 1 48 0
+  53 000c FB68     	 ldr r3,[r7,#12]
+  54 000e 1B78     	 ldrb r3,[r3]
+  55 0010 002B     	 cmp r3,#0
+  56 0012 09D1     	 bne .L1
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     {
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****         p_pal_os_event->is_event_triggered = TRUE;
+  57              	 .loc 1 50 0
+  58 0014 FB68     	 ldr r3,[r7,#12]
+  59 0016 0122     	 movs r2,#1
+  60 0018 1A70     	 strb r2,[r3]
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****         pal_os_event_register_callback_oneshot(p_pal_os_event,callback,callback_args,1000);
+  61              	 .loc 1 51 0
+  62 001a F868     	 ldr r0,[r7,#12]
+  63 001c B968     	 ldr r1,[r7,#8]
+  64 001e 7A68     	 ldr r2,[r7,#4]
+  65 0020 4FF47A73 	 mov r3,#1000
+  66 0024 FFF7FEFF 	 bl pal_os_event_register_callback_oneshot
+  67              	.L1:
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     }
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** }
+  68              	 .loc 1 53 0
+  69 0028 1037     	 adds r7,r7,#16
+  70              	.LCFI3:
+  71              	 .cfi_def_cfa_offset 8
+  72 002a BD46     	 mov sp,r7
+  73              	.LCFI4:
+  74              	 .cfi_def_cfa_register 13
+  75              	 
+  76 002c 80BD     	 pop {r7,pc}
+  77              	 .cfi_endproc
+  78              	.LFE387:
+  80 002e 00BF     	 .section .text.pal_os_event_stop,"ax",%progbits
+  81              	 .align 2
+  82              	 .global pal_os_event_stop
+  83              	 .thumb
+  84              	 .thumb_func
+  86              	pal_os_event_stop:
+  87              	.LFB388:
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** void pal_os_event_stop(pal_os_event_t * p_pal_os_event)
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** {
+  88              	 .loc 1 56 0
+  89              	 .cfi_startproc
+  90              	 
+  91              	 
+  92              	 
+  93 0000 80B4     	 push {r7}
+  94              	.LCFI5:
+  95              	 .cfi_def_cfa_offset 4
+  96              	 .cfi_offset 7,-4
+  97 0002 83B0     	 sub sp,sp,#12
+  98              	.LCFI6:
+  99              	 .cfi_def_cfa_offset 16
+ 100 0004 00AF     	 add r7,sp,#0
+ 101              	.LCFI7:
+ 102              	 .cfi_def_cfa_register 7
+ 103 0006 7860     	 str r0,[r7,#4]
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     //lint --e{714} suppress "The API pal_os_event_stop is not exposed in header file but used as e
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     //optiga_cmd.c"
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     p_pal_os_event->is_event_triggered = FALSE;
+ 104              	 .loc 1 59 0
+ 105 0008 7B68     	 ldr r3,[r7,#4]
+ 106 000a 0022     	 movs r2,#0
+ 107 000c 1A70     	 strb r2,[r3]
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** }
+ 108              	 .loc 1 60 0
+ 109 000e 0C37     	 adds r7,r7,#12
+ 110              	.LCFI8:
+ 111              	 .cfi_def_cfa_offset 4
+ 112 0010 BD46     	 mov sp,r7
+ 113              	.LCFI9:
+ 114              	 .cfi_def_cfa_register 13
+ 115              	 
+ 116 0012 5DF8047B 	 ldr r7,[sp],#4
+ 117              	.LCFI10:
+ 118              	 .cfi_restore 7
+ 119              	 .cfi_def_cfa_offset 0
+ 120 0016 7047     	 bx lr
+ 121              	 .cfi_endproc
+ 122              	.LFE388:
+ 124              	 .section .text.pal_os_event_create,"ax",%progbits
+ 125              	 .align 2
+ 126              	 .global pal_os_event_create
+ 127              	 .thumb
+ 128              	 .thumb_func
+ 130              	pal_os_event_create:
+ 131              	.LFB389:
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** pal_os_event_t * pal_os_event_create(register_callback callback, void * callback_args)
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** {
+ 132              	 .loc 1 63 0
+ 133              	 .cfi_startproc
+ 134              	 
+ 135              	 
+ 136 0000 80B5     	 push {r7,lr}
+ 137              	.LCFI11:
+ 138              	 .cfi_def_cfa_offset 8
+ 139              	 .cfi_offset 7,-8
+ 140              	 .cfi_offset 14,-4
+ 141 0002 82B0     	 sub sp,sp,#8
+ 142              	.LCFI12:
+ 143              	 .cfi_def_cfa_offset 16
+ 144 0004 00AF     	 add r7,sp,#0
+ 145              	.LCFI13:
+ 146              	 .cfi_def_cfa_register 7
+ 147 0006 7860     	 str r0,[r7,#4]
+ 148 0008 3960     	 str r1,[r7]
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     if (( NULL != callback )&&( NULL != callback_args ))
+ 149              	 .loc 1 64 0
+ 150 000a 7B68     	 ldr r3,[r7,#4]
+ 151 000c 002B     	 cmp r3,#0
+ 152 000e 07D0     	 beq .L5
+ 153              	 .loc 1 64 0 is_stmt 0 discriminator 1
+ 154 0010 3B68     	 ldr r3,[r7]
+ 155 0012 002B     	 cmp r3,#0
+ 156 0014 04D0     	 beq .L5
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     {
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****         pal_os_event_start(&pal_os_event_0,callback,callback_args);
+ 157              	 .loc 1 66 0 is_stmt 1
+ 158 0016 0548     	 ldr r0,.L7
+ 159 0018 7968     	 ldr r1,[r7,#4]
+ 160 001a 3A68     	 ldr r2,[r7]
+ 161 001c FFF7FEFF 	 bl pal_os_event_start
+ 162              	.L5:
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     }
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     return (&pal_os_event_0);
+ 163              	 .loc 1 68 0
+ 164 0020 024B     	 ldr r3,.L7
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** }
+ 165              	 .loc 1 69 0
+ 166 0022 1846     	 mov r0,r3
+ 167 0024 0837     	 adds r7,r7,#8
+ 168              	.LCFI14:
+ 169              	 .cfi_def_cfa_offset 8
+ 170 0026 BD46     	 mov sp,r7
+ 171              	.LCFI15:
+ 172              	 .cfi_def_cfa_register 13
+ 173              	 
+ 174 0028 80BD     	 pop {r7,pc}
+ 175              	.L8:
+ 176 002a 00BF     	 .align 2
+ 177              	.L7:
+ 178 002c 00000000 	 .word pal_os_event_0
+ 179              	 .cfi_endproc
+ 180              	.LFE389:
+ 182              	 .section .text.CCU43_1_IRQHandler,"ax",%progbits
+ 183              	 .align 2
+ 184              	 .global CCU43_1_IRQHandler
+ 185              	 .thumb
+ 186              	 .thumb_func
+ 188              	CCU43_1_IRQHandler:
+ 189              	.LFB390:
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** void pal_os_event_trigger_registered_callback(void)
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** {
+ 190              	 .loc 1 72 0
+ 191              	 .cfi_startproc
+ 192              	 
+ 193              	 
+ 194 0000 80B5     	 push {r7,lr}
+ 195              	.LCFI16:
+ 196              	 .cfi_def_cfa_offset 8
+ 197              	 .cfi_offset 7,-8
+ 198              	 .cfi_offset 14,-4
+ 199 0002 82B0     	 sub sp,sp,#8
+ 200              	.LCFI17:
+ 201              	 .cfi_def_cfa_offset 16
+ 202 0004 00AF     	 add r7,sp,#0
+ 203              	.LCFI18:
+ 204              	 .cfi_def_cfa_register 7
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     register_callback callback;
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     // !!!OPTIGA_LIB_PORTING_REQUIRED
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     // The following steps related to TIMER must be taken care while porting to different platform
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     TIMER_ClearEvent(&scheduler_timer);
+ 205              	 .loc 1 77 0
+ 206 0006 0C48     	 ldr r0,.L11
+ 207 0008 FFF7FEFF 	 bl TIMER_ClearEvent
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     //lint --e{534} suppress "Error handling is not required so return value is not checked"
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     TIMER_Stop(&scheduler_timer);
+ 208              	 .loc 1 79 0
+ 209 000c 0A48     	 ldr r0,.L11
+ 210 000e FFF7FEFF 	 bl TIMER_Stop
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     TIMER_Clear(&scheduler_timer);
+ 211              	 .loc 1 80 0
+ 212 0012 0948     	 ldr r0,.L11
+ 213 0014 FFF7FEFF 	 bl TIMER_Clear
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     if (pal_os_event_0.callback_registered)
+ 214              	 .loc 1 82 0
+ 215 0018 084B     	 ldr r3,.L11+4
+ 216 001a 5B68     	 ldr r3,[r3,#4]
+ 217 001c 002B     	 cmp r3,#0
+ 218 001e 07D0     	 beq .L9
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     {
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****         callback = pal_os_event_0.callback_registered;
+ 219              	 .loc 1 84 0
+ 220 0020 064B     	 ldr r3,.L11+4
+ 221 0022 5B68     	 ldr r3,[r3,#4]
+ 222 0024 7B60     	 str r3,[r7,#4]
+  85:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****         callback((void * )pal_os_event_0.callback_ctx);
+ 223              	 .loc 1 85 0
+ 224 0026 054B     	 ldr r3,.L11+4
+ 225 0028 9A68     	 ldr r2,[r3,#8]
+ 226 002a 7B68     	 ldr r3,[r7,#4]
+ 227 002c 1046     	 mov r0,r2
+ 228 002e 9847     	 blx r3
+ 229              	.L9:
+  86:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     }
+  87:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** }
+ 230              	 .loc 1 87 0
+ 231 0030 0837     	 adds r7,r7,#8
+ 232              	.LCFI19:
+ 233              	 .cfi_def_cfa_offset 8
+ 234 0032 BD46     	 mov sp,r7
+ 235              	.LCFI20:
+ 236              	 .cfi_def_cfa_register 13
+ 237              	 
+ 238 0034 80BD     	 pop {r7,pc}
+ 239              	.L12:
+ 240 0036 00BF     	 .align 2
+ 241              	.L11:
+ 242 0038 00000000 	 .word scheduler_timer
+ 243 003c 00000000 	 .word pal_os_event_0
+ 244              	 .cfi_endproc
+ 245              	.LFE390:
+ 247              	 .section .text.pal_os_event_register_callback_oneshot,"ax",%progbits
+ 248              	 .align 2
+ 249              	 .global pal_os_event_register_callback_oneshot
+ 250              	 .thumb
+ 251              	 .thumb_func
+ 253              	pal_os_event_register_callback_oneshot:
+ 254              	.LFB391:
+  88:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** /// @endcond
+  89:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+  90:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** void pal_os_event_register_callback_oneshot(pal_os_event_t * p_pal_os_event,
+  91:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****                                              register_callback callback,
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****                                              void * callback_args,
+  93:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****                                              uint32_t time_us)
+  94:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** {
+ 255              	 .loc 1 94 0
+ 256              	 .cfi_startproc
+ 257              	 
+ 258              	 
+ 259 0000 80B5     	 push {r7,lr}
+ 260              	.LCFI21:
+ 261              	 .cfi_def_cfa_offset 8
+ 262              	 .cfi_offset 7,-8
+ 263              	 .cfi_offset 14,-4
+ 264 0002 84B0     	 sub sp,sp,#16
+ 265              	.LCFI22:
+ 266              	 .cfi_def_cfa_offset 24
+ 267 0004 00AF     	 add r7,sp,#0
+ 268              	.LCFI23:
+ 269              	 .cfi_def_cfa_register 7
+ 270 0006 F860     	 str r0,[r7,#12]
+ 271 0008 B960     	 str r1,[r7,#8]
+ 272 000a 7A60     	 str r2,[r7,#4]
+ 273 000c 3B60     	 str r3,[r7]
+  95:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     p_pal_os_event->callback_registered = callback;
+ 274              	 .loc 1 95 0
+ 275 000e FB68     	 ldr r3,[r7,#12]
+ 276 0010 BA68     	 ldr r2,[r7,#8]
+ 277 0012 5A60     	 str r2,[r3,#4]
+  96:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     p_pal_os_event->callback_ctx = callback_args;
+ 278              	 .loc 1 96 0
+ 279 0014 FB68     	 ldr r3,[r7,#12]
+ 280 0016 7A68     	 ldr r2,[r7,#4]
+ 281 0018 9A60     	 str r2,[r3,#8]
+  97:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+  98:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     // !!!OPTIGA_LIB_PORTING_REQUIRED
+  99:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     // The following steps related to TIMER must be taken care while porting to different platform
+ 100:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     //lint --e{534} suppress "Error handling is not required so return value is not checked"
+ 101:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     TIMER_SetTimeInterval(&scheduler_timer, (time_us * 100));
+ 282              	 .loc 1 101 0
+ 283 001a 3B68     	 ldr r3,[r7]
+ 284 001c 6422     	 movs r2,#100
+ 285 001e 02FB03F3 	 mul r3,r2,r3
+ 286 0022 0548     	 ldr r0,.L14
+ 287 0024 1946     	 mov r1,r3
+ 288 0026 FFF7FEFF 	 bl TIMER_SetTimeInterval
+ 102:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     TIMER_Start(&scheduler_timer);
+ 289              	 .loc 1 102 0
+ 290 002a 0348     	 ldr r0,.L14
+ 291 002c FFF7FEFF 	 bl TIMER_Start
+ 103:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** }
+ 292              	 .loc 1 103 0
+ 293 0030 1037     	 adds r7,r7,#16
+ 294              	.LCFI24:
+ 295              	 .cfi_def_cfa_offset 8
+ 296 0032 BD46     	 mov sp,r7
+ 297              	.LCFI25:
+ 298              	 .cfi_def_cfa_register 13
+ 299              	 
+ 300 0034 80BD     	 pop {r7,pc}
+ 301              	.L15:
+ 302 0036 00BF     	 .align 2
+ 303              	.L14:
+ 304 0038 00000000 	 .word scheduler_timer
+ 305              	 .cfi_endproc
+ 306              	.LFE391:
+ 308              	 .section .text.pal_os_event_destroy,"ax",%progbits
+ 309              	 .align 2
+ 310              	 .global pal_os_event_destroy
+ 311              	 .thumb
+ 312              	 .thumb_func
+ 314              	pal_os_event_destroy:
+ 315              	.LFB392:
+ 104:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** 
+ 105:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** //lint --e{818,715} suppress "As there is no implementation, pal_os_event is not used"
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** void pal_os_event_destroy(pal_os_event_t * pal_os_event)
+ 107:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** {
+ 316              	 .loc 1 107 0
+ 317              	 .cfi_startproc
+ 318              	 
+ 319              	 
+ 320              	 
+ 321 0000 80B4     	 push {r7}
+ 322              	.LCFI26:
+ 323              	 .cfi_def_cfa_offset 4
+ 324              	 .cfi_offset 7,-4
+ 325 0002 83B0     	 sub sp,sp,#12
+ 326              	.LCFI27:
+ 327              	 .cfi_def_cfa_offset 16
+ 328 0004 00AF     	 add r7,sp,#0
+ 329              	.LCFI28:
+ 330              	 .cfi_def_cfa_register 7
+ 331 0006 7860     	 str r0,[r7,#4]
+ 108:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c ****     
+ 109:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_os_event.c **** }
+ 332              	 .loc 1 109 0
+ 333 0008 0C37     	 adds r7,r7,#12
+ 334              	.LCFI29:
+ 335              	 .cfi_def_cfa_offset 4
+ 336 000a BD46     	 mov sp,r7
+ 337              	.LCFI30:
+ 338              	 .cfi_def_cfa_register 13
+ 339              	 
+ 340 000c 5DF8047B 	 ldr r7,[sp],#4
+ 341              	.LCFI31:
+ 342              	 .cfi_restore 7
+ 343              	 .cfi_def_cfa_offset 0
+ 344 0010 7047     	 bx lr
+ 345              	 .cfi_endproc
+ 346              	.LFE392:
+ 348 0012 00BF     	 .text
+ 349              	.Letext0:
+ 350              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 351              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 352              	 .file 4 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+ 353              	 .file 5 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc4_scu.h"
+ 354              	 .file 6 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usic.h"
+ 355              	 .file 7 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usbd_regs.h"
+ 356              	 .file 8 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usbd.h"
+ 357              	 .file 9 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD/usbd.h"
+ 358              	 .file 10 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_ccu4.h"
+ 359              	 .file 11 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/GLOBAL_CCU4/global_ccu4.h"
+ 360              	 .file 12 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/TIMER/timer.h"
+ 361              	 .file 13 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/common/optiga_lib_types.h"
+ 362              	 .file 14 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/pal/pal_os_event.h"
+ 363              	 .file 15 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Include/core_cm4.h"
+ 364              	 .file 16 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+ 365              	 .file 17 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD/usbd_extern.h"
+ 366              	 .file 18 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/TIMER/timer_extern.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 pal_os_event.c
+    {standard input}:20     .bss.pal_os_event_0:00000000 $d
+    {standard input}:23     .bss.pal_os_event_0:00000000 pal_os_event_0
+    {standard input}:26     .text.pal_os_event_start:00000000 $t
+    {standard input}:31     .text.pal_os_event_start:00000000 pal_os_event_start
+    {standard input}:253    .text.pal_os_event_register_callback_oneshot:00000000 pal_os_event_register_callback_oneshot
+    {standard input}:81     .text.pal_os_event_stop:00000000 $t
+    {standard input}:86     .text.pal_os_event_stop:00000000 pal_os_event_stop
+    {standard input}:125    .text.pal_os_event_create:00000000 $t
+    {standard input}:130    .text.pal_os_event_create:00000000 pal_os_event_create
+    {standard input}:178    .text.pal_os_event_create:0000002c $d
+    {standard input}:183    .text.CCU43_1_IRQHandler:00000000 $t
+    {standard input}:188    .text.CCU43_1_IRQHandler:00000000 CCU43_1_IRQHandler
+    {standard input}:242    .text.CCU43_1_IRQHandler:00000038 $d
+    {standard input}:248    .text.pal_os_event_register_callback_oneshot:00000000 $t
+    {standard input}:304    .text.pal_os_event_register_callback_oneshot:00000038 $d
+    {standard input}:309    .text.pal_os_event_destroy:00000000 $t
+    {standard input}:314    .text.pal_os_event_destroy:00000000 pal_os_event_destroy
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+TIMER_ClearEvent
+TIMER_Stop
+TIMER_Clear
+scheduler_timer
+TIMER_SetTimeInterval
+TIMER_Start

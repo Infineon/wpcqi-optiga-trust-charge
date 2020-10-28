@@ -1,0 +1,152 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "pal.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.pal_init,"ax",%progbits
+  20              	 .align 2
+  21              	 .global pal_init
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	pal_init:
+  26              	.LFB0:
+  27              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700/pal.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** /**
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * \copyright
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * MIT License
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** *
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * Copyright (c) 2020 Infineon Technologies AG
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** *
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * of this software and associated documentation files (the "Software"), to deal
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * in the Software without restriction, including without limitation the rights
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * copies of the Software, and to permit persons to whom the Software is
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * furnished to do so, subject to the following conditions:
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** *
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * The above copyright notice and this permission notice shall be included in all
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * copies or substantial portions of the Software.
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** *
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * SOFTWARE
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** *
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * \endcopyright
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** *
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * \author Infineon Technologies AG
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** *
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * \file pal.c
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** *
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * \brief    This file implements the platform abstraction layer APIs.
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** *
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * \ingroup  grPAL
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** *
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** * @{
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** */
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** 
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** 
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** #include "optiga/pal/pal.h"
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** 
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** 
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** pal_status_t pal_init(void)
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** {
+  28              	 .loc 1 43 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 00AF     	 add r7,sp,#0
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_register 7
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c ****     return PAL_STATUS_SUCCESS;
+  40              	 .loc 1 44 0
+  41 0004 0023     	 movs r3,#0
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** }
+  42              	 .loc 1 45 0
+  43 0006 1846     	 mov r0,r3
+  44 0008 BD46     	 mov sp,r7
+  45              	.LCFI2:
+  46              	 .cfi_def_cfa_register 13
+  47              	 
+  48 000a 5DF8047B 	 ldr r7,[sp],#4
+  49              	.LCFI3:
+  50              	 .cfi_restore 7
+  51              	 .cfi_def_cfa_offset 0
+  52 000e 7047     	 bx lr
+  53              	 .cfi_endproc
+  54              	.LFE0:
+  56              	 .section .text.pal_deinit,"ax",%progbits
+  57              	 .align 2
+  58              	 .global pal_deinit
+  59              	 .thumb
+  60              	 .thumb_func
+  62              	pal_deinit:
+  63              	.LFB1:
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** 
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** 
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** pal_status_t pal_deinit(void)
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** {
+  64              	 .loc 1 49 0
+  65              	 .cfi_startproc
+  66              	 
+  67              	 
+  68              	 
+  69 0000 80B4     	 push {r7}
+  70              	.LCFI4:
+  71              	 .cfi_def_cfa_offset 4
+  72              	 .cfi_offset 7,-4
+  73 0002 00AF     	 add r7,sp,#0
+  74              	.LCFI5:
+  75              	 .cfi_def_cfa_register 7
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c ****     return PAL_STATUS_SUCCESS;
+  76              	 .loc 1 50 0
+  77 0004 0023     	 movs r3,#0
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal.c **** }
+  78              	 .loc 1 51 0
+  79 0006 1846     	 mov r0,r3
+  80 0008 BD46     	 mov sp,r7
+  81              	.LCFI6:
+  82              	 .cfi_def_cfa_register 13
+  83              	 
+  84 000a 5DF8047B 	 ldr r7,[sp],#4
+  85              	.LCFI7:
+  86              	 .cfi_restore 7
+  87              	 .cfi_def_cfa_offset 0
+  88 000e 7047     	 bx lr
+  89              	 .cfi_endproc
+  90              	.LFE1:
+  92              	 .text
+  93              	.Letext0:
+  94              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+  95              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+  96              	 .file 4 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/pal/pal.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 pal.c
+    {standard input}:20     .text.pal_init:00000000 $t
+    {standard input}:25     .text.pal_init:00000000 pal_init
+    {standard input}:57     .text.pal_deinit:00000000 $t
+    {standard input}:62     .text.pal_deinit:00000000 pal_deinit
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

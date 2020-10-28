@@ -1,0 +1,72 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "pal_ifx_i2c_config.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .global optiga_pal_i2c_context_0
+  20              	 .section .data.optiga_pal_i2c_context_0,"aw",%progbits
+  21              	 .align 2
+  24              	optiga_pal_i2c_context_0:
+  25 0000 00000000 	 .word i2c_master_0
+  26 0004 30       	 .byte 48
+  27 0005 000000   	 .space 3
+  28 0008 00000000 	 .word 0
+  29 000c 00000000 	 .word 0
+  30              	 .global optiga_vdd_0
+  31              	 .section .data.optiga_vdd_0,"aw",%progbits
+  32              	 .align 2
+  35              	optiga_vdd_0:
+  36 0000 00000000 	 .word vdd_pin
+  37              	 .global optiga_reset_0
+  38              	 .section .data.optiga_reset_0,"aw",%progbits
+  39              	 .align 2
+  42              	optiga_reset_0:
+  43 0000 00000000 	 .word reset_pin
+  44              	 .text
+  45              	.Letext0:
+  46              	 .file 1 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+  47              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+  48              	 .file 3 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+  49              	 .file 4 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_gpio.h"
+  50              	 .file 5 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc4_gpio.h"
+  51              	 .file 6 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usic.h"
+  52              	 .file 7 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_i2c.h"
+  53              	 .file 8 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/I2C_MASTER/i2c_master.h"
+  54              	 .file 9 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/DIGITAL_IO/digital_io.h"
+  55              	 .file 10 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usbd_regs.h"
+  56              	 .file 11 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usbd.h"
+  57              	 .file 12 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD/usbd.h"
+  58              	 .file 13 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/pal/pal_gpio.h"
+  59              	 .file 14 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/pal/pal_i2c.h"
+  60              	 .file 15 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Include/core_cm4.h"
+  61              	 .file 16 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+  62              	 .file 17 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/I2C_MASTER/i2c_master_extern.h"
+  63              	 .file 18 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/DIGITAL_IO/digital_io_extern.h"
+  64              	 .file 19 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD/usbd_extern.h"
+  65              	 .file 20 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700/pal_ifx_i2c_config.c"
+DEFINED SYMBOLS
+                            *ABS*:00000000 pal_ifx_i2c_config.c
+    {standard input}:24     .data.optiga_pal_i2c_context_0:00000000 optiga_pal_i2c_context_0
+    {standard input}:21     .data.optiga_pal_i2c_context_0:00000000 $d
+    {standard input}:35     .data.optiga_vdd_0:00000000 optiga_vdd_0
+    {standard input}:32     .data.optiga_vdd_0:00000000 $d
+    {standard input}:42     .data.optiga_reset_0:00000000 optiga_reset_0
+    {standard input}:39     .data.optiga_reset_0:00000000 $d
+
+UNDEFINED SYMBOLS
+i2c_master_0
+vdd_pin
+reset_pin

@@ -1,0 +1,1934 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "pk.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.mbedtls_pk_init,"ax",%progbits
+  20              	 .align 2
+  21              	 .global mbedtls_pk_init
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	mbedtls_pk_init:
+  26              	.LFB2:
+  27              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library/pk.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  Public Key abstraction layer
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  SPDX-License-Identifier: Apache-2.0
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  not use this file except in compliance with the License.
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  You may obtain a copy of the License at
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  Unless required by applicable law or agreed to in writing, software
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  See the License for the specific language governing permissions and
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  limitations under the License.
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  *  This file is part of mbed TLS (https://tls.mbed.org)
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #include "mbedtls/config.h"
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #else
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #include MBEDTLS_CONFIG_FILE
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_PK_C)
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #include "mbedtls/pk.h"
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #include "mbedtls/pk_internal.h"
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #include "mbedtls/platform_util.h"
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_RSA_C)
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #include "mbedtls/rsa.h"
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_ECP_C)
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #include "mbedtls/ecp.h"
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_ECDSA_C)
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #include "mbedtls/ecdsa.h"
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #include <limits.h>
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #include <stdint.h>
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /* Parameter validation macros based on platform_util.h */
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #define PK_VALIDATE_RET( cond )    \
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     MBEDTLS_INTERNAL_VALIDATE_RET( cond, MBEDTLS_ERR_PK_BAD_INPUT_DATA )
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #define PK_VALIDATE( cond )        \
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     MBEDTLS_INTERNAL_VALIDATE( cond )
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Initialise a mbedtls_pk_context
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** void mbedtls_pk_init( mbedtls_pk_context *ctx )
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+  28              	 .loc 1 57 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 83B0     	 sub sp,sp,#12
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 16
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 7860     	 str r0,[r7,#4]
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE( ctx != NULL );
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     ctx->pk_info = NULL;
+  44              	 .loc 1 60 0
+  45 0008 7B68     	 ldr r3,[r7,#4]
+  46 000a 0022     	 movs r2,#0
+  47 000c 1A60     	 str r2,[r3]
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     ctx->pk_ctx = NULL;
+  48              	 .loc 1 61 0
+  49 000e 7B68     	 ldr r3,[r7,#4]
+  50 0010 0022     	 movs r2,#0
+  51 0012 5A60     	 str r2,[r3,#4]
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+  52              	 .loc 1 62 0
+  53 0014 0C37     	 adds r7,r7,#12
+  54              	.LCFI3:
+  55              	 .cfi_def_cfa_offset 4
+  56 0016 BD46     	 mov sp,r7
+  57              	.LCFI4:
+  58              	 .cfi_def_cfa_register 13
+  59              	 
+  60 0018 5DF8047B 	 ldr r7,[sp],#4
+  61              	.LCFI5:
+  62              	 .cfi_restore 7
+  63              	 .cfi_def_cfa_offset 0
+  64 001c 7047     	 bx lr
+  65              	 .cfi_endproc
+  66              	.LFE2:
+  68 001e 00BF     	 .section .text.mbedtls_pk_free,"ax",%progbits
+  69              	 .align 2
+  70              	 .global mbedtls_pk_free
+  71              	 .thumb
+  72              	 .thumb_func
+  74              	mbedtls_pk_free:
+  75              	.LFB3:
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Free (the components of) a mbedtls_pk_context
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** void mbedtls_pk_free( mbedtls_pk_context *ctx )
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+  76              	 .loc 1 68 0
+  77              	 .cfi_startproc
+  78              	 
+  79              	 
+  80 0000 80B5     	 push {r7,lr}
+  81              	.LCFI6:
+  82              	 .cfi_def_cfa_offset 8
+  83              	 .cfi_offset 7,-8
+  84              	 .cfi_offset 14,-4
+  85 0002 82B0     	 sub sp,sp,#8
+  86              	.LCFI7:
+  87              	 .cfi_def_cfa_offset 16
+  88 0004 00AF     	 add r7,sp,#0
+  89              	.LCFI8:
+  90              	 .cfi_def_cfa_register 7
+  91 0006 7860     	 str r0,[r7,#4]
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx == NULL )
+  92              	 .loc 1 69 0
+  93 0008 7B68     	 ldr r3,[r7,#4]
+  94 000a 002B     	 cmp r3,#0
+  95 000c 00D1     	 bne .L3
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return;
+  96              	 .loc 1 70 0
+  97 000e 0EE0     	 b .L2
+  98              	.L3:
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if ( ctx->pk_info != NULL )
+  99              	 .loc 1 72 0
+ 100 0010 7B68     	 ldr r3,[r7,#4]
+ 101 0012 1B68     	 ldr r3,[r3]
+ 102 0014 002B     	 cmp r3,#0
+ 103 0016 06D0     	 beq .L5
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         ctx->pk_info->ctx_free_func( ctx->pk_ctx );
+ 104              	 .loc 1 73 0
+ 105 0018 7B68     	 ldr r3,[r7,#4]
+ 106 001a 1B68     	 ldr r3,[r3]
+ 107 001c 9B6A     	 ldr r3,[r3,#40]
+ 108 001e 7A68     	 ldr r2,[r7,#4]
+ 109 0020 5268     	 ldr r2,[r2,#4]
+ 110 0022 1046     	 mov r0,r2
+ 111 0024 9847     	 blx r3
+ 112              	.L5:
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     mbedtls_platform_zeroize( ctx, sizeof( mbedtls_pk_context ) );
+ 113              	 .loc 1 75 0
+ 114 0026 7868     	 ldr r0,[r7,#4]
+ 115 0028 0821     	 movs r1,#8
+ 116 002a FFF7FEFF 	 bl mbedtls_platform_zeroize
+ 117              	.L2:
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 118              	 .loc 1 76 0
+ 119 002e 0837     	 adds r7,r7,#8
+ 120              	.LCFI9:
+ 121              	 .cfi_def_cfa_offset 8
+ 122 0030 BD46     	 mov sp,r7
+ 123              	.LCFI10:
+ 124              	 .cfi_def_cfa_register 13
+ 125              	 
+ 126 0032 80BD     	 pop {r7,pc}
+ 127              	 .cfi_endproc
+ 128              	.LFE3:
+ 130              	 .section .text.mbedtls_pk_info_from_type,"ax",%progbits
+ 131              	 .align 2
+ 132              	 .global mbedtls_pk_info_from_type
+ 133              	 .thumb
+ 134              	 .thumb_func
+ 136              	mbedtls_pk_info_from_type:
+ 137              	.LFB4:
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_ECDSA_C) && defined(MBEDTLS_ECP_RESTARTABLE)
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Initialize a restart context
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** void mbedtls_pk_restart_init( mbedtls_pk_restart_ctx *ctx )
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE( ctx != NULL );
+  85:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     ctx->pk_info = NULL;
+  86:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     ctx->rs_ctx = NULL;
+  87:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+  88:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+  89:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+  90:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Free the components of a restart context
+  91:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** void mbedtls_pk_restart_free( mbedtls_pk_restart_ctx *ctx )
+  93:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+  94:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx == NULL || ctx->pk_info == NULL ||
+  95:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         ctx->pk_info->rs_free_func == NULL )
+  96:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     {
+  97:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return;
+  98:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     }
+  99:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 100:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     ctx->pk_info->rs_free_func( ctx->rs_ctx );
+ 101:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 102:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     ctx->pk_info = NULL;
+ 103:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     ctx->rs_ctx = NULL;
+ 104:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 105:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif /* MBEDTLS_ECDSA_C && MBEDTLS_ECP_RESTARTABLE */
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 107:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 108:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Get pk_info structure from type
+ 109:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 110:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** const mbedtls_pk_info_t * mbedtls_pk_info_from_type( mbedtls_pk_type_t pk_type )
+ 111:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 138              	 .loc 1 111 0
+ 139              	 .cfi_startproc
+ 140              	 
+ 141              	 
+ 142              	 
+ 143 0000 80B4     	 push {r7}
+ 144              	.LCFI11:
+ 145              	 .cfi_def_cfa_offset 4
+ 146              	 .cfi_offset 7,-4
+ 147 0002 83B0     	 sub sp,sp,#12
+ 148              	.LCFI12:
+ 149              	 .cfi_def_cfa_offset 16
+ 150 0004 00AF     	 add r7,sp,#0
+ 151              	.LCFI13:
+ 152              	 .cfi_def_cfa_register 7
+ 153 0006 0346     	 mov r3,r0
+ 154 0008 FB71     	 strb r3,[r7,#7]
+ 112:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     switch( pk_type ) {
+ 155              	 .loc 1 112 0
+ 156 000a FB79     	 ldrb r3,[r7,#7]
+ 157 000c 022B     	 cmp r3,#2
+ 158 000e 02D0     	 beq .L8
+ 159 0010 032B     	 cmp r3,#3
+ 160 0012 02D0     	 beq .L9
+ 161 0014 03E0     	 b .L11
+ 162              	.L8:
+ 113:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_RSA_C)
+ 114:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         case MBEDTLS_PK_RSA:
+ 115:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( &mbedtls_rsa_info );
+ 116:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif
+ 117:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_ECP_C)
+ 118:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         case MBEDTLS_PK_ECKEY:
+ 119:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( &mbedtls_eckey_info );
+ 163              	 .loc 1 119 0
+ 164 0016 054B     	 ldr r3,.L12
+ 165 0018 02E0     	 b .L10
+ 166              	.L9:
+ 120:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         case MBEDTLS_PK_ECKEY_DH:
+ 121:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( &mbedtls_eckeydh_info );
+ 167              	 .loc 1 121 0
+ 168 001a 054B     	 ldr r3,.L12+4
+ 169 001c 00E0     	 b .L10
+ 170              	.L11:
+ 122:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif
+ 123:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_ECDSA_C)
+ 124:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         case MBEDTLS_PK_ECDSA:
+ 125:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( &mbedtls_ecdsa_info );
+ 126:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif
+ 127:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         /* MBEDTLS_PK_RSA_ALT omitted on purpose */
+ 128:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         default:
+ 129:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( NULL );
+ 171              	 .loc 1 129 0
+ 172 001e 0023     	 movs r3,#0
+ 173              	.L10:
+ 130:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     }
+ 131:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 174              	 .loc 1 131 0
+ 175 0020 1846     	 mov r0,r3
+ 176 0022 0C37     	 adds r7,r7,#12
+ 177              	.LCFI14:
+ 178              	 .cfi_def_cfa_offset 4
+ 179 0024 BD46     	 mov sp,r7
+ 180              	.LCFI15:
+ 181              	 .cfi_def_cfa_register 13
+ 182              	 
+ 183 0026 5DF8047B 	 ldr r7,[sp],#4
+ 184              	.LCFI16:
+ 185              	 .cfi_restore 7
+ 186              	 .cfi_def_cfa_offset 0
+ 187 002a 7047     	 bx lr
+ 188              	.L13:
+ 189              	 .align 2
+ 190              	.L12:
+ 191 002c 00000000 	 .word mbedtls_eckey_info
+ 192 0030 00000000 	 .word mbedtls_eckeydh_info
+ 193              	 .cfi_endproc
+ 194              	.LFE4:
+ 196              	 .section .text.mbedtls_pk_setup,"ax",%progbits
+ 197              	 .align 2
+ 198              	 .global mbedtls_pk_setup
+ 199              	 .thumb
+ 200              	 .thumb_func
+ 202              	mbedtls_pk_setup:
+ 203              	.LFB5:
+ 132:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 133:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 134:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Initialise context
+ 135:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 136:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** int mbedtls_pk_setup( mbedtls_pk_context *ctx, const mbedtls_pk_info_t *info )
+ 137:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 204              	 .loc 1 137 0
+ 205              	 .cfi_startproc
+ 206              	 
+ 207              	 
+ 208 0000 80B5     	 push {r7,lr}
+ 209              	.LCFI17:
+ 210              	 .cfi_def_cfa_offset 8
+ 211              	 .cfi_offset 7,-8
+ 212              	 .cfi_offset 14,-4
+ 213 0002 82B0     	 sub sp,sp,#8
+ 214              	.LCFI18:
+ 215              	 .cfi_def_cfa_offset 16
+ 216 0004 00AF     	 add r7,sp,#0
+ 217              	.LCFI19:
+ 218              	 .cfi_def_cfa_register 7
+ 219 0006 7860     	 str r0,[r7,#4]
+ 220 0008 3960     	 str r1,[r7]
+ 138:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( ctx != NULL );
+ 139:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( info == NULL || ctx->pk_info != NULL )
+ 221              	 .loc 1 139 0
+ 222 000a 3B68     	 ldr r3,[r7]
+ 223 000c 002B     	 cmp r3,#0
+ 224 000e 03D0     	 beq .L15
+ 225              	 .loc 1 139 0 is_stmt 0 discriminator 1
+ 226 0010 7B68     	 ldr r3,[r7,#4]
+ 227 0012 1B68     	 ldr r3,[r3]
+ 228 0014 002B     	 cmp r3,#0
+ 229 0016 01D0     	 beq .L16
+ 230              	.L15:
+ 140:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 231              	 .loc 1 140 0 is_stmt 1
+ 232 0018 0A4B     	 ldr r3,.L19
+ 233 001a 0FE0     	 b .L17
+ 234              	.L16:
+ 141:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 142:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ( ctx->pk_ctx = info->ctx_alloc_func() ) == NULL )
+ 235              	 .loc 1 142 0
+ 236 001c 3B68     	 ldr r3,[r7]
+ 237 001e 5B6A     	 ldr r3,[r3,#36]
+ 238 0020 9847     	 blx r3
+ 239 0022 0246     	 mov r2,r0
+ 240 0024 7B68     	 ldr r3,[r7,#4]
+ 241 0026 5A60     	 str r2,[r3,#4]
+ 242 0028 7B68     	 ldr r3,[r7,#4]
+ 243 002a 5B68     	 ldr r3,[r3,#4]
+ 244 002c 002B     	 cmp r3,#0
+ 245 002e 01D1     	 bne .L18
+ 143:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_ALLOC_FAILED );
+ 246              	 .loc 1 143 0
+ 247 0030 054B     	 ldr r3,.L19+4
+ 248 0032 03E0     	 b .L17
+ 249              	.L18:
+ 144:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 145:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     ctx->pk_info = info;
+ 250              	 .loc 1 145 0
+ 251 0034 7B68     	 ldr r3,[r7,#4]
+ 252 0036 3A68     	 ldr r2,[r7]
+ 253 0038 1A60     	 str r2,[r3]
+ 146:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 147:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( 0 );
+ 254              	 .loc 1 147 0
+ 255 003a 0023     	 movs r3,#0
+ 256              	.L17:
+ 148:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 257              	 .loc 1 148 0
+ 258 003c 1846     	 mov r0,r3
+ 259 003e 0837     	 adds r7,r7,#8
+ 260              	.LCFI20:
+ 261              	 .cfi_def_cfa_offset 8
+ 262 0040 BD46     	 mov sp,r7
+ 263              	.LCFI21:
+ 264              	 .cfi_def_cfa_register 13
+ 265              	 
+ 266 0042 80BD     	 pop {r7,pc}
+ 267              	.L20:
+ 268              	 .align 2
+ 269              	.L19:
+ 270 0044 80C1FFFF 	 .word -16000
+ 271 0048 80C0FFFF 	 .word -16256
+ 272              	 .cfi_endproc
+ 273              	.LFE5:
+ 275              	 .section .text.mbedtls_pk_can_do,"ax",%progbits
+ 276              	 .align 2
+ 277              	 .global mbedtls_pk_can_do
+ 278              	 .thumb
+ 279              	 .thumb_func
+ 281              	mbedtls_pk_can_do:
+ 282              	.LFB6:
+ 149:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 150:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_PK_RSA_ALT_SUPPORT)
+ 151:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 152:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Initialize an RSA-alt context
+ 153:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 154:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** int mbedtls_pk_setup_rsa_alt( mbedtls_pk_context *ctx, void * key,
+ 155:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                          mbedtls_pk_rsa_alt_decrypt_func decrypt_func,
+ 156:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                          mbedtls_pk_rsa_alt_sign_func sign_func,
+ 157:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                          mbedtls_pk_rsa_alt_key_len_func key_len_func )
+ 158:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 159:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     mbedtls_rsa_alt_context *rsa_alt;
+ 160:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     const mbedtls_pk_info_t *info = &mbedtls_rsa_alt_info;
+ 161:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 162:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( ctx != NULL );
+ 163:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx->pk_info != NULL )
+ 164:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 165:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 166:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ( ctx->pk_ctx = info->ctx_alloc_func() ) == NULL )
+ 167:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_ALLOC_FAILED );
+ 168:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 169:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     ctx->pk_info = info;
+ 170:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 171:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     rsa_alt = (mbedtls_rsa_alt_context *) ctx->pk_ctx;
+ 172:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 173:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     rsa_alt->key = key;
+ 174:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     rsa_alt->decrypt_func = decrypt_func;
+ 175:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     rsa_alt->sign_func = sign_func;
+ 176:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     rsa_alt->key_len_func = key_len_func;
+ 177:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 178:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( 0 );
+ 179:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 180:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif /* MBEDTLS_PK_RSA_ALT_SUPPORT */
+ 181:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 182:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 183:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Tell if a PK can do the operations of the given type
+ 184:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 185:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** int mbedtls_pk_can_do( const mbedtls_pk_context *ctx, mbedtls_pk_type_t type )
+ 186:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 283              	 .loc 1 186 0
+ 284              	 .cfi_startproc
+ 285              	 
+ 286              	 
+ 287 0000 80B5     	 push {r7,lr}
+ 288              	.LCFI22:
+ 289              	 .cfi_def_cfa_offset 8
+ 290              	 .cfi_offset 7,-8
+ 291              	 .cfi_offset 14,-4
+ 292 0002 82B0     	 sub sp,sp,#8
+ 293              	.LCFI23:
+ 294              	 .cfi_def_cfa_offset 16
+ 295 0004 00AF     	 add r7,sp,#0
+ 296              	.LCFI24:
+ 297              	 .cfi_def_cfa_register 7
+ 298 0006 7860     	 str r0,[r7,#4]
+ 299 0008 0B46     	 mov r3,r1
+ 300 000a FB70     	 strb r3,[r7,#3]
+ 187:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     /* A context with null pk_info is not set up yet and can't do anything.
+ 188:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****      * For backward compatibility, also accept NULL instead of a context
+ 189:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****      * pointer. */
+ 190:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx == NULL || ctx->pk_info == NULL )
+ 301              	 .loc 1 190 0
+ 302 000c 7B68     	 ldr r3,[r7,#4]
+ 303 000e 002B     	 cmp r3,#0
+ 304 0010 03D0     	 beq .L22
+ 305              	 .loc 1 190 0 is_stmt 0 discriminator 1
+ 306 0012 7B68     	 ldr r3,[r7,#4]
+ 307 0014 1B68     	 ldr r3,[r3]
+ 308 0016 002B     	 cmp r3,#0
+ 309 0018 01D1     	 bne .L23
+ 310              	.L22:
+ 191:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( 0 );
+ 311              	 .loc 1 191 0 is_stmt 1
+ 312 001a 0023     	 movs r3,#0
+ 313 001c 06E0     	 b .L24
+ 314              	.L23:
+ 192:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 193:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( ctx->pk_info->can_do( type ) );
+ 315              	 .loc 1 193 0
+ 316 001e 7B68     	 ldr r3,[r7,#4]
+ 317 0020 1B68     	 ldr r3,[r3]
+ 318 0022 DB68     	 ldr r3,[r3,#12]
+ 319 0024 FA78     	 ldrb r2,[r7,#3]
+ 320 0026 1046     	 mov r0,r2
+ 321 0028 9847     	 blx r3
+ 322 002a 0346     	 mov r3,r0
+ 323              	.L24:
+ 194:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 324              	 .loc 1 194 0
+ 325 002c 1846     	 mov r0,r3
+ 326 002e 0837     	 adds r7,r7,#8
+ 327              	.LCFI25:
+ 328              	 .cfi_def_cfa_offset 8
+ 329 0030 BD46     	 mov sp,r7
+ 330              	.LCFI26:
+ 331              	 .cfi_def_cfa_register 13
+ 332              	 
+ 333 0032 80BD     	 pop {r7,pc}
+ 334              	 .cfi_endproc
+ 335              	.LFE6:
+ 337              	 .section .text.pk_hashlen_helper,"ax",%progbits
+ 338              	 .align 2
+ 339              	 .thumb
+ 340              	 .thumb_func
+ 342              	pk_hashlen_helper:
+ 343              	.LFB7:
+ 195:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 196:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 197:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Helper for mbedtls_pk_sign and mbedtls_pk_verify
+ 198:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 199:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** static inline int pk_hashlen_helper( mbedtls_md_type_t md_alg, size_t *hash_len )
+ 200:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 344              	 .loc 1 200 0
+ 345              	 .cfi_startproc
+ 346              	 
+ 347              	 
+ 348 0000 80B5     	 push {r7,lr}
+ 349              	.LCFI27:
+ 350              	 .cfi_def_cfa_offset 8
+ 351              	 .cfi_offset 7,-8
+ 352              	 .cfi_offset 14,-4
+ 353 0002 84B0     	 sub sp,sp,#16
+ 354              	.LCFI28:
+ 355              	 .cfi_def_cfa_offset 24
+ 356 0004 00AF     	 add r7,sp,#0
+ 357              	.LCFI29:
+ 358              	 .cfi_def_cfa_register 7
+ 359 0006 0346     	 mov r3,r0
+ 360 0008 3960     	 str r1,[r7]
+ 361 000a FB71     	 strb r3,[r7,#7]
+ 201:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     const mbedtls_md_info_t *md_info;
+ 202:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 203:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( *hash_len != 0 )
+ 362              	 .loc 1 203 0
+ 363 000c 3B68     	 ldr r3,[r7]
+ 364 000e 1B68     	 ldr r3,[r3]
+ 365 0010 002B     	 cmp r3,#0
+ 366 0012 01D0     	 beq .L26
+ 204:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( 0 );
+ 367              	 .loc 1 204 0
+ 368 0014 0023     	 movs r3,#0
+ 369 0016 12E0     	 b .L27
+ 370              	.L26:
+ 205:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 206:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ( md_info = mbedtls_md_info_from_type( md_alg ) ) == NULL )
+ 371              	 .loc 1 206 0
+ 372 0018 FB79     	 ldrb r3,[r7,#7]
+ 373 001a 1846     	 mov r0,r3
+ 374 001c FFF7FEFF 	 bl mbedtls_md_info_from_type
+ 375 0020 F860     	 str r0,[r7,#12]
+ 376 0022 FB68     	 ldr r3,[r7,#12]
+ 377 0024 002B     	 cmp r3,#0
+ 378 0026 02D1     	 bne .L28
+ 207:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( -1 );
+ 379              	 .loc 1 207 0
+ 380 0028 4FF0FF33 	 mov r3,#-1
+ 381 002c 07E0     	 b .L27
+ 382              	.L28:
+ 208:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 209:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     *hash_len = mbedtls_md_get_size( md_info );
+ 383              	 .loc 1 209 0
+ 384 002e F868     	 ldr r0,[r7,#12]
+ 385 0030 FFF7FEFF 	 bl mbedtls_md_get_size
+ 386 0034 0346     	 mov r3,r0
+ 387 0036 1A46     	 mov r2,r3
+ 388 0038 3B68     	 ldr r3,[r7]
+ 389 003a 1A60     	 str r2,[r3]
+ 210:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( 0 );
+ 390              	 .loc 1 210 0
+ 391 003c 0023     	 movs r3,#0
+ 392              	.L27:
+ 211:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 393              	 .loc 1 211 0
+ 394 003e 1846     	 mov r0,r3
+ 395 0040 1037     	 adds r7,r7,#16
+ 396              	.LCFI30:
+ 397              	 .cfi_def_cfa_offset 8
+ 398 0042 BD46     	 mov sp,r7
+ 399              	.LCFI31:
+ 400              	 .cfi_def_cfa_register 13
+ 401              	 
+ 402 0044 80BD     	 pop {r7,pc}
+ 403              	 .cfi_endproc
+ 404              	.LFE7:
+ 406 0046 00BF     	 .section .text.mbedtls_pk_verify_restartable,"ax",%progbits
+ 407              	 .align 2
+ 408              	 .global mbedtls_pk_verify_restartable
+ 409              	 .thumb
+ 410              	 .thumb_func
+ 412              	mbedtls_pk_verify_restartable:
+ 413              	.LFB8:
+ 212:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 213:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_ECDSA_C) && defined(MBEDTLS_ECP_RESTARTABLE)
+ 214:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 215:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Helper to set up a restart context if needed
+ 216:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 217:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** static int pk_restart_setup( mbedtls_pk_restart_ctx *ctx,
+ 218:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                              const mbedtls_pk_info_t *info )
+ 219:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 220:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     /* Don't do anything if already set up or invalid */
+ 221:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx == NULL || ctx->pk_info != NULL )
+ 222:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( 0 );
+ 223:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 224:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     /* Should never happen when we're called */
+ 225:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( info->rs_alloc_func == NULL || info->rs_free_func == NULL )
+ 226:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 227:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 228:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ( ctx->rs_ctx = info->rs_alloc_func() ) == NULL )
+ 229:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_ALLOC_FAILED );
+ 230:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 231:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     ctx->pk_info = info;
+ 232:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 233:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( 0 );
+ 234:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 235:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif /* MBEDTLS_ECDSA_C && MBEDTLS_ECP_RESTARTABLE */
+ 236:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 237:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 238:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Verify a signature (restartable)
+ 239:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 240:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** int mbedtls_pk_verify_restartable( mbedtls_pk_context *ctx,
+ 241:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                mbedtls_md_type_t md_alg,
+ 242:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                const unsigned char *hash, size_t hash_len,
+ 243:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                const unsigned char *sig, size_t sig_len,
+ 244:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                mbedtls_pk_restart_ctx *rs_ctx )
+ 245:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 414              	 .loc 1 245 0
+ 415              	 .cfi_startproc
+ 416              	 
+ 417              	 
+ 418 0000 B0B5     	 push {r4,r5,r7,lr}
+ 419              	.LCFI32:
+ 420              	 .cfi_def_cfa_offset 16
+ 421              	 .cfi_offset 4,-16
+ 422              	 .cfi_offset 5,-12
+ 423              	 .cfi_offset 7,-8
+ 424              	 .cfi_offset 14,-4
+ 425 0002 86B0     	 sub sp,sp,#24
+ 426              	.LCFI33:
+ 427              	 .cfi_def_cfa_offset 40
+ 428 0004 02AF     	 add r7,sp,#8
+ 429              	.LCFI34:
+ 430              	 .cfi_def_cfa 7,32
+ 431 0006 F860     	 str r0,[r7,#12]
+ 432 0008 7A60     	 str r2,[r7,#4]
+ 433 000a 3B60     	 str r3,[r7]
+ 434 000c 0B46     	 mov r3,r1
+ 435 000e FB72     	 strb r3,[r7,#11]
+ 246:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( ctx != NULL );
+ 247:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( ( md_alg == MBEDTLS_MD_NONE && hash_len == 0 ) ||
+ 248:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                      hash != NULL );
+ 249:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( sig != NULL );
+ 250:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 251:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx->pk_info == NULL ||
+ 436              	 .loc 1 251 0
+ 437 0010 FB68     	 ldr r3,[r7,#12]
+ 438 0012 1B68     	 ldr r3,[r3]
+ 439 0014 002B     	 cmp r3,#0
+ 440 0016 08D0     	 beq .L30
+ 252:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         pk_hashlen_helper( md_alg, &hash_len ) != 0 )
+ 441              	 .loc 1 252 0 discriminator 1
+ 442 0018 FA7A     	 ldrb r2,[r7,#11]
+ 443 001a 3B46     	 mov r3,r7
+ 444 001c 1046     	 mov r0,r2
+ 445 001e 1946     	 mov r1,r3
+ 446 0020 FFF7FEFF 	 bl pk_hashlen_helper
+ 447 0024 0346     	 mov r3,r0
+ 251:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         pk_hashlen_helper( md_alg, &hash_len ) != 0 )
+ 448              	 .loc 1 251 0 discriminator 1
+ 449 0026 002B     	 cmp r3,#0
+ 450 0028 01D0     	 beq .L31
+ 451              	.L30:
+ 253:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 452              	 .loc 1 253 0
+ 453 002a 0F4B     	 ldr r3,.L34
+ 454 002c 17E0     	 b .L32
+ 455              	.L31:
+ 254:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 255:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_ECDSA_C) && defined(MBEDTLS_ECP_RESTARTABLE)
+ 256:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     /* optimization: use non-restartable version if restart disabled */
+ 257:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( rs_ctx != NULL &&
+ 258:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         mbedtls_ecp_restart_is_enabled() &&
+ 259:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         ctx->pk_info->verify_rs_func != NULL )
+ 260:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     {
+ 261:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         int ret;
+ 262:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 263:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         if( ( ret = pk_restart_setup( rs_ctx, ctx->pk_info ) ) != 0 )
+ 264:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( ret );
+ 265:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 266:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         ret = ctx->pk_info->verify_rs_func( ctx->pk_ctx,
+ 267:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                    md_alg, hash, hash_len, sig, sig_len, rs_ctx->rs_ctx );
+ 268:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 269:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         if( ret != MBEDTLS_ERR_ECP_IN_PROGRESS )
+ 270:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             mbedtls_pk_restart_free( rs_ctx );
+ 271:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 272:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( ret );
+ 273:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     }
+ 274:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #else /* MBEDTLS_ECDSA_C && MBEDTLS_ECP_RESTARTABLE */
+ 275:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     (void) rs_ctx;
+ 276:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif /* MBEDTLS_ECDSA_C && MBEDTLS_ECP_RESTARTABLE */
+ 277:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 278:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx->pk_info->verify_func == NULL )
+ 456              	 .loc 1 278 0
+ 457 002e FB68     	 ldr r3,[r7,#12]
+ 458 0030 1B68     	 ldr r3,[r3]
+ 459 0032 1B69     	 ldr r3,[r3,#16]
+ 460 0034 002B     	 cmp r3,#0
+ 461 0036 01D1     	 bne .L33
+ 279:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_TYPE_MISMATCH );
+ 462              	 .loc 1 279 0
+ 463 0038 0C4B     	 ldr r3,.L34+4
+ 464 003a 10E0     	 b .L32
+ 465              	.L33:
+ 280:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 281:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( ctx->pk_info->verify_func( ctx->pk_ctx, md_alg, hash, hash_len,
+ 466              	 .loc 1 281 0
+ 467 003c FB68     	 ldr r3,[r7,#12]
+ 468 003e 1B68     	 ldr r3,[r3]
+ 469 0040 1C69     	 ldr r4,[r3,#16]
+ 470 0042 FB68     	 ldr r3,[r7,#12]
+ 471 0044 5968     	 ldr r1,[r3,#4]
+ 472 0046 3D68     	 ldr r5,[r7]
+ 473 0048 FA7A     	 ldrb r2,[r7,#11]
+ 474 004a 3B6A     	 ldr r3,[r7,#32]
+ 475 004c 0093     	 str r3,[sp]
+ 476 004e 7B6A     	 ldr r3,[r7,#36]
+ 477 0050 0193     	 str r3,[sp,#4]
+ 478 0052 0846     	 mov r0,r1
+ 479 0054 1146     	 mov r1,r2
+ 480 0056 7A68     	 ldr r2,[r7,#4]
+ 481 0058 2B46     	 mov r3,r5
+ 482 005a A047     	 blx r4
+ 483 005c 0346     	 mov r3,r0
+ 484              	.L32:
+ 282:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                                        sig, sig_len ) );
+ 283:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 485              	 .loc 1 283 0
+ 486 005e 1846     	 mov r0,r3
+ 487 0060 1037     	 adds r7,r7,#16
+ 488              	.LCFI35:
+ 489              	 .cfi_def_cfa_offset 16
+ 490 0062 BD46     	 mov sp,r7
+ 491              	.LCFI36:
+ 492              	 .cfi_def_cfa_register 13
+ 493              	 
+ 494 0064 B0BD     	 pop {r4,r5,r7,pc}
+ 495              	.L35:
+ 496 0066 00BF     	 .align 2
+ 497              	.L34:
+ 498 0068 80C1FFFF 	 .word -16000
+ 499 006c 00C1FFFF 	 .word -16128
+ 500              	 .cfi_endproc
+ 501              	.LFE8:
+ 503              	 .section .text.mbedtls_pk_verify,"ax",%progbits
+ 504              	 .align 2
+ 505              	 .global mbedtls_pk_verify
+ 506              	 .thumb
+ 507              	 .thumb_func
+ 509              	mbedtls_pk_verify:
+ 510              	.LFB9:
+ 284:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 285:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 286:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Verify a signature
+ 287:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 288:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** int mbedtls_pk_verify( mbedtls_pk_context *ctx, mbedtls_md_type_t md_alg,
+ 289:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                const unsigned char *hash, size_t hash_len,
+ 290:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                const unsigned char *sig, size_t sig_len )
+ 291:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 511              	 .loc 1 291 0
+ 512              	 .cfi_startproc
+ 513              	 
+ 514              	 
+ 515 0000 80B5     	 push {r7,lr}
+ 516              	.LCFI37:
+ 517              	 .cfi_def_cfa_offset 8
+ 518              	 .cfi_offset 7,-8
+ 519              	 .cfi_offset 14,-4
+ 520 0002 88B0     	 sub sp,sp,#32
+ 521              	.LCFI38:
+ 522              	 .cfi_def_cfa_offset 40
+ 523 0004 04AF     	 add r7,sp,#16
+ 524              	.LCFI39:
+ 525              	 .cfi_def_cfa 7,24
+ 526 0006 F860     	 str r0,[r7,#12]
+ 527 0008 7A60     	 str r2,[r7,#4]
+ 528 000a 3B60     	 str r3,[r7]
+ 529 000c 0B46     	 mov r3,r1
+ 530 000e FB72     	 strb r3,[r7,#11]
+ 292:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( mbedtls_pk_verify_restartable( ctx, md_alg, hash, hash_len,
+ 531              	 .loc 1 292 0
+ 532 0010 FA7A     	 ldrb r2,[r7,#11]
+ 533 0012 BB69     	 ldr r3,[r7,#24]
+ 534 0014 0093     	 str r3,[sp]
+ 535 0016 FB69     	 ldr r3,[r7,#28]
+ 536 0018 0193     	 str r3,[sp,#4]
+ 537 001a 0023     	 movs r3,#0
+ 538 001c 0293     	 str r3,[sp,#8]
+ 539 001e F868     	 ldr r0,[r7,#12]
+ 540 0020 1146     	 mov r1,r2
+ 541 0022 7A68     	 ldr r2,[r7,#4]
+ 542 0024 3B68     	 ldr r3,[r7]
+ 543 0026 FFF7FEFF 	 bl mbedtls_pk_verify_restartable
+ 544 002a 0346     	 mov r3,r0
+ 293:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                                            sig, sig_len, NULL ) );
+ 294:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 545              	 .loc 1 294 0
+ 546 002c 1846     	 mov r0,r3
+ 547 002e 1037     	 adds r7,r7,#16
+ 548              	.LCFI40:
+ 549              	 .cfi_def_cfa_offset 8
+ 550 0030 BD46     	 mov sp,r7
+ 551              	.LCFI41:
+ 552              	 .cfi_def_cfa_register 13
+ 553              	 
+ 554 0032 80BD     	 pop {r7,pc}
+ 555              	 .cfi_endproc
+ 556              	.LFE9:
+ 558              	 .section .text.mbedtls_pk_verify_ext,"ax",%progbits
+ 559              	 .align 2
+ 560              	 .global mbedtls_pk_verify_ext
+ 561              	 .thumb
+ 562              	 .thumb_func
+ 564              	mbedtls_pk_verify_ext:
+ 565              	.LFB10:
+ 295:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 296:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 297:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Verify a signature with options
+ 298:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 299:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** int mbedtls_pk_verify_ext( mbedtls_pk_type_t type, const void *options,
+ 300:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                    mbedtls_pk_context *ctx, mbedtls_md_type_t md_alg,
+ 301:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                    const unsigned char *hash, size_t hash_len,
+ 302:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                    const unsigned char *sig, size_t sig_len )
+ 303:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 566              	 .loc 1 303 0
+ 567              	 .cfi_startproc
+ 568              	 
+ 569              	 
+ 570 0000 80B5     	 push {r7,lr}
+ 571              	.LCFI42:
+ 572              	 .cfi_def_cfa_offset 8
+ 573              	 .cfi_offset 7,-8
+ 574              	 .cfi_offset 14,-4
+ 575 0002 86B0     	 sub sp,sp,#24
+ 576              	.LCFI43:
+ 577              	 .cfi_def_cfa_offset 32
+ 578 0004 02AF     	 add r7,sp,#8
+ 579              	.LCFI44:
+ 580              	 .cfi_def_cfa 7,24
+ 581 0006 B960     	 str r1,[r7,#8]
+ 582 0008 7A60     	 str r2,[r7,#4]
+ 583 000a 1A46     	 mov r2,r3
+ 584 000c 0346     	 mov r3,r0
+ 585 000e FB73     	 strb r3,[r7,#15]
+ 586 0010 1346     	 mov r3,r2
+ 587 0012 BB73     	 strb r3,[r7,#14]
+ 304:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( ctx != NULL );
+ 305:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( ( md_alg == MBEDTLS_MD_NONE && hash_len == 0 ) ||
+ 306:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                      hash != NULL );
+ 307:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( sig != NULL );
+ 308:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 309:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx->pk_info == NULL )
+ 588              	 .loc 1 309 0
+ 589 0014 7B68     	 ldr r3,[r7,#4]
+ 590 0016 1B68     	 ldr r3,[r3]
+ 591 0018 002B     	 cmp r3,#0
+ 592 001a 01D1     	 bne .L39
+ 310:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 593              	 .loc 1 310 0
+ 594 001c 124B     	 ldr r3,.L44
+ 595 001e 1FE0     	 b .L40
+ 596              	.L39:
+ 311:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 312:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ! mbedtls_pk_can_do( ctx, type ) )
+ 597              	 .loc 1 312 0
+ 598 0020 FB7B     	 ldrb r3,[r7,#15]
+ 599 0022 7868     	 ldr r0,[r7,#4]
+ 600 0024 1946     	 mov r1,r3
+ 601 0026 FFF7FEFF 	 bl mbedtls_pk_can_do
+ 602 002a 0346     	 mov r3,r0
+ 603 002c 002B     	 cmp r3,#0
+ 604 002e 01D1     	 bne .L41
+ 313:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_TYPE_MISMATCH );
+ 605              	 .loc 1 313 0
+ 606 0030 0E4B     	 ldr r3,.L44+4
+ 607 0032 15E0     	 b .L40
+ 608              	.L41:
+ 314:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 315:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( type == MBEDTLS_PK_RSASSA_PSS )
+ 609              	 .loc 1 315 0
+ 610 0034 FB7B     	 ldrb r3,[r7,#15]
+ 611 0036 062B     	 cmp r3,#6
+ 612 0038 01D1     	 bne .L42
+ 316:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     {
+ 317:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_RSA_C) && defined(MBEDTLS_PKCS1_V21)
+ 318:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         int ret;
+ 319:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         const mbedtls_pk_rsassa_pss_options *pss_opts;
+ 320:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 321:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if SIZE_MAX > UINT_MAX
+ 322:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         if( md_alg == MBEDTLS_MD_NONE && UINT_MAX < hash_len )
+ 323:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 324:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif /* SIZE_MAX > UINT_MAX */
+ 325:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 326:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         if( options == NULL )
+ 327:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 328:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 329:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         pss_opts = (const mbedtls_pk_rsassa_pss_options *) options;
+ 330:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 331:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         if( sig_len < mbedtls_pk_get_len( ctx ) )
+ 332:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( MBEDTLS_ERR_RSA_VERIFY_FAILED );
+ 333:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 334:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         ret = mbedtls_rsa_rsassa_pss_verify_ext( mbedtls_pk_rsa( *ctx ),
+ 335:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 NULL, NULL, MBEDTLS_RSA_PUBLIC,
+ 336:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 md_alg, (unsigned int) hash_len, hash,
+ 337:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 pss_opts->mgf1_hash_id,
+ 338:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 pss_opts->expected_salt_len,
+ 339:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 sig );
+ 340:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         if( ret != 0 )
+ 341:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( ret );
+ 342:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 343:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         if( sig_len > mbedtls_pk_get_len( ctx ) )
+ 344:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( MBEDTLS_ERR_PK_SIG_LEN_MISMATCH );
+ 345:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 346:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( 0 );
+ 347:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #else
+ 348:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_FEATURE_UNAVAILABLE );
+ 613              	 .loc 1 348 0
+ 614 003a 0D4B     	 ldr r3,.L44+8
+ 615 003c 10E0     	 b .L40
+ 616              	.L42:
+ 349:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif /* MBEDTLS_RSA_C && MBEDTLS_PKCS1_V21 */
+ 350:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     }
+ 351:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 352:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     /* General case: no options */
+ 353:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( options != NULL )
+ 617              	 .loc 1 353 0
+ 618 003e BB68     	 ldr r3,[r7,#8]
+ 619 0040 002B     	 cmp r3,#0
+ 620 0042 01D0     	 beq .L43
+ 354:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 621              	 .loc 1 354 0
+ 622 0044 084B     	 ldr r3,.L44
+ 623 0046 0BE0     	 b .L40
+ 624              	.L43:
+ 355:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 356:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( mbedtls_pk_verify( ctx, md_alg, hash, hash_len, sig, sig_len ) );
+ 625              	 .loc 1 356 0
+ 626 0048 BA7B     	 ldrb r2,[r7,#14]
+ 627 004a 3B6A     	 ldr r3,[r7,#32]
+ 628 004c 0093     	 str r3,[sp]
+ 629 004e 7B6A     	 ldr r3,[r7,#36]
+ 630 0050 0193     	 str r3,[sp,#4]
+ 631 0052 7868     	 ldr r0,[r7,#4]
+ 632 0054 1146     	 mov r1,r2
+ 633 0056 BA69     	 ldr r2,[r7,#24]
+ 634 0058 FB69     	 ldr r3,[r7,#28]
+ 635 005a FFF7FEFF 	 bl mbedtls_pk_verify
+ 636 005e 0346     	 mov r3,r0
+ 637              	.L40:
+ 357:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 638              	 .loc 1 357 0
+ 639 0060 1846     	 mov r0,r3
+ 640 0062 1037     	 adds r7,r7,#16
+ 641              	.LCFI45:
+ 642              	 .cfi_def_cfa_offset 8
+ 643 0064 BD46     	 mov sp,r7
+ 644              	.LCFI46:
+ 645              	 .cfi_def_cfa_register 13
+ 646              	 
+ 647 0066 80BD     	 pop {r7,pc}
+ 648              	.L45:
+ 649              	 .align 2
+ 650              	.L44:
+ 651 0068 80C1FFFF 	 .word -16000
+ 652 006c 00C1FFFF 	 .word -16128
+ 653 0070 80C6FFFF 	 .word -14720
+ 654              	 .cfi_endproc
+ 655              	.LFE10:
+ 657              	 .section .text.mbedtls_pk_sign_restartable,"ax",%progbits
+ 658              	 .align 2
+ 659              	 .global mbedtls_pk_sign_restartable
+ 660              	 .thumb
+ 661              	 .thumb_func
+ 663              	mbedtls_pk_sign_restartable:
+ 664              	.LFB11:
+ 358:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 359:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 360:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Make a signature (restartable)
+ 361:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 362:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** int mbedtls_pk_sign_restartable( mbedtls_pk_context *ctx,
+ 363:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****              mbedtls_md_type_t md_alg,
+ 364:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****              const unsigned char *hash, size_t hash_len,
+ 365:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****              unsigned char *sig, size_t *sig_len,
+ 366:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****              int (*f_rng)(void *, unsigned char *, size_t), void *p_rng,
+ 367:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****              mbedtls_pk_restart_ctx *rs_ctx )
+ 368:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 665              	 .loc 1 368 0
+ 666              	 .cfi_startproc
+ 667              	 
+ 668              	 
+ 669 0000 B0B5     	 push {r4,r5,r7,lr}
+ 670              	.LCFI47:
+ 671              	 .cfi_def_cfa_offset 16
+ 672              	 .cfi_offset 4,-16
+ 673              	 .cfi_offset 5,-12
+ 674              	 .cfi_offset 7,-8
+ 675              	 .cfi_offset 14,-4
+ 676 0002 88B0     	 sub sp,sp,#32
+ 677              	.LCFI48:
+ 678              	 .cfi_def_cfa_offset 48
+ 679 0004 04AF     	 add r7,sp,#16
+ 680              	.LCFI49:
+ 681              	 .cfi_def_cfa 7,32
+ 682 0006 F860     	 str r0,[r7,#12]
+ 683 0008 7A60     	 str r2,[r7,#4]
+ 684 000a 3B60     	 str r3,[r7]
+ 685 000c 0B46     	 mov r3,r1
+ 686 000e FB72     	 strb r3,[r7,#11]
+ 369:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( ctx != NULL );
+ 370:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( ( md_alg == MBEDTLS_MD_NONE && hash_len == 0 ) ||
+ 371:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                      hash != NULL );
+ 372:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( sig != NULL );
+ 373:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 374:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx->pk_info == NULL ||
+ 687              	 .loc 1 374 0
+ 688 0010 FB68     	 ldr r3,[r7,#12]
+ 689 0012 1B68     	 ldr r3,[r3]
+ 690 0014 002B     	 cmp r3,#0
+ 691 0016 08D0     	 beq .L47
+ 375:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         pk_hashlen_helper( md_alg, &hash_len ) != 0 )
+ 692              	 .loc 1 375 0 discriminator 1
+ 693 0018 FA7A     	 ldrb r2,[r7,#11]
+ 694 001a 3B46     	 mov r3,r7
+ 695 001c 1046     	 mov r0,r2
+ 696 001e 1946     	 mov r1,r3
+ 697 0020 FFF7FEFF 	 bl pk_hashlen_helper
+ 698 0024 0346     	 mov r3,r0
+ 374:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         pk_hashlen_helper( md_alg, &hash_len ) != 0 )
+ 699              	 .loc 1 374 0 discriminator 1
+ 700 0026 002B     	 cmp r3,#0
+ 701 0028 01D0     	 beq .L48
+ 702              	.L47:
+ 376:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 703              	 .loc 1 376 0
+ 704 002a 114B     	 ldr r3,.L51
+ 705 002c 1BE0     	 b .L49
+ 706              	.L48:
+ 377:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 378:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #if defined(MBEDTLS_ECDSA_C) && defined(MBEDTLS_ECP_RESTARTABLE)
+ 379:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     /* optimization: use non-restartable version if restart disabled */
+ 380:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( rs_ctx != NULL &&
+ 381:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         mbedtls_ecp_restart_is_enabled() &&
+ 382:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         ctx->pk_info->sign_rs_func != NULL )
+ 383:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     {
+ 384:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         int ret;
+ 385:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 386:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         if( ( ret = pk_restart_setup( rs_ctx, ctx->pk_info ) ) != 0 )
+ 387:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( ret );
+ 388:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 389:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         ret = ctx->pk_info->sign_rs_func( ctx->pk_ctx, md_alg,
+ 390:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 hash, hash_len, sig, sig_len, f_rng, p_rng, rs_ctx->rs_ctx );
+ 391:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 392:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         if( ret != MBEDTLS_ERR_ECP_IN_PROGRESS )
+ 393:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             mbedtls_pk_restart_free( rs_ctx );
+ 394:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 395:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( ret );
+ 396:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     }
+ 397:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #else /* MBEDTLS_ECDSA_C && MBEDTLS_ECP_RESTARTABLE */
+ 398:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     (void) rs_ctx;
+ 399:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** #endif /* MBEDTLS_ECDSA_C && MBEDTLS_ECP_RESTARTABLE */
+ 400:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 401:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx->pk_info->sign_func == NULL )
+ 707              	 .loc 1 401 0
+ 708 002e FB68     	 ldr r3,[r7,#12]
+ 709 0030 1B68     	 ldr r3,[r3]
+ 710 0032 5B69     	 ldr r3,[r3,#20]
+ 711 0034 002B     	 cmp r3,#0
+ 712 0036 01D1     	 bne .L50
+ 402:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_TYPE_MISMATCH );
+ 713              	 .loc 1 402 0
+ 714 0038 0E4B     	 ldr r3,.L51+4
+ 715 003a 14E0     	 b .L49
+ 716              	.L50:
+ 403:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 404:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( ctx->pk_info->sign_func( ctx->pk_ctx, md_alg, hash, hash_len,
+ 717              	 .loc 1 404 0
+ 718 003c FB68     	 ldr r3,[r7,#12]
+ 719 003e 1B68     	 ldr r3,[r3]
+ 720 0040 5C69     	 ldr r4,[r3,#20]
+ 721 0042 FB68     	 ldr r3,[r7,#12]
+ 722 0044 5968     	 ldr r1,[r3,#4]
+ 723 0046 3D68     	 ldr r5,[r7]
+ 724 0048 FA7A     	 ldrb r2,[r7,#11]
+ 725 004a 3B6A     	 ldr r3,[r7,#32]
+ 726 004c 0093     	 str r3,[sp]
+ 727 004e 7B6A     	 ldr r3,[r7,#36]
+ 728 0050 0193     	 str r3,[sp,#4]
+ 729 0052 BB6A     	 ldr r3,[r7,#40]
+ 730 0054 0293     	 str r3,[sp,#8]
+ 731 0056 FB6A     	 ldr r3,[r7,#44]
+ 732 0058 0393     	 str r3,[sp,#12]
+ 733 005a 0846     	 mov r0,r1
+ 734 005c 1146     	 mov r1,r2
+ 735 005e 7A68     	 ldr r2,[r7,#4]
+ 736 0060 2B46     	 mov r3,r5
+ 737 0062 A047     	 blx r4
+ 738 0064 0346     	 mov r3,r0
+ 739              	.L49:
+ 405:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                                      sig, sig_len, f_rng, p_rng ) );
+ 406:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 740              	 .loc 1 406 0
+ 741 0066 1846     	 mov r0,r3
+ 742 0068 1037     	 adds r7,r7,#16
+ 743              	.LCFI50:
+ 744              	 .cfi_def_cfa_offset 16
+ 745 006a BD46     	 mov sp,r7
+ 746              	.LCFI51:
+ 747              	 .cfi_def_cfa_register 13
+ 748              	 
+ 749 006c B0BD     	 pop {r4,r5,r7,pc}
+ 750              	.L52:
+ 751 006e 00BF     	 .align 2
+ 752              	.L51:
+ 753 0070 80C1FFFF 	 .word -16000
+ 754 0074 00C1FFFF 	 .word -16128
+ 755              	 .cfi_endproc
+ 756              	.LFE11:
+ 758              	 .section .text.mbedtls_pk_sign,"ax",%progbits
+ 759              	 .align 2
+ 760              	 .global mbedtls_pk_sign
+ 761              	 .thumb
+ 762              	 .thumb_func
+ 764              	mbedtls_pk_sign:
+ 765              	.LFB12:
+ 407:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 408:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 409:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Make a signature
+ 410:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 411:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** int mbedtls_pk_sign( mbedtls_pk_context *ctx, mbedtls_md_type_t md_alg,
+ 412:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****              const unsigned char *hash, size_t hash_len,
+ 413:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****              unsigned char *sig, size_t *sig_len,
+ 414:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****              int (*f_rng)(void *, unsigned char *, size_t), void *p_rng )
+ 415:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 766              	 .loc 1 415 0
+ 767              	 .cfi_startproc
+ 768              	 
+ 769              	 
+ 770 0000 80B5     	 push {r7,lr}
+ 771              	.LCFI52:
+ 772              	 .cfi_def_cfa_offset 8
+ 773              	 .cfi_offset 7,-8
+ 774              	 .cfi_offset 14,-4
+ 775 0002 8AB0     	 sub sp,sp,#40
+ 776              	.LCFI53:
+ 777              	 .cfi_def_cfa_offset 48
+ 778 0004 06AF     	 add r7,sp,#24
+ 779              	.LCFI54:
+ 780              	 .cfi_def_cfa 7,24
+ 781 0006 F860     	 str r0,[r7,#12]
+ 782 0008 7A60     	 str r2,[r7,#4]
+ 783 000a 3B60     	 str r3,[r7]
+ 784 000c 0B46     	 mov r3,r1
+ 785 000e FB72     	 strb r3,[r7,#11]
+ 416:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( mbedtls_pk_sign_restartable( ctx, md_alg, hash, hash_len,
+ 786              	 .loc 1 416 0
+ 787 0010 FA7A     	 ldrb r2,[r7,#11]
+ 788 0012 BB69     	 ldr r3,[r7,#24]
+ 789 0014 0093     	 str r3,[sp]
+ 790 0016 FB69     	 ldr r3,[r7,#28]
+ 791 0018 0193     	 str r3,[sp,#4]
+ 792 001a 3B6A     	 ldr r3,[r7,#32]
+ 793 001c 0293     	 str r3,[sp,#8]
+ 794 001e 7B6A     	 ldr r3,[r7,#36]
+ 795 0020 0393     	 str r3,[sp,#12]
+ 796 0022 0023     	 movs r3,#0
+ 797 0024 0493     	 str r3,[sp,#16]
+ 798 0026 F868     	 ldr r0,[r7,#12]
+ 799 0028 1146     	 mov r1,r2
+ 800 002a 7A68     	 ldr r2,[r7,#4]
+ 801 002c 3B68     	 ldr r3,[r7]
+ 802 002e FFF7FEFF 	 bl mbedtls_pk_sign_restartable
+ 803 0032 0346     	 mov r3,r0
+ 417:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                                          sig, sig_len, f_rng, p_rng, NULL ) );
+ 418:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 804              	 .loc 1 418 0
+ 805 0034 1846     	 mov r0,r3
+ 806 0036 1037     	 adds r7,r7,#16
+ 807              	.LCFI55:
+ 808              	 .cfi_def_cfa_offset 8
+ 809 0038 BD46     	 mov sp,r7
+ 810              	.LCFI56:
+ 811              	 .cfi_def_cfa_register 13
+ 812              	 
+ 813 003a 80BD     	 pop {r7,pc}
+ 814              	 .cfi_endproc
+ 815              	.LFE12:
+ 817              	 .section .text.mbedtls_pk_decrypt,"ax",%progbits
+ 818              	 .align 2
+ 819              	 .global mbedtls_pk_decrypt
+ 820              	 .thumb
+ 821              	 .thumb_func
+ 823              	mbedtls_pk_decrypt:
+ 824              	.LFB13:
+ 419:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 420:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 421:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Decrypt message
+ 422:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 423:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** int mbedtls_pk_decrypt( mbedtls_pk_context *ctx,
+ 424:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 const unsigned char *input, size_t ilen,
+ 425:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 unsigned char *output, size_t *olen, size_t osize,
+ 426:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 int (*f_rng)(void *, unsigned char *, size_t), void *p_rng )
+ 427:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 825              	 .loc 1 427 0
+ 826              	 .cfi_startproc
+ 827              	 
+ 828              	 
+ 829 0000 90B5     	 push {r4,r7,lr}
+ 830              	.LCFI57:
+ 831              	 .cfi_def_cfa_offset 12
+ 832              	 .cfi_offset 4,-12
+ 833              	 .cfi_offset 7,-8
+ 834              	 .cfi_offset 14,-4
+ 835 0002 89B0     	 sub sp,sp,#36
+ 836              	.LCFI58:
+ 837              	 .cfi_def_cfa_offset 48
+ 838 0004 04AF     	 add r7,sp,#16
+ 839              	.LCFI59:
+ 840              	 .cfi_def_cfa 7,32
+ 841 0006 F860     	 str r0,[r7,#12]
+ 842 0008 B960     	 str r1,[r7,#8]
+ 843 000a 7A60     	 str r2,[r7,#4]
+ 844 000c 3B60     	 str r3,[r7]
+ 428:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( ctx != NULL );
+ 429:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( input != NULL || ilen == 0 );
+ 430:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( output != NULL || osize == 0 );
+ 431:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( olen != NULL );
+ 432:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 433:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx->pk_info == NULL )
+ 845              	 .loc 1 433 0
+ 846 000e FB68     	 ldr r3,[r7,#12]
+ 847 0010 1B68     	 ldr r3,[r3]
+ 848 0012 002B     	 cmp r3,#0
+ 849 0014 01D1     	 bne .L56
+ 434:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 850              	 .loc 1 434 0
+ 851 0016 104B     	 ldr r3,.L59
+ 852 0018 19E0     	 b .L57
+ 853              	.L56:
+ 435:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 436:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx->pk_info->decrypt_func == NULL )
+ 854              	 .loc 1 436 0
+ 855 001a FB68     	 ldr r3,[r7,#12]
+ 856 001c 1B68     	 ldr r3,[r3]
+ 857 001e 9B69     	 ldr r3,[r3,#24]
+ 858 0020 002B     	 cmp r3,#0
+ 859 0022 01D1     	 bne .L58
+ 437:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_TYPE_MISMATCH );
+ 860              	 .loc 1 437 0
+ 861 0024 0D4B     	 ldr r3,.L59+4
+ 862 0026 12E0     	 b .L57
+ 863              	.L58:
+ 438:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 439:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( ctx->pk_info->decrypt_func( ctx->pk_ctx, input, ilen,
+ 864              	 .loc 1 439 0
+ 865 0028 FB68     	 ldr r3,[r7,#12]
+ 866 002a 1B68     	 ldr r3,[r3]
+ 867 002c 9C69     	 ldr r4,[r3,#24]
+ 868 002e FB68     	 ldr r3,[r7,#12]
+ 869 0030 5A68     	 ldr r2,[r3,#4]
+ 870 0032 3B6A     	 ldr r3,[r7,#32]
+ 871 0034 0093     	 str r3,[sp]
+ 872 0036 7B6A     	 ldr r3,[r7,#36]
+ 873 0038 0193     	 str r3,[sp,#4]
+ 874 003a BB6A     	 ldr r3,[r7,#40]
+ 875 003c 0293     	 str r3,[sp,#8]
+ 876 003e FB6A     	 ldr r3,[r7,#44]
+ 877 0040 0393     	 str r3,[sp,#12]
+ 878 0042 1046     	 mov r0,r2
+ 879 0044 B968     	 ldr r1,[r7,#8]
+ 880 0046 7A68     	 ldr r2,[r7,#4]
+ 881 0048 3B68     	 ldr r3,[r7]
+ 882 004a A047     	 blx r4
+ 883 004c 0346     	 mov r3,r0
+ 884              	.L57:
+ 440:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 output, olen, osize, f_rng, p_rng ) );
+ 441:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 885              	 .loc 1 441 0
+ 886 004e 1846     	 mov r0,r3
+ 887 0050 1437     	 adds r7,r7,#20
+ 888              	.LCFI60:
+ 889              	 .cfi_def_cfa_offset 12
+ 890 0052 BD46     	 mov sp,r7
+ 891              	.LCFI61:
+ 892              	 .cfi_def_cfa_register 13
+ 893              	 
+ 894 0054 90BD     	 pop {r4,r7,pc}
+ 895              	.L60:
+ 896 0056 00BF     	 .align 2
+ 897              	.L59:
+ 898 0058 80C1FFFF 	 .word -16000
+ 899 005c 00C1FFFF 	 .word -16128
+ 900              	 .cfi_endproc
+ 901              	.LFE13:
+ 903              	 .section .text.mbedtls_pk_encrypt,"ax",%progbits
+ 904              	 .align 2
+ 905              	 .global mbedtls_pk_encrypt
+ 906              	 .thumb
+ 907              	 .thumb_func
+ 909              	mbedtls_pk_encrypt:
+ 910              	.LFB14:
+ 442:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 443:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 444:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Encrypt message
+ 445:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 446:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** int mbedtls_pk_encrypt( mbedtls_pk_context *ctx,
+ 447:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 const unsigned char *input, size_t ilen,
+ 448:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 unsigned char *output, size_t *olen, size_t osize,
+ 449:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 int (*f_rng)(void *, unsigned char *, size_t), void *p_rng )
+ 450:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 911              	 .loc 1 450 0
+ 912              	 .cfi_startproc
+ 913              	 
+ 914              	 
+ 915 0000 90B5     	 push {r4,r7,lr}
+ 916              	.LCFI62:
+ 917              	 .cfi_def_cfa_offset 12
+ 918              	 .cfi_offset 4,-12
+ 919              	 .cfi_offset 7,-8
+ 920              	 .cfi_offset 14,-4
+ 921 0002 89B0     	 sub sp,sp,#36
+ 922              	.LCFI63:
+ 923              	 .cfi_def_cfa_offset 48
+ 924 0004 04AF     	 add r7,sp,#16
+ 925              	.LCFI64:
+ 926              	 .cfi_def_cfa 7,32
+ 927 0006 F860     	 str r0,[r7,#12]
+ 928 0008 B960     	 str r1,[r7,#8]
+ 929 000a 7A60     	 str r2,[r7,#4]
+ 930 000c 3B60     	 str r3,[r7]
+ 451:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( ctx != NULL );
+ 452:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( input != NULL || ilen == 0 );
+ 453:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( output != NULL || osize == 0 );
+ 454:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( olen != NULL );
+ 455:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 456:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx->pk_info == NULL )
+ 931              	 .loc 1 456 0
+ 932 000e FB68     	 ldr r3,[r7,#12]
+ 933 0010 1B68     	 ldr r3,[r3]
+ 934 0012 002B     	 cmp r3,#0
+ 935 0014 01D1     	 bne .L62
+ 457:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 936              	 .loc 1 457 0
+ 937 0016 104B     	 ldr r3,.L65
+ 938 0018 19E0     	 b .L63
+ 939              	.L62:
+ 458:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 459:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx->pk_info->encrypt_func == NULL )
+ 940              	 .loc 1 459 0
+ 941 001a FB68     	 ldr r3,[r7,#12]
+ 942 001c 1B68     	 ldr r3,[r3]
+ 943 001e DB69     	 ldr r3,[r3,#28]
+ 944 0020 002B     	 cmp r3,#0
+ 945 0022 01D1     	 bne .L64
+ 460:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_TYPE_MISMATCH );
+ 946              	 .loc 1 460 0
+ 947 0024 0D4B     	 ldr r3,.L65+4
+ 948 0026 12E0     	 b .L63
+ 949              	.L64:
+ 461:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 462:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( ctx->pk_info->encrypt_func( ctx->pk_ctx, input, ilen,
+ 950              	 .loc 1 462 0
+ 951 0028 FB68     	 ldr r3,[r7,#12]
+ 952 002a 1B68     	 ldr r3,[r3]
+ 953 002c DC69     	 ldr r4,[r3,#28]
+ 954 002e FB68     	 ldr r3,[r7,#12]
+ 955 0030 5A68     	 ldr r2,[r3,#4]
+ 956 0032 3B6A     	 ldr r3,[r7,#32]
+ 957 0034 0093     	 str r3,[sp]
+ 958 0036 7B6A     	 ldr r3,[r7,#36]
+ 959 0038 0193     	 str r3,[sp,#4]
+ 960 003a BB6A     	 ldr r3,[r7,#40]
+ 961 003c 0293     	 str r3,[sp,#8]
+ 962 003e FB6A     	 ldr r3,[r7,#44]
+ 963 0040 0393     	 str r3,[sp,#12]
+ 964 0042 1046     	 mov r0,r2
+ 965 0044 B968     	 ldr r1,[r7,#8]
+ 966 0046 7A68     	 ldr r2,[r7,#4]
+ 967 0048 3B68     	 ldr r3,[r7]
+ 968 004a A047     	 blx r4
+ 969 004c 0346     	 mov r3,r0
+ 970              	.L63:
+ 463:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****                 output, olen, osize, f_rng, p_rng ) );
+ 464:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 971              	 .loc 1 464 0
+ 972 004e 1846     	 mov r0,r3
+ 973 0050 1437     	 adds r7,r7,#20
+ 974              	.LCFI65:
+ 975              	 .cfi_def_cfa_offset 12
+ 976 0052 BD46     	 mov sp,r7
+ 977              	.LCFI66:
+ 978              	 .cfi_def_cfa_register 13
+ 979              	 
+ 980 0054 90BD     	 pop {r4,r7,pc}
+ 981              	.L66:
+ 982 0056 00BF     	 .align 2
+ 983              	.L65:
+ 984 0058 80C1FFFF 	 .word -16000
+ 985 005c 00C1FFFF 	 .word -16128
+ 986              	 .cfi_endproc
+ 987              	.LFE14:
+ 989              	 .section .text.mbedtls_pk_check_pair,"ax",%progbits
+ 990              	 .align 2
+ 991              	 .global mbedtls_pk_check_pair
+ 992              	 .thumb
+ 993              	 .thumb_func
+ 995              	mbedtls_pk_check_pair:
+ 996              	.LFB15:
+ 465:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 466:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 467:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Check public-private key pair
+ 468:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 469:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** int mbedtls_pk_check_pair( const mbedtls_pk_context *pub, const mbedtls_pk_context *prv )
+ 470:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 997              	 .loc 1 470 0
+ 998              	 .cfi_startproc
+ 999              	 
+ 1000              	 
+ 1001 0000 80B5     	 push {r7,lr}
+ 1002              	.LCFI67:
+ 1003              	 .cfi_def_cfa_offset 8
+ 1004              	 .cfi_offset 7,-8
+ 1005              	 .cfi_offset 14,-4
+ 1006 0002 82B0     	 sub sp,sp,#8
+ 1007              	.LCFI68:
+ 1008              	 .cfi_def_cfa_offset 16
+ 1009 0004 00AF     	 add r7,sp,#0
+ 1010              	.LCFI69:
+ 1011              	 .cfi_def_cfa_register 7
+ 1012 0006 7860     	 str r0,[r7,#4]
+ 1013 0008 3960     	 str r1,[r7]
+ 471:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( pub != NULL );
+ 472:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( prv != NULL );
+ 473:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 474:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( pub->pk_info == NULL ||
+ 1014              	 .loc 1 474 0
+ 1015 000a 7B68     	 ldr r3,[r7,#4]
+ 1016 000c 1B68     	 ldr r3,[r3]
+ 1017 000e 002B     	 cmp r3,#0
+ 1018 0010 08D0     	 beq .L68
+ 475:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         prv->pk_info == NULL ||
+ 1019              	 .loc 1 475 0 discriminator 1
+ 1020 0012 3B68     	 ldr r3,[r7]
+ 1021 0014 1B68     	 ldr r3,[r3]
+ 474:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         prv->pk_info == NULL ||
+ 1022              	 .loc 1 474 0 discriminator 1
+ 1023 0016 002B     	 cmp r3,#0
+ 1024 0018 04D0     	 beq .L68
+ 476:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         prv->pk_info->check_pair_func == NULL )
+ 1025              	 .loc 1 476 0
+ 1026 001a 3B68     	 ldr r3,[r7]
+ 1027 001c 1B68     	 ldr r3,[r3]
+ 1028 001e 1B6A     	 ldr r3,[r3,#32]
+ 475:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         prv->pk_info == NULL ||
+ 1029              	 .loc 1 475 0
+ 1030 0020 002B     	 cmp r3,#0
+ 1031 0022 01D1     	 bne .L69
+ 1032              	.L68:
+ 477:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     {
+ 478:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 1033              	 .loc 1 478 0
+ 1034 0024 124B     	 ldr r3,.L73
+ 1035 0026 1EE0     	 b .L70
+ 1036              	.L69:
+ 479:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     }
+ 480:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 481:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( prv->pk_info->type == MBEDTLS_PK_RSA_ALT )
+ 1037              	 .loc 1 481 0
+ 1038 0028 3B68     	 ldr r3,[r7]
+ 1039 002a 1B68     	 ldr r3,[r3]
+ 1040 002c 1B78     	 ldrb r3,[r3]
+ 1041 002e 052B     	 cmp r3,#5
+ 1042 0030 06D1     	 bne .L71
+ 482:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     {
+ 483:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         if( pub->pk_info->type != MBEDTLS_PK_RSA )
+ 1043              	 .loc 1 483 0
+ 1044 0032 7B68     	 ldr r3,[r7,#4]
+ 1045 0034 1B68     	 ldr r3,[r3]
+ 1046 0036 1B78     	 ldrb r3,[r3]
+ 1047 0038 012B     	 cmp r3,#1
+ 1048 003a 09D0     	 beq .L72
+ 484:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( MBEDTLS_ERR_PK_TYPE_MISMATCH );
+ 1049              	 .loc 1 484 0
+ 1050 003c 0D4B     	 ldr r3,.L73+4
+ 1051 003e 12E0     	 b .L70
+ 1052              	.L71:
+ 485:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     }
+ 486:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     else
+ 487:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     {
+ 488:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         if( pub->pk_info != prv->pk_info )
+ 1053              	 .loc 1 488 0
+ 1054 0040 7B68     	 ldr r3,[r7,#4]
+ 1055 0042 1A68     	 ldr r2,[r3]
+ 1056 0044 3B68     	 ldr r3,[r7]
+ 1057 0046 1B68     	 ldr r3,[r3]
+ 1058 0048 9A42     	 cmp r2,r3
+ 1059 004a 01D0     	 beq .L72
+ 489:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****             return( MBEDTLS_ERR_PK_TYPE_MISMATCH );
+ 1060              	 .loc 1 489 0
+ 1061 004c 094B     	 ldr r3,.L73+4
+ 1062 004e 0AE0     	 b .L70
+ 1063              	.L72:
+ 490:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     }
+ 491:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 492:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( prv->pk_info->check_pair_func( pub->pk_ctx, prv->pk_ctx ) );
+ 1064              	 .loc 1 492 0
+ 1065 0050 3B68     	 ldr r3,[r7]
+ 1066 0052 1B68     	 ldr r3,[r3]
+ 1067 0054 1B6A     	 ldr r3,[r3,#32]
+ 1068 0056 7A68     	 ldr r2,[r7,#4]
+ 1069 0058 5168     	 ldr r1,[r2,#4]
+ 1070 005a 3A68     	 ldr r2,[r7]
+ 1071 005c 5268     	 ldr r2,[r2,#4]
+ 1072 005e 0846     	 mov r0,r1
+ 1073 0060 1146     	 mov r1,r2
+ 1074 0062 9847     	 blx r3
+ 1075 0064 0346     	 mov r3,r0
+ 1076              	.L70:
+ 493:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 1077              	 .loc 1 493 0
+ 1078 0066 1846     	 mov r0,r3
+ 1079 0068 0837     	 adds r7,r7,#8
+ 1080              	.LCFI70:
+ 1081              	 .cfi_def_cfa_offset 8
+ 1082 006a BD46     	 mov sp,r7
+ 1083              	.LCFI71:
+ 1084              	 .cfi_def_cfa_register 13
+ 1085              	 
+ 1086 006c 80BD     	 pop {r7,pc}
+ 1087              	.L74:
+ 1088 006e 00BF     	 .align 2
+ 1089              	.L73:
+ 1090 0070 80C1FFFF 	 .word -16000
+ 1091 0074 00C1FFFF 	 .word -16128
+ 1092              	 .cfi_endproc
+ 1093              	.LFE15:
+ 1095              	 .section .text.mbedtls_pk_get_bitlen,"ax",%progbits
+ 1096              	 .align 2
+ 1097              	 .global mbedtls_pk_get_bitlen
+ 1098              	 .thumb
+ 1099              	 .thumb_func
+ 1101              	mbedtls_pk_get_bitlen:
+ 1102              	.LFB16:
+ 494:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 495:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 496:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Get key size in bits
+ 497:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 498:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** size_t mbedtls_pk_get_bitlen( const mbedtls_pk_context *ctx )
+ 499:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 1103              	 .loc 1 499 0
+ 1104              	 .cfi_startproc
+ 1105              	 
+ 1106              	 
+ 1107 0000 80B5     	 push {r7,lr}
+ 1108              	.LCFI72:
+ 1109              	 .cfi_def_cfa_offset 8
+ 1110              	 .cfi_offset 7,-8
+ 1111              	 .cfi_offset 14,-4
+ 1112 0002 82B0     	 sub sp,sp,#8
+ 1113              	.LCFI73:
+ 1114              	 .cfi_def_cfa_offset 16
+ 1115 0004 00AF     	 add r7,sp,#0
+ 1116              	.LCFI74:
+ 1117              	 .cfi_def_cfa_register 7
+ 1118 0006 7860     	 str r0,[r7,#4]
+ 500:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     /* For backward compatibility, accept NULL or a context that
+ 501:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****      * isn't set up yet, and return a fake value that should be safe. */
+ 502:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx == NULL || ctx->pk_info == NULL )
+ 1119              	 .loc 1 502 0
+ 1120 0008 7B68     	 ldr r3,[r7,#4]
+ 1121 000a 002B     	 cmp r3,#0
+ 1122 000c 03D0     	 beq .L76
+ 1123              	 .loc 1 502 0 is_stmt 0 discriminator 1
+ 1124 000e 7B68     	 ldr r3,[r7,#4]
+ 1125 0010 1B68     	 ldr r3,[r3]
+ 1126 0012 002B     	 cmp r3,#0
+ 1127 0014 01D1     	 bne .L77
+ 1128              	.L76:
+ 503:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( 0 );
+ 1129              	 .loc 1 503 0 is_stmt 1
+ 1130 0016 0023     	 movs r3,#0
+ 1131 0018 07E0     	 b .L78
+ 1132              	.L77:
+ 504:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 505:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( ctx->pk_info->get_bitlen( ctx->pk_ctx ) );
+ 1133              	 .loc 1 505 0
+ 1134 001a 7B68     	 ldr r3,[r7,#4]
+ 1135 001c 1B68     	 ldr r3,[r3]
+ 1136 001e 9B68     	 ldr r3,[r3,#8]
+ 1137 0020 7A68     	 ldr r2,[r7,#4]
+ 1138 0022 5268     	 ldr r2,[r2,#4]
+ 1139 0024 1046     	 mov r0,r2
+ 1140 0026 9847     	 blx r3
+ 1141 0028 0346     	 mov r3,r0
+ 1142              	.L78:
+ 506:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 1143              	 .loc 1 506 0
+ 1144 002a 1846     	 mov r0,r3
+ 1145 002c 0837     	 adds r7,r7,#8
+ 1146              	.LCFI75:
+ 1147              	 .cfi_def_cfa_offset 8
+ 1148 002e BD46     	 mov sp,r7
+ 1149              	.LCFI76:
+ 1150              	 .cfi_def_cfa_register 13
+ 1151              	 
+ 1152 0030 80BD     	 pop {r7,pc}
+ 1153              	 .cfi_endproc
+ 1154              	.LFE16:
+ 1156 0032 00BF     	 .section .text.mbedtls_pk_debug,"ax",%progbits
+ 1157              	 .align 2
+ 1158              	 .global mbedtls_pk_debug
+ 1159              	 .thumb
+ 1160              	 .thumb_func
+ 1162              	mbedtls_pk_debug:
+ 1163              	.LFB17:
+ 507:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 508:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 509:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Export debug information
+ 510:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 511:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** int mbedtls_pk_debug( const mbedtls_pk_context *ctx, mbedtls_pk_debug_item *items )
+ 512:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 1164              	 .loc 1 512 0
+ 1165              	 .cfi_startproc
+ 1166              	 
+ 1167              	 
+ 1168 0000 80B5     	 push {r7,lr}
+ 1169              	.LCFI77:
+ 1170              	 .cfi_def_cfa_offset 8
+ 1171              	 .cfi_offset 7,-8
+ 1172              	 .cfi_offset 14,-4
+ 1173 0002 82B0     	 sub sp,sp,#8
+ 1174              	.LCFI78:
+ 1175              	 .cfi_def_cfa_offset 16
+ 1176 0004 00AF     	 add r7,sp,#0
+ 1177              	.LCFI79:
+ 1178              	 .cfi_def_cfa_register 7
+ 1179 0006 7860     	 str r0,[r7,#4]
+ 1180 0008 3960     	 str r1,[r7]
+ 513:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     PK_VALIDATE_RET( ctx != NULL );
+ 514:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx->pk_info == NULL )
+ 1181              	 .loc 1 514 0
+ 1182 000a 7B68     	 ldr r3,[r7,#4]
+ 1183 000c 1B68     	 ldr r3,[r3]
+ 1184 000e 002B     	 cmp r3,#0
+ 1185 0010 01D1     	 bne .L80
+ 515:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
+ 1186              	 .loc 1 515 0
+ 1187 0012 0B4B     	 ldr r3,.L83
+ 1188 0014 0FE0     	 b .L81
+ 1189              	.L80:
+ 516:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 517:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx->pk_info->debug_func == NULL )
+ 1190              	 .loc 1 517 0
+ 1191 0016 7B68     	 ldr r3,[r7,#4]
+ 1192 0018 1B68     	 ldr r3,[r3]
+ 1193 001a DB6A     	 ldr r3,[r3,#44]
+ 1194 001c 002B     	 cmp r3,#0
+ 1195 001e 01D1     	 bne .L82
+ 518:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_ERR_PK_TYPE_MISMATCH );
+ 1196              	 .loc 1 518 0
+ 1197 0020 084B     	 ldr r3,.L83+4
+ 1198 0022 08E0     	 b .L81
+ 1199              	.L82:
+ 519:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 520:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     ctx->pk_info->debug_func( ctx->pk_ctx, items );
+ 1200              	 .loc 1 520 0
+ 1201 0024 7B68     	 ldr r3,[r7,#4]
+ 1202 0026 1B68     	 ldr r3,[r3]
+ 1203 0028 DB6A     	 ldr r3,[r3,#44]
+ 1204 002a 7A68     	 ldr r2,[r7,#4]
+ 1205 002c 5268     	 ldr r2,[r2,#4]
+ 1206 002e 1046     	 mov r0,r2
+ 1207 0030 3968     	 ldr r1,[r7]
+ 1208 0032 9847     	 blx r3
+ 521:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( 0 );
+ 1209              	 .loc 1 521 0
+ 1210 0034 0023     	 movs r3,#0
+ 1211              	.L81:
+ 522:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 1212              	 .loc 1 522 0
+ 1213 0036 1846     	 mov r0,r3
+ 1214 0038 0837     	 adds r7,r7,#8
+ 1215              	.LCFI80:
+ 1216              	 .cfi_def_cfa_offset 8
+ 1217 003a BD46     	 mov sp,r7
+ 1218              	.LCFI81:
+ 1219              	 .cfi_def_cfa_register 13
+ 1220              	 
+ 1221 003c 80BD     	 pop {r7,pc}
+ 1222              	.L84:
+ 1223 003e 00BF     	 .align 2
+ 1224              	.L83:
+ 1225 0040 80C1FFFF 	 .word -16000
+ 1226 0044 00C1FFFF 	 .word -16128
+ 1227              	 .cfi_endproc
+ 1228              	.LFE17:
+ 1230              	 .section .rodata
+ 1231              	 .align 2
+ 1232              	.LC0:
+ 1233 0000 696E7661 	 .ascii "invalid PK\000"
+ 1233      6C696420 
+ 1233      504B00
+ 1234 000b 00       	 .section .text.mbedtls_pk_get_name,"ax",%progbits
+ 1235              	 .align 2
+ 1236              	 .global mbedtls_pk_get_name
+ 1237              	 .thumb
+ 1238              	 .thumb_func
+ 1240              	mbedtls_pk_get_name:
+ 1241              	.LFB18:
+ 523:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 524:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 525:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Access the PK type name
+ 526:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 527:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** const char *mbedtls_pk_get_name( const mbedtls_pk_context *ctx )
+ 528:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 1242              	 .loc 1 528 0
+ 1243              	 .cfi_startproc
+ 1244              	 
+ 1245              	 
+ 1246              	 
+ 1247 0000 80B4     	 push {r7}
+ 1248              	.LCFI82:
+ 1249              	 .cfi_def_cfa_offset 4
+ 1250              	 .cfi_offset 7,-4
+ 1251 0002 83B0     	 sub sp,sp,#12
+ 1252              	.LCFI83:
+ 1253              	 .cfi_def_cfa_offset 16
+ 1254 0004 00AF     	 add r7,sp,#0
+ 1255              	.LCFI84:
+ 1256              	 .cfi_def_cfa_register 7
+ 1257 0006 7860     	 str r0,[r7,#4]
+ 529:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx == NULL || ctx->pk_info == NULL )
+ 1258              	 .loc 1 529 0
+ 1259 0008 7B68     	 ldr r3,[r7,#4]
+ 1260 000a 002B     	 cmp r3,#0
+ 1261 000c 03D0     	 beq .L86
+ 1262              	 .loc 1 529 0 is_stmt 0 discriminator 1
+ 1263 000e 7B68     	 ldr r3,[r7,#4]
+ 1264 0010 1B68     	 ldr r3,[r3]
+ 1265 0012 002B     	 cmp r3,#0
+ 1266 0014 01D1     	 bne .L87
+ 1267              	.L86:
+ 530:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( "invalid PK" );
+ 1268              	 .loc 1 530 0 is_stmt 1
+ 1269 0016 054B     	 ldr r3,.L89
+ 1270 0018 02E0     	 b .L88
+ 1271              	.L87:
+ 531:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 532:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( ctx->pk_info->name );
+ 1272              	 .loc 1 532 0
+ 1273 001a 7B68     	 ldr r3,[r7,#4]
+ 1274 001c 1B68     	 ldr r3,[r3]
+ 1275 001e 5B68     	 ldr r3,[r3,#4]
+ 1276              	.L88:
+ 533:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 1277              	 .loc 1 533 0
+ 1278 0020 1846     	 mov r0,r3
+ 1279 0022 0C37     	 adds r7,r7,#12
+ 1280              	.LCFI85:
+ 1281              	 .cfi_def_cfa_offset 4
+ 1282 0024 BD46     	 mov sp,r7
+ 1283              	.LCFI86:
+ 1284              	 .cfi_def_cfa_register 13
+ 1285              	 
+ 1286 0026 5DF8047B 	 ldr r7,[sp],#4
+ 1287              	.LCFI87:
+ 1288              	 .cfi_restore 7
+ 1289              	 .cfi_def_cfa_offset 0
+ 1290 002a 7047     	 bx lr
+ 1291              	.L90:
+ 1292              	 .align 2
+ 1293              	.L89:
+ 1294 002c 00000000 	 .word .LC0
+ 1295              	 .cfi_endproc
+ 1296              	.LFE18:
+ 1298              	 .section .text.mbedtls_pk_get_type,"ax",%progbits
+ 1299              	 .align 2
+ 1300              	 .global mbedtls_pk_get_type
+ 1301              	 .thumb
+ 1302              	 .thumb_func
+ 1304              	mbedtls_pk_get_type:
+ 1305              	.LFB19:
+ 534:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 535:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** /*
+ 536:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  * Access the PK type
+ 537:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****  */
+ 538:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** mbedtls_pk_type_t mbedtls_pk_get_type( const mbedtls_pk_context *ctx )
+ 539:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** {
+ 1306              	 .loc 1 539 0
+ 1307              	 .cfi_startproc
+ 1308              	 
+ 1309              	 
+ 1310              	 
+ 1311 0000 80B4     	 push {r7}
+ 1312              	.LCFI88:
+ 1313              	 .cfi_def_cfa_offset 4
+ 1314              	 .cfi_offset 7,-4
+ 1315 0002 83B0     	 sub sp,sp,#12
+ 1316              	.LCFI89:
+ 1317              	 .cfi_def_cfa_offset 16
+ 1318 0004 00AF     	 add r7,sp,#0
+ 1319              	.LCFI90:
+ 1320              	 .cfi_def_cfa_register 7
+ 1321 0006 7860     	 str r0,[r7,#4]
+ 540:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     if( ctx == NULL || ctx->pk_info == NULL )
+ 1322              	 .loc 1 540 0
+ 1323 0008 7B68     	 ldr r3,[r7,#4]
+ 1324 000a 002B     	 cmp r3,#0
+ 1325 000c 03D0     	 beq .L92
+ 1326              	 .loc 1 540 0 is_stmt 0 discriminator 1
+ 1327 000e 7B68     	 ldr r3,[r7,#4]
+ 1328 0010 1B68     	 ldr r3,[r3]
+ 1329 0012 002B     	 cmp r3,#0
+ 1330 0014 01D1     	 bne .L93
+ 1331              	.L92:
+ 541:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****         return( MBEDTLS_PK_NONE );
+ 1332              	 .loc 1 541 0 is_stmt 1
+ 1333 0016 0023     	 movs r3,#0
+ 1334 0018 02E0     	 b .L94
+ 1335              	.L93:
+ 542:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** 
+ 543:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c ****     return( ctx->pk_info->type );
+ 1336              	 .loc 1 543 0
+ 1337 001a 7B68     	 ldr r3,[r7,#4]
+ 1338 001c 1B68     	 ldr r3,[r3]
+ 1339 001e 1B78     	 ldrb r3,[r3]
+ 1340              	.L94:
+ 544:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/library\pk.c **** }
+ 1341              	 .loc 1 544 0
+ 1342 0020 1846     	 mov r0,r3
+ 1343 0022 0C37     	 adds r7,r7,#12
+ 1344              	.LCFI91:
+ 1345              	 .cfi_def_cfa_offset 4
+ 1346 0024 BD46     	 mov sp,r7
+ 1347              	.LCFI92:
+ 1348              	 .cfi_def_cfa_register 13
+ 1349              	 
+ 1350 0026 5DF8047B 	 ldr r7,[sp],#4
+ 1351              	.LCFI93:
+ 1352              	 .cfi_restore 7
+ 1353              	 .cfi_def_cfa_offset 0
+ 1354 002a 7047     	 bx lr
+ 1355              	 .cfi_endproc
+ 1356              	.LFE19:
+ 1358              	 .text
+ 1359              	.Letext0:
+ 1360              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\lib\\gcc\\arm-none-eabi\\4.9.3\\include\\stddef.h"
+ 1361              	 .file 3 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/include/mbedtls/md.h"
+ 1362              	 .file 4 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/include/mbedtls/pk.h"
+ 1363              	 .file 5 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/externals/mbedtls/include/mbedtls/pk_internal.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 pk.c
+    {standard input}:20     .text.mbedtls_pk_init:00000000 $t
+    {standard input}:25     .text.mbedtls_pk_init:00000000 mbedtls_pk_init
+    {standard input}:69     .text.mbedtls_pk_free:00000000 $t
+    {standard input}:74     .text.mbedtls_pk_free:00000000 mbedtls_pk_free
+    {standard input}:131    .text.mbedtls_pk_info_from_type:00000000 $t
+    {standard input}:136    .text.mbedtls_pk_info_from_type:00000000 mbedtls_pk_info_from_type
+    {standard input}:191    .text.mbedtls_pk_info_from_type:0000002c $d
+    {standard input}:197    .text.mbedtls_pk_setup:00000000 $t
+    {standard input}:202    .text.mbedtls_pk_setup:00000000 mbedtls_pk_setup
+    {standard input}:270    .text.mbedtls_pk_setup:00000044 $d
+    {standard input}:276    .text.mbedtls_pk_can_do:00000000 $t
+    {standard input}:281    .text.mbedtls_pk_can_do:00000000 mbedtls_pk_can_do
+    {standard input}:338    .text.pk_hashlen_helper:00000000 $t
+    {standard input}:342    .text.pk_hashlen_helper:00000000 pk_hashlen_helper
+    {standard input}:407    .text.mbedtls_pk_verify_restartable:00000000 $t
+    {standard input}:412    .text.mbedtls_pk_verify_restartable:00000000 mbedtls_pk_verify_restartable
+    {standard input}:498    .text.mbedtls_pk_verify_restartable:00000068 $d
+    {standard input}:504    .text.mbedtls_pk_verify:00000000 $t
+    {standard input}:509    .text.mbedtls_pk_verify:00000000 mbedtls_pk_verify
+    {standard input}:559    .text.mbedtls_pk_verify_ext:00000000 $t
+    {standard input}:564    .text.mbedtls_pk_verify_ext:00000000 mbedtls_pk_verify_ext
+    {standard input}:651    .text.mbedtls_pk_verify_ext:00000068 $d
+    {standard input}:658    .text.mbedtls_pk_sign_restartable:00000000 $t
+    {standard input}:663    .text.mbedtls_pk_sign_restartable:00000000 mbedtls_pk_sign_restartable
+    {standard input}:753    .text.mbedtls_pk_sign_restartable:00000070 $d
+    {standard input}:759    .text.mbedtls_pk_sign:00000000 $t
+    {standard input}:764    .text.mbedtls_pk_sign:00000000 mbedtls_pk_sign
+    {standard input}:818    .text.mbedtls_pk_decrypt:00000000 $t
+    {standard input}:823    .text.mbedtls_pk_decrypt:00000000 mbedtls_pk_decrypt
+    {standard input}:898    .text.mbedtls_pk_decrypt:00000058 $d
+    {standard input}:904    .text.mbedtls_pk_encrypt:00000000 $t
+    {standard input}:909    .text.mbedtls_pk_encrypt:00000000 mbedtls_pk_encrypt
+    {standard input}:984    .text.mbedtls_pk_encrypt:00000058 $d
+    {standard input}:990    .text.mbedtls_pk_check_pair:00000000 $t
+    {standard input}:995    .text.mbedtls_pk_check_pair:00000000 mbedtls_pk_check_pair
+    {standard input}:1090   .text.mbedtls_pk_check_pair:00000070 $d
+    {standard input}:1096   .text.mbedtls_pk_get_bitlen:00000000 $t
+    {standard input}:1101   .text.mbedtls_pk_get_bitlen:00000000 mbedtls_pk_get_bitlen
+    {standard input}:1157   .text.mbedtls_pk_debug:00000000 $t
+    {standard input}:1162   .text.mbedtls_pk_debug:00000000 mbedtls_pk_debug
+    {standard input}:1225   .text.mbedtls_pk_debug:00000040 $d
+    {standard input}:1231   .rodata:00000000 $d
+    {standard input}:1235   .text.mbedtls_pk_get_name:00000000 $t
+    {standard input}:1240   .text.mbedtls_pk_get_name:00000000 mbedtls_pk_get_name
+    {standard input}:1294   .text.mbedtls_pk_get_name:0000002c $d
+    {standard input}:1299   .text.mbedtls_pk_get_type:00000000 $t
+    {standard input}:1304   .text.mbedtls_pk_get_type:00000000 mbedtls_pk_get_type
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+mbedtls_platform_zeroize
+mbedtls_eckey_info
+mbedtls_eckeydh_info
+mbedtls_md_info_from_type
+mbedtls_md_get_size

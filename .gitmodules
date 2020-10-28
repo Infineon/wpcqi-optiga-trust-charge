@@ -1,0 +1,3 @@
+[submodule "optiga"]
+	path = optiga
+	url = https://github.com/Infineon/optiga-trust-charge.git

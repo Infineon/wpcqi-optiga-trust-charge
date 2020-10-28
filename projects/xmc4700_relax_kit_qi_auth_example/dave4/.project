@@ -27,14 +27,29 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>examples</name>
+			<name>optiga_hostlib</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>lib</name>
+			<name>wpc</name>
 			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/wpc</locationURI>
+		</link>
+		<link>
+			<name>3rd_party</name>
+			<type>2</type>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/externals</locationURI>
+		</link>
+		<link>
+			<name>optiga_hostlib/optiga</name>
+			<type>2</type>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/optiga</locationURI>
+		</link>
+		<link>
+			<name>optiga_hostlib/examples/utilities</name>
+			<type>2</type>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/examples/utilities</locationURI>
 		</link>
 		<link>
 			<name>main_xmc4700_example.c</name>
@@ -42,277 +57,107 @@
 			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/main_xmc4700_example.c</locationURI>
 		</link>
 		<link>
-			<name>examples/include</name>
-			<type>2</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/include</locationURI>
-		</link>
-		<link>
-			<name>examples/optiga</name>
+			<name>optiga_hostlib/pal</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>examples/utilities</name>
-			<type>2</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/utilities</locationURI>
-		</link>
-		<link>
-			<name>examples/qi_auth</name>
-			<type>2</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/qi_auth</locationURI>
-		</link>
-		<link>
-			<name>lib/externals</name>
+			<name>optiga_hostlib/xmc</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>lib/optiga</name>
-			<type>2</type>
-			<locationURI>OPTIGA_DAVE_PROJ/optiga</locationURI>
-		</link>
-		<link>
-			<name>lib/pal</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>lib/xmc</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>examples/optiga/example_optiga_crypt_ecc_generate_keypair.c</name>
+			<name>optiga_hostlib/pal/pal.c</name>
 			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/example_optiga_crypt_ecc_generate_keypair.c</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/xmc4700/pal.c</locationURI>
 		</link>
 		<link>
-			<name>examples/optiga/example_optiga_crypt_ecdsa_sign.c</name>
+			<name>optiga_hostlib/pal/pal_crypt_mbedtls.c</name>
 			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/example_optiga_crypt_ecdsa_sign.c</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/pal_crypt_mbedtls.c</locationURI>
 		</link>
 		<link>
-			<name>examples/optiga/example_optiga_crypt_ecdsa_verify.c</name>
+			<name>optiga_hostlib/pal/xmc4700/pal_gpio.c</name>
 			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/example_optiga_crypt_ecdsa_verify.c</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/xmc4700/pal_gpio.c</locationURI>
 		</link>
 		<link>
-			<name>examples/optiga/example_optiga_crypt_hash.c</name>
+			<name>optiga_hostlib/pal/xmc4700/pal_i2c.c</name>
 			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/example_optiga_crypt_hash.c</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/xmc4700/pal_i2c.c</locationURI>
 		</link>
 		<link>
-			<name>examples/optiga/example_optiga_crypt_random.c</name>
+			<name>optiga_hostlib/pal/xmc4700/pal_ifx_i2c_config.c</name>
 			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/example_optiga_crypt_random.c</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/xmc4700/pal_ifx_i2c_config.c</locationURI>
 		</link>
 		<link>
-			<name>examples/optiga/example_optiga_hibernate_restore.c</name>
+			<name>optiga_hostlib/pal/xmc4700/pal_logger.c</name>
 			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/usecases/example_optiga_hibernate_restore.c</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/xmc4700/pal_logger.c</locationURI>
 		</link>
 		<link>
-			<name>examples/optiga/example_optiga_util_protected_update.c</name>
+			<name>optiga_hostlib/pal/xmc4700/pal_os_datastore.c</name>
 			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/example_optiga_util_protected_update.c</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/xmc4700/pal_os_datastore.c</locationURI>
 		</link>
 		<link>
-			<name>examples/optiga/example_optiga_util_read_data.c</name>
+			<name>optiga_hostlib/pal/xmc4700/pal_os_event.c</name>
 			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/example_optiga_util_read_data.c</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/xmc4700/pal_os_event.c</locationURI>
 		</link>
 		<link>
-			<name>examples/optiga/example_optiga_util_update_count.c</name>
+			<name>optiga_hostlib/pal/xmc4700/pal_os_lock.c</name>
 			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/example_optiga_util_update_count.c</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/xmc4700/pal_os_lock.c</locationURI>
 		</link>
 		<link>
-			<name>examples/optiga/example_optiga_util_write_data.c</name>
+			<name>optiga_hostlib/pal/xmc4700/pal_os_memory.c</name>
 			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/example_optiga_util_write_data.c</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/xmc4700/pal_os_memory.c</locationURI>
 		</link>
 		<link>
-			<name>examples/optiga/example_pair_host_and_optiga_using_pre_shared_secret.c</name>
+			<name>optiga_hostlib/pal/xmc4700/pal_os_timer.c</name>
 			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/usecases/example_pair_host_and_optiga_using_pre_shared_secret.c</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/xmc4700/pal_os_timer.c</locationURI>
 		</link>
 		<link>
-			<name>examples/optiga/example_read_coprocessor_id.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/usecases/example_read_coprocessor_id.c</locationURI>
-		</link>
-		<link>
-			<name>examples/optiga/example_utilities.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga/example_utilities.c</locationURI>
-		</link>
-		<link>
-			<name>examples/optiga/optiga_shell.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/examples/optiga_shell.c</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>lib/pal/pal.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/pal/xmc4700/pal.c</locationURI>
-		</link>
-		<link>
-			<name>lib/pal/pal_crypt_mbedtls.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/pal/pal_crypt_mbedtls.c</locationURI>
-		</link>
-		<link>
-			<name>lib/pal/pal_gpio.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/pal/xmc4700/pal_gpio.c</locationURI>
-		</link>
-		<link>
-			<name>lib/pal/pal_i2c.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/pal/xmc4700/pal_i2c.c</locationURI>
-		</link>
-		<link>
-			<name>lib/pal/pal_ifx_i2c_config.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/pal/xmc4700/pal_ifx_i2c_config.c</locationURI>
-		</link>
-		<link>
-			<name>lib/pal/pal_logger.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/pal/xmc4700/pal_logger.c</locationURI>
-		</link>
-		<link>
-			<name>lib/pal/pal_os_datastore.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/pal/xmc4700/pal_os_datastore.c</locationURI>
-		</link>
-		<link>
-			<name>lib/pal/pal_os_event.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/pal/xmc4700/pal_os_event.c</locationURI>
-		</link>
-		<link>
-			<name>lib/pal/pal_os_lock.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/pal/xmc4700/pal_os_lock.c</locationURI>
-		</link>
-		<link>
-			<name>lib/pal/pal_os_memory.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/pal/xmc4700/pal_os_memory.c</locationURI>
-		</link>
-		<link>
-			<name>lib/pal/pal_os_timer.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/pal/xmc4700/pal_os_timer.c</locationURI>
-		</link>
-		<link>
-			<name>lib/xmc/CMSIS</name>
+			<name>optiga_hostlib/xmc/CMSIS</name>
 			<type>2</type>
 			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS</locationURI>
 		</link>
 		<link>
-			<name>lib/xmc/Dave</name>
+			<name>optiga_hostlib/xmc/Dave</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>lib/xmc/Newlib</name>
+			<name>optiga_hostlib/xmc/Newlib</name>
 			<type>2</type>
 			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/Newlib</locationURI>
 		</link>
 		<link>
-			<name>lib/xmc/Startup</name>
+			<name>optiga_hostlib/xmc/Startup</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>lib/xmc/XMCLib</name>
+			<name>optiga_hostlib/xmc/XMCLib</name>
 			<type>2</type>
 			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib</locationURI>
 		</link>
 		<link>
-			<name>lib/externals/mbedtls/aes.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/library/aes.c</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls/bignum.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/library/bignum.c</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls/ccm.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/library/ccm.c</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls/cipher.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/library/cipher.c</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls/cipher_wrap.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/library/cipher_wrap.c</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls/ecp.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/library/ecp.c</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls/ecp_curves.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/library/ecp_curves.c</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls/include</name>
-			<type>2</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/include</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls/md.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/library/md.c</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls/md_wrap.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/library/md_wrap.c</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls/platform_util.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/library/platform_util.c</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls/sha256.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/library/sha256.c</locationURI>
-		</link>
-		<link>
-			<name>lib/externals/mbedtls/ssl_ciphersuites.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/externals/mbedtls/library/ssl_ciphersuites.c</locationURI>
-		</link>
-		<link>
-			<name>lib/xmc/Dave/Generated</name>
+			<name>optiga_hostlib/xmc/Dave/Generated</name>
 			<type>2</type>
 			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated</locationURI>
 		</link>
 		<link>
-			<name>lib/xmc/Startup/startup_xmc4700.S</name>
+			<name>optiga_hostlib/xmc/Startup/startup_xmc4700.S</name>
 			<type>1</type>
 			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/common/Startup/startup_xmc4700.S</locationURI>
 		</link>
 		<link>
-			<name>lib/xmc/Startup/system_xmc4700.c</name>
+			<name>optiga_hostlib/xmc/Startup/system_xmc4700.c</name>
 			<type>1</type>
 			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/common/Startup/system_xmc4700.c</locationURI>
 		</link>

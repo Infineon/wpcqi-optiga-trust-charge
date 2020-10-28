@@ -1,0 +1,1296 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "qi_auth_self_test.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .rodata.qi_auth_cr660_draft5_root_hash,"a",%progbits
+  20              	 .align 2
+  23              	qi_auth_cr660_draft5_root_hash:
+  24 0000 F0       	 .byte -16
+  25 0001 53       	 .byte 83
+  26 0002 50       	 .byte 80
+  27 0003 6D       	 .byte 109
+  28 0004 C5       	 .byte -59
+  29 0005 75       	 .byte 117
+  30 0006 99       	 .byte -103
+  31 0007 05       	 .byte 5
+  32 0008 F6       	 .byte -10
+  33 0009 A5       	 .byte -91
+  34 000a 4C       	 .byte 76
+  35 000b 98       	 .byte -104
+  36 000c 31       	 .byte 49
+  37 000d A1       	 .byte -95
+  38 000e 5E       	 .byte 94
+  39 000f 03       	 .byte 3
+  40 0010 74       	 .byte 116
+  41 0011 0E       	 .byte 14
+  42 0012 A7       	 .byte -89
+  43 0013 F7       	 .byte -9
+  44 0014 08       	 .byte 8
+  45 0015 67       	 .byte 103
+  46 0016 90       	 .byte -112
+  47 0017 52       	 .byte 82
+  48 0018 DD       	 .byte -35
+  49 0019 CA       	 .byte -54
+  50 001a 52       	 .byte 82
+  51 001b 85       	 .byte -123
+  52 001c 50       	 .byte 80
+  53 001d 26       	 .byte 38
+  54 001e EE       	 .byte -18
+  55 001f 05       	 .byte 5
+  56              	 .section .rodata.qi_auth_cr660_draft5_root_cert,"a",%progbits
+  57              	 .align 2
+  60              	qi_auth_cr660_draft5_root_cert:
+  61 0000 2D2D2D2D 	 .ascii "-----BEGIN CERTIFICATE-----\012MIIBCDCBr6ADAgECAgQS"
+  61      2D424547 
+  61      494E2043 
+  61      45525449 
+  61      46494341 
+  62 0030 4E465A34 	 .ascii "NFZ4MAoGCCqGSM49BAMCMBExDzANBgNVBAMMBldQQ0NB\012MTA"
+  62      4D416F47 
+  62      43437147 
+  62      534D3439 
+  62      42414D43 
+  63 0060 67467730 	 .ascii "gFw03MDAxMDEwMDAwMDBaGA85OTk5MTIzMTIzNTk1OVowETEPMA"
+  63      334D4441 
+  63      784D4445 
+  63      774D4441 
+  63      774D4442 
+  64 0093 30474131 	 .ascii "0GA1UEAwwG\012V1BDQ0ExMDkwEwYHKoZIzj0CAQYIKoZIzj0DA"
+  64      55454177 
+  64      77470A56 
+  64      31424451 
+  64      3045784D 
+  65 00c3 51634449 	 .ascii "QcDIgACRrJRlZ8BO4U4FE9i/6S3\012BhfKnrtB1kDwjqFhHvCT"
+  65      67414352 
+  65      724A526C 
+  65      5A38424F 
+  65      34553446 
+  66 00f3 4C59616A 	 .ascii "LYajEzARMA8GA1UdEwEB/wQFMAMBAf8wCgYIKoZIzj0E\012AwI"
+  66      457A4152 
+  66      4D413847 
+  66      41315564 
+  66      45774542 
+  67 0123 44534141 	 .ascii "DSAAwRQIhANQGTZMiejvGcvWwWXlqrS6IE02EndiXsK3zwuabQr"
+  67      77525149 
+  67      68414E51 
+  67      47545A4D 
+  67      69656A76 
+  68 0156 33744169 	 .ascii "3tAiBoeQ3p\012C1dykPFtZ4vPZVMR/x8DhKm3/3oj//b3R/1q8"
+  68      426F6551 
+  68      33700A43 
+  68      3164796B 
+  68      5046745A 
+  69 0186 673D3D0A 	 .ascii "g==\012-----END CERTIFICATE-----\000"
+  69      2D2D2D2D 
+  69      2D454E44 
+  69      20434552 
+  69      54494649 
+  70              	 .section .rodata.qi_auth_cr660_draft5_certificate,"a",%progbits
+  71              	 .align 2
+  74              	qi_auth_cr660_draft5_certificate:
+  75 0000 02       	 .byte 2
+  76 0001 4F       	 .byte 79
+  77 0002 F0       	 .byte -16
+  78 0003 53       	 .byte 83
+  79 0004 50       	 .byte 80
+  80 0005 6D       	 .byte 109
+  81 0006 C5       	 .byte -59
+  82 0007 75       	 .byte 117
+  83 0008 99       	 .byte -103
+  84 0009 05       	 .byte 5
+  85 000a F6       	 .byte -10
+  86 000b A5       	 .byte -91
+  87 000c 4C       	 .byte 76
+  88 000d 98       	 .byte -104
+  89 000e 31       	 .byte 49
+  90 000f A1       	 .byte -95
+  91 0010 5E       	 .byte 94
+  92 0011 03       	 .byte 3
+  93 0012 74       	 .byte 116
+  94 0013 0E       	 .byte 14
+  95 0014 A7       	 .byte -89
+  96 0015 F7       	 .byte -9
+  97 0016 08       	 .byte 8
+  98 0017 67       	 .byte 103
+  99 0018 90       	 .byte -112
+ 100 0019 52       	 .byte 82
+ 101 001a DD       	 .byte -35
+ 102 001b CA       	 .byte -54
+ 103 001c 52       	 .byte 82
+ 104 001d 85       	 .byte -123
+ 105 001e 50       	 .byte 80
+ 106 001f 26       	 .byte 38
+ 107 0020 EE       	 .byte -18
+ 108 0021 05       	 .byte 5
+ 109 0022 30       	 .byte 48
+ 110 0023 82       	 .byte -126
+ 111 0024 01       	 .byte 1
+ 112 0025 1F       	 .byte 31
+ 113 0026 30       	 .byte 48
+ 114 0027 81       	 .byte -127
+ 115 0028 C7       	 .byte -57
+ 116 0029 A0       	 .byte -96
+ 117 002a 03       	 .byte 3
+ 118 002b 02       	 .byte 2
+ 119 002c 01       	 .byte 1
+ 120 002d 02       	 .byte 2
+ 121 002e 02       	 .byte 2
+ 122 002f 04       	 .byte 4
+ 123 0030 12       	 .byte 18
+ 124 0031 34       	 .byte 52
+ 125 0032 AB       	 .byte -85
+ 126 0033 CD       	 .byte -51
+ 127 0034 30       	 .byte 48
+ 128 0035 0A       	 .byte 10
+ 129 0036 06       	 .byte 6
+ 130 0037 08       	 .byte 8
+ 131 0038 2A       	 .byte 42
+ 132 0039 86       	 .byte -122
+ 133 003a 48       	 .byte 72
+ 134 003b CE       	 .byte -50
+ 135 003c 3D       	 .byte 61
+ 136 003d 04       	 .byte 4
+ 137 003e 03       	 .byte 3
+ 138 003f 02       	 .byte 2
+ 139 0040 30       	 .byte 48
+ 140 0041 11       	 .byte 17
+ 141 0042 31       	 .byte 49
+ 142 0043 0F       	 .byte 15
+ 143 0044 30       	 .byte 48
+ 144 0045 0D       	 .byte 13
+ 145 0046 06       	 .byte 6
+ 146 0047 03       	 .byte 3
+ 147 0048 55       	 .byte 85
+ 148 0049 04       	 .byte 4
+ 149 004a 03       	 .byte 3
+ 150 004b 0C       	 .byte 12
+ 151 004c 06       	 .byte 6
+ 152 004d 57       	 .byte 87
+ 153 004e 50       	 .byte 80
+ 154 004f 43       	 .byte 67
+ 155 0050 43       	 .byte 67
+ 156 0051 41       	 .byte 65
+ 157 0052 31       	 .byte 49
+ 158 0053 30       	 .byte 48
+ 159 0054 20       	 .byte 32
+ 160 0055 17       	 .byte 23
+ 161 0056 0D       	 .byte 13
+ 162 0057 37       	 .byte 55
+ 163 0058 30       	 .byte 48
+ 164 0059 30       	 .byte 48
+ 165 005a 31       	 .byte 49
+ 166 005b 30       	 .byte 48
+ 167 005c 31       	 .byte 49
+ 168 005d 30       	 .byte 48
+ 169 005e 30       	 .byte 48
+ 170 005f 30       	 .byte 48
+ 171 0060 30       	 .byte 48
+ 172 0061 30       	 .byte 48
+ 173 0062 30       	 .byte 48
+ 174 0063 5A       	 .byte 90
+ 175 0064 18       	 .byte 24
+ 176 0065 0F       	 .byte 15
+ 177 0066 39       	 .byte 57
+ 178 0067 39       	 .byte 57
+ 179 0068 39       	 .byte 57
+ 180 0069 39       	 .byte 57
+ 181 006a 31       	 .byte 49
+ 182 006b 32       	 .byte 50
+ 183 006c 33       	 .byte 51
+ 184 006d 31       	 .byte 49
+ 185 006e 32       	 .byte 50
+ 186 006f 33       	 .byte 51
+ 187 0070 35       	 .byte 53
+ 188 0071 39       	 .byte 57
+ 189 0072 35       	 .byte 53
+ 190 0073 39       	 .byte 57
+ 191 0074 5A       	 .byte 90
+ 192 0075 30       	 .byte 48
+ 193 0076 12       	 .byte 18
+ 194 0077 31       	 .byte 49
+ 195 0078 10       	 .byte 16
+ 196 0079 30       	 .byte 48
+ 197 007a 0E       	 .byte 14
+ 198 007b 06       	 .byte 6
+ 199 007c 03       	 .byte 3
+ 200 007d 55       	 .byte 85
+ 201 007e 04       	 .byte 4
+ 202 007f 03       	 .byte 3
+ 203 0080 0C       	 .byte 12
+ 204 0081 07       	 .byte 7
+ 205 0082 43       	 .byte 67
+ 206 0083 41       	 .byte 65
+ 207 0084 46       	 .byte 70
+ 208 0085 45       	 .byte 69
+ 209 0086 2D       	 .byte 45
+ 210 0087 31       	 .byte 49
+ 211 0088 41       	 .byte 65
+ 212 0089 30       	 .byte 48
+ 213 008a 39       	 .byte 57
+ 214 008b 30       	 .byte 48
+ 215 008c 13       	 .byte 19
+ 216 008d 06       	 .byte 6
+ 217 008e 07       	 .byte 7
+ 218 008f 2A       	 .byte 42
+ 219 0090 86       	 .byte -122
+ 220 0091 48       	 .byte 72
+ 221 0092 CE       	 .byte -50
+ 222 0093 3D       	 .byte 61
+ 223 0094 02       	 .byte 2
+ 224 0095 01       	 .byte 1
+ 225 0096 06       	 .byte 6
+ 226 0097 08       	 .byte 8
+ 227 0098 2A       	 .byte 42
+ 228 0099 86       	 .byte -122
+ 229 009a 48       	 .byte 72
+ 230 009b CE       	 .byte -50
+ 231 009c 3D       	 .byte 61
+ 232 009d 03       	 .byte 3
+ 233 009e 01       	 .byte 1
+ 234 009f 07       	 .byte 7
+ 235 00a0 03       	 .byte 3
+ 236 00a1 22       	 .byte 34
+ 237 00a2 00       	 .byte 0
+ 238 00a3 03       	 .byte 3
+ 239 00a4 A8       	 .byte -88
+ 240 00a5 07       	 .byte 7
+ 241 00a6 50       	 .byte 80
+ 242 00a7 B5       	 .byte -75
+ 243 00a8 D1       	 .byte -47
+ 244 00a9 98       	 .byte -104
+ 245 00aa 21       	 .byte 33
+ 246 00ab 18       	 .byte 24
+ 247 00ac A9       	 .byte -87
+ 248 00ad 29       	 .byte 41
+ 249 00ae 35       	 .byte 53
+ 250 00af 4D       	 .byte 77
+ 251 00b0 4A       	 .byte 74
+ 252 00b1 A8       	 .byte -88
+ 253 00b2 33       	 .byte 51
+ 254 00b3 33       	 .byte 51
+ 255 00b4 AF       	 .byte -81
+ 256 00b5 7F       	 .byte 127
+ 257 00b6 93       	 .byte -109
+ 258 00b7 F0       	 .byte -16
+ 259 00b8 29       	 .byte 41
+ 260 00b9 93       	 .byte -109
+ 261 00ba 65       	 .byte 101
+ 262 00bb D3       	 .byte -45
+ 263 00bc E9       	 .byte -23
+ 264 00bd E0       	 .byte -32
+ 265 00be 99       	 .byte -103
+ 266 00bf 97       	 .byte -105
+ 267 00c0 38       	 .byte 56
+ 268 00c1 96       	 .byte -106
+ 269 00c2 94       	 .byte -108
+ 270 00c3 5D       	 .byte 93
+ 271 00c4 A3       	 .byte -93
+ 272 00c5 2A       	 .byte 42
+ 273 00c6 30       	 .byte 48
+ 274 00c7 28       	 .byte 40
+ 275 00c8 30       	 .byte 48
+ 276 00c9 12       	 .byte 18
+ 277 00ca 06       	 .byte 6
+ 278 00cb 03       	 .byte 3
+ 279 00cc 55       	 .byte 85
+ 280 00cd 1D       	 .byte 29
+ 281 00ce 13       	 .byte 19
+ 282 00cf 01       	 .byte 1
+ 283 00d0 01       	 .byte 1
+ 284 00d1 FF       	 .byte -1
+ 285 00d2 04       	 .byte 4
+ 286 00d3 08       	 .byte 8
+ 287 00d4 30       	 .byte 48
+ 288 00d5 06       	 .byte 6
+ 289 00d6 01       	 .byte 1
+ 290 00d7 01       	 .byte 1
+ 291 00d8 FF       	 .byte -1
+ 292 00d9 02       	 .byte 2
+ 293 00da 01       	 .byte 1
+ 294 00db 00       	 .byte 0
+ 295 00dc 30       	 .byte 48
+ 296 00dd 12       	 .byte 18
+ 297 00de 06       	 .byte 6
+ 298 00df 05       	 .byte 5
+ 299 00e0 67       	 .byte 103
+ 300 00e1 81       	 .byte -127
+ 301 00e2 7F       	 .byte 127
+ 302 00e3 01       	 .byte 1
+ 303 00e4 01       	 .byte 1
+ 304 00e5 01       	 .byte 1
+ 305 00e6 01       	 .byte 1
+ 306 00e7 FF       	 .byte -1
+ 307 00e8 04       	 .byte 4
+ 308 00e9 06       	 .byte 6
+ 309 00ea 04       	 .byte 4
+ 310 00eb 04       	 .byte 4
+ 311 00ec 00       	 .byte 0
+ 312 00ed 00       	 .byte 0
+ 313 00ee 00       	 .byte 0
+ 314 00ef 00       	 .byte 0
+ 315 00f0 30       	 .byte 48
+ 316 00f1 0A       	 .byte 10
+ 317 00f2 06       	 .byte 6
+ 318 00f3 08       	 .byte 8
+ 319 00f4 2A       	 .byte 42
+ 320 00f5 86       	 .byte -122
+ 321 00f6 48       	 .byte 72
+ 322 00f7 CE       	 .byte -50
+ 323 00f8 3D       	 .byte 61
+ 324 00f9 04       	 .byte 4
+ 325 00fa 03       	 .byte 3
+ 326 00fb 02       	 .byte 2
+ 327 00fc 03       	 .byte 3
+ 328 00fd 47       	 .byte 71
+ 329 00fe 00       	 .byte 0
+ 330 00ff 30       	 .byte 48
+ 331 0100 44       	 .byte 68
+ 332 0101 02       	 .byte 2
+ 333 0102 20       	 .byte 32
+ 334 0103 33       	 .byte 51
+ 335 0104 E3       	 .byte -29
+ 336 0105 89       	 .byte -119
+ 337 0106 70       	 .byte 112
+ 338 0107 E1       	 .byte -31
+ 339 0108 6F       	 .byte 111
+ 340 0109 D7       	 .byte -41
+ 341 010a DC       	 .byte -36
+ 342 010b 87       	 .byte -121
+ 343 010c CB       	 .byte -53
+ 344 010d 50       	 .byte 80
+ 345 010e C9       	 .byte -55
+ 346 010f 83       	 .byte -125
+ 347 0110 BA       	 .byte -70
+ 348 0111 8E       	 .byte -114
+ 349 0112 6F       	 .byte 111
+ 350 0113 85       	 .byte -123
+ 351 0114 34       	 .byte 52
+ 352 0115 71       	 .byte 113
+ 353 0116 F7       	 .byte -9
+ 354 0117 A2       	 .byte -94
+ 355 0118 D0       	 .byte -48
+ 356 0119 A4       	 .byte -92
+ 357 011a BC       	 .byte -68
+ 358 011b F3       	 .byte -13
+ 359 011c F2       	 .byte -14
+ 360 011d DA       	 .byte -38
+ 361 011e 06       	 .byte 6
+ 362 011f 0E       	 .byte 14
+ 363 0120 D6       	 .byte -42
+ 364 0121 61       	 .byte 97
+ 365 0122 64       	 .byte 100
+ 366 0123 02       	 .byte 2
+ 367 0124 20       	 .byte 32
+ 368 0125 5D       	 .byte 93
+ 369 0126 2A       	 .byte 42
+ 370 0127 56       	 .byte 86
+ 371 0128 E5       	 .byte -27
+ 372 0129 44       	 .byte 68
+ 373 012a 66       	 .byte 102
+ 374 012b 72       	 .byte 114
+ 375 012c D7       	 .byte -41
+ 376 012d CD       	 .byte -51
+ 377 012e 26       	 .byte 38
+ 378 012f 51       	 .byte 81
+ 379 0130 1F       	 .byte 31
+ 380 0131 1A       	 .byte 26
+ 381 0132 93       	 .byte -109
+ 382 0133 96       	 .byte -106
+ 383 0134 C1       	 .byte -63
+ 384 0135 28       	 .byte 40
+ 385 0136 AD       	 .byte -83
+ 386 0137 D2       	 .byte -46
+ 387 0138 5C       	 .byte 92
+ 388 0139 01       	 .byte 1
+ 389 013a 04       	 .byte 4
+ 390 013b 2E       	 .byte 46
+ 391 013c 5C       	 .byte 92
+ 392 013d 7C       	 .byte 124
+ 393 013e 52       	 .byte 82
+ 394 013f B0       	 .byte -80
+ 395 0140 76       	 .byte 118
+ 396 0141 44       	 .byte 68
+ 397 0142 FD       	 .byte -3
+ 398 0143 9A       	 .byte -102
+ 399 0144 FF       	 .byte -1
+ 400 0145 30       	 .byte 48
+ 401 0146 82       	 .byte -126
+ 402 0147 01       	 .byte 1
+ 403 0148 08       	 .byte 8
+ 404 0149 30       	 .byte 48
+ 405 014a 81       	 .byte -127
+ 406 014b B0       	 .byte -80
+ 407 014c A0       	 .byte -96
+ 408 014d 03       	 .byte 3
+ 409 014e 02       	 .byte 2
+ 410 014f 01       	 .byte 1
+ 411 0150 02       	 .byte 2
+ 412 0151 02       	 .byte 2
+ 413 0152 04       	 .byte 4
+ 414 0153 12       	 .byte 18
+ 415 0154 34       	 .byte 52
+ 416 0155 EF       	 .byte -17
+ 417 0156 01       	 .byte 1
+ 418 0157 30       	 .byte 48
+ 419 0158 0A       	 .byte 10
+ 420 0159 06       	 .byte 6
+ 421 015a 08       	 .byte 8
+ 422 015b 2A       	 .byte 42
+ 423 015c 86       	 .byte -122
+ 424 015d 48       	 .byte 72
+ 425 015e CE       	 .byte -50
+ 426 015f 3D       	 .byte 61
+ 427 0160 04       	 .byte 4
+ 428 0161 03       	 .byte 3
+ 429 0162 02       	 .byte 2
+ 430 0163 30       	 .byte 48
+ 431 0164 12       	 .byte 18
+ 432 0165 31       	 .byte 49
+ 433 0166 10       	 .byte 16
+ 434 0167 30       	 .byte 48
+ 435 0168 0E       	 .byte 14
+ 436 0169 06       	 .byte 6
+ 437 016a 03       	 .byte 3
+ 438 016b 55       	 .byte 85
+ 439 016c 04       	 .byte 4
+ 440 016d 03       	 .byte 3
+ 441 016e 0C       	 .byte 12
+ 442 016f 07       	 .byte 7
+ 443 0170 43       	 .byte 67
+ 444 0171 41       	 .byte 65
+ 445 0172 46       	 .byte 70
+ 446 0173 45       	 .byte 69
+ 447 0174 2D       	 .byte 45
+ 448 0175 31       	 .byte 49
+ 449 0176 41       	 .byte 65
+ 450 0177 30       	 .byte 48
+ 451 0178 20       	 .byte 32
+ 452 0179 17       	 .byte 23
+ 453 017a 0D       	 .byte 13
+ 454 017b 37       	 .byte 55
+ 455 017c 30       	 .byte 48
+ 456 017d 30       	 .byte 48
+ 457 017e 31       	 .byte 49
+ 458 017f 30       	 .byte 48
+ 459 0180 31       	 .byte 49
+ 460 0181 30       	 .byte 48
+ 461 0182 30       	 .byte 48
+ 462 0183 30       	 .byte 48
+ 463 0184 30       	 .byte 48
+ 464 0185 30       	 .byte 48
+ 465 0186 30       	 .byte 48
+ 466 0187 5A       	 .byte 90
+ 467 0188 18       	 .byte 24
+ 468 0189 0F       	 .byte 15
+ 469 018a 39       	 .byte 57
+ 470 018b 39       	 .byte 57
+ 471 018c 39       	 .byte 57
+ 472 018d 39       	 .byte 57
+ 473 018e 31       	 .byte 49
+ 474 018f 32       	 .byte 50
+ 475 0190 33       	 .byte 51
+ 476 0191 31       	 .byte 49
+ 477 0192 32       	 .byte 50
+ 478 0193 33       	 .byte 51
+ 479 0194 35       	 .byte 53
+ 480 0195 39       	 .byte 57
+ 481 0196 35       	 .byte 53
+ 482 0197 39       	 .byte 57
+ 483 0198 5A       	 .byte 90
+ 484 0199 30       	 .byte 48
+ 485 019a 11       	 .byte 17
+ 486 019b 31       	 .byte 49
+ 487 019c 0F       	 .byte 15
+ 488 019d 30       	 .byte 48
+ 489 019e 0D       	 .byte 13
+ 490 019f 06       	 .byte 6
+ 491 01a0 03       	 .byte 3
+ 492 01a1 55       	 .byte 85
+ 493 01a2 04       	 .byte 4
+ 494 01a3 03       	 .byte 3
+ 495 01a4 0C       	 .byte 12
+ 496 01a5 06       	 .byte 6
+ 497 01a6 30       	 .byte 48
+ 498 01a7 30       	 .byte 48
+ 499 01a8 36       	 .byte 54
+ 500 01a9 33       	 .byte 51
+ 501 01aa 38       	 .byte 56
+ 502 01ab 36       	 .byte 54
+ 503 01ac 30       	 .byte 48
+ 504 01ad 39       	 .byte 57
+ 505 01ae 30       	 .byte 48
+ 506 01af 13       	 .byte 19
+ 507 01b0 06       	 .byte 6
+ 508 01b1 07       	 .byte 7
+ 509 01b2 2A       	 .byte 42
+ 510 01b3 86       	 .byte -122
+ 511 01b4 48       	 .byte 72
+ 512 01b5 CE       	 .byte -50
+ 513 01b6 3D       	 .byte 61
+ 514 01b7 02       	 .byte 2
+ 515 01b8 01       	 .byte 1
+ 516 01b9 06       	 .byte 6
+ 517 01ba 08       	 .byte 8
+ 518 01bb 2A       	 .byte 42
+ 519 01bc 86       	 .byte -122
+ 520 01bd 48       	 .byte 72
+ 521 01be CE       	 .byte -50
+ 522 01bf 3D       	 .byte 61
+ 523 01c0 03       	 .byte 3
+ 524 01c1 01       	 .byte 1
+ 525 01c2 07       	 .byte 7
+ 526 01c3 03       	 .byte 3
+ 527 01c4 22       	 .byte 34
+ 528 01c5 00       	 .byte 0
+ 529 01c6 03       	 .byte 3
+ 530 01c7 3B       	 .byte 59
+ 531 01c8 A9       	 .byte -87
+ 532 01c9 27       	 .byte 39
+ 533 01ca EB       	 .byte -21
+ 534 01cb 4F       	 .byte 79
+ 535 01cc ED       	 .byte -19
+ 536 01cd FA       	 .byte -6
+ 537 01ce FE       	 .byte -2
+ 538 01cf 18       	 .byte 24
+ 539 01d0 00       	 .byte 0
+ 540 01d1 37       	 .byte 55
+ 541 01d2 1E       	 .byte 30
+ 542 01d3 C2       	 .byte -62
+ 543 01d4 E8       	 .byte -24
+ 544 01d5 69       	 .byte 105
+ 545 01d6 45       	 .byte 69
+ 546 01d7 70       	 .byte 112
+ 547 01d8 A5       	 .byte -91
+ 548 01d9 03       	 .byte 3
+ 549 01da DE       	 .byte -34
+ 550 01db 46       	 .byte 70
+ 551 01dc 43       	 .byte 67
+ 552 01dd E0       	 .byte -32
+ 553 01de 9F       	 .byte -97
+ 554 01df 6A       	 .byte 106
+ 555 01e0 BB       	 .byte -69
+ 556 01e1 93       	 .byte -109
+ 557 01e2 0F       	 .byte 15
+ 558 01e3 AE       	 .byte -82
+ 559 01e4 52       	 .byte 82
+ 560 01e5 97       	 .byte -105
+ 561 01e6 3E       	 .byte 62
+ 562 01e7 A3       	 .byte -93
+ 563 01e8 13       	 .byte 19
+ 564 01e9 30       	 .byte 48
+ 565 01ea 11       	 .byte 17
+ 566 01eb 30       	 .byte 48
+ 567 01ec 0F       	 .byte 15
+ 568 01ed 06       	 .byte 6
+ 569 01ee 05       	 .byte 5
+ 570 01ef 67       	 .byte 103
+ 571 01f0 81       	 .byte -127
+ 572 01f1 7F       	 .byte 127
+ 573 01f2 01       	 .byte 1
+ 574 01f3 02       	 .byte 2
+ 575 01f4 04       	 .byte 4
+ 576 01f5 06       	 .byte 6
+ 577 01f6 04       	 .byte 4
+ 578 01f7 04       	 .byte 4
+ 579 01f8 00       	 .byte 0
+ 580 01f9 00       	 .byte 0
+ 581 01fa 00       	 .byte 0
+ 582 01fb 01       	 .byte 1
+ 583 01fc 30       	 .byte 48
+ 584 01fd 0A       	 .byte 10
+ 585 01fe 06       	 .byte 6
+ 586 01ff 08       	 .byte 8
+ 587 0200 2A       	 .byte 42
+ 588 0201 86       	 .byte -122
+ 589 0202 48       	 .byte 72
+ 590 0203 CE       	 .byte -50
+ 591 0204 3D       	 .byte 61
+ 592 0205 04       	 .byte 4
+ 593 0206 03       	 .byte 3
+ 594 0207 02       	 .byte 2
+ 595 0208 03       	 .byte 3
+ 596 0209 47       	 .byte 71
+ 597 020a 00       	 .byte 0
+ 598 020b 30       	 .byte 48
+ 599 020c 44       	 .byte 68
+ 600 020d 02       	 .byte 2
+ 601 020e 20       	 .byte 32
+ 602 020f 42       	 .byte 66
+ 603 0210 B1       	 .byte -79
+ 604 0211 69       	 .byte 105
+ 605 0212 C1       	 .byte -63
+ 606 0213 63       	 .byte 99
+ 607 0214 DA       	 .byte -38
+ 608 0215 B9       	 .byte -71
+ 609 0216 53       	 .byte 83
+ 610 0217 3C       	 .byte 60
+ 611 0218 A2       	 .byte -94
+ 612 0219 4B       	 .byte 75
+ 613 021a B0       	 .byte -80
+ 614 021b 49       	 .byte 73
+ 615 021c B1       	 .byte -79
+ 616 021d 1E       	 .byte 30
+ 617 021e A3       	 .byte -93
+ 618 021f 14       	 .byte 20
+ 619 0220 8E       	 .byte -114
+ 620 0221 36       	 .byte 54
+ 621 0222 5A       	 .byte 90
+ 622 0223 5B       	 .byte 91
+ 623 0224 94       	 .byte -108
+ 624 0225 69       	 .byte 105
+ 625 0226 D3       	 .byte -45
+ 626 0227 9E       	 .byte -98
+ 627 0228 45       	 .byte 69
+ 628 0229 27       	 .byte 39
+ 629 022a 0C       	 .byte 12
+ 630 022b A1       	 .byte -95
+ 631 022c 65       	 .byte 101
+ 632 022d F5       	 .byte -11
+ 633 022e 17       	 .byte 23
+ 634 022f 02       	 .byte 2
+ 635 0230 20       	 .byte 32
+ 636 0231 3B       	 .byte 59
+ 637 0232 AE       	 .byte -82
+ 638 0233 63       	 .byte 99
+ 639 0234 74       	 .byte 116
+ 640 0235 E6       	 .byte -26
+ 641 0236 99       	 .byte -103
+ 642 0237 D6       	 .byte -42
+ 643 0238 69       	 .byte 105
+ 644 0239 DF       	 .byte -33
+ 645 023a 30       	 .byte 48
+ 646 023b C6       	 .byte -58
+ 647 023c C5       	 .byte -59
+ 648 023d 29       	 .byte 41
+ 649 023e 48       	 .byte 72
+ 650 023f 72       	 .byte 114
+ 651 0240 4B       	 .byte 75
+ 652 0241 EA       	 .byte -22
+ 653 0242 5A       	 .byte 90
+ 654 0243 88       	 .byte -120
+ 655 0244 FE       	 .byte -2
+ 656 0245 04       	 .byte 4
+ 657 0246 83       	 .byte -125
+ 658 0247 66       	 .byte 102
+ 659 0248 D9       	 .byte -39
+ 660 0249 E0       	 .byte -32
+ 661 024a F7       	 .byte -9
+ 662 024b 66       	 .byte 102
+ 663 024c 4F       	 .byte 79
+ 664 024d 69       	 .byte 105
+ 665 024e 7D       	 .byte 125
+ 666 024f 9A       	 .byte -102
+ 667 0250 DF       	 .byte -33
+ 668 0251 000000   	 .section .rodata
+ 669              	 .align 2
+ 670              	.LC0:
+ 671 0000 53746172 	 .ascii "Start WPC Qi Auth testing routines\015\012\000"
+ 671      74205750 
+ 671      43205169 
+ 671      20417574 
+ 671      68207465 
+ 672 0025 000000   	 .align 2
+ 673              	.LC1:
+ 674 0028 4572726F 	 .ascii "Error #1: Get Digest\015\012\000"
+ 674      72202331 
+ 674      3A204765 
+ 674      74204469 
+ 674      67657374 
+ 675 003f 00       	 .align 2
+ 676              	.LC2:
+ 677 0040 54657374 	 .ascii "Test #1: Get Digest OK\015\012\000"
+ 677      2023313A 
+ 677      20476574 
+ 677      20446967 
+ 677      65737420 
+ 678 0059 000000   	 .align 2
+ 679              	.LC3:
+ 680 005c 1B5B3332 	 .ascii "\033[32m\000"
+ 680      6D00
+ 681 0062 0000     	 .align 2
+ 682              	.LC4:
+ 683 0064 4572726F 	 .ascii "Error #2: Get Digest response\015\012\000"
+ 683      72202332 
+ 683      3A204765 
+ 683      74204469 
+ 683      67657374 
+ 684              	 .align 2
+ 685              	.LC5:
+ 686 0084 54657374 	 .ascii "Test #2: Get Digest response OK\015\012\000"
+ 686      2023323A 
+ 686      20476574 
+ 686      20446967 
+ 686      65737420 
+ 687 00a6 0000     	 .align 2
+ 688              	.LC6:
+ 689 00a8 4572726F 	 .ascii "Error #3: Get Certificate\015\012\000"
+ 689      72202333 
+ 689      3A204765 
+ 689      74204365 
+ 689      72746966 
+ 690              	 .align 2
+ 691              	.LC7:
+ 692 00c4 54657374 	 .ascii "Test #3: Get Certificate OK\015\012\000"
+ 692      2023333A 
+ 692      20476574 
+ 692      20436572 
+ 692      74696669 
+ 693 00e2 0000     	 .align 2
+ 694              	.LC8:
+ 695 00e4 4572726F 	 .ascii "Error #4:  Get Certificate response\015\012\000"
+ 695      72202334 
+ 695      3A202047 
+ 695      65742043 
+ 695      65727469 
+ 696 010a 0000     	 .align 2
+ 697              	.LC9:
+ 698 010c 54657374 	 .ascii "Test #4: Get Certificate response OK\015\012\000"
+ 698      2023343A 
+ 698      20476574 
+ 698      20436572 
+ 698      74696669 
+ 699 0133 00       	 .align 2
+ 700              	.LC10:
+ 701 0134 4572726F 	 .ascii "Error #6: Get Challenge Request\015\012\000"
+ 701      72202336 
+ 701      3A204765 
+ 701      74204368 
+ 701      616C6C65 
+ 702 0156 0000     	 .align 2
+ 703              	.LC11:
+ 704 0158 54657374 	 .ascii "Test #6: Get Challenge Request OK\015\012\000"
+ 704      2023363A 
+ 704      20476574 
+ 704      20436861 
+ 704      6C6C656E 
+ 705              	 .align 2
+ 706              	.LC12:
+ 707 017c 4572726F 	 .ascii "Error #7: Get Challenge Auth Response\015\012\000"
+ 707      72202337 
+ 707      3A204765 
+ 707      74204368 
+ 707      616C6C65 
+ 708              	 .align 2
+ 709              	.LC13:
+ 710 01a4 54657374 	 .ascii "Test #7: Get Challenge Auth Response OK\015\012\000"
+ 710      2023373A 
+ 710      20476574 
+ 710      20436861 
+ 710      6C6C656E 
+ 711 01ce 0000     	 .align 2
+ 712              	.LC14:
+ 713 01d0 4572726F 	 .ascii "Error #8: Verify Challenge Auth Response\015\012\000"
+ 713      72202338 
+ 713      3A205665 
+ 713      72696679 
+ 713      20436861 
+ 714 01fb 00       	 .align 2
+ 715              	.LC15:
+ 716 01fc 54657374 	 .ascii "Test #8: Verify Challenge Auth Response OK\015\012\000"
+ 716      2023383A 
+ 716      20566572 
+ 716      69667920 
+ 716      4368616C 
+ 717 0229 000000   	 .section .text.qi_auth_ptx_prx_test,"ax",%progbits
+ 718              	 .align 2
+ 719              	 .global qi_auth_ptx_prx_test
+ 720              	 .thumb
+ 721              	 .thumb_func
+ 723              	qi_auth_ptx_prx_test:
+ 724              	.LFB0:
+ 725              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc/qi_auth_self_test.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** /**
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * MIT License
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** *
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * Copyright (c) 2018 Infineon Technologies AG
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** *
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * of this software and associated documentation files (the "Software"), to deal
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * in the Software without restriction, including without limitation the rights
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * copies of the Software, and to permit persons to whom the Software is
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * furnished to do so, subject to the following conditions:
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** *
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * The above copyright notice and this permission notice shall be included in all
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * copies or substantial portions of the Software.
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** *
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * SOFTWARE
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** *
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** *
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** *
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * \file    qi_auth_.c
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** *
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** * \brief   This file implements the APIs, types and data structures for WPC Qi Auth Rel 1.3 impleme
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** *
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** */
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** #include "qi_auth_prx.h"
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** #include "qi_auth_ptx.h"
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** #include "qi_auth_fixtures.h"
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** #include "optiga/common/optiga_lib_logger.h"
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** int qi_auth_ptx_prx_test(void)
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** {
+ 726              	 .loc 1 39 0
+ 727              	 .cfi_startproc
+ 728              	 
+ 729              	 
+ 730 0000 B0B5     	 push {r4,r5,r7,lr}
+ 731              	.LCFI0:
+ 732              	 .cfi_def_cfa_offset 16
+ 733              	 .cfi_offset 4,-16
+ 734              	 .cfi_offset 5,-12
+ 735              	 .cfi_offset 7,-8
+ 736              	 .cfi_offset 14,-4
+ 737 0002 ADF5FD6D 	 sub sp,sp,#2024
+ 738              	.LCFI1:
+ 739              	 .cfi_def_cfa_offset 2040
+ 740 0006 02AF     	 add r7,sp,#8
+ 741              	.LCFI2:
+ 742              	 .cfi_def_cfa 7,2032
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     uint8_t req[500];
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     uint16_t req_size = 500;
+ 743              	 .loc 1 41 0
+ 744 0008 07F2E653 	 addw r3,r7,#1510
+ 745 000c 4FF4FA72 	 mov r2,#500
+ 746 0010 1A80     	 strh r2,[r3]
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     uint8_t resp[500];
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     uint16_t resp_size = 500;
+ 747              	 .loc 1 43 0
+ 748 0012 07F2EE33 	 addw r3,r7,#1006
+ 749 0016 4FF4FA72 	 mov r2,#500
+ 750 001a 1A80     	 strh r2,[r3]
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     uint8_t certchain[1000];
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     uint16_t certchain_size = 1000;
+ 751              	 .loc 1 46 0
+ 752 001c BB1C     	 adds r3,r7,#2
+ 753 001e 4FF47A72 	 mov r2,#1000
+ 754 0022 1A80     	 strh r2,[r3]
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     int status = 1;
+ 755              	 .loc 1 47 0
+ 756 0024 0123     	 movs r3,#1
+ 757 0026 C7F8DC37 	 str r3,[r7,#2012]
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     optiga_lib_print_string_with_newline("Start WPC Qi Auth testing routines\r\n");
+ 758              	 .loc 1 49 0
+ 759 002a 7348     	 ldr r0,.L17
+ 760 002c FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     qi_auth_ptx_init();
+ 761              	 .loc 1 51 0
+ 762 0030 FFF7FEFF 	 bl qi_auth_ptx_init
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     qi_auth_prx_init();
+ 763              	 .loc 1 52 0
+ 764 0034 FFF7FEFF 	 bl qi_auth_prx_init
+ 765              	.LBB2:
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     do
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     {
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         // Test API
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     	// Prepare GET_DIGESTS message
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         if (0 != qi_auth_prx_get_digests(0, 0, req, &req_size))
+ 766              	 .loc 1 58 0
+ 767 0038 07F5BD62 	 add r2,r7,#1512
+ 768 003c 07F2E653 	 addw r3,r7,#1510
+ 769 0040 0020     	 movs r0,#0
+ 770 0042 0021     	 movs r1,#0
+ 771 0044 FFF7FEFF 	 bl qi_auth_prx_get_digests
+ 772 0048 0346     	 mov r3,r0
+ 773 004a 002B     	 cmp r3,#0
+ 774 004c 03D0     	 beq .L2
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Error #1: Get Digest\r\n");
+ 775              	 .loc 1 60 0
+ 776 004e 6B48     	 ldr r0,.L17+4
+ 777 0050 FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+ 778 0054 0CE0     	 b .L3
+ 779              	.L2:
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         else
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Test #1: Get Digest OK\r\n");
+ 780              	 .loc 1 64 0
+ 781 0056 6A48     	 ldr r0,.L17+8
+ 782 0058 FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_array_hex_format(req, req_size, OPTIGA_LIB_LOGGER_COLOR_GREEN);
+ 783              	 .loc 1 65 0
+ 784 005c 07F2E653 	 addw r3,r7,#1510
+ 785 0060 1B88     	 ldrh r3,[r3]
+ 786 0062 07F5BD62 	 add r2,r7,#1512
+ 787 0066 1046     	 mov r0,r2
+ 788 0068 1946     	 mov r1,r3
+ 789 006a 664A     	 ldr r2,.L17+12
+ 790 006c FFF7FEFF 	 bl optiga_lib_print_array_hex_format
+ 791              	.L3:
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         // Prepare DIGESTS message
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         if (0 != qi_auth_ptx_digests(0, resp, &resp_size))
+ 792              	 .loc 1 69 0
+ 793 0070 07F57C72 	 add r2,r7,#1008
+ 794 0074 07F2EE33 	 addw r3,r7,#1006
+ 795 0078 0020     	 movs r0,#0
+ 796 007a 1146     	 mov r1,r2
+ 797 007c 1A46     	 mov r2,r3
+ 798 007e FFF7FEFF 	 bl qi_auth_ptx_digests
+ 799 0082 0346     	 mov r3,r0
+ 800 0084 002B     	 cmp r3,#0
+ 801 0086 03D0     	 beq .L4
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Error #2: Get Digest response\r\n");
+ 802              	 .loc 1 71 0
+ 803 0088 5F48     	 ldr r0,.L17+16
+ 804 008a FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+ 805 008e 0CE0     	 b .L5
+ 806              	.L4:
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         else
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Test #2: Get Digest response OK\r\n");
+ 807              	 .loc 1 75 0
+ 808 0090 5E48     	 ldr r0,.L17+20
+ 809 0092 FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_array_hex_format(resp, resp_size, OPTIGA_LIB_LOGGER_COLOR_GREEN);
+ 810              	 .loc 1 76 0
+ 811 0096 07F2EE33 	 addw r3,r7,#1006
+ 812 009a 1B88     	 ldrh r3,[r3]
+ 813 009c 07F57C72 	 add r2,r7,#1008
+ 814 00a0 1046     	 mov r0,r2
+ 815 00a2 1946     	 mov r1,r3
+ 816 00a4 574A     	 ldr r2,.L17+12
+ 817 00a6 FFF7FEFF 	 bl optiga_lib_print_array_hex_format
+ 818              	.L5:
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         // Prepare GET_CERTIFICATE message
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         if (0 != qi_auth_prx_get_certificate(0, 277, 0, 0, req, &req_size))
+ 819              	 .loc 1 80 0
+ 820 00aa 07F5BD63 	 add r3,r7,#1512
+ 821 00ae 0093     	 str r3,[sp]
+ 822 00b0 07F2E653 	 addw r3,r7,#1510
+ 823 00b4 0193     	 str r3,[sp,#4]
+ 824 00b6 0020     	 movs r0,#0
+ 825 00b8 40F21511 	 movw r1,#277
+ 826 00bc 0022     	 movs r2,#0
+ 827 00be 0023     	 movs r3,#0
+ 828 00c0 FFF7FEFF 	 bl qi_auth_prx_get_certificate
+ 829 00c4 0346     	 mov r3,r0
+ 830 00c6 002B     	 cmp r3,#0
+ 831 00c8 03D0     	 beq .L6
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Error #3: Get Certificate\r\n");
+ 832              	 .loc 1 82 0
+ 833 00ca 5148     	 ldr r0,.L17+24
+ 834 00cc FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+ 835 00d0 0CE0     	 b .L7
+ 836              	.L6:
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         else
+  85:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+  86:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Test #3: Get Certificate OK\r\n");
+ 837              	 .loc 1 86 0
+ 838 00d2 5048     	 ldr r0,.L17+28
+ 839 00d4 FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+  87:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_array_hex_format(req, req_size, OPTIGA_LIB_LOGGER_COLOR_GREEN);
+ 840              	 .loc 1 87 0
+ 841 00d8 07F2E653 	 addw r3,r7,#1510
+ 842 00dc 1B88     	 ldrh r3,[r3]
+ 843 00de 07F5BD62 	 add r2,r7,#1512
+ 844 00e2 1046     	 mov r0,r2
+ 845 00e4 1946     	 mov r1,r3
+ 846 00e6 474A     	 ldr r2,.L17+12
+ 847 00e8 FFF7FEFF 	 bl optiga_lib_print_array_hex_format
+ 848              	.L7:
+  88:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+  89:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+  90:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         // Prepare CERTIFICATE message
+  91:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         if (0 != qi_auth_ptx_certificate(0, certchain, &certchain_size))
+ 849              	 .loc 1 91 0
+ 850 00ec 3A1D     	 adds r2,r7,#4
+ 851 00ee BB1C     	 adds r3,r7,#2
+ 852 00f0 0020     	 movs r0,#0
+ 853 00f2 1146     	 mov r1,r2
+ 854 00f4 1A46     	 mov r2,r3
+ 855 00f6 FFF7FEFF 	 bl qi_auth_ptx_certificate
+ 856 00fa 0346     	 mov r3,r0
+ 857 00fc 002B     	 cmp r3,#0
+ 858 00fe 0BD0     	 beq .L8
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+  93:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Error #4:  Get Certificate response\r\n");
+ 859              	 .loc 1 93 0
+ 860 0100 4548     	 ldr r0,.L17+32
+ 861 0102 FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+  94:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_array_hex_format(certchain, certchain_size, OPTIGA_LIB_LOGGER_COLOR_GR
+ 862              	 .loc 1 94 0
+ 863 0106 BB1C     	 adds r3,r7,#2
+ 864 0108 1B88     	 ldrh r3,[r3]
+ 865 010a 3A1D     	 adds r2,r7,#4
+ 866 010c 1046     	 mov r0,r2
+ 867 010e 1946     	 mov r1,r3
+ 868 0110 3C4A     	 ldr r2,.L17+12
+ 869 0112 FFF7FEFF 	 bl optiga_lib_print_array_hex_format
+ 870 0116 02E0     	 b .L9
+ 871              	.L8:
+  95:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+  96:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         else
+  97:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+  98:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Test #4: Get Certificate response OK\r\n");
+ 872              	 .loc 1 98 0
+ 873 0118 4048     	 ldr r0,.L17+36
+ 874 011a FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+ 875              	.L9:
+  99:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+ 100:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+ 101:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        // Verify the CERTIFICATE message
+ 102:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        if (0 != qi_auth_prx_verify_cert(certchain+1+2, certchain_size-1-2))
+ 103:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        {
+ 104:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //            optiga_lib_print_string_with_newline("Error #5: Verify Certificate response\r\n");
+ 105:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        }
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        else
+ 107:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        {
+ 108:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //            optiga_lib_print_string_with_newline("Test #5: Verify Certificate response OK\r\n");
+ 109:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        }
+ 110:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+ 111:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         // Prepare CHALLENGE message
+ 112:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         req_size = sizeof(req);
+ 876              	 .loc 1 112 0
+ 877 011e 07F2E653 	 addw r3,r7,#1510
+ 878 0122 4FF4FA72 	 mov r2,#500
+ 879 0126 1A80     	 strh r2,[r3]
+ 113:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         if (0 != qi_auth_prx_challenge(0, 0, req, &req_size))
+ 880              	 .loc 1 113 0
+ 881 0128 07F5BD62 	 add r2,r7,#1512
+ 882 012c 07F2E653 	 addw r3,r7,#1510
+ 883 0130 0020     	 movs r0,#0
+ 884 0132 0021     	 movs r1,#0
+ 885 0134 FFF7FEFF 	 bl qi_auth_prx_challenge
+ 886 0138 0346     	 mov r3,r0
+ 887 013a 002B     	 cmp r3,#0
+ 888 013c 03D0     	 beq .L10
+ 114:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+ 115:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Error #6: Get Challenge Request\r\n");
+ 889              	 .loc 1 115 0
+ 890 013e 3848     	 ldr r0,.L17+40
+ 891 0140 FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+ 892 0144 0CE0     	 b .L11
+ 893              	.L10:
+ 116:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+ 117:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         else
+ 118:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+ 119:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Test #6: Get Challenge Request OK\r\n");
+ 894              	 .loc 1 119 0
+ 895 0146 3748     	 ldr r0,.L17+44
+ 896 0148 FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+ 120:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_array_hex_format(req, req_size, OPTIGA_LIB_LOGGER_COLOR_GREEN);
+ 897              	 .loc 1 120 0
+ 898 014c 07F2E653 	 addw r3,r7,#1510
+ 899 0150 1B88     	 ldrh r3,[r3]
+ 900 0152 07F5BD62 	 add r2,r7,#1512
+ 901 0156 1046     	 mov r0,r2
+ 902 0158 1946     	 mov r1,r3
+ 903 015a 2A4A     	 ldr r2,.L17+12
+ 904 015c FFF7FEFF 	 bl optiga_lib_print_array_hex_format
+ 905              	.L11:
+ 121:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+ 122:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+ 123:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         // Feed the CHALLENGE message and prepare the CHALLENGE_AUTH message
+ 124:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         uint8_t resp_len;
+ 125:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         if (0 != qi_auth_ptx_challenge_auth(0, req, req_size, resp, &resp_len))
+ 906              	 .loc 1 125 0
+ 907 0160 07F2E653 	 addw r3,r7,#1510
+ 908 0164 1B88     	 ldrh r3,[r3]
+ 909 0166 DAB2     	 uxtb r2,r3
+ 910 0168 07F5BD61 	 add r1,r7,#1512
+ 911 016c 07F57C74 	 add r4,r7,#1008
+ 912 0170 7B1C     	 adds r3,r7,#1
+ 913 0172 0093     	 str r3,[sp]
+ 914 0174 0020     	 movs r0,#0
+ 915 0176 2346     	 mov r3,r4
+ 916 0178 FFF7FEFF 	 bl qi_auth_ptx_challenge_auth
+ 917 017c 0346     	 mov r3,r0
+ 918 017e 002B     	 cmp r3,#0
+ 919 0180 03D0     	 beq .L12
+ 126:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+ 127:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Error #7: Get Challenge Auth Response\r\n");
+ 920              	 .loc 1 127 0
+ 921 0182 2948     	 ldr r0,.L17+48
+ 922 0184 FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+ 923 0188 0CE0     	 b .L13
+ 924              	.L12:
+ 128:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+ 129:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         else
+ 130:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+ 131:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Test #7: Get Challenge Auth Response OK\r\n");
+ 925              	 .loc 1 131 0
+ 926 018a 2848     	 ldr r0,.L17+52
+ 927 018c FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+ 132:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_array_hex_format(resp, resp_len, OPTIGA_LIB_LOGGER_COLOR_GREEN);
+ 928              	 .loc 1 132 0
+ 929 0190 7B1C     	 adds r3,r7,#1
+ 930 0192 1B78     	 ldrb r3,[r3]
+ 931 0194 9BB2     	 uxth r3,r3
+ 932 0196 07F57C72 	 add r2,r7,#1008
+ 933 019a 1046     	 mov r0,r2
+ 934 019c 1946     	 mov r1,r3
+ 935 019e 194A     	 ldr r2,.L17+12
+ 936 01a0 FFF7FEFF 	 bl optiga_lib_print_array_hex_format
+ 937              	.L13:
+ 133:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+ 134:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+ 135:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         // Feed the CERTIFICATE, CHALLENGE used previously, and CHALLENGE_AUTH messages and verify 
+ 136:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         if (0 != qi_auth_prx_verify_chall_auth(certchain+1, certchain_size-1, req, req_size, resp, 
+ 938              	 .loc 1 136 0
+ 939 01a4 BB1C     	 adds r3,r7,#2
+ 940 01a6 1B88     	 ldrh r3,[r3]
+ 941 01a8 013B     	 subs r3,r3,#1
+ 942 01aa 99B2     	 uxth r1,r3
+ 943 01ac 07F2E653 	 addw r3,r7,#1510
+ 944 01b0 1C88     	 ldrh r4,[r3]
+ 945 01b2 7B1C     	 adds r3,r7,#1
+ 946 01b4 1B78     	 ldrb r3,[r3]
+ 947 01b6 9BB2     	 uxth r3,r3
+ 948 01b8 3A1D     	 adds r2,r7,#4
+ 949 01ba 501C     	 adds r0,r2,#1
+ 950 01bc 07F5BD65 	 add r5,r7,#1512
+ 951 01c0 07F57C72 	 add r2,r7,#1008
+ 952 01c4 0092     	 str r2,[sp]
+ 953 01c6 0193     	 str r3,[sp,#4]
+ 954 01c8 2A46     	 mov r2,r5
+ 955 01ca 2346     	 mov r3,r4
+ 956 01cc FFF7FEFF 	 bl qi_auth_prx_verify_chall_auth
+ 957 01d0 0346     	 mov r3,r0
+ 958 01d2 002B     	 cmp r3,#0
+ 959 01d4 03D0     	 beq .L14
+ 137:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+ 138:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Error #8: Verify Challenge Auth Response\r\n");
+ 960              	 .loc 1 138 0
+ 961 01d6 1648     	 ldr r0,.L17+56
+ 962 01d8 FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+ 963 01dc 02E0     	 b .L15
+ 964              	.L14:
+ 139:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+ 140:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         else
+ 141:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         {
+ 142:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****             optiga_lib_print_string_with_newline("Test #8: Verify Challenge Auth Response OK\r\n");
+ 965              	 .loc 1 142 0
+ 966 01de 1548     	 ldr r0,.L17+60
+ 967 01e0 FFF7FEFF 	 bl optiga_lib_print_string_with_newline
+ 968              	.L15:
+ 143:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         }
+ 144:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+ 145:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        // Test against fixtures
+ 146:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        if (0 != qi_auth_prx_verify_cert(qi_auth_cr660_draft5_certificate + 2, sizeof(qi_auth_cr6
+ 147:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        {
+ 148:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //            optiga_lib_print_string_with_newline("Error #9:  Verify Certificate\r\n");
+ 149:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        }
+ 150:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        else
+ 151:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        {
+ 152:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //            optiga_lib_print_string_with_newline("Test #9: Verify Certificate OK\r\n");
+ 153:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        }
+ 154:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //
+ 155:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        if (0 != qi_auth_prx_verify_chall_auth(    qi_auth_cr660_draft5_certificate, sizeof(qi_au
+ 156:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //                                                    qi_auth_cr660_draft5_challenge, sizeof(qi_aut
+ 157:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //                                                    qi_auth_cr660_draft5_challenge_auth, sizeof(q
+ 158:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        {
+ 159:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //            optiga_lib_print_string_with_newline("Error #10: Verify Challenge Auth\r\n");
+ 160:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        }
+ 161:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        else
+ 162:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        {
+ 163:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //            optiga_lib_print_string_with_newline("Test #10: Verify Challenge Auth OK\r\n");
+ 164:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** //        }
+ 165:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+ 166:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****         status = 0;
+ 969              	 .loc 1 166 0
+ 970 01e4 0023     	 movs r3,#0
+ 971 01e6 C7F8DC37 	 str r3,[r7,#2012]
+ 972              	.LBE2:
+ 167:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     }while(0);
+ 168:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** 
+ 169:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c ****     return status;
+ 973              	 .loc 1 169 0
+ 974 01ea D7F8DC37 	 ldr r3,[r7,#2012]
+ 170:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc\qi_auth_self_test.c **** }
+ 975              	 .loc 1 170 0
+ 976 01ee 1846     	 mov r0,r3
+ 977 01f0 07F5FC67 	 add r7,r7,#2016
+ 978              	.LCFI3:
+ 979              	 .cfi_def_cfa_offset 16
+ 980 01f4 BD46     	 mov sp,r7
+ 981              	.LCFI4:
+ 982              	 .cfi_def_cfa_register 13
+ 983              	 
+ 984 01f6 B0BD     	 pop {r4,r5,r7,pc}
+ 985              	.L18:
+ 986              	 .align 2
+ 987              	.L17:
+ 988 01f8 00000000 	 .word .LC0
+ 989 01fc 28000000 	 .word .LC1
+ 990 0200 40000000 	 .word .LC2
+ 991 0204 5C000000 	 .word .LC3
+ 992 0208 64000000 	 .word .LC4
+ 993 020c 84000000 	 .word .LC5
+ 994 0210 A8000000 	 .word .LC6
+ 995 0214 C4000000 	 .word .LC7
+ 996 0218 E4000000 	 .word .LC8
+ 997 021c 0C010000 	 .word .LC9
+ 998 0220 34010000 	 .word .LC10
+ 999 0224 58010000 	 .word .LC11
+ 1000 0228 7C010000 	 .word .LC12
+ 1001 022c A4010000 	 .word .LC13
+ 1002 0230 D0010000 	 .word .LC14
+ 1003 0234 FC010000 	 .word .LC15
+ 1004              	 .cfi_endproc
+ 1005              	.LFE0:
+ 1007              	 .text
+ 1008              	.Letext0:
+ 1009              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 1010              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 1011              	 .file 4 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/wpc/qi_auth_fixtures.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 qi_auth_self_test.c
+    {standard input}:20     .rodata.qi_auth_cr660_draft5_root_hash:00000000 $d
+    {standard input}:23     .rodata.qi_auth_cr660_draft5_root_hash:00000000 qi_auth_cr660_draft5_root_hash
+    {standard input}:57     .rodata.qi_auth_cr660_draft5_root_cert:00000000 $d
+    {standard input}:60     .rodata.qi_auth_cr660_draft5_root_cert:00000000 qi_auth_cr660_draft5_root_cert
+    {standard input}:71     .rodata.qi_auth_cr660_draft5_certificate:00000000 $d
+    {standard input}:74     .rodata.qi_auth_cr660_draft5_certificate:00000000 qi_auth_cr660_draft5_certificate
+    {standard input}:669    .rodata:00000000 $d
+    {standard input}:718    .text.qi_auth_ptx_prx_test:00000000 $t
+    {standard input}:723    .text.qi_auth_ptx_prx_test:00000000 qi_auth_ptx_prx_test
+    {standard input}:988    .text.qi_auth_ptx_prx_test:000001f8 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+optiga_lib_print_string_with_newline
+qi_auth_ptx_init
+qi_auth_prx_init
+qi_auth_prx_get_digests
+optiga_lib_print_array_hex_format
+qi_auth_ptx_digests
+qi_auth_prx_get_certificate
+qi_auth_ptx_certificate
+qi_auth_prx_challenge
+qi_auth_ptx_challenge_auth
+qi_auth_prx_verify_chall_auth

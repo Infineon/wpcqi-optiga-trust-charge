@@ -1,0 +1,711 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "pal_logger.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .global logger_console
+  20              	 .section .data.logger_console,"aw",%progbits
+  21              	 .align 2
+  24              	logger_console:
+  25 0000 00000000 	 .word 0
+  26 0004 01       	 .byte 1
+  27 0005 01       	 .byte 1
+  28 0006 0000     	 .space 2
+  29              	 .global cunit_console
+  30              	 .section .data.cunit_console,"aw",%progbits
+  31              	 .align 2
+  34              	cunit_console:
+  35 0000 00000000 	 .word cunit_logger
+  36 0004 01       	 .byte 1
+  37 0005 01       	 .byte 1
+  38 0006 0000     	 .space 2
+  39              	 .section .text.cunit_console_uart_end_of_transmit_callback,"ax",%progbits
+  40              	 .align 2
+  41              	 .global cunit_console_uart_end_of_transmit_callback
+  42              	 .thumb
+  43              	 .thumb_func
+  45              	cunit_console_uart_end_of_transmit_callback:
+  46              	.LFB387:
+  47              	 .file 1 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700/pal_logger.c"
+   1:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** /**
+   2:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * \copyright
+   3:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * MIT License
+   4:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** *
+   5:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * Copyright (c) 2020 Infineon Technologies AG
+   6:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** *
+   7:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * Permission is hereby granted, free of charge, to any person obtaining a copy
+   8:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * of this software and associated documentation files (the "Software"), to deal
+   9:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * in the Software without restriction, including without limitation the rights
+  10:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  11:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * copies of the Software, and to permit persons to whom the Software is
+  12:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * furnished to do so, subject to the following conditions:
+  13:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** *
+  14:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * The above copyright notice and this permission notice shall be included in all
+  15:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * copies or substantial portions of the Software.
+  16:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** *
+  17:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  18:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  19:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  20:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  21:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  22:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  23:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * SOFTWARE
+  24:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** *
+  25:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * \endcopyright
+  26:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** *
+  27:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** * \author Infineon Technologies AG
+  28:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****  *
+  29:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****  * \file    pal_logger.c
+  30:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****  *
+  31:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****  * \brief   This file provides the prototypes declarations for pal logger.
+  32:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****  *
+  33:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****  * \ingroup grPAL
+  34:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****  *
+  35:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****  * @{
+  36:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****  */
+  37:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** #include <DAVE.h>
+  38:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** #include "optiga/pal/pal_logger.h"
+  39:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+  40:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** /// @cond hidden
+  41:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+  42:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** //lint --e{552,714} suppress "Accessed by user of this structure" 
+  43:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** pal_logger_t logger_console =
+  44:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** {
+  45:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         .logger_config_ptr = NULL,
+  46:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         .logger_rx_flag = 1,
+  47:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         .logger_tx_flag = 1
+  48:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** };
+  49:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** //lint --e{552} suppress "Accessed by user of this structure"
+  50:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** pal_logger_t cunit_console =
+  51:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** {
+  52:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         .logger_config_ptr = (void*)(&cunit_logger),
+  53:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         .logger_rx_flag = 1,
+  54:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         .logger_tx_flag = 1
+  55:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** };
+  56:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+  57:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** void cunit_console_uart_end_of_transmit_callback(void)
+  58:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** {
+  48              	 .loc 1 58 0
+  49              	 .cfi_startproc
+  50              	 
+  51              	 
+  52              	 
+  53 0000 80B4     	 push {r7}
+  54              	.LCFI0:
+  55              	 .cfi_def_cfa_offset 4
+  56              	 .cfi_offset 7,-4
+  57 0002 00AF     	 add r7,sp,#0
+  58              	.LCFI1:
+  59              	 .cfi_def_cfa_register 7
+  59:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     cunit_console.logger_tx_flag = 0;
+  60              	 .loc 1 59 0
+  61 0004 034B     	 ldr r3,.L2
+  62 0006 0022     	 movs r2,#0
+  63 0008 5A71     	 strb r2,[r3,#5]
+  60:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** }
+  64              	 .loc 1 60 0
+  65 000a BD46     	 mov sp,r7
+  66              	.LCFI2:
+  67              	 .cfi_def_cfa_register 13
+  68              	 
+  69 000c 5DF8047B 	 ldr r7,[sp],#4
+  70              	.LCFI3:
+  71              	 .cfi_restore 7
+  72              	 .cfi_def_cfa_offset 0
+  73 0010 7047     	 bx lr
+  74              	.L3:
+  75 0012 00BF     	 .align 2
+  76              	.L2:
+  77 0014 00000000 	 .word cunit_console
+  78              	 .cfi_endproc
+  79              	.LFE387:
+  81              	 .section .text.cunit_console_uart_end_of_receive_callback,"ax",%progbits
+  82              	 .align 2
+  83              	 .global cunit_console_uart_end_of_receive_callback
+  84              	 .thumb
+  85              	 .thumb_func
+  87              	cunit_console_uart_end_of_receive_callback:
+  88              	.LFB388:
+  61:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+  62:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** void cunit_console_uart_end_of_receive_callback(void)
+  63:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** {
+  89              	 .loc 1 63 0
+  90              	 .cfi_startproc
+  91              	 
+  92              	 
+  93              	 
+  94 0000 80B4     	 push {r7}
+  95              	.LCFI4:
+  96              	 .cfi_def_cfa_offset 4
+  97              	 .cfi_offset 7,-4
+  98 0002 00AF     	 add r7,sp,#0
+  99              	.LCFI5:
+ 100              	 .cfi_def_cfa_register 7
+  64:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     cunit_console.logger_rx_flag = 0;
+ 101              	 .loc 1 64 0
+ 102 0004 034B     	 ldr r3,.L5
+ 103 0006 0022     	 movs r2,#0
+ 104 0008 1A71     	 strb r2,[r3,#4]
+  65:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** }
+ 105              	 .loc 1 65 0
+ 106 000a BD46     	 mov sp,r7
+ 107              	.LCFI6:
+ 108              	 .cfi_def_cfa_register 13
+ 109              	 
+ 110 000c 5DF8047B 	 ldr r7,[sp],#4
+ 111              	.LCFI7:
+ 112              	 .cfi_restore 7
+ 113              	 .cfi_def_cfa_offset 0
+ 114 0010 7047     	 bx lr
+ 115              	.L6:
+ 116 0012 00BF     	 .align 2
+ 117              	.L5:
+ 118 0014 00000000 	 .word cunit_console
+ 119              	 .cfi_endproc
+ 120              	.LFE388:
+ 122              	 .section .text.pal_logger_init,"ax",%progbits
+ 123              	 .align 2
+ 124              	 .global pal_logger_init
+ 125              	 .thumb
+ 126              	 .thumb_func
+ 128              	pal_logger_init:
+ 129              	.LFB389:
+  66:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+  67:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** /// @endcond
+  68:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+  69:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+  70:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** pal_status_t pal_logger_init(void * p_logger_context)
+  71:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** {
+ 130              	 .loc 1 71 0
+ 131              	 .cfi_startproc
+ 132              	 
+ 133              	 
+ 134 0000 80B5     	 push {r7,lr}
+ 135              	.LCFI8:
+ 136              	 .cfi_def_cfa_offset 8
+ 137              	 .cfi_offset 7,-8
+ 138              	 .cfi_offset 14,-4
+ 139 0002 84B0     	 sub sp,sp,#16
+ 140              	.LCFI9:
+ 141              	 .cfi_def_cfa_offset 24
+ 142 0004 00AF     	 add r7,sp,#0
+ 143              	.LCFI10:
+ 144              	 .cfi_def_cfa_register 7
+ 145 0006 7860     	 str r0,[r7,#4]
+  72:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     pal_status_t return_status = PAL_STATUS_FAILURE;
+ 146              	 .loc 1 72 0
+ 147 0008 0123     	 movs r3,#1
+ 148 000a FB81     	 strh r3,[r7,#14]
+  73:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     pal_logger_t * p_log_context = p_logger_context;
+ 149              	 .loc 1 73 0
+ 150 000c 7B68     	 ldr r3,[r7,#4]
+ 151 000e BB60     	 str r3,[r7,#8]
+  74:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+  75:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     do
+  76:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     {
+  77:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         // The instance of VMCOMS is internally declared
+  78:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         if(NULL == p_log_context->logger_config_ptr)
+ 152              	 .loc 1 78 0
+ 153 0010 BB68     	 ldr r3,[r7,#8]
+ 154 0012 1B68     	 ldr r3,[r3]
+ 155 0014 002B     	 cmp r3,#0
+ 156 0016 0ED1     	 bne .L8
+  79:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         {
+  80:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             if(USBD_VCOM_STATUS_SUCCESS != USBD_VCOM_Connect())
+ 157              	 .loc 1 80 0
+ 158 0018 FFF7FEFF 	 bl USBD_VCOM_Connect
+ 159 001c 0346     	 mov r3,r0
+ 160 001e 002B     	 cmp r3,#0
+ 161 0020 00D0     	 beq .L9
+  81:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             {
+  82:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****                 break;
+ 162              	 .loc 1 82 0
+ 163 0022 0AE0     	 b .L10
+ 164              	.L9:
+  83:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             }
+  84:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+  85:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             while(!USBD_VCOM_IsEnumDone()){};
+ 165              	 .loc 1 85 0
+ 166 0024 00BF     	 nop
+ 167              	.L11:
+ 168              	 .loc 1 85 0 is_stmt 0 discriminator 1
+ 169 0026 FFF7FEFF 	 bl USBD_VCOM_IsEnumDone
+ 170 002a 0346     	 mov r3,r0
+ 171 002c 002B     	 cmp r3,#0
+ 172 002e FAD0     	 beq .L11
+  86:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             return_status = PAL_STATUS_SUCCESS;
+ 173              	 .loc 1 86 0 is_stmt 1
+ 174 0030 0023     	 movs r3,#0
+ 175 0032 FB81     	 strh r3,[r7,#14]
+ 176 0034 01E0     	 b .L10
+ 177              	.L8:
+  87:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         }
+  88:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         else
+  89:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         {
+  90:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             return_status = PAL_STATUS_SUCCESS;
+ 178              	 .loc 1 90 0
+ 179 0036 0023     	 movs r3,#0
+ 180 0038 FB81     	 strh r3,[r7,#14]
+ 181              	.L10:
+  91:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         }
+  92:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     }while(FALSE);
+  93:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     return return_status;
+ 182              	 .loc 1 93 0
+ 183 003a FB89     	 ldrh r3,[r7,#14]
+  94:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** }
+ 184              	 .loc 1 94 0
+ 185 003c 1846     	 mov r0,r3
+ 186 003e 1037     	 adds r7,r7,#16
+ 187              	.LCFI11:
+ 188              	 .cfi_def_cfa_offset 8
+ 189 0040 BD46     	 mov sp,r7
+ 190              	.LCFI12:
+ 191              	 .cfi_def_cfa_register 13
+ 192              	 
+ 193 0042 80BD     	 pop {r7,pc}
+ 194              	 .cfi_endproc
+ 195              	.LFE389:
+ 197              	 .section .text.pal_logger_deinit,"ax",%progbits
+ 198              	 .align 2
+ 199              	 .global pal_logger_deinit
+ 200              	 .thumb
+ 201              	 .thumb_func
+ 203              	pal_logger_deinit:
+ 204              	.LFB390:
+  95:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+  96:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+  97:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** pal_status_t pal_logger_deinit(void * p_logger_context)
+  98:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** {
+ 205              	 .loc 1 98 0
+ 206              	 .cfi_startproc
+ 207              	 
+ 208              	 
+ 209 0000 80B5     	 push {r7,lr}
+ 210              	.LCFI13:
+ 211              	 .cfi_def_cfa_offset 8
+ 212              	 .cfi_offset 7,-8
+ 213              	 .cfi_offset 14,-4
+ 214 0002 84B0     	 sub sp,sp,#16
+ 215              	.LCFI14:
+ 216              	 .cfi_def_cfa_offset 24
+ 217 0004 00AF     	 add r7,sp,#0
+ 218              	.LCFI15:
+ 219              	 .cfi_def_cfa_register 7
+ 220 0006 7860     	 str r0,[r7,#4]
+  99:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     pal_status_t return_status = PAL_STATUS_FAILURE;
+ 221              	 .loc 1 99 0
+ 222 0008 0123     	 movs r3,#1
+ 223 000a FB81     	 strh r3,[r7,#14]
+ 100:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     pal_logger_t * p_log_context = p_logger_context;
+ 224              	 .loc 1 100 0
+ 225 000c 7B68     	 ldr r3,[r7,#4]
+ 226 000e BB60     	 str r3,[r7,#8]
+ 101:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+ 102:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     do
+ 103:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     {
+ 104:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         // The instance of VMCOMS is internally declared
+ 105:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         if(NULL == p_log_context->logger_config_ptr)
+ 227              	 .loc 1 105 0
+ 228 0010 BB68     	 ldr r3,[r7,#8]
+ 229 0012 1B68     	 ldr r3,[r3]
+ 230 0014 002B     	 cmp r3,#0
+ 231 0016 04D1     	 bne .L14
+ 106:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         {
+ 107:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             //lint --e{534} suppress "The return status of USBD_VCOM_Disconnect is not required to 
+ 108:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             USBD_VCOM_Disconnect();
+ 232              	 .loc 1 108 0
+ 233 0018 FFF7FEFF 	 bl USBD_VCOM_Disconnect
+ 109:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             return_status = PAL_STATUS_SUCCESS;
+ 234              	 .loc 1 109 0
+ 235 001c 0023     	 movs r3,#0
+ 236 001e FB81     	 strh r3,[r7,#14]
+ 237 0020 01E0     	 b .L15
+ 238              	.L14:
+ 110:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         }
+ 111:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         else
+ 112:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         {
+ 113:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             return_status = PAL_STATUS_SUCCESS;
+ 239              	 .loc 1 113 0
+ 240 0022 0023     	 movs r3,#0
+ 241 0024 FB81     	 strh r3,[r7,#14]
+ 242              	.L15:
+ 114:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         }
+ 115:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     }while(FALSE);
+ 116:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     return return_status;
+ 243              	 .loc 1 116 0
+ 244 0026 FB89     	 ldrh r3,[r7,#14]
+ 117:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** }
+ 245              	 .loc 1 117 0
+ 246 0028 1846     	 mov r0,r3
+ 247 002a 1037     	 adds r7,r7,#16
+ 248              	.LCFI16:
+ 249              	 .cfi_def_cfa_offset 8
+ 250 002c BD46     	 mov sp,r7
+ 251              	.LCFI17:
+ 252              	 .cfi_def_cfa_register 13
+ 253              	 
+ 254 002e 80BD     	 pop {r7,pc}
+ 255              	 .cfi_endproc
+ 256              	.LFE390:
+ 258              	 .section .text.pal_logger_write,"ax",%progbits
+ 259              	 .align 2
+ 260              	 .global pal_logger_write
+ 261              	 .thumb
+ 262              	 .thumb_func
+ 264              	pal_logger_write:
+ 265              	.LFB391:
+ 118:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+ 119:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+ 120:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** pal_status_t pal_logger_write(void * p_logger_context, const uint8_t * p_log_data, uint32_t log_dat
+ 121:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** {
+ 266              	 .loc 1 121 0
+ 267              	 .cfi_startproc
+ 268              	 
+ 269              	 
+ 270 0000 80B5     	 push {r7,lr}
+ 271              	.LCFI18:
+ 272              	 .cfi_def_cfa_offset 8
+ 273              	 .cfi_offset 7,-8
+ 274              	 .cfi_offset 14,-4
+ 275 0002 86B0     	 sub sp,sp,#24
+ 276              	.LCFI19:
+ 277              	 .cfi_def_cfa_offset 32
+ 278 0004 00AF     	 add r7,sp,#0
+ 279              	.LCFI20:
+ 280              	 .cfi_def_cfa_register 7
+ 281 0006 F860     	 str r0,[r7,#12]
+ 282 0008 B960     	 str r1,[r7,#8]
+ 283 000a 7A60     	 str r2,[r7,#4]
+ 122:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+ 123:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     int32_t return_status = PAL_STATUS_FAILURE;
+ 284              	 .loc 1 123 0
+ 285 000c 0123     	 movs r3,#1
+ 286 000e 7B61     	 str r3,[r7,#20]
+ 124:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     pal_logger_t * p_log_context = p_logger_context;
+ 287              	 .loc 1 124 0
+ 288 0010 FB68     	 ldr r3,[r7,#12]
+ 289 0012 3B61     	 str r3,[r7,#16]
+ 125:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+ 126:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     do
+ 127:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     {
+ 128:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         // The instance of VMCOMS is internally declared
+ 129:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         if(NULL == p_log_context->logger_config_ptr)
+ 290              	 .loc 1 129 0
+ 291 0014 3B69     	 ldr r3,[r7,#16]
+ 292 0016 1B68     	 ldr r3,[r3]
+ 293 0018 002B     	 cmp r3,#0
+ 294 001a 0FD1     	 bne .L18
+ 130:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         {
+ 131:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             if (USBD_VCOM_STATUS_SUCCESS != USBD_VCOM_SendData((int8_t *)p_log_data,(uint16_t)log_d
+ 295              	 .loc 1 131 0
+ 296 001c 7B68     	 ldr r3,[r7,#4]
+ 297 001e 9BB2     	 uxth r3,r3
+ 298 0020 B868     	 ldr r0,[r7,#8]
+ 299 0022 1946     	 mov r1,r3
+ 300 0024 FFF7FEFF 	 bl USBD_VCOM_SendData
+ 301 0028 0346     	 mov r3,r0
+ 302 002a 002B     	 cmp r3,#0
+ 303 002c 00D0     	 beq .L19
+ 132:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             {
+ 133:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****                 break;
+ 304              	 .loc 1 133 0
+ 305 002e 1DE0     	 b .L20
+ 306              	.L19:
+ 134:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             }
+ 135:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             CDC_Device_USBTask(&USBD_VCOM_cdc_interface);
+ 307              	 .loc 1 135 0
+ 308 0030 1148     	 ldr r0,.L24
+ 309 0032 FFF7FEFF 	 bl CDC_Device_USBTask
+ 136:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             return_status = PAL_STATUS_SUCCESS;
+ 310              	 .loc 1 136 0
+ 311 0036 0023     	 movs r3,#0
+ 312 0038 7B61     	 str r3,[r7,#20]
+ 313 003a 17E0     	 b .L20
+ 314              	.L18:
+ 137:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         }
+ 138:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         else
+ 139:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         {
+ 140:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             p_log_context->logger_tx_flag = 1U;
+ 315              	 .loc 1 140 0
+ 316 003c 3B69     	 ldr r3,[r7,#16]
+ 317 003e 0122     	 movs r2,#1
+ 318 0040 5A71     	 strb r2,[r3,#5]
+ 141:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+ 142:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             return_status = (int32_t)UART_Transmit(p_log_context->logger_config_ptr, (uint8_t *)p_l
+ 319              	 .loc 1 142 0
+ 320 0042 3B69     	 ldr r3,[r7,#16]
+ 321 0044 1B68     	 ldr r3,[r3]
+ 322 0046 1846     	 mov r0,r3
+ 323 0048 B968     	 ldr r1,[r7,#8]
+ 324 004a 7A68     	 ldr r2,[r7,#4]
+ 325 004c FFF7FEFF 	 bl UART_Transmit
+ 326 0050 0346     	 mov r3,r0
+ 327 0052 7B61     	 str r3,[r7,#20]
+ 143:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             if (return_status != PAL_STATUS_SUCCESS)
+ 328              	 .loc 1 143 0
+ 329 0054 7B69     	 ldr r3,[r7,#20]
+ 330 0056 002B     	 cmp r3,#0
+ 331 0058 00D0     	 beq .L21
+ 144:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             {
+ 145:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****                 break;
+ 332              	 .loc 1 145 0
+ 333 005a 07E0     	 b .L20
+ 334              	.L21:
+ 146:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             }
+ 147:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             while (p_log_context->logger_tx_flag)
+ 335              	 .loc 1 147 0
+ 336 005c 00BF     	 nop
+ 337              	.L22:
+ 338              	 .loc 1 147 0 is_stmt 0 discriminator 1
+ 339 005e 3B69     	 ldr r3,[r7,#16]
+ 340 0060 5B79     	 ldrb r3,[r3,#5]
+ 341 0062 DBB2     	 uxtb r3,r3
+ 342 0064 002B     	 cmp r3,#0
+ 343 0066 FAD1     	 bne .L22
+ 148:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             {
+ 149:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+ 150:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             }
+ 151:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             return_status = PAL_STATUS_SUCCESS;
+ 344              	 .loc 1 151 0 is_stmt 1
+ 345 0068 0023     	 movs r3,#0
+ 346 006a 7B61     	 str r3,[r7,#20]
+ 347              	.L20:
+ 152:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         }
+ 153:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     } while(0);
+ 154:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     return ((pal_status_t)return_status);
+ 348              	 .loc 1 154 0
+ 349 006c 7B69     	 ldr r3,[r7,#20]
+ 350 006e 9BB2     	 uxth r3,r3
+ 155:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** }
+ 351              	 .loc 1 155 0
+ 352 0070 1846     	 mov r0,r3
+ 353 0072 1837     	 adds r7,r7,#24
+ 354              	.LCFI21:
+ 355              	 .cfi_def_cfa_offset 8
+ 356 0074 BD46     	 mov sp,r7
+ 357              	.LCFI22:
+ 358              	 .cfi_def_cfa_register 13
+ 359              	 
+ 360 0076 80BD     	 pop {r7,pc}
+ 361              	.L25:
+ 362              	 .align 2
+ 363              	.L24:
+ 364 0078 00000000 	 .word USBD_VCOM_cdc_interface
+ 365              	 .cfi_endproc
+ 366              	.LFE391:
+ 368              	 .section .text.pal_logger_read,"ax",%progbits
+ 369              	 .align 2
+ 370              	 .global pal_logger_read
+ 371              	 .thumb
+ 372              	 .thumb_func
+ 374              	pal_logger_read:
+ 375              	.LFB392:
+ 156:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+ 157:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** pal_status_t pal_logger_read(void * p_logger_context, uint8_t * p_log_data, uint32_t log_data_lengt
+ 158:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** {
+ 376              	 .loc 1 158 0
+ 377              	 .cfi_startproc
+ 378              	 
+ 379              	 
+ 380 0000 80B5     	 push {r7,lr}
+ 381              	.LCFI23:
+ 382              	 .cfi_def_cfa_offset 8
+ 383              	 .cfi_offset 7,-8
+ 384              	 .cfi_offset 14,-4
+ 385 0002 86B0     	 sub sp,sp,#24
+ 386              	.LCFI24:
+ 387              	 .cfi_def_cfa_offset 32
+ 388 0004 00AF     	 add r7,sp,#0
+ 389              	.LCFI25:
+ 390              	 .cfi_def_cfa_register 7
+ 391 0006 F860     	 str r0,[r7,#12]
+ 392 0008 B960     	 str r1,[r7,#8]
+ 393 000a 7A60     	 str r2,[r7,#4]
+ 159:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+ 160:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     int32_t return_status = PAL_STATUS_FAILURE;
+ 394              	 .loc 1 160 0
+ 395 000c 0123     	 movs r3,#1
+ 396 000e 7B61     	 str r3,[r7,#20]
+ 161:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     pal_logger_t * p_log_context = p_logger_context;
+ 397              	 .loc 1 161 0
+ 398 0010 FB68     	 ldr r3,[r7,#12]
+ 399 0012 3B61     	 str r3,[r7,#16]
+ 162:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+ 163:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     do
+ 164:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     {
+ 165:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         // The instance of VMCOMS is internally declared
+ 166:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         if(NULL == p_log_context->logger_config_ptr)
+ 400              	 .loc 1 166 0
+ 401 0014 3B69     	 ldr r3,[r7,#16]
+ 402 0016 1B68     	 ldr r3,[r3]
+ 403 0018 002B     	 cmp r3,#0
+ 404 001a 0FD1     	 bne .L27
+ 167:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         {
+ 168:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             if (USBD_VCOM_STATUS_SUCCESS != USBD_VCOM_ReceiveData((int8_t * )p_log_data,(uint16_t)l
+ 405              	 .loc 1 168 0
+ 406 001c 7B68     	 ldr r3,[r7,#4]
+ 407 001e 9BB2     	 uxth r3,r3
+ 408 0020 B868     	 ldr r0,[r7,#8]
+ 409 0022 1946     	 mov r1,r3
+ 410 0024 FFF7FEFF 	 bl USBD_VCOM_ReceiveData
+ 411 0028 0346     	 mov r3,r0
+ 412 002a 002B     	 cmp r3,#0
+ 413 002c 00D0     	 beq .L28
+ 169:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             {
+ 170:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****                 break;
+ 414              	 .loc 1 170 0
+ 415 002e 1DE0     	 b .L29
+ 416              	.L28:
+ 171:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             }
+ 172:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             CDC_Device_USBTask(&USBD_VCOM_cdc_interface);
+ 417              	 .loc 1 172 0
+ 418 0030 1148     	 ldr r0,.L33
+ 419 0032 FFF7FEFF 	 bl CDC_Device_USBTask
+ 173:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             return_status = PAL_STATUS_SUCCESS;
+ 420              	 .loc 1 173 0
+ 421 0036 0023     	 movs r3,#0
+ 422 0038 7B61     	 str r3,[r7,#20]
+ 423 003a 17E0     	 b .L29
+ 424              	.L27:
+ 174:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         }
+ 175:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         else
+ 176:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         {
+ 177:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             p_log_context->logger_rx_flag = 1U;
+ 425              	 .loc 1 177 0
+ 426 003c 3B69     	 ldr r3,[r7,#16]
+ 427 003e 0122     	 movs r2,#1
+ 428 0040 1A71     	 strb r2,[r3,#4]
+ 178:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             return_status = (int32_t)UART_Receive(p_log_context->logger_config_ptr, p_log_data, log
+ 429              	 .loc 1 178 0
+ 430 0042 3B69     	 ldr r3,[r7,#16]
+ 431 0044 1B68     	 ldr r3,[r3]
+ 432 0046 1846     	 mov r0,r3
+ 433 0048 B968     	 ldr r1,[r7,#8]
+ 434 004a 7A68     	 ldr r2,[r7,#4]
+ 435 004c FFF7FEFF 	 bl UART_Receive
+ 436 0050 0346     	 mov r3,r0
+ 437 0052 7B61     	 str r3,[r7,#20]
+ 179:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             if (return_status != PAL_STATUS_SUCCESS)
+ 438              	 .loc 1 179 0
+ 439 0054 7B69     	 ldr r3,[r7,#20]
+ 440 0056 002B     	 cmp r3,#0
+ 441 0058 00D0     	 beq .L30
+ 180:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             {
+ 181:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****                 break;
+ 442              	 .loc 1 181 0
+ 443 005a 07E0     	 b .L29
+ 444              	.L30:
+ 182:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             }
+ 183:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             while (p_log_context->logger_rx_flag)
+ 445              	 .loc 1 183 0
+ 446 005c 00BF     	 nop
+ 447              	.L31:
+ 448              	 .loc 1 183 0 is_stmt 0 discriminator 1
+ 449 005e 3B69     	 ldr r3,[r7,#16]
+ 450 0060 1B79     	 ldrb r3,[r3,#4]
+ 451 0062 DBB2     	 uxtb r3,r3
+ 452 0064 002B     	 cmp r3,#0
+ 453 0066 FAD1     	 bne .L31
+ 184:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             {
+ 185:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** 
+ 186:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             }
+ 187:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****             return_status = PAL_STATUS_SUCCESS;
+ 454              	 .loc 1 187 0 is_stmt 1
+ 455 0068 0023     	 movs r3,#0
+ 456 006a 7B61     	 str r3,[r7,#20]
+ 457              	.L29:
+ 188:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****         }
+ 189:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     } while(0);
+ 190:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c ****     return ((pal_status_t)return_status);
+ 458              	 .loc 1 190 0
+ 459 006c 7B69     	 ldr r3,[r7,#20]
+ 460 006e 9BB2     	 uxth r3,r3
+ 191:C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/pal/xmc4700\pal_logger.c **** }
+ 461              	 .loc 1 191 0
+ 462 0070 1846     	 mov r0,r3
+ 463 0072 1837     	 adds r7,r7,#24
+ 464              	.LCFI26:
+ 465              	 .cfi_def_cfa_offset 8
+ 466 0074 BD46     	 mov sp,r7
+ 467              	.LCFI27:
+ 468              	 .cfi_def_cfa_register 13
+ 469              	 
+ 470 0076 80BD     	 pop {r7,pc}
+ 471              	.L34:
+ 472              	 .align 2
+ 473              	.L33:
+ 474 0078 00000000 	 .word USBD_VCOM_cdc_interface
+ 475              	 .cfi_endproc
+ 476              	.LFE392:
+ 478              	 .text
+ 479              	.Letext0:
+ 480              	 .file 2 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 481              	 .file 3 "c:\\users\\yushev\\dave_4-4-2_32bit_2018-02-23\\dave-ide-4.4.2-32bit\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 482              	 .file 4 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+ 483              	 .file 5 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_gpio.h"
+ 484              	 .file 6 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc4_gpio.h"
+ 485              	 .file 7 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usic.h"
+ 486              	 .file 8 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usbd_regs.h"
+ 487              	 .file 9 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_usbd.h"
+ 488              	 .file 10 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD/usbd.h"
+ 489              	 .file 11 "c:\\users\\yushev\\git\\wpcqi-optiga-trust-charge\\projects\\xmc4700_relax_kit_qi_auth_example\\common\\dave\\generated\\usbd\\usb\\core\\endpoint.h"
+ 490              	 .file 12 "c:\\users\\yushev\\git\\wpcqi-optiga-trust-charge\\projects\\xmc4700_relax_kit_qi_auth_example\\common\\dave\\generated\\usbd_vcom\\class_driver\\common\\cdc_class_common.h"
+ 491              	 .file 13 "c:\\users\\yushev\\git\\wpcqi-optiga-trust-charge\\projects\\xmc4700_relax_kit_qi_auth_example\\common\\dave\\generated\\usbd_vcom\\class_driver\\device/cdc_class_device.h"
+ 492              	 .file 14 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/usbd_vcom.h"
+ 493              	 .file 15 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib/inc/xmc_uart.h"
+ 494              	 .file 16 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/UART/uart.h"
+ 495              	 .file 17 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/pal/pal.h"
+ 496              	 .file 18 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/optiga/optiga/include/optiga/pal/pal_logger.h"
+ 497              	 .file 19 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Include/core_cm4.h"
+ 498              	 .file 20 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+ 499              	 .file 21 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD/usbd_extern.h"
+ 500              	 .file 22 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/USBD_VCOM/usbd_vcom_extern.h"
+ 501              	 .file 23 "C:/Users/Yushev/git/wpcqi-optiga-trust-charge/projects/xmc4700_relax_kit_qi_auth_example/common/Dave/Generated/UART/uart_extern.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 pal_logger.c
+    {standard input}:24     .data.logger_console:00000000 logger_console
+    {standard input}:21     .data.logger_console:00000000 $d
+    {standard input}:34     .data.cunit_console:00000000 cunit_console
+    {standard input}:31     .data.cunit_console:00000000 $d
+    {standard input}:40     .text.cunit_console_uart_end_of_transmit_callback:00000000 $t
+    {standard input}:45     .text.cunit_console_uart_end_of_transmit_callback:00000000 cunit_console_uart_end_of_transmit_callback
+    {standard input}:77     .text.cunit_console_uart_end_of_transmit_callback:00000014 $d
+    {standard input}:82     .text.cunit_console_uart_end_of_receive_callback:00000000 $t
+    {standard input}:87     .text.cunit_console_uart_end_of_receive_callback:00000000 cunit_console_uart_end_of_receive_callback
+    {standard input}:118    .text.cunit_console_uart_end_of_receive_callback:00000014 $d
+    {standard input}:123    .text.pal_logger_init:00000000 $t
+    {standard input}:128    .text.pal_logger_init:00000000 pal_logger_init
+    {standard input}:198    .text.pal_logger_deinit:00000000 $t
+    {standard input}:203    .text.pal_logger_deinit:00000000 pal_logger_deinit
+    {standard input}:259    .text.pal_logger_write:00000000 $t
+    {standard input}:264    .text.pal_logger_write:00000000 pal_logger_write
+    {standard input}:364    .text.pal_logger_write:00000078 $d
+    {standard input}:369    .text.pal_logger_read:00000000 $t
+    {standard input}:374    .text.pal_logger_read:00000000 pal_logger_read
+    {standard input}:474    .text.pal_logger_read:00000078 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+cunit_logger
+USBD_VCOM_Connect
+USBD_VCOM_IsEnumDone
+USBD_VCOM_Disconnect
+USBD_VCOM_SendData
+CDC_Device_USBTask
+UART_Transmit
+USBD_VCOM_cdc_interface
+USBD_VCOM_ReceiveData
+UART_Receive
