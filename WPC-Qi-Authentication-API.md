@@ -35,43 +35,6 @@ Almost all of the below mentioned functions are used in [this](../master/example
       * [qi_auth_prx_verify_cert](#qi_auth_prx_verify_cert)
     * Internal API: qi_auth_prx_crypt.h
       * [qi_auth_prx_crypt_init](#qi_auth_prx_crypt_init)
-      * [qi_auth_prx_crypt_deinit](#qi_auth_prx_cry<a name="top"></a>
-
-The WPC Qi Authentication API comprises two components
-* [Qi Auth Crypt](../master/examples/qi_auth/qi_auth_crypt.c) to perform crypto related operations
-* [Qi Auth](../master/examples/qi_auth/qi_auth.c) to prepare authentication packets according to WPC Qi Auth 1.3 specification
-
-Almost all of the below mentioned functions are used in [this](../master/examples/qi_auth/qi_auth.c#L457) test routine
-
-[tocstart]: # (toc start)
-
-  * **Power Transmitter (PTx) API:**
-    * User API: qi_auth_ptx.h
-      * [qi_auth_ptx_init](#qi_auth_ptx_init)
-      * [qi_auth_ptx_deinit](#qi_auth_ptx_deinit)
-      * [qi_auth_ptx_error](#qi_auth_ptx_error)
-      * [qi_auth_ptx_digests](#qi_auth_ptx_digests)
-      * [qi_auth_ptx_certificate](#qi_auth_ptx_certificate)
-      * [qi_auth_ptx_challenge_auth](#qi_auth_ptx_challenge_auth)
-    * Internal API: qi_auth_ptx_crypt.h
-      * [qi_auth_ptx_crypt_init](#qi_auth_ptx_crypt_init)
-      * [qi_auth_ptx_crypt_deinit](#qi_auth_ptx_crypt_init)
-      * [qi_auth_ptx_crypt_certchain_sha256](#qi_auth_ptx_crypt_certchain_sha256)
-      * [qi_auth_ptx_crypt_certchain](#qi_auth_ptx_crypt_certchain)
-      * [qi_auth_ptx_crypt_generate_sha256](#qi_auth_ptx_crypt_generate_sha256)
-      * [qi_auth_ptx_crypt_sign](#qi_auth_ptx_crypt_sign)
-  * **Power Receiver PRx API** (WPC doesn't mandate the usage of the Secure Element on the receiver side, though for some usecases it might be present):
-    * User API: qi_auth_prx.h
-      * [qi_auth_prx_init](#qi_auth_prx_init)
-      * [qi_auth_prx_deinit](#qi_auth_prx_deinit)
-      * [qi_auth_prx_get_digests](#qi_auth_prx_get_digests)
-      * [qi_auth_prx_get_certificate](#qi_auth_prx_get_certificate)
-      * [qi_auth_prx_challenge](#qi_auth_prx_challenge)
-      * [qi_auth_prx_handover](#qi_auth_prx_handover)
-      * [qi_auth_prx_verify_chall_auth](#qi_auth_prx_verify_chall_auth)
-      * [qi_auth_prx_verify_cert](#qi_auth_prx_verify_cert)
-    * Internal API: qi_auth_prx_crypt.h
-      * [qi_auth_prx_crypt_init](#qi_auth_prx_crypt_init)
       * [qi_auth_prx_crypt_deinit](#qi_auth_prx_crypt_deinit)
       * [qi_auth_prx_crypt_get_random](#qi_auth_prx_crypt_get_random)
       * [qi_auth_prx_crypt_generate_sha256](#qi_auth_prx_crypt_generate_sha256)
