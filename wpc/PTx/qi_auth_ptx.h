@@ -35,6 +35,17 @@
 #include "string.h"
 #include "stdint.h"
 
+#define PTX_OK                                  0x00
+#define PTX_ERROR                               0x01
+
+#define PTX_BAD_SLOT                            0x21
+#define PTX_BAD_SIZE                            0x22
+#define PTX_BAD_BUFFER                          0x23
+#define PTX_BAD_LENGTH                          0x24
+#define PTX_CRYPT_HASH_FAILED                   0x25
+#define PTX_CRYPT_CERT_FAILED                   0x26
+#define PTX_CRYPT_SIGN_FAILED                   0x27
+
 #define QI_AUTH_ERROR_INVALID_REQUEST			0x01
 #define QI_AUTH_ERROR_UNSUPPORTED_PROTOCOL		0x02
 #define QI_AUTH_ERROR_BUSY						0x03
@@ -59,33 +70,34 @@ int32_t qi_auth_ptx_deinit(void);
 * \param resp_size[in][out]   Length of the buffer
 *
 * \retval Error Code
-* \retval #CRYPTO_LIB_SUCCESS
+* \retval No Error - 0
 */
 uint16_t qi_auth_ptx_error(uint8_t error_code, uint8_t error_data, uint8_t* p_resp, uint16_t* resp_size);
 
 
 /**
 * \brief Returns a DIGEST message in a form defined by  WPC Qi Auth Rel 1.3
-* \param slot[in]          Slot number according to Draft specification
+* \param slot[in]          Slot number according to the specification
 * \param p_resp[out]     Output buffer where the digest message will be stored
 * \param resp_size[in][out]     Length of the buffer
 *
 * \retval Error Code
-* \retval #CRYPTO_LIB_SUCCESS
+* \retval No Error - 0
 */
 uint16_t qi_auth_ptx_digests(uint8_t slot, uint8_t* p_resp, uint16_t* resp_size);
 
 
 /**
 * \brief Returns a Certificate Chain in a form defined by WPC Qi Auth Rel 1.3
-* \param slot[in]          Slot number
+* \param slot[in]        Slot number
+* \param offset          Offset within the chain to read the cert out
 * \param p_resp[out]     Output buffer where the digest message will be stored
 * \param resp_size[in][out]     Length of the buffer
 *
 * \retval Error Code
-* \retval #CRYPTO_LIB_SUCCESS
+* \retval No Error - 0
 */
-uint16_t qi_auth_ptx_certificate(uint8_t slot, uint8_t* p_resp, uint16_t* resp_size);
+uint16_t qi_auth_ptx_certificate(uint8_t slot, uint8_t offset, uint8_t* p_resp, uint16_t* resp_size);
 
 
 /**
@@ -97,10 +109,10 @@ uint16_t qi_auth_ptx_certificate(uint8_t slot, uint8_t* p_resp, uint16_t* resp_s
 * \param resp_size[in][out] Length of the buffer
 *
 * \retval Error Code
-* \retval #CRYPTO_LIB_SUCCESS
+* \retval No Error - 0
 */
-uint16_t qi_auth_ptx_challenge_auth(uint8_t slot, uint8_t* p_challreq, uint8_t challreq_size,
-		                                    uint8_t* p_resp, uint8_t* resp_size);
+uint16_t qi_auth_ptx_challenge_auth(uint8_t slot, uint8_t* p_challreq, uint16_t challreq_size,
+		                                    uint8_t* p_resp, uint16_t* resp_size);
 
 
 #endif

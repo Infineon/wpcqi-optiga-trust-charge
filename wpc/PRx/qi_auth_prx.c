@@ -36,11 +36,6 @@
 
 #define QI_AUTH_PROTO_VER                   0x1
 
-#define MSGTYPE_RESP_DIGESTS                0x1
-#define MSGTYPE_RESP_CERTIFICATE            0x2
-#define MSGTYPE_RESP_CHALLENGE_AUTH         0x3
-#define MSGTYPE_RESP_ERROR                  0x7
-
 #define MSGTYPE_REQ_GET_DIGESTS             0x9
 #define MSGTYPE_REQ_GET_CERTIFICATE         0xA
 #define MSGTYPE_REQ_CHALLENGE               0xB
@@ -49,62 +44,84 @@
 #define MAX_CERTIFICATE_OFFSET              (3*256 + 1023)
 #define MAX_CERTIFICATE_LENGTH              (3*256 + 1023)
 
-uint16_t qi_auth_prx_get_digests(uint8_t ptx, uint8_t slot, uint8_t* p_req, uint16_t* req_size)
+#define TRY_SLOT() \
+	if (0 != slot) \
+    { \
+        return_status = PRX_BAD_SLOT;\
+        break; \
+    }
+
+#define TRY_BUFFER() \
+	if (NULL == p_req) \
+    { \
+        return_status = PRX_BAD_BUFFER;\
+        break; \
+    }
+
+#define TRY_SIZE() \
+	if (0 == req_size) \
+    { \
+        return_status = PRX_BAD_SIZE;\
+        break; \
+    }
+
+
+uint16_t qi_auth_prx_get_digests(uint8_t slot, uint8_t* p_req, uint16_t* req_size)
 {
-    uint16_t return_status = CRYPT_LIB_ERROR;
+    uint16_t return_status = PRX_ERROR;
 
     do {
-        if (0 != slot)
-            break;
-
-        if (NULL == p_req)
-            break;
-
-        if (0 == req_size)
-            break;
+        TRY_SLOT();
+        TRY_BUFFER();
+        TRY_SIZE();
 
         // Version and Message type
         p_req[0] = (QI_AUTH_PROTO_VER << 4) | MSGTYPE_REQ_GET_DIGESTS;
 
-        //Reserved [3] + PTX[1] + Slot Mask[4]
-        p_req[1] = (ptx << 4) | (0xf & slot) ;
+        //Reserved [6] + Slot Mask[2]
+        p_req[1] = (0x00) | (0x3 & slot) ;
 
         *req_size = 2;
 
-        return_status = CRYPT_LIB_OK;
+        return_status = PRX_OK;
 
     }while(0);
 
     return return_status;
 }
 
-uint16_t qi_auth_prx_get_certificate(uint32_t offset, uint32_t length, uint8_t ptx, uint8_t slot,
+uint16_t qi_auth_prx_get_certificate(uint32_t offset, uint32_t length, uint8_t slot,
                                             uint8_t* p_req, uint16_t* req_size)
 {
-    uint16_t  return_status = CRYPT_LIB_ERROR;
-    uint8_t offset98 = 0;
+    uint16_t  return_status = PRX_ERROR;
+    uint8_t offsetA8 = 0;
     uint8_t offset70 = 0;
-    uint8_t length98 = 0;
+    uint8_t lengthA8 = 0;
     uint8_t length70 = 0;
 
     do {
 
-        if ((offset > MAX_CERTIFICATE_OFFSET) || (length > MAX_CERTIFICATE_OFFSET) ||
-            (0 != slot) || (NULL == p_req) || (0 == req_size))
+        if ((offset > MAX_CERTIFICATE_OFFSET) || (length > MAX_CERTIFICATE_OFFSET))
+        {
+            return_status = PRX_BAD_LENGTH;
             break;
+        }
 
-        offset98 = offset >> 8;
-        offset70 = offset - (offset98 << 8);
+        TRY_SLOT();
+        TRY_BUFFER();
+        TRY_SIZE();
 
-        length98 = length >> 8;
-        length70 = length - (length98 << 8);
+        offsetA8 = offset >> 8;
+        offset70 = offset - (offsetA8 << 8);
+
+        lengthA8 = length >> 8;
+        length70 = length - (lengthA8 << 8);
 
         // Version and Message type
         p_req[0] = (QI_AUTH_PROTO_VER << 4) | MSGTYPE_REQ_GET_CERTIFICATE;
 
-        // Offset98[2]+ Length98[2] + Reserved[1] + PTx[1] + Slot Number [2]
-        p_req[1] = ((0x3 & offset98) << 6) | ((0x3 & length98) << 4) |
-                    (0 << 3) | ((0x1 & ptx) << 3) | (0x3 & slot);
+        // OffsetA8[3]+ LengthA8[3]  + Slot Number [2]
+        p_req[1] = ((0x7 & offsetA8) << 5) | ((0x7 & lengthA8) << 2) | (0x3 & slot);
 
         // Offset70
         p_req[2] =  offset70;
@@ -114,32 +131,27 @@ uint16_t qi_auth_prx_get_certificate(uint32_t offset, uint32_t length, uint8_t p
 
         *req_size = 4;
 
-        return_status = CRYPT_LIB_OK;
+        return_status = PRX_OK;
 
     }while(0);
 
     return return_status;
 }
 
-uint16_t qi_auth_prx_challenge(uint8_t ptx, uint8_t slot, uint8_t* p_req, uint16_t* req_size)
+uint16_t qi_auth_prx_challenge(uint8_t slot, uint8_t* p_req, uint16_t* req_size)
 {
-    uint16_t return_status = CRYPT_LIB_ERROR;
+    uint16_t return_status = PRX_ERROR;
 
     do {
-        if (0 != slot)
-            break;
-
-        if (NULL == p_req)
-            break;
-
-        if ((NULL == req_size) || ( 2 > *req_size))
-            break;
+        TRY_SLOT();
+        TRY_BUFFER();
+        TRY_SIZE();
 
         // Version and Message type
         p_req[0] = (QI_AUTH_PROTO_VER << 4) | MSGTYPE_REQ_CHALLENGE;
 
-        //Reserved [3] + PTX[1] + Slot Mask[4]
-        p_req[1] = (ptx << 4) | (0xf & slot) ;
+        //Reserved [6] + Slot Mask[2]
+        p_req[1] = (0x00) | (0x3 & slot) ;
 
         //128bit Nonce
         return_status = qi_auth_prx_crypt_get_random(16, &p_req[2], *req_size - 2);
@@ -148,46 +160,26 @@ uint16_t qi_auth_prx_challenge(uint8_t ptx, uint8_t slot, uint8_t* p_req, uint16
 
         *req_size = 18;
 
-    }while(0);
-
-    return return_status;
-}
-
-uint16_t qi_auth_prx_handover(uint8_t* p_req, uint16_t* req_size)
-{
-    uint16_t return_status = CRYPT_LIB_ERROR;
-
-    do {
-        if (NULL == p_req)
-            break;
-
-        if (0 == req_size)
-            break;
-
-        // Version and Message type
-        p_req[0] = (QI_AUTH_PROTO_VER << 4) | MSGTYPE_REQ_HANDOVER;
-
-        *req_size = 1;
-
-        return_status = CRYPT_LIB_OK;
+        return_status = PRX_OK;
 
     }while(0);
 
     return return_status;
 }
 
-uint16_t qi_auth_prx_verify_chall_auth(uint8_t* p_certchain, uint16_t certchain_size,
-                                          uint8_t* p_chall, uint16_t chall_size,
-                                          uint8_t* p_challauth, uint16_t challauth_size)
+uint16_t qi_auth_prx_verify_chall_auth(uint8_t* p_sha256,
+		                               uint8_t* p_puc_pubkey, uint16_t pubkey_size,
+                                       uint8_t* p_chall, uint16_t chall_size,
+                                       uint8_t* p_challauth, uint16_t challauth_size)
 {
-    uint16_t return_status = CRYPT_LIB_ERROR;
+    uint16_t return_status = PRX_ERROR;
     signature_container_t sign_vector;
     uint8_t signed_msg[54] = {0x41};
     //uint8_t digest_signed_msg[32];
 
     do {
 
-        if ((NULL == p_certchain) || (0 == certchain_size) ||
+        if ((NULL == p_sha256) || (NULL == p_puc_pubkey) ||
             (NULL == p_chall) || (0 == chall_size) ||
             (NULL == p_challauth) || (0 == challauth_size))
             break;
@@ -197,11 +189,11 @@ uint16_t qi_auth_prx_verify_chall_auth(uint8_t* p_certchain, uint16_t certchain_
         sign_vector.signature_size = 64;
 
         //Getting the Public key
-        sign_vector.p_public_key = &p_certchain[QI_AUTH_CRT_ROOTHASH_LEN + QI_AUTH_CRT_LEN + QI_AUTH_CRT_PUBKEY_OFF+2];
-        sign_vector.public_key_size = 33;
+        sign_vector.p_public_key = p_puc_pubkey;
+        sign_vector.public_key_size = pubkey_size;
 
         //Calculating hash of the chain
-        qi_auth_prx_crypt_generate_sha256(p_certchain, certchain_size, &signed_msg[1]);
+        memcpy(&signed_msg[1], p_sha256, 32);
 
         // Copy Challenge Request
         memcpy(&signed_msg[1 + 32], p_chall, 18);
@@ -217,25 +209,48 @@ uint16_t qi_auth_prx_verify_chall_auth(uint8_t* p_certchain, uint16_t certchain_
         {
             break;
         }
-        return_status = CRYPT_LIB_OK;
+        return_status = PRX_OK;
     }while(0);
 
     return return_status;
 }
 
-uint16_t qi_auth_prx_verify_cert(uint8_t* p_certchain, uint16_t chain_size)
+uint16_t qi_auth_prx_verify_cert( uint8_t* p_certchain, uint16_t chain_size, const uint8_t* p_root_ca, uint16_t root_ca_size )
 {
-    uint16_t return_status = CRYPT_LIB_ERROR;
-    uint8_t raw_pubkey[0x21];
+    uint16_t return_status = PRX_ERROR;
 
     do {
-        return_status = qi_auth_prx_crypt_verify_certchain(p_certchain, chain_size, raw_pubkey, 0x21);
+        return_status = qi_auth_prx_crypt_verify_certchain(p_certchain, chain_size, p_root_ca, root_ca_size);
         if(CRYPT_LIB_OK != return_status)
         {
             break;
         }
 
-        return_status = CRYPT_LIB_OK;
+        return_status = PRX_OK;
+
+    }while(0);
+
+    return return_status;
+}
+
+uint16_t qi_auth_prx_get_certchain_info(uint8_t* p_certchain, uint16_t chain_size,
+ 		                                uint8_t* p_puc_rsid, uint16_t* p_puc_rsid_size,
+ 									    uint8_t* p_sha256,
+ 									    uint8_t* p_puc_pubkey, uint16_t* p_puc_pubkey_size)
+{
+    uint16_t return_status = PRX_ERROR;
+
+    do {
+        return_status = qi_auth_prx_crypt_get_certchain_info(p_certchain, chain_size,
+                                                             p_puc_rsid, p_puc_rsid_size,
+				                                             p_sha256,
+				                                             p_puc_pubkey, p_puc_pubkey_size);
+        if(CRYPT_LIB_OK != return_status)
+        {
+            break;
+        }
+
+        return_status = PRX_OK;
 
     }while(0);
 

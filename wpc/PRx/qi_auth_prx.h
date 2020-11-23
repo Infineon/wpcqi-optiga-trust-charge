@@ -35,11 +35,13 @@
 #include "string.h"
 #include "stdint.h"
 
-#define QI_AUTH_ERROR_INVALID_REQUEST			0x01
-#define QI_AUTH_ERROR_UNSUPPORTED_PROTOCOL		0x02
-#define QI_AUTH_ERROR_BUSY						0x03
-#define QI_AUTH_ERROR_UNSPECIFIED				0x04
-#define QI_AUTH_ERROR_COMMUNCIATION_ERROR		0x01
+#define PRX_OK                              0x00
+#define PRX_ERROR                           0x01
+
+#define PRX_BAD_SLOT                        0x11
+#define PRX_BAD_SIZE                        0x12
+#define PRX_BAD_BUFFER                      0x13
+#define PRX_BAD_LENGTH                      0x14
 
 /**
  * \brief Initialises the PAL Crypt module
@@ -53,7 +55,6 @@ int32_t qi_auth_prx_deinit(void);
 
 /**
 * \brief Returns a GET DIGESTS message in a form defined by WPC Qi Auth Rel 1.3
-* \param ptx[in]		  A value of 0 indicates that the Initiator is a PRx. A value of 1 indicates that the Initiator is a PTx.
 * \param slot[in]         Slot number
 * \param p_req[out]       Output buffer
 * \param req_size[in][out]    Length of the buffer
@@ -61,7 +62,7 @@ int32_t qi_auth_prx_deinit(void);
 * \retval Error Code
 * \retval #CRYPTO_LIB_SUCCESS
 */
-uint16_t qi_auth_prx_get_digests(uint8_t ptx, uint8_t slot, uint8_t* p_req, uint16_t* req_size);
+uint16_t qi_auth_prx_get_digests(uint8_t slot, uint8_t* p_req, uint16_t* req_size);
 
 
 /**
@@ -70,7 +71,6 @@ uint16_t qi_auth_prx_get_digests(uint8_t ptx, uint8_t slot, uint8_t* p_req, uint
 *                         the start of the Certificate Chain to where the read request begins offset value
 * \param length[in]       Length in bytes to read. The length value is length98*256+length70. It is an error to specify a length that
 *                         would result in reading beyond end of the Certificate Chain
-* \param ptx[in]          A value of 0 indicates that the Initiator is a PRx. A value of 1 indicates that the Initiator is a PTx.
 * \param slot[in]	      Slot number
 * \param p_req[out]       Output buffer
 * \param req_size[in][out]    Length of the buffer
@@ -78,12 +78,11 @@ uint16_t qi_auth_prx_get_digests(uint8_t ptx, uint8_t slot, uint8_t* p_req, uint
 * \retval Error Code
 * \retval #CRYPTO_LIB_SUCCESS
 */
-uint16_t qi_auth_prx_get_certificate(uint32_t offset, uint32_t length, uint8_t ptx, uint8_t slot,
+uint16_t qi_auth_prx_get_certificate(uint32_t offset, uint32_t length, uint8_t slot,
 		                                    uint8_t* p_req, uint16_t* req_size);
 
 /**
 * \brief Returns a Challenge message in a form defined by WPC Qi Auth Rel 1.3
-* \param ptx[in]          A value of 0 indicates that the Initiator is a PRx. A value of 1 indicates that the Initiator is a PTx.
 * \param slot[in]         Slot number
 * \param p_req[out]       Output buffer
 * \param req_size[in][out]    Length of the buffer
@@ -91,21 +90,14 @@ uint16_t qi_auth_prx_get_certificate(uint32_t offset, uint32_t length, uint8_t p
 * \retval Error Code
 * \retval #CRYPTO_LIB_SUCCESS
 */
-uint16_t qi_auth_prx_challenge(uint8_t ptx, uint8_t slot, uint8_t* p_creq, uint16_t* req_size);
+uint16_t qi_auth_prx_challenge(uint8_t slot, uint8_t* p_creq, uint16_t* req_size);
 
-
-/**
-* \brief Returns a HANDOVER mesage in a form defined by WPC Qi Auth Rel 1.3 
-* \param p_req[out]       Output buffer
-* \param req_size[in][out]    Length of the buffer
-*
-* \retval Error Code
-* \retval #CRYPTO_LIB_SUCCESS
-*/
-uint16_t qi_auth_prx_handover(uint8_t* p_req, uint16_t* req_size);
 
 /**
 * \brief Verifies a given Response message in a form defined by WPC Qi Auth Rel 1.3. Challenge auth message is given as an input
+* \param p_sha256[in]       Pointer to the digest value over the complete chain
+* \param p_puc_pubkey[in]   Pointer to the public key
+* \param pubkey_size[in]    Public key length in bytes
 * \param p_challreq[in]     Challenge request message
 * \param challreq_size[in]  Challenge request message size
 * \param p_challresp[in]    Challenge response message
@@ -114,19 +106,42 @@ uint16_t qi_auth_prx_handover(uint8_t* p_req, uint16_t* req_size);
 * \retval Error Code
 * \retval #CRYPTO_LIB_SUCCESS
 */
-uint16_t qi_auth_prx_verify_chall_auth(uint8_t* p_certchain, uint16_t certchain_size,
-		                                  uint8_t* p_challreq, uint16_t challreq_size,
-		                                  uint8_t* p_challresp, uint16_t challresp_size);
+uint16_t qi_auth_prx_verify_chall_auth(uint8_t* p_sha256,
+                                       uint8_t* p_puc_pubkey, uint16_t pubkey_size,
+		                               uint8_t* p_challreq, uint16_t challreq_size,
+		                               uint8_t* p_challresp, uint16_t challresp_size);
 
 /**
 * \brief Verifies a given Certificate Chain message in a form defined by WPC Qi Auth Rel 1.3. Certificate Chain is given as an input
 * \param p_certchain[in]  Certificate Chain message
 * \param chain_size[in]   Chain size
+* \param p_root_ca[in]    Pointer to the Root CA Certificate which should be used for the chain verification (Should be DER encoded hex string)
+* \param root_ca_size[in] Size of the Root CA Certificate
 *
 * \retval Error Code
 * \retval #CRYPTO_LIB_SUCCESS
 */
-uint16_t qi_auth_prx_verify_cert(uint8_t* p_certchain, uint16_t chain_size);
+uint16_t qi_auth_prx_verify_cert(uint8_t* p_certchain, uint16_t chain_size, const uint8_t* p_root_ca, uint16_t root_ca_size);
+
+
+/**
+* \brief Extract some important information from the certificate chain and allows the host side to cache only fraction of data
+* \param p_certchain[in]        Certificate Chain message
+* \param chain_size[in]         Chain size
+* \param rsid[out]              RSID value of the Product Unit Certificate
+* \param p_rsid_size[in][out]   Size of the buffer with the RSID. SHould fit from 1 to 9 bytes
+* \param p_sha256[in][out]      Digest of the complete chain. The buffer should fit exactly 32 bytes.
+* \param p_puc_pubkey[out]      Public Key of the Product Unit Certificate
+* \param p_puc_pubkey_size[in][out] Size of the public key in the Product Unit Certificate.
+*                               Should fit PubKeyLength(uncopressed 64) + Compression Byte[1]
+*
+* \retval Error Code
+* \retval #CRYPTO_LIB_SUCCESS
+*/
+uint16_t qi_auth_prx_get_certchain_info(uint8_t* p_certchain, uint16_t chain_size,
+		                                uint8_t* p_puc_rsid, uint16_t* p_puc_rsid_size,
+									    uint8_t* p_sha256,
+									    uint8_t* p_puc_pubkey, uint16_t* p_puc_pubkey_size);
 
 
 #endif

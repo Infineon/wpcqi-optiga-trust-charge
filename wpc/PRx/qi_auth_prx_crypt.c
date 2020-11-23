@@ -45,36 +45,14 @@
 #define MAXCMD_LEN			255
 #define HEXDUMP_COLS    	16
 
+#define QI_AUTH_ROOT_HASH                  qi_auth_cr660_draft5_root_hash
+#define QI_AUTH_ROOT_CERT                  qi_auth_cr660_draft5_root_cert
+#define QI_AUTH_PTMC_VALUE                 qi_auth_ptmc_value
+#define QI_AUTH_REVOKED_RSID               qi_auth_revoked_rsid
 
-#define QI_AUTH_CERTCAIN_OID	                0xE0E0
+#define QI_AUTH_CERTCAIN_OID	           0xE0E0
 
-#define QI_AUTH_DEVICE_PRIKEY_OID               OPTIGA_KEY_ID_E0F0
-
-/// Used to check ZERO Length
-#define ZERO_LENGTH                         0x00
-
-///Maximum length of the generated seed
-#define MAX_SEED_LENGTH                     0x20
-
-/// Value to indicate that the random bytes are read from Security Chip
-#define RANDOM_READ                         0xAA
-
-/// Value to indicate that the RNG is initialized
-#define RNG_INITIALIZED                     0x95
-
-///Number of bytes of random data read from Security Chip
-#define RANDOM_DATA_LENGTH                  0x18
-
-///Size of the counter
-#define COUNTER_LENGTH            	        0x08
-
-///size of public key for NIST-P256
-#define LENGTH_PUB_KEY   			        0x21
-
-/// @endcond
-
-/// Result is OK
-#define RESULT_OK                           0x00
+#define QI_AUTH_DEVICE_PRIKEY_OID          OPTIGA_KEY_ID_E0F0
 
 
 #ifdef OPTIGA_LIB_ENABLE_COMMS_LOGGING
@@ -227,7 +205,7 @@ static uint16_t optiga_init(uint8_t restore_from_hibernate)
 
 	}while (FALSE);
 
-	return return_status;
+	return (return_status);
 }
 
 static uint16_t optiga_deinit(uint8_t goto_hibernate)
@@ -250,7 +228,7 @@ static uint16_t optiga_deinit(uint8_t goto_hibernate)
 
 	}while (FALSE);
 
-	return return_status;
+	return (return_status);
 }
 
 
@@ -396,251 +374,6 @@ static uint16_t optiga_deinit(uint8_t goto_hibernate)
  */
 
 
-static int mbedtls_ecp_decompress( const mbedtls_ecp_group *grp, const unsigned char *input, size_t ilen,
-								   unsigned char *output, size_t *olen, size_t osize )
-{
-    int ret;
-    size_t plen;
-    mbedtls_mpi r;
-    mbedtls_mpi x;
-    mbedtls_mpi n;
-
-    plen = mbedtls_mpi_size( &grp->P );
-
-    *olen = 2 * plen + 1;
-
-    if( osize < *olen )
-        return( MBEDTLS_ERR_ECP_BUFFER_TOO_SMALL );
-
-    if( ilen != plen + 1 )
-        return( MBEDTLS_ERR_ECP_BAD_INPUT_DATA );
-
-    if( input[0] != 0x02 && input[0] != 0x03 )
-        return( MBEDTLS_ERR_ECP_BAD_INPUT_DATA );
-
-    // output will consist of 0x04|X|Y
-    memcpy( output, input, ilen );
-    output[0] = 0x04;
-
-    mbedtls_mpi_init( &r );
-    mbedtls_mpi_init( &x );
-    mbedtls_mpi_init( &n );
-
-    // x <= input
-    MBEDTLS_MPI_CHK( mbedtls_mpi_read_binary( &x, input + 1, plen ) );
-
-    // r = x^2
-    MBEDTLS_MPI_CHK( mbedtls_mpi_mul_mpi( &r, &x, &x ) );
-
-    // r = x^2 + a
-    // AY: r = r - 3
-    if( grp->A.p == NULL ) {
-        // Special case where a is -3
-        MBEDTLS_MPI_CHK( mbedtls_mpi_sub_int( &r, &r, 3 ) );
-    } else {
-        MBEDTLS_MPI_CHK( mbedtls_mpi_add_mpi( &r, &r, &grp->A ) );
-    }
-
-    // r = x^3 + ax
-    // AY: r = r * x
-    MBEDTLS_MPI_CHK( mbedtls_mpi_mul_mpi( &r, &r, &x ) );
-
-    // r = x^3 + ax + b
-    // AY: r = r * b
-    /*
-     * static const mbedtls_mpi_uint secp256r1_b[] = {
-		BYTES_TO_T_UINT_8( 0x4B, 0x60, 0xD2, 0x27, 0x3E, 0x3C, 0xCE, 0x3B ),
-		BYTES_TO_T_UINT_8( 0xF6, 0xB0, 0x53, 0xCC, 0xB0, 0x06, 0x1D, 0x65 ),
-		BYTES_TO_T_UINT_8( 0xBC, 0x86, 0x98, 0x76, 0x55, 0xBD, 0xEB, 0xB3 ),
-		BYTES_TO_T_UINT_8( 0xE7, 0x93, 0x3A, 0xAA, 0xD8, 0x35, 0xC6, 0x5A ),
-	};
-     */
-    MBEDTLS_MPI_CHK( mbedtls_mpi_add_mpi( &r, &r, &grp->B ) );
-
-    // Calculate quare root of r over finite field P:
-    //   r = sqrt(x^3 + ax + b) = (x^3 + ax + b) ^ ((P + 1) / 4) (mod P)
-
-    // n = P + 1
-    // AY: n = p + 1
-    /*
-     * static const mbedtls_mpi_uint secp256r1_p[] = {
-		BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
-		BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00 ),
-		BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ),
-		BYTES_TO_T_UINT_8( 0x01, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF ),
-	};
-     */
-    MBEDTLS_MPI_CHK( mbedtls_mpi_add_int( &n, &grp->P, 1 ) );
-
-    // n = (P + 1) / 4
-    // AY: n = n / 2
-    MBEDTLS_MPI_CHK( mbedtls_mpi_shift_r( &n, 2 ) );
-
-    // r ^ ((P + 1) / 4) (mod p)
-    // Sliding-window exponentiation: X = A^E mod N  (HAC 14.85)
-    // mbedtls_mpi *X, const mbedtls_mpi *A, const mbedtls_mpi *E, const mbedtls_mpi *N, mbedtls_mpi *_RR
-    // AY: r = (r ^ n) mod p
-    MBEDTLS_MPI_CHK( mbedtls_mpi_exp_mod( &r, &r, &n, &grp->P, NULL ) );
-
-    // Select solution that has the correct "sign" (equals odd/even solution in finite group)
-    // (input == 3): 0 == r[0] & 0x01
-    //                  -> True: r = p - r
-    // (input == 2): 1 ==  r[0] & 0x01
-    //				    -> True: r = p - r
-    if( (input[0] == 0x03) != mbedtls_mpi_get_bit( &r, 0 ) ) {
-        // r = p - r
-        MBEDTLS_MPI_CHK( mbedtls_mpi_sub_mpi( &r, &grp->P, &r ) );
-    }
-
-    // y => output
-    ret = mbedtls_mpi_write_binary( &r, output + 1 + plen, plen );
-
-cleanup:
-    mbedtls_mpi_free( &r );
-    mbedtls_mpi_free( &x );
-    mbedtls_mpi_free( &n );
-
-    return( ret );
-}
-
-
-/**
- * \brief Verifies the ECC signature using the given public key.
- */
-static uint16_t qi_auth_crypt_verify_ecc_signature(const uint8_t* p_pubkey, uint8_t pubkey_size,
-		                                      const uint8_t* p_data, uint16_t data_size,
-											  const uint8_t* p_sign, uint8_t sign_size)
-{
-	uint16_t return_status = (int32_t)CRYPT_LIB_VERIFY_SIGN_FAIL;
-    uint8_t p_digest[32];
-    uint8_t decompr_pubkey[70];
-    uint8_t asn1_signature[71];
-    size_t asn1_signature_len = 71;
-    size_t pubkey_len = 65;
-    uint8_t* p_pk = NULL;
-
-    mbedtls_ecp_group grp;
-    // Public Key
-    mbedtls_ecp_point Q;
-    mbedtls_mpi r;
-    mbedtls_mpi s;
-
-    mbedtls_ecp_point_init( &Q );
-    mbedtls_mpi_init( &r );
-    mbedtls_mpi_init( &s );
-    mbedtls_ecp_group_init( &grp );
-
-    mbedtls_ecp_group_load(&grp, MBEDTLS_ECP_DP_SECP256R1);
-
-    do
-    {
-        if((NULL == p_pubkey)||(NULL == p_data)||(NULL == p_sign))
-        {
-            break;
-        }
-
-        if (p_pubkey[0] != 0x04) {
-            mbedtls_ecp_decompress(&grp, p_pubkey, pubkey_size, decompr_pubkey + 3, &pubkey_len, 65);
-            p_pk = decompr_pubkey;
-            p_pk[0] = 0x03;
-            p_pk[1] = 0x42;
-            p_pk[2] = 0x00;
-            pubkey_len += 3;
-        } else {
-        	// WPC specifies so far only compressed public keys
-        	break;
-        }
-
-        return_status = qi_auth_prx_crypt_generate_sha256(p_data, data_size, p_digest);
-        if(CRYPT_LIB_OK != return_status)
-        {
-            break;
-        }
-
-        ecdsa_rs_to_asn1_integers(p_sign, p_sign + 32, 32, asn1_signature, &asn1_signature_len);
-
-        public_key_from_host_t pkey_details = {
-        		                               p_pk,
-                                               pubkey_len,
-                                               (uint8_t)OPTIGA_ECC_CURVE_NIST_P_256
-                                               };
-        CHECK_RESULT(optiga_crypt_ecdsa_verify (p_crypt,
-        										p_digest,
-												32,
-												asn1_signature,
-												asn1_signature_len,
-												OPTIGA_CRYPT_HOST_DATA,
-												&pkey_details))
-    }while(FALSE);
-
-    return return_status;
-}
-
-/**
-*
-* Verifies and validates the given To Be Verified (tbv) certificate<br>
-*
-* \param[in]  PpsCaCert              pointer to CA Certificate
-* \param[in]  PpsOPTIGACert          pointer to Security Chip Certificate
-*
-* \retval    #INT_LIB_OK
-* \retval    #INT_LIB_ERROR
-* \retval    #INT_LIB_NULL_PARAM
-*
-*/
-static uint16_t _validate_qi_auth_certificate(certificate_container_t *p_cert, certificate_container_t *p_tbv_cert)
-{
-	uint16_t return_status = CRYPT_LIB_ERROR;
-    signature_container_t sign_vector ;
-    uint8_t prefix[] = {0x43};
-    uint8_t manuf_code_bin[2] = {0x00, 0x00};
-    uint8_t root_manuf_code_bin[2] = {0xff, 0xff};
-    uint16_t parsed_manuf_code = 0;
-    uint8_t data_to_sign[60];
-    do
-    {
-        if((NULL == p_cert)||(NULL == p_cert->p_cert_data)||
-            (NULL == p_cert->p_cert_sign)||
-            (NULL == p_cert->p_pub_key)||
-            (NULL == p_tbv_cert)||(NULL == p_tbv_cert->p_cert_data)||
-            (NULL == p_tbv_cert->p_cert_sign)||
-            (NULL == p_tbv_cert->p_pub_key))
-        {
-            break;
-        }
-
-        memcpy(data_to_sign, prefix, sizeof(prefix));
-        if ((p_tbv_cert->subj_id[0] == 0x4d) && (p_tbv_cert->subj_id[1] == 0x3a))
-        {
-        	parsed_manuf_code = strtol((char *)&p_tbv_cert->subj_id[2], NULL, 16);
-        	manuf_code_bin[0] = (uint8_t)(parsed_manuf_code >> 8);
-        	manuf_code_bin[1] = (uint8_t)(parsed_manuf_code & 0x00ff);
-
-        }else if (memcmp(p_tbv_cert->subj_id,"WPC\0", 4) == 0)
-        {
-        	memcpy(manuf_code_bin, root_manuf_code_bin , sizeof(root_manuf_code_bin));
-        } else if ((p_tbv_cert->issuer_id[0] == 0x4d) && (p_tbv_cert->issuer_id[1] == 0x3a))
-        {
-        	parsed_manuf_code = strtol((char *)&p_tbv_cert->issuer_id[2], NULL, 16);
-        	manuf_code_bin[0] = (uint8_t)(parsed_manuf_code >> 8);
-        	manuf_code_bin[1] = (uint8_t)(parsed_manuf_code & 0x00ff);
-        }
-
-        memcpy(data_to_sign + sizeof(prefix), manuf_code_bin, sizeof(manuf_code_bin));
-        memcpy(data_to_sign + sizeof(prefix) + sizeof(manuf_code_bin), p_tbv_cert->p_cert_data, p_tbv_cert->cert_data_size);
-
-        //verify signature of the Security Chip certificate
-        sign_vector.p_message = data_to_sign;
-        sign_vector.message_size = p_tbv_cert->cert_data_size + sizeof(manuf_code_bin) + sizeof(prefix);
-        sign_vector.p_signature = p_tbv_cert->p_cert_sign;
-        sign_vector.signature_size = p_tbv_cert->cert_sign_size;
-        sign_vector.p_public_key = p_cert->p_pub_key;
-        sign_vector.public_key_size = p_cert->pub_key_size;
-        return_status = qi_auth_prx_crypt_verify_signature(&sign_vector);
-    }while(FALSE);
-
-    return return_status;
-}
 
 /**
  * \brief Generate a SHA256 hash on the message.
@@ -654,6 +387,9 @@ uint16_t qi_auth_prx_crypt_generate_sha256(const uint8_t* p_input, uint16_t inle
 
     do
     {
+    	if (NULL == p_input || 0 == inlen || NULL == p_digest)
+    		break;
+
     	hash_ctx.hash_algo = OPTIGA_HASH_TYPE_SHA_256;
 		hash_ctx.context_buffer = hash_context_buffer;
 		hash_ctx.context_buffer_length = sizeof(hash_context_buffer);
@@ -665,175 +401,245 @@ uint16_t qi_auth_prx_crypt_generate_sha256(const uint8_t* p_input, uint16_t inle
 		CHECK_RESULT(optiga_crypt_hash_finalize(p_crypt, &hash_ctx, p_digest));
     }while(FALSE);
 
-	return CRYPT_LIB_OK;
+	return (CRYPT_LIB_OK);
 }
 
-uint16_t qi_auth_prx_crypt_certchain_sha256(uint8_t* p_digest)
+uint16_t qi_auth_prx_crypt_verify_certchain(uint8_t* p_qi_auth_chain_buf, uint16_t qi_auth_chain_buf_size, const uint8_t* p_root_ca, uint16_t root_ca_size)
 {
-	uint16_t  return_status = CRYPT_LIB_ERROR;
+	int return_status  = CRYPT_LIB_ERROR;
+#ifdef DRAFT5_SPEC_CERTCHAIN
+	uint16_t rsid_counter = 0;
+#endif
+	mbedtls_x509_crt root_ca;
+	mbedtls_x509_crt manufacturer_ca;
+	mbedtls_x509_crt product_unit;
+	mbedtls_mpi rsid;
+	mbedtls_mpi min;
+	mbedtls_mpi max;
+    uint32_t mbedtls_flags;
+    uint8_t p_root_ca_hash[32];
 
-	optiga_hash_context_t hash_ctx;
-    uint8_t hash_context_buffer [130];
-
-    do
-    {
-		hash_ctx.hash_algo = OPTIGA_HASH_TYPE_SHA_256;
-		hash_ctx.context_buffer = hash_context_buffer;
-		hash_ctx.context_buffer_length = sizeof(hash_context_buffer);
-
-		hash_data_in_optiga_t optiga_hash = {
-				.oid = QI_AUTH_CERTCAIN_OID,
-				.offset = 0x03,
-				.length = QI_AUTH_CRT_ROOTHASH_LEN + 2 + QI_AUTH_CRT_LEN + QI_AUTH_CRT_LEN  // 32 bytes Root Hash + 121 bytes Interm Cert + 120 bytes Leaf Cert
-		};
-		CHECK_RESULT(optiga_crypt_hash_start(p_crypt, &hash_ctx));
-		CHECK_RESULT(optiga_crypt_hash_update(p_crypt, &hash_ctx, OPTIGA_CRYPT_OID_DATA, &optiga_hash));
-		CHECK_RESULT(optiga_crypt_hash_finalize(p_crypt, &hash_ctx, p_digest));
-
-    }while(FALSE);
-
-	return return_status;
-}
-
-uint16_t qi_auth_prx_crypt_sign(uint8_t* p_digest_tbs, uint16_t digest_tbs_size, uint8_t* p_signature, uint16_t* p_signature_len)
-{
-	uint16_t  return_status = CRYPT_LIB_ERROR;
-	// OPTIGA uses DER encoded signatures
-	uint8_t der_signature[70];
-	uint16_t der_signature_len = sizeof(der_signature);
-    do
-    {
-    	if (NULL == p_signature_len)
-    		break;
-
-    	// Sign the resulting digest of nthe TBS Auth Data
-    	CHECK_RESULT(optiga_crypt_ecdsa_sign(p_crypt, p_digest_tbs, digest_tbs_size, QI_AUTH_DEVICE_PRIKEY_OID, der_signature, &der_signature_len));
-
-    	asn1_to_ecdsa_rs(der_signature, der_signature_len, p_signature, *p_signature_len);
-
-    }while(FALSE);
-
-    return return_status;
-}
-
-uint16_t qi_auth_prx_crypt_certchain(uint8_t* p_certchain, uint16_t* p_certchain_size)
-{
-	uint16_t  return_status = CRYPT_LIB_ERROR;
-	uint16_t  optiga_oid = QI_AUTH_CERTCAIN_OID;
+	mbedtls_x509_crt_init( &root_ca );
+	mbedtls_x509_crt_init( &manufacturer_ca );
+	mbedtls_x509_crt_init( &product_unit );
+	mbedtls_mpi_init(&rsid);
+	mbedtls_mpi_init(&min);
+	mbedtls_mpi_init(&max);
 
 	do
 	{
-		/**
-		 * 1. Read data from a data object (e.g. certificate data object)
-		 *    using optiga_util_read_data.
-		 */
-
-		CHECK_RESULT(optiga_util_read_data(p_util, optiga_oid, 0x03, p_certchain, p_certchain_size));
-	}while(0);
-
-	return return_status;
-}
-
-uint16_t qi_auth_crypt_verify_certchain(uint8_t* p_qi_auth_chain_buf, uint16_t qi_auth_chain_buf_size,
-		                               uint8_t* p_pubkey, uint8_t pubkey_size)
-{
-	uint16_t return_status  = CRYPT_LIB_ERROR;
-	uint8_t p_root_pubkey[LENGTH_PUB_KEY];
-	uint8_t p_interm_pubkey[LENGTH_PUB_KEY];
-	uint8_t p_leaf_pubkey[LENGTH_PUB_KEY];
-	certificate_container_t qi_auth_chain[3];
-
-	do
-	{
-		//Parse WPC Chain of Certificates
-		qi_auth_chain[0].p_pub_key = p_root_pubkey;
-		qi_auth_chain[0].pub_key_size = LENGTH_PUB_KEY;
-		qi_auth_chain[1].p_pub_key  = p_interm_pubkey;
-		qi_auth_chain[1].pub_key_size = LENGTH_PUB_KEY;
-		qi_auth_chain[2].p_pub_key  = p_leaf_pubkey;
-		qi_auth_chain[2].pub_key_size = LENGTH_PUB_KEY;
-		return_status = qi_auth_prx_crypt_parse_certchain(p_qi_auth_chain_buf, qi_auth_chain_buf_size, qi_auth_chain, 3);
-		if(CRYPT_LIB_OK != return_status)
+		if (p_qi_auth_chain_buf == NULL || qi_auth_chain_buf_size == 0 || p_root_ca == NULL || root_ca_size == 0)
 		{
+			return_status = CRYPT_LIB_ERROR_BAD_PARAMETERS;
 			break;
 		}
 
-		//Validate Leaf Certificate
-		//mbedtls_memory_buffer_alloc_init(mbedtls_memmory_buffer, MBEDTLS_BUFFER_SIZE);
-		return_status = _validate_qi_auth_certificate(&qi_auth_chain[1], &qi_auth_chain[2]);
-		if(CRYPT_LIB_OK != return_status)
+		if (CRYPT_LIB_OK != qi_auth_prx_crypt_generate_sha256(p_root_ca, root_ca_size, p_root_ca_hash))
 		{
+			return_status = CRYPT_LIB_ERROR_HASH_FAILED;
 			break;
 		}
 
-		//Validate Intermediate Certificate
-		//mbedtls_memory_buffer_alloc_init(mbedtls_memmory_buffer, MBEDTLS_BUFFER_SIZE);
-		return_status = _validate_qi_auth_certificate(&qi_auth_chain[0], &qi_auth_chain[1]);
-		if(CRYPT_LIB_OK != return_status)
+		// Check whether the provided Root CA Hash is the same as the expected we have stored
+		if (0 != memcmp(p_qi_auth_chain_buf, p_root_ca_hash, 32))
 		{
+			return_status = CRYPT_LIB_ERROR_ROOT_HASH_MISMATCH;
 			break;
 		}
 
-		memcpy(p_pubkey, p_leaf_pubkey, LENGTH_PUB_KEY);
+		// Parse the WPC Root CA Certificate in PEM Format
+		return_status = mbedtls_x509_crt_parse( &root_ca, p_root_ca, root_ca_size);
+		if( 0 != return_status )
+		{
+			return_status = CRYPT_LIB_ERROR_PARSE_ROOT_CERT;
+			break;
+		}
+
+		// Parse the Manufacturer CA Certificate in DER Format (from the chain we've received)
+		return_status = mbedtls_x509_crt_parse_der(&manufacturer_ca, p_qi_auth_chain_buf + 32, qi_auth_chain_buf_size - 32);
+		if( 0 != return_status )
+		{
+			return_status = CRYPT_LIB_ERROR_PARSE_MANUF_CERT;
+			break;
+		}
+
+
+		// Check that the Manufacturer CA Certificate is signed by the WPC Root CA
+		// Optionally you can write here an exact Manufacturer CA PTMC if you like to restrict this
+		if( ( return_status = mbedtls_x509_crt_verify( &manufacturer_ca, &root_ca,
+		        		                             NULL, NULL /*QI_AUTH_PTMC_VALUE*/, &mbedtls_flags,
+		                                             NULL, NULL ) ) != 0 )
+		{
+			return_status = CRYPT_LIB_ERROR_VERIFY_MANUF_CERT;
+			break;
+		}
+
+		// Parse the Product Unit Certificate in DER Format (from the chain we've received)
+		return_status = mbedtls_x509_crt_parse_der(&product_unit, p_qi_auth_chain_buf + 32 + manufacturer_ca.raw.len,
+				qi_auth_chain_buf_size - 32 - + manufacturer_ca.raw.len);
+		if( 0 != return_status )
+		{
+			return_status = CRYPT_LIB_ERROR_PARSE_PRODUCT_CERT;
+			break;
+		}
+
+		// Check that the Product Unit Certificate Signature is signed by the Manufacturer CA
+		if( ( return_status = mbedtls_x509_crt_verify( &product_unit, &manufacturer_ca,
+				        		                             NULL, NULL , &mbedtls_flags,
+				                                             NULL, NULL ) ) != 0 )
+		{
+			return_status = CRYPT_LIB_ERROR_VERIFY_PRODUCT_CERT;
+			break;
+		}
+
+		//Validate Certificates
+		// The check below do validate a chain against CR660 introduced options and extensions
+#ifdef DRAFT5_SPEC_CERTCHAIN
+		if (( 1 != manufacturer_ca.ca_istrue ) || (1 == product_unit.ca_istrue))
+		{
+			return_status = CRYPT_LIB_ERROR_MANUF_NOTCA;
+			break;
+		}
+
+		// Check for revoked certificates
+		mbedtls_mpi_read_binary(&rsid, product_unit.wpcqi_auth_rsid.p, product_unit.wpcqi_auth_rsid.len);
+		for (rsid_counter = 0; rsid_counter < sizeof(QI_AUTH_REVOKED_RSID)/sizeof(QI_AUTH_REVOKED_RSID[0]); rsid_counter ++)
+		{
+			mbedtls_mpi_read_binary(&min, QI_AUTH_REVOKED_RSID[rsid_counter], 9);
+			mbedtls_mpi_read_binary(&max, QI_AUTH_REVOKED_RSID[rsid_counter] + 9, 9);
+			// We check here the situation when the RSID provided doesn't lay in the range revoked
+			if (((mbedtls_mpi_cmp_abs(&min, &rsid) == -1) || (mbedtls_mpi_cmp_abs(&min, &rsid) == 0)) &&
+				((mbedtls_mpi_cmp_abs(&max, &rsid) == 1) || (mbedtls_mpi_cmp_abs(&max, &rsid) == 0)))
+			{
+				return_status = CRYPT_LIB_ERROR_PRODUCT_CERT_IS_REVOKED;
+				break;
+			}
+
+		}
+#endif
+
+		return_status = 0;
 
 	} while (FALSE);
 
-    return return_status;
+	mbedtls_mpi_free(&rsid);
+	mbedtls_mpi_free(&min);
+	mbedtls_mpi_free(&max);
+	mbedtls_x509_crt_free(&root_ca);
+	mbedtls_x509_crt_free(&manufacturer_ca);
+	mbedtls_x509_crt_free(&product_unit);
+
+    return (return_status);
 }
 
+uint16_t qi_auth_prx_crypt_get_certchain_info(uint8_t* p_certchain, uint16_t chain_size,
+ 		                                uint8_t* p_puc_rsid, uint16_t* p_puc_rsid_size,
+ 									    uint8_t* p_sha256,
+ 									    uint8_t* p_puc_pubkey, uint16_t* p_puc_pubkey_size)
+{
+	int return_status  = CRYPT_LIB_ERROR;
+	mbedtls_x509_crt manufacturer_ca;
+	mbedtls_x509_crt product_unit;
+	mbedtls_ecp_keypair* pk;
+
+	do
+	{
+
+		if ((p_puc_pubkey == NULL) || (p_puc_rsid == NULL) || (p_puc_rsid_size == NULL) || (p_sha256 == NULL) || (p_puc_pubkey_size == NULL) || (p_puc_pubkey_size == 0))
+		{
+			return_status = CRYPT_LIB_ERROR_BAD_PARAMETERS;
+			break;
+		}
+
+		// Parse the Manufacturer CA Certificate in DER Format (from the chain we've received)
+		mbedtls_x509_crt_init( &manufacturer_ca );
+		return_status = mbedtls_x509_crt_parse_der(&manufacturer_ca, p_certchain + 2 + sizeof(QI_AUTH_ROOT_HASH), chain_size - 2 - sizeof(QI_AUTH_ROOT_HASH));
+		if( 0 != return_status )
+		{
+            return_status = CRYPT_LIB_ERROR_PARSE_MANUF_CERT;
+			break;
+		}
+
+		// Parse the Product Unit Certificate in DER Format (from the chain we've received)
+		mbedtls_x509_crt_init( &product_unit );
+		return_status = mbedtls_x509_crt_parse_der(&product_unit, p_certchain + 2 + sizeof(QI_AUTH_ROOT_HASH) + manufacturer_ca.raw.len,
+				chain_size - 2 - sizeof(QI_AUTH_ROOT_HASH) - manufacturer_ca.raw.len);
+		if( 0 != return_status )
+		{
+            return_status = CRYPT_LIB_ERROR_PARSE_PRODUCT_CERT;
+			break;
+		}
+
+		pk = (mbedtls_ecp_keypair *)( product_unit.pk.pk_ctx );
+		// If a pubkey is in compressed form, the parser should be able to decompress it
+	    if (mbedtls_ecp_point_write_binary( &pk->grp, &pk->Q,
+	    		                            MBEDTLS_ECP_PF_UNCOMPRESSED, (size_t *)p_puc_pubkey_size,
+	                                        p_puc_pubkey, *p_puc_pubkey_size ) != 0 )
+	    {
+	    	return_status = CRYPT_LIB_ERROR_EXTRACT_PKEY;
+	    	break;
+	    }
+
+	    // Copy the RSID
+	    memcpy(p_puc_rsid, product_unit.wpcqi_auth_rsid.p, product_unit.wpcqi_auth_rsid.len);
+	    *p_puc_rsid_size = product_unit.wpcqi_auth_rsid.len;
+
+	    // Calculate a hash and copy it
+	    qi_auth_prx_crypt_generate_sha256(p_certchain, chain_size, p_sha256);
+
+		return_status = 0;
+
+	} while (FALSE);
+
+	mbedtls_x509_crt_free(&manufacturer_ca);
+	mbedtls_x509_crt_free(&product_unit);
+
+    return (return_status);
+}
 
 uint16_t  qi_auth_prx_crypt_verify_signature(const signature_container_t *p_signature_c)
 {
-	uint16_t return_status  = CRYPT_LIB_ERROR;
-    do
-    {
-        if((NULL == p_signature_c)||
-            (NULL == p_signature_c->p_message)||
-            (NULL == p_signature_c->p_signature)||
-            (NULL == p_signature_c->p_public_key))
-        {
-            break;
-        }
-        //check if length is equal to zero
-        if((ZERO_LENGTH == p_signature_c->message_size)||
-            (ZERO_LENGTH == p_signature_c->signature_size)||
-            (ZERO_LENGTH == p_signature_c->public_key_size))
-        {
-        	return_status = (int32_t)CRYPT_LIB_LENZERO_ERROR;
-            break;
-        }
-        //mbedtls_memory_buffer_alloc_init(mbedtls_memmory_buffer, MBEDTLS_BUFFER_SIZE);
-        return_status = qi_auth_crypt_verify_ecc_signature(p_signature_c->p_public_key, p_signature_c->public_key_size,
-                                                  p_signature_c->p_message, p_signature_c->message_size,
-                                                  p_signature_c->p_signature, p_signature_c->signature_size);
-    }while(FALSE);
-    return return_status;
+	mbedtls_ecdsa_context ecdsa;
+	uint16_t return_status = OPTIGA_CRYPT_ERROR;
+	uint8_t p_asn1_signature[72];
+	size_t asn1_signature_size = 72;
+	uint8_t p_digest[32];
+	do
+	{
+		mbedtls_ecdsa_init(&ecdsa);
+		mbedtls_ecp_group_load(&ecdsa.grp, MBEDTLS_ECP_DP_SECP256R1);
+		if (mbedtls_ecp_point_read_binary(&ecdsa.grp, &ecdsa.Q, p_signature_c->p_public_key, p_signature_c->public_key_size ) != 0)
+		{
+			break;
+		}
+
+		ecdsa_rs_to_asn1_signature(p_signature_c->p_signature, p_signature_c->p_signature+32, 32,
+                                   p_asn1_signature, &asn1_signature_size);
+
+		return_status = qi_auth_prx_crypt_generate_sha256(p_signature_c->p_message, p_signature_c->message_size, p_digest);
+		if(CRYPT_LIB_OK != return_status)
+		{
+			break;
+		}
+
+		return_status = mbedtls_ecdsa_read_signature(&ecdsa,
+					                                 p_digest, 32,
+					                                 p_asn1_signature, asn1_signature_size);
+
+
+	}while(FALSE);
+
+	return (return_status);
 }
 
 int32_t qi_auth_prx_crypt_init(uint8_t restore_from_hibernate)
 {
-	uint16_t return_status  = CRYPT_LIB_ERROR;
-
-	return_status = optiga_init(restore_from_hibernate);
-	if (CRYPT_LIB_OK != return_status)
-	{
-		printf("Error #1: optiga_init\r\n");
-	}
-
-	return return_status;
+	return (optiga_init(restore_from_hibernate));
 }
 
 int32_t qi_auth_prx_crypt_deinit(uint8_t hibernate_chip)
 {
-	uint16_t return_status  = CRYPT_LIB_ERROR;
-
-	return_status = optiga_deinit(hibernate_chip);
-	if (CRYPT_LIB_OK != return_status)
-	{
-		printf("Error #1: optiga_deinit\r\n");
-	}
-
-	return return_status;
+	return (optiga_deinit(hibernate_chip));
 }
 
 
@@ -851,83 +657,5 @@ uint16_t  qi_auth_prx_crypt_get_random(uint16_t random_len, uint8_t *p_random, u
         CHECK_RESULT(optiga_crypt_random(p_crypt, OPTIGA_RNG_TYPE_TRNG, p_random, random_len));
 
     }while(FALSE);
-    return return_status;
-}
-
-
-uint16_t  qi_auth_prx_crypt_parse_certchain(uint8_t* p_chain, uint16_t chain_size, certificate_container_t *p_crt, uint8_t max_chain_size)
-{
-
-    //lint --e{818} suppress "PpsCertificate is out parameter"
-	uint16_t 	status  = (int32_t)CRYPT_LIB_ERROR;
-    uint8_t* 	dev_root_hash = NULL;
-    uint16_t	parsed_off = 0;
-    uint8_t		cur_crt = 0;
-
-    do
-    {
-        if((NULL == p_chain) || (NULL == p_crt))
-        {
-            break;
-        }
-        //Check for length equal to zero
-        if((ZERO_LENGTH == chain_size) || (QI_AUTH_MINCHAIN_LEN > chain_size) ||
-           (QI_AUTH_MINCHAIN > max_chain_size))
-        {
-            status = CRYPT_LIB_LENZERO_ERROR;
-            break;
-        }
-
-        dev_root_hash = &p_chain[parsed_off];
-
-        if (0 != memcmp(dev_root_hash, qi_auth_cr660_draft5_root_hash, QI_AUTH_CRT_ROOTHASH_LEN)) {
-            status = CRYPT_LIB_ERROR;
-            break;
-        }
-
-        memcpy(p_crt[cur_crt].p_pub_key, qi_auth_cr660_draft5_root_cert + QI_AUTH_CRT_PUBKEY_OFF, QI_AUTH_CRT_PUBKEY_LEN);
-        p_crt[cur_crt].pub_key_size = QI_AUTH_CRT_PUBKEY_LEN;
-
-        //p_crt[cur_crt].p_cert_data = qi_auth_cr660_draft5_root_cert;
-        // ToDo This should be changed to the sign offset byte read
-        p_crt[cur_crt].cert_data_size = QI_AUTH_CRT_SIGN_OFF;
-
-        //p_crt[cur_crt].p_cert_sign = qi_auth_cr660_draft5_root_cert + QI_AUTH_CRT_SIGN_OFF;
-        p_crt[cur_crt].cert_sign_size = QI_AUTH_CRT_SIGN_LEN;
-
-        memcpy(p_crt[cur_crt].issuer_id, qi_auth_cr660_draft5_root_cert + QI_AUTH_CRT_ISSUERID_OFF, QI_AUTH_CRT_ISSUERID_LEN);
-
-        memcpy(p_crt[cur_crt].subj_id, qi_auth_cr660_draft5_root_cert + QI_AUTH_CRT_SUBJID_OFF, QI_AUTH_CRT_SUBJID_LEN);
-
-        parsed_off += QI_AUTH_CRT_ROOTHASH_LEN;
-        cur_crt++;
-
-        while (parsed_off < chain_size)
-        {
-        	if ((NULL == p_crt[cur_crt].p_pub_key) || (ZERO_LENGTH == p_crt[cur_crt].pub_key_size)) {
-        		break;
-        	}
-			memcpy(p_crt[cur_crt].p_pub_key, &p_chain[parsed_off] + QI_AUTH_CRT_PUBKEY_OFF, QI_AUTH_CRT_PUBKEY_LEN);
-			p_crt[cur_crt].pub_key_size = QI_AUTH_CRT_PUBKEY_LEN;
-
-			p_crt[cur_crt].p_cert_data = &p_chain[parsed_off];
-			// ToDo This should be changed to the sign offset byte read
-			p_crt[cur_crt].cert_data_size = QI_AUTH_CRT_SIGN_OFF;
-
-			p_crt[cur_crt].p_cert_sign = &p_chain[parsed_off] + QI_AUTH_CRT_SIGN_OFF;
-			p_crt[cur_crt].cert_sign_size = QI_AUTH_CRT_SIGN_LEN;
-
-	        memcpy(p_crt[cur_crt].issuer_id, &p_chain[parsed_off] + QI_AUTH_CRT_ISSUERID_OFF, QI_AUTH_CRT_ISSUERID_LEN);
-
-	        memcpy(p_crt[cur_crt].subj_id, &p_chain[parsed_off] + QI_AUTH_CRT_SUBJID_OFF, QI_AUTH_CRT_SUBJID_LEN);
-
-			cur_crt++;
-			parsed_off += QI_AUTH_CRT_LEN;
-        }
-
-
-        status =   CRYPT_LIB_OK;
-    }while(FALSE);
-
-    return status;
+    return (return_status);
 }

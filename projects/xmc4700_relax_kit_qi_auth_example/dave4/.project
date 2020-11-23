@@ -52,6 +52,11 @@
 			<locationURI>OPTIGA_DAVE_PROJ/optiga/examples/utilities</locationURI>
 		</link>
 		<link>
+			<name>optiga_hostlib/examples/mbedtls_port</name>
+			<type>2</type>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/examples/mbedtls_port</locationURI>
+		</link>
+		<link>
 			<name>main_xmc4700_example.c</name>
 			<type>1</type>
 			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/main_xmc4700_example.c</locationURI>

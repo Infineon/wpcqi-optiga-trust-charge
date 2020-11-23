@@ -76,8 +76,6 @@ int main(Void)
 
     pal_os_timer_delay_in_milliseconds(100);
 
-//    optiga_shell_wait_for_user();
-
     qi_auth_ptx_prx_test();
 
 	return ((status == 0)? 0:1);

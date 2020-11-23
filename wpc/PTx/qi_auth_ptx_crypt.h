@@ -35,57 +35,9 @@
 
 ///Generic error condition
 #define CRYPT_LIB_ERROR                             0x0001
-
-/// Library API execution is successful
-#define CRYPT_LIB_OK                                0x0000
-
-///Signature Verification failure
-#define CRYPT_LIB_VERIFY_SIGN_FAIL                  (CRYPT_LIB_ERROR + 2)
-
-///Length of input is zero
-#define CRYPT_LIB_LENZERO_ERROR                     (CRYPT_LIB_ERROR + 3)
+#define CRYPT_LIB_ERROR_BAD_PARAMETERS              0x0002
 
 
-
-#define QI_AUTH_CRT_ROOTHASH_LEN                     0x20
-
-#define QI_AUTH_CRT_VER_LEN                          0x01
-#define QI_AUTH_CRT_TYPE_LEN                         0x01
-    #define QI_AUTH_CRT_TYPE_ROOT                    0x01
-    #define QI_AUTH_CRT_TYPE_INTERM                  0x02
-    #define QI_AUTH_CRT_TYPE_LEAF                    0x03
-#define QI_AUTH_CRT_SIGNOFF_LEN                      0x01
-#define QI_AUTH_CRT_SERNUM_LEN                       0x09
-#define QI_AUTH_CRT_ISSUERID_LEN                     0x06
-#define QI_AUTH_CRT_SUBJID_LEN                       0x06
-#define QI_AUTH_CRT_PUBKEY_LEN                       0x21
-#define QI_AUTH_CRT_SIGN_LEN                         0x40
-
-#define QI_AUTH_CRT_BASE                             0x00
-#define QI_AUTH_CRT_VER_OFF                          QI_AUTH_CRT_BASE
-#define QI_AUTH_CRT_TYPE_OFF                         QI_AUTH_CRT_VER_OFF + QI_AUTH_CRT_VER_LEN
-#define QI_AUTH_CRT_SIGNOFF_OFF                      QI_AUTH_CRT_TYPE_OFF + QI_AUTH_CRT_TYPE_LEN
-#define QI_AUTH_CRT_SERNUM_OFF                       QI_AUTH_CRT_SIGNOFF_OFF + QI_AUTH_CRT_SIGNOFF_LEN
-#define QI_AUTH_CRT_ISSUERID_OFF                     QI_AUTH_CRT_SERNUM_OFF + QI_AUTH_CRT_SERNUM_LEN
-#define QI_AUTH_CRT_SUBJID_OFF                       QI_AUTH_CRT_ISSUERID_OFF + QI_AUTH_CRT_ISSUERID_LEN
-#define QI_AUTH_CRT_PUBKEY_OFF                       QI_AUTH_CRT_SUBJID_OFF + QI_AUTH_CRT_SUBJID_LEN
-#define QI_AUTH_CRT_SIGN_OFF                         QI_AUTH_CRT_PUBKEY_OFF + QI_AUTH_CRT_PUBKEY_LEN
-
-#define QI_AUTH_CRT_LEN                              QI_AUTH_CRT_SIGN_OFF + QI_AUTH_CRT_SIGN_LEN
-#define QI_AUTH_MINCHAIN                             0x03
-#define QI_AUTH_MINCHAIN_LEN                         QI_AUTH_CRT_ROOTHASH_LEN + QI_AUTH_CRT_LEN + QI_AUTH_CRT_LEN
-/****************************************************************************
- *
- * Common data structure used across all functions.
- *
- ****************************************************************************/
-
-
-/****************************************************************************
- *
- * Definitions for Crypto Libray APIs.
- *
- ****************************************************************************/
 /**
  * \brief Initialises the PAL Crypt module
  */
@@ -100,15 +52,17 @@ int32_t qi_auth_ptx_crypt_deinit(uint8_t hibernate_chip);
 *
 * Return the certificate chain provisioned into the chip <br>
 *
-* \param[out]       p_certchain         Pointer to the buffer where the certificate chain should be stored
-* \param[out]        p_certchain_size    Should be at least 277 bytes
+* \param[in]         offset              Offset withn the chain
+* \param[in]         slot                Slot for the certificate
+* \param[out]        p_certchain         Pointer to the buffer where the certificate chain should be stored
+* \param[out]        p_certchain_size    Should be fit the whole chain (for the compressed keys around 600 bytes)
 *
 *\retval  Device Error
 *\retval  #CRYPT_LIB_ERROR
 *\retval  #CRYPT_LIB_OK
 *
 */
-uint16_t qi_auth_ptx_crypt_certchain(uint8_t* p_certchain, uint16_t* p_certchain_size);
+uint16_t qi_auth_ptx_crypt_certchain(uint8_t slot, uint8_t offset, uint8_t* p_certchain, uint16_t* p_certchain_size);
 
 /**
 *
@@ -129,7 +83,7 @@ uint16_t qi_auth_ptx_crypt_sign(uint8_t* p_digest_tbs, uint16_t digest_tbs_size,
 /**
 *
 * Hash the certificate chain on chip and return its digest<br>
-*
+* \param[in]        slot            defined the slot from where to read and calculate the hash
 * \param[out]       p_digest        Pointer to the buffer to store the digest, should be 32 bytes long
 *
 *\retval  Device Error
@@ -137,7 +91,7 @@ uint16_t qi_auth_ptx_crypt_sign(uint8_t* p_digest_tbs, uint16_t digest_tbs_size,
 *\retval  #CRYPT_LIB_OK
 *
 */
-uint16_t qi_auth_ptx_crypt_certchain_sha256(uint8_t* p_digest);
+uint16_t qi_auth_ptx_crypt_certchain_sha256(uint8_t slot, uint8_t* p_digest);
 
 /**
 *
@@ -152,6 +106,6 @@ uint16_t qi_auth_ptx_crypt_certchain_sha256(uint8_t* p_digest);
 *\retval  #CRYPT_LIB_OK
 *
 */
-uint16_t qi_auth_ptx_crypt_generate_sha256(const uint8_t* p_input, uint16_t inlen, uint8_t* p_digest);
+uint16_t qi_auth_ptx_crypt_generate_sha256(uint8_t* p_input, uint16_t inlen, uint8_t* p_digest);
 
 #endif //_QI_AUTH_CRYPT_H_

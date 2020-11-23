@@ -44,16 +44,34 @@
 #define MAX_CERTIFICATE_OFFSET              (3*256 + 1023)
 #define MAX_CERTIFICATE_LENGTH              (3*256 + 1023)
 
+#define TRY_SLOT() \
+	if (0 != slot) \
+    { \
+        return_status = PTX_BAD_SLOT;\
+        break; \
+    }
+
+#define TRY_BUFFER() \
+	if (NULL == p_resp) \
+    { \
+        return_status = PTX_BAD_BUFFER;\
+        break; \
+    }
+
+#define TRY_SIZE() \
+	if (0 == resp_size) \
+    { \
+        return_status = PTX_BAD_SIZE;\
+        break; \
+    }
+
 uint16_t qi_auth_ptx_error(uint8_t error_code, uint8_t error_data, uint8_t* p_resp, uint16_t* resp_size)
 {
-    uint16_t return_status = CRYPT_LIB_ERROR;
+    uint16_t return_status = PTX_ERROR;
 
     do {
-        if (NULL == p_resp)
-            break;
-
-        if (0 == resp_size)
-            break;
+    	TRY_BUFFER();
+		TRY_SIZE();
 
         // Version and Message type
         p_resp[0] = (QI_AUTH_PROTO_VER << 4) | MSGTYPE_RESP_ERROR;
@@ -66,71 +84,78 @@ uint16_t qi_auth_ptx_error(uint8_t error_code, uint8_t error_data, uint8_t* p_re
 
         *resp_size = 3;
 
-        return_status = CRYPT_LIB_OK;
+        return_status = PTX_OK;
 
     }while(0);
 
     return return_status;
 }
 
-uint16_t qi_auth_ptx_digests(uint8_t slot, uint8_t* p_digest, uint16_t* digest_size)
+uint16_t qi_auth_ptx_digests(uint8_t slot, uint8_t* p_resp, uint16_t* resp_size)
 {
-    uint16_t return_status = CRYPT_LIB_ERROR;
+    uint16_t return_status = PTX_ERROR;
 
     do {
-        if (NULL == p_digest)
-            break;
-
-        if (0 == digest_size)
-            break;
-
-        if (0 != slot)
-            break;
+        TRY_SLOT()
+		TRY_BUFFER();
+        TRY_SIZE();
 
         // Version and Message type
-        p_digest[0] = (QI_AUTH_PROTO_VER << 4) | MSGTYPE_RESP_DIGESTS;
+        p_resp[0] = (QI_AUTH_PROTO_VER << 4) | MSGTYPE_RESP_DIGESTS;
 
         // Slots Populated Mask and Slots Returned Mask
-        p_digest[1] = 0x1 | 0x1;
+        // ToDo: This filed below should be updated based on the presence of Certificate CHips on your sample
+        p_resp[1] = (0x1 << 4) | 0x1;
 
-        return_status = qi_auth_ptx_crypt_certchain_sha256(&p_digest[2]);
-        if (return_status != CRYPT_LIB_OK)
-            break;
+        return_status = qi_auth_ptx_crypt_certchain_sha256(slot, &p_resp[2]);
+        if (return_status != PTX_OK)
+        {
+			return_status = PTX_CRYPT_HASH_FAILED;
+			break;
+		}
 
-        *digest_size = 34;
+        *resp_size = 34;
+
+        return_status = PTX_OK;
 
     }while(0);
 
     return return_status;
 }
 
-uint16_t qi_auth_ptx_certificate(uint8_t slot, uint8_t* p_certchain, uint16_t* certchain_size)
+uint16_t qi_auth_ptx_certificate(uint8_t slot, uint8_t offset, uint8_t* p_resp, uint16_t* resp_size)
 {
-    uint16_t  return_status = CRYPT_LIB_ERROR;
+    uint16_t  return_status = PTX_ERROR;
 
     do {
 
-        if ((0 != slot) || (NULL == p_certchain) || (0 == certchain_size))
-            break;
+    	TRY_SLOT()
+        TRY_BUFFER();
+        TRY_SIZE();
 
         // Version and Message type
-        p_certchain[0] = (QI_AUTH_PROTO_VER << 4) | MSGTYPE_RESP_CERTIFICATE;
+        p_resp[0] = (QI_AUTH_PROTO_VER << 4) | MSGTYPE_RESP_CERTIFICATE;
 
-        return_status = qi_auth_ptx_crypt_certchain(p_certchain+1, certchain_size);
-        if (return_status != CRYPT_LIB_OK)
-            break;
+        return_status = qi_auth_ptx_crypt_certchain(slot, offset, p_resp+1, resp_size);
+        if (return_status != PTX_OK)
+		{
+			return_status = PTX_CRYPT_CERT_FAILED;
+			break;
+		}
 
-        *certchain_size += 1;
+        *resp_size += 1;
+
+        return_status = PTX_OK;
 
     }while(0);
 
     return return_status;
 }
 
-uint16_t qi_auth_ptx_challenge_auth(uint8_t slot, uint8_t* p_challreq, uint8_t challreq_size,
-                                            uint8_t* p_challresp, uint8_t* challresp_size)
+uint16_t qi_auth_ptx_challenge_auth(uint8_t slot, uint8_t* p_challreq, uint16_t challreq_size,
+                                            uint8_t* p_challresp, uint16_t* challresp_size)
 {
-    uint16_t return_status = CRYPT_LIB_ERROR;
+    uint16_t return_status = PTX_ERROR;
     uint8_t certchain_hash[32];
     // To Be Signed data
     uint8_t tbs_auth[54] = {0x41};
@@ -140,10 +165,19 @@ uint16_t qi_auth_ptx_challenge_auth(uint8_t slot, uint8_t* p_challreq, uint8_t c
     uint16_t signature_len = 64;
 
     do {
-        if ((0 != slot) ||
-            (NULL == p_challreq) || (0 == challreq_size) ||
-            (NULL == p_challresp) || (NULL == challresp_size) || (0 == *challresp_size))
+    	TRY_SLOT();
+
+        if ((NULL == p_challreq) || (NULL == p_challresp) || (NULL == challresp_size) )
+        {
+            return_status = PTX_BAD_BUFFER;
             break;
+        }
+
+        if ((0 == challreq_size) || (0 == *challresp_size))
+        {
+            return_status = PTX_BAD_SIZE;
+            break;
+        }
 
         *challresp_size = 0;
 
@@ -151,14 +185,18 @@ uint16_t qi_auth_ptx_challenge_auth(uint8_t slot, uint8_t* p_challreq, uint8_t c
         p_challresp[0] = (QI_AUTH_PROTO_VER << 4) | MSGTYPE_RESP_CHALLENGE_AUTH;
         *challresp_size += 1;
 
-        // Maximum Qi Authentication Certificate Structure Version
-        p_challresp[1] = 0x1 | 0x1;
+        // Maximum Qi Authentication Protocol Version[4] + SLots Populated Mask [4]
+        // TODo: Adopt the below value to your security element configuration
+        p_challresp[1] = (0x1 << 4) | 0x1;
         *challresp_size += 1;
 
         //Certificate Chain Hash LSB
-        return_status = qi_auth_ptx_crypt_certchain_sha256(certchain_hash);
-        if (return_status != CRYPT_LIB_OK)
-            break;
+        return_status = qi_auth_ptx_crypt_certchain_sha256(slot, certchain_hash);
+        if (return_status != PTX_OK)
+        {
+        	return_status = PTX_CRYPT_HASH_FAILED;
+        	break;
+        }
 
         p_challresp[2] = certchain_hash[31];
         *challresp_size += 1;
@@ -175,12 +213,17 @@ uint16_t qi_auth_ptx_challenge_auth(uint8_t slot, uint8_t* p_challreq, uint8_t c
         qi_auth_ptx_crypt_generate_sha256(tbs_auth, 54, digest_tbs_auth);
 
         return_status = qi_auth_ptx_crypt_sign(digest_tbs_auth, 32, signature, &signature_len);
-        if (return_status != CRYPT_LIB_OK)
-            break;
+        if (return_status != PTX_OK)
+        {
+        	return_status = PTX_CRYPT_SIGN_FAILED;
+        	break;
+        }
 
         memcpy(&p_challresp[3], signature, signature_len);
 
         *challresp_size += signature_len;
+
+        return_status = PTX_OK;
 
     }while(0);
 
