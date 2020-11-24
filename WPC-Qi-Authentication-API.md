@@ -4,11 +4,59 @@ The WPC Qi Authentication API comprises two components
 * [Qi Auth Crypt](../master/examples/qi_auth/qi_auth_crypt.c) to perform crypto related operations
 * [Qi Auth](../master/examples/qi_auth/qi_auth.c) to prepare authentication packets according to WPC Qi Auth 1.3 specification
 
-Almost all of the below mentioned functions are used in [this](../master/examples/qi_auth/qi_auth.c#L457) test routine
+Almost all of the below mentioned functions are used in [this](../master/wpc/qi_auth_self_test.c#L39) test routine
+
+As per WPC Qi AUthentication Protocol there are two counterparts in the authentication flow: Power Transmiter (PTx) and Power Receiver (PRx). The latter initiates the communication with the PTX to charge itself.
+There are three basic flows proposed by the protocol:
+
+      PRX                                                     PTX
+
+      GET_CERTIFICATE              -------->
+                                   <--------          CERTIFICATE
+      CHALLENGE                    -------->
+                                   <--------       CHALLENGE_AUTH  
+      Charging                     <--------
+
+             Figure 1.  Simple flow 
+
+
+      PRX                                                     PTX
+
+      GET_DIGESTS                  -------->
+                                   <--------              DIGESTS
+      Optional, if the Chain isn't cached
+      (GET_CERTIFICATE             -------->
+                                   <--------         CERTIFICATE)
+      CHALLENGE                    -------->
+                                   <--------       CHALLENGE_AUTH  
+      Charging                     <--------
+
+             Figure 2.  Simple flow with caching
+
+
+      PRX                                                     PTX
+
+      CHALLENGE                    -------->
+                                   <--------       CHALLENGE_AUTH
+      Optional, if the chain isn't cached
+      (GET_CERTIFICATE             -------->
+                                   <--------         CERTIFICATE)
+      Charging                     <--------
+
+             Figure 3.  Challenge first flow
+
+
+In general, as you see, the PRx side should be able to send the following messages:
+GET_DIGESTS, GET_CERTIFICATE, CHALLENGE (involves cryptographically secure random data) + be able to verify the incoming certificate (involved SH256 and ECDSA Verify functions), and the CHALLENGE_AUTH message
+From another side, the PTx, should be able to send the following messages:
+DIGESTS (involves SH256 operation), CERTIFICATE, CHALLENGE_AUTH (involves SHA256 and ECDSA Sign functions)
+
+Thus the following API is spitted on two groups: PRX and PTX, they are independent and can be used separatly. A case when they can be used together might be a device with a reverse charging feature. 
 
 [tocstart]: # (toc start)
 
-  * **Power Transmitter (PTx) API:**
+## Power Transmitter (PTx) API
+    
     * User API: qi_auth_ptx.h
       * [qi_auth_ptx_init](#qi_auth_ptx_init)
       * [qi_auth_ptx_deinit](#qi_auth_ptx_deinit)
@@ -23,7 +71,10 @@ Almost all of the below mentioned functions are used in [this](../master/example
       * [qi_auth_ptx_crypt_certchain](#qi_auth_ptx_crypt_certchain)
       * [qi_auth_ptx_crypt_generate_sha256](#qi_auth_ptx_crypt_generate_sha256)
       * [qi_auth_ptx_crypt_sign](#qi_auth_ptx_crypt_sign)
-  * **Power Receiver PRx API** (WPC doesn't mandate the usage of the Secure Element on the receiver side, though for some usecases it might be present):
+      
+      
+## Power Receiver PRx API
+THis API is implemented with a support of a secure element as well as with a 3rd-party crypto library (custom mbedTLS version). You can switch between modules by including either [`qi_auth_prx_crypt.c`](../master/wpc/PRx/qi_auth_prx_crypt.c) or [`qi_auth_prx_crypt_soft.c`](../master/wpc/PRx/qi_auth_prx_crypt_soft.c) files 
     * User API: qi_auth_prx.h
       * [qi_auth_prx_init](#qi_auth_prx_init)
       * [qi_auth_prx_deinit](#qi_auth_prx_deinit)
