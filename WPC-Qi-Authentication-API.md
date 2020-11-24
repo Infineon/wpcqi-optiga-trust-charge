@@ -77,24 +77,24 @@ Thus the following API is spitted on two groups: PRX and PTX, they are independe
 ## Power Receiver PRx API
 
 This API is implemented with a support of a secure element as well as with a 3rd-party crypto library (custom mbedTLS version). You can switch between modules by including either [`qi_auth_prx_crypt.c`](../master/wpc/PRx/qi_auth_prx_crypt.c) or [`qi_auth_prx_crypt_soft.c`](../master/wpc/PRx/qi_auth_prx_crypt_soft.c) files 
-    * User API: qi_auth_prx.h
-      * [qi_auth_prx_init](#qi_auth_prx_init)
-      * [qi_auth_prx_deinit](#qi_auth_prx_deinit)
-      * [qi_auth_prx_get_digests](#qi_auth_prx_get_digests)
-      * [qi_auth_prx_get_certificate](#qi_auth_prx_get_certificate)
-      * [qi_auth_prx_challenge](#qi_auth_prx_challenge)
-      * [qi_auth_prx_handover](#qi_auth_prx_handover)
-      * [qi_auth_prx_verify_chall_auth](#qi_auth_prx_verify_chall_auth)
-      * [qi_auth_prx_verify_cert](#qi_auth_prx_verify_cert)
-    * Internal API: qi_auth_prx_crypt.h
-      * [qi_auth_prx_crypt_init](#qi_auth_prx_crypt_init)
-      * [qi_auth_prx_crypt_deinit](#qi_auth_prx_crypt_deinit)
-      * [qi_auth_prx_crypt_get_random](#qi_auth_prx_crypt_get_random)
-      * [qi_auth_prx_crypt_generate_sha256](#qi_auth_prx_crypt_generate_sha256)
-      * [qi_auth_prx_crypt_verify_signature](#qi_auth_prx_crypt_verify_signature)
-      * [qi_auth_prx_crypt_verify_certchain](#qi_auth_prx_crypt_verify_certchain)
-      * [qi_auth_prx_crypt_parse_certchain](#qi_auth_prx_crypt_parse_certchain)
 
+  * User API: qi_auth_prx.h
+    * [qi_auth_prx_init](#qi_auth_prx_init)
+    * [qi_auth_prx_deinit](#qi_auth_prx_deinit)
+    * [qi_auth_prx_get_digests](#qi_auth_prx_get_digests)
+    * [qi_auth_prx_get_certificate](#qi_auth_prx_get_certificate)
+    * [qi_auth_prx_challenge](#qi_auth_prx_challenge)
+    * [qi_auth_prx_handover](#qi_auth_prx_handover)
+    * [qi_auth_prx_verify_chall_auth](#qi_auth_prx_verify_chall_auth)
+    * [qi_auth_prx_verify_cert](#qi_auth_prx_verify_cert)
+  * Internal API: qi_auth_prx_crypt.h
+    * [qi_auth_prx_crypt_init](#qi_auth_prx_crypt_init)
+    * [qi_auth_prx_crypt_deinit](#qi_auth_prx_crypt_deinit)
+    * [qi_auth_prx_crypt_get_random](#qi_auth_prx_crypt_get_random)
+    * [qi_auth_prx_crypt_generate_sha256](#qi_auth_prx_crypt_generate_sha256)
+    * [qi_auth_prx_crypt_verify_signature](#qi_auth_prx_crypt_verify_signature)
+    * [qi_auth_prx_crypt_verify_certchain](#qi_auth_prx_crypt_verify_certchain)
+    * [qi_auth_prx_crypt_parse_certchain](#qi_auth_prx_crypt_parse_certchain)
 
 [tocend]: # (toc end)
 
