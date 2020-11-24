@@ -60,7 +60,7 @@ int32_t qi_auth_prx_deinit(void);
 * \param req_size[in][out]    Length of the buffer
 *
 * \retval Error Code
-* \retval #CRYPTO_LIB_SUCCESS
+* \retval #PRX_OK
 */
 uint16_t qi_auth_prx_get_digests(uint8_t slot, uint8_t* p_req, uint16_t* req_size);
 
@@ -76,7 +76,7 @@ uint16_t qi_auth_prx_get_digests(uint8_t slot, uint8_t* p_req, uint16_t* req_siz
 * \param req_size[in][out]    Length of the buffer
 *
 * \retval Error Code
-* \retval #CRYPTO_LIB_SUCCESS
+* \retval #PRX_OK
 */
 uint16_t qi_auth_prx_get_certificate(uint32_t offset, uint32_t length, uint8_t slot,
 		                                    uint8_t* p_req, uint16_t* req_size);
@@ -88,7 +88,7 @@ uint16_t qi_auth_prx_get_certificate(uint32_t offset, uint32_t length, uint8_t s
 * \param req_size[in][out]    Length of the buffer
 *
 * \retval Error Code
-* \retval #CRYPTO_LIB_SUCCESS
+* \retval #PRX_OK
 */
 uint16_t qi_auth_prx_challenge(uint8_t slot, uint8_t* p_creq, uint16_t* req_size);
 
@@ -104,7 +104,7 @@ uint16_t qi_auth_prx_challenge(uint8_t slot, uint8_t* p_creq, uint16_t* req_size
 * \param challresp_size[in] Challenge response message size
 *
 * \retval Error Code
-* \retval #CRYPTO_LIB_SUCCESS
+* \retval #PRX_OK
 */
 uint16_t qi_auth_prx_verify_chall_auth(uint8_t* p_sha256,
                                        uint8_t* p_puc_pubkey, uint16_t pubkey_size,
@@ -119,7 +119,7 @@ uint16_t qi_auth_prx_verify_chall_auth(uint8_t* p_sha256,
 * \param root_ca_size[in] Size of the Root CA Certificate
 *
 * \retval Error Code
-* \retval #CRYPTO_LIB_SUCCESS
+* \retval #PRX_OK
 */
 uint16_t qi_auth_prx_verify_cert(uint8_t* p_certchain, uint16_t chain_size, const uint8_t* p_root_ca, uint16_t root_ca_size);
 
@@ -136,7 +136,7 @@ uint16_t qi_auth_prx_verify_cert(uint8_t* p_certchain, uint16_t chain_size, cons
 *                               Should fit PubKeyLength(uncopressed 64) + Compression Byte[1]
 *
 * \retval Error Code
-* \retval #CRYPTO_LIB_SUCCESS
+* \retval #PRX_OK
 */
 uint16_t qi_auth_prx_get_certchain_info(uint8_t* p_certchain, uint16_t chain_size,
 		                                uint8_t* p_puc_rsid, uint16_t* p_puc_rsid_size,
