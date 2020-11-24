@@ -8,7 +8,7 @@ In paricular this AppNote shows several things:
 * Example usage of the API with a test flow
 * Test Vectors against the API
 
-WPC Qi 1.3 API Desctription can be found [here](WPC-Qi-Authentication-API.md)
+WPC Qi 1.3 API Description can be found [here](WPC-Qi-Authentication-API.md)
 
 ## Hardware Setup
 
