@@ -1,4 +1,4 @@
-# WPC Qi 1.3 Authentication protocol with OPTIGA&trade; Trust Charge
+# WPC Qi 1.3 Authentication protocol with</br> OPTIGA&trade; Trust Charge
 
 ## Description
 
