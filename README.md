@@ -48,25 +48,15 @@ For more information on DAVE IDE, see the [DAVE Quick Start Guide](https://www.i
 
 To set up the OPTIGA&trade; Trust Charge Evaluation Kit:
 
-Connect your computer to the Debugger Micro USB port on your XMC4700 RelaxKit. The On-board USB debug probe is used to program the board and provides Virtual COM Port support for logging purposes.
+Connect your computer to the Debugger Micro USB port on your XMC4700 RelaxKit. The On-board USB debug probe is used to program the board.
+
+For logging purpose please connect additional USB cable to the X100 Connector on the board (an opposite side of the board).
 
 Ensure that the Shield2Go Security OPTIGA™ Trust Charge in Socket 1 of the Infineon MyIoT Adapter
 
 ## Establishing a serial connection for debugging
 
-To establish a serial connection between your host machine and your board
-
-Identify the USB serial port number for the connection to the board on your host computer. In Linux and macOS hosts, this will appear as a device in /dev/. On Windows, this device will appear as a COM device.
-Start a serial terminal and open a connection with the following settings:
-Baud rate: 115200
-Data: 8 bit
-Parity: None
-Stop bits: 1
-Flow control: None
-If you are using macOS or Linux, you can use screen. Run the following command:
-`screen /dev/tty.<your serial port> 115200`
-
-If you are using Windows, you will need to install a terminal program; e.g. Putty
+The Demo project creates an USB HID device which can be opened in a tool like Terra Term.
 
 ## Downloading the Code
 
