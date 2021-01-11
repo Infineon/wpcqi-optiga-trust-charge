@@ -85,9 +85,7 @@ The `xmc4700_qi_auth_example` project should be imported into your workspace and
 The demo project tests the implementaion of both sides PRx and PTX at the same time. However there is one detail, the Power Receiver can optionaly do all crypto relevat function either using OPTIGA or Third Party Crypto library as backend. You can choose it by selecting the corresponding configuration: Right CLick on the Project and select "Build Configurations" -> "Set Active" -> Make a choise between either `optiga_prx_crypto` or `software_prx_crypto`
 Please note that performance of the pure software based approach is significantly slower than the configuration based on the Security Element
 
-In case the certificate and the corresponding private key are located in slots other than 0xE0E0/0xE0F0, you can change this here
-
-https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/15d8e7142f150832284054f6bb99414bcf832643/wpc/PTx/qi_auth_ptx_crypt.c#L46-L48
+In case the certificate and the corresponding private key are located in slots other than 0xE0E0/0xE0F0, you can change this [here](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/15d8e7142f150832284054f6bb99414bcf832643/wpc/PTx/qi_auth_ptx_crypt.c#L46-L48)
 
 ## Output
 
