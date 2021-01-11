@@ -67,11 +67,11 @@ uint16_t qi_auth_prx_get_digests(uint8_t slot, uint8_t* p_req, uint16_t* req_siz
 
 /**
 * \brief Returns a GET_CERTIFICATE message in a form defined by WPC Qi Auth Rel 1.3
-* \param offset[in]       Offset.	These two fields combine to form the offset in bytes from
+* \param offset[in]       Offset.    These two fields combine to form the offset in bytes from
 *                         the start of the Certificate Chain to where the read request begins offset value
 * \param length[in]       Length in bytes to read. The length value is length98*256+length70. It is an error to specify a length that
 *                         would result in reading beyond end of the Certificate Chain
-* \param slot[in]	      Slot number
+* \param slot[in]          Slot number
 * \param p_req[out]       Output buffer
 * \param req_size[in][out]    Length of the buffer
 *
@@ -79,7 +79,7 @@ uint16_t qi_auth_prx_get_digests(uint8_t slot, uint8_t* p_req, uint16_t* req_siz
 * \retval #PRX_OK
 */
 uint16_t qi_auth_prx_get_certificate(uint32_t offset, uint32_t length, uint8_t slot,
-		                                    uint8_t* p_req, uint16_t* req_size);
+                                            uint8_t* p_req, uint16_t* req_size);
 
 /**
 * \brief Returns a Challenge message in a form defined by WPC Qi Auth Rel 1.3
@@ -108,8 +108,8 @@ uint16_t qi_auth_prx_challenge(uint8_t slot, uint8_t* p_creq, uint16_t* req_size
 */
 uint16_t qi_auth_prx_verify_chall_auth(uint8_t* p_sha256,
                                        uint8_t* p_puc_pubkey, uint16_t pubkey_size,
-		                               uint8_t* p_challreq, uint16_t challreq_size,
-		                               uint8_t* p_challresp, uint16_t challresp_size);
+                                       uint8_t* p_challreq, uint16_t challreq_size,
+                                       uint8_t* p_challresp, uint16_t challresp_size);
 
 /**
 * \brief Verifies a given Certificate Chain message in a form defined by WPC Qi Auth Rel 1.3. Certificate Chain is given as an input
@@ -139,9 +139,9 @@ uint16_t qi_auth_prx_verify_cert(uint8_t* p_certchain, uint16_t chain_size, cons
 * \retval #PRX_OK
 */
 uint16_t qi_auth_prx_get_certchain_info(uint8_t* p_certchain, uint16_t chain_size,
-		                                uint8_t* p_puc_rsid, uint16_t* p_puc_rsid_size,
-									    uint8_t* p_sha256,
-									    uint8_t* p_puc_pubkey, uint16_t* p_puc_pubkey_size);
+                                        uint8_t* p_puc_rsid, uint16_t* p_puc_rsid_size,
+                                        uint8_t* p_sha256,
+                                        uint8_t* p_puc_pubkey, uint16_t* p_puc_pubkey_size);
 
 
 #endif

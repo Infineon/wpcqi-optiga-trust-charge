@@ -64,7 +64,7 @@ int qi_auth_ptx_prx_test(void)
     do
     {
         // Test API
-    	// PRx: Prepare GET_DIGESTS message
+        // PRx: Prepare GET_DIGESTS message
         if (0 != qi_auth_prx_get_digests( 0, req, &req_size))
         {
             optiga_lib_print_string_with_newline("Error #1: Get Digest\r\n");
@@ -159,7 +159,7 @@ int qi_auth_ptx_prx_test(void)
 
         // PRx: Test against fixtures
         if (0 != qi_auth_prx_verify_cert((uint8_t *)(qi_auth_cr660_draft5_pf4_test_cert + 2), sizeof(qi_auth_cr660_draft5_pf4_test_cert)-2,
-        		                         qi_auth_cr660_draft5_pf4_root_cert, sizeof(qi_auth_cr660_draft5_pf4_root_cert)))
+                                         qi_auth_cr660_draft5_pf4_root_cert, sizeof(qi_auth_cr660_draft5_pf4_root_cert)))
         {
             optiga_lib_print_string_with_newline("Error #9:  Verify Certificate\r\n");
         }
@@ -170,12 +170,12 @@ int qi_auth_ptx_prx_test(void)
 
         // PRx:
         qi_auth_prx_get_certchain_info((uint8_t *)qi_auth_cr660_draft5_pf4_test_cert, sizeof(qi_auth_cr660_draft5_pf4_test_cert),
-        		                             rsid, &rsid_size, sha256, pubkey, &pubkey_size);
+                                             rsid, &rsid_size, sha256, pubkey, &pubkey_size);
 
         // PRx:
         if (0 != qi_auth_prx_verify_chall_auth( sha256, pubkey, pubkey_size,
-        		(uint8_t *)qi_auth_cr660_draft5_test_challenge, sizeof(qi_auth_cr660_draft5_test_challenge),
-				(uint8_t *)qi_auth_cr660_draft5_test_challenge_auth, sizeof(qi_auth_cr660_draft5_test_challenge_auth)))
+                (uint8_t *)qi_auth_cr660_draft5_test_challenge, sizeof(qi_auth_cr660_draft5_test_challenge),
+                (uint8_t *)qi_auth_cr660_draft5_test_challenge_auth, sizeof(qi_auth_cr660_draft5_test_challenge_auth)))
         {
             optiga_lib_print_string_with_newline("Error #10: Verify Challenge Auth\r\n");
         }

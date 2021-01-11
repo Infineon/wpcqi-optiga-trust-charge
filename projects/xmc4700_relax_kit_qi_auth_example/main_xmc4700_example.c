@@ -23,7 +23,7 @@
 #include "unistd.h"
 
 // Platform dependent libs
-#include <DAVE.h>			//Declarations from DAVE Code Generation (includes SFR declaration)
+#include <DAVE.h>            //Declarations from DAVE Code Generation (includes SFR declaration)
 #include "optiga/common/optiga_lib_logger.h"
 #include "optiga/pal/pal_os_timer.h"
 #include "optiga/pal/pal_logger.h"
@@ -62,10 +62,10 @@ extern pal_logger_t logger_console;
  */
 int main(Void)
 {
-	//Return value
-	int32_t status = (int32_t) 0;
+    //Return value
+    int32_t status = (int32_t) 0;
 
-	// Initialisation of DAVE Apps
+    // Initialisation of DAVE Apps
     if (DAVE_Init() == DAVE_STATUS_FAILURE)
     {
         /* Placeholder for error handler code. The while loop below can be replaced with an user error handler. */
@@ -78,7 +78,7 @@ int main(Void)
 
     qi_auth_ptx_prx_test();
 
-	return ((status == 0)? 0:1);
+    return ((status == 0)? 0:1);
 }
 
 

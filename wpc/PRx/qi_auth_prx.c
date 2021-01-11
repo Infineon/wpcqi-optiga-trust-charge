@@ -45,21 +45,21 @@
 #define MAX_CERTIFICATE_LENGTH              (3*256 + 1023)
 
 #define TRY_SLOT() \
-	if (0 != slot) \
+    if (0 != slot) \
     { \
         return_status = PRX_BAD_SLOT;\
         break; \
     }
 
 #define TRY_BUFFER() \
-	if (NULL == p_req) \
+    if (NULL == p_req) \
     { \
         return_status = PRX_BAD_BUFFER;\
         break; \
     }
 
 #define TRY_SIZE() \
-	if (0 == req_size) \
+    if (0 == req_size) \
     { \
         return_status = PRX_BAD_SIZE;\
         break; \
@@ -168,7 +168,7 @@ uint16_t qi_auth_prx_challenge(uint8_t slot, uint8_t* p_req, uint16_t* req_size)
 }
 
 uint16_t qi_auth_prx_verify_chall_auth(uint8_t* p_sha256,
-		                               uint8_t* p_puc_pubkey, uint16_t pubkey_size,
+                                       uint8_t* p_puc_pubkey, uint16_t pubkey_size,
                                        uint8_t* p_chall, uint16_t chall_size,
                                        uint8_t* p_challauth, uint16_t challauth_size)
 {
@@ -234,17 +234,17 @@ uint16_t qi_auth_prx_verify_cert( uint8_t* p_certchain, uint16_t chain_size, con
 }
 
 uint16_t qi_auth_prx_get_certchain_info(uint8_t* p_certchain, uint16_t chain_size,
- 		                                uint8_t* p_puc_rsid, uint16_t* p_puc_rsid_size,
- 									    uint8_t* p_sha256,
- 									    uint8_t* p_puc_pubkey, uint16_t* p_puc_pubkey_size)
+                                         uint8_t* p_puc_rsid, uint16_t* p_puc_rsid_size,
+                                         uint8_t* p_sha256,
+                                         uint8_t* p_puc_pubkey, uint16_t* p_puc_pubkey_size)
 {
     uint16_t return_status = PRX_ERROR;
 
     do {
         return_status = qi_auth_prx_crypt_get_certchain_info(p_certchain, chain_size,
                                                              p_puc_rsid, p_puc_rsid_size,
-				                                             p_sha256,
-				                                             p_puc_pubkey, p_puc_pubkey_size);
+                                                             p_sha256,
+                                                             p_puc_pubkey, p_puc_pubkey_size);
         if(CRYPT_LIB_OK != return_status)
         {
             break;
@@ -259,11 +259,11 @@ uint16_t qi_auth_prx_get_certchain_info(uint8_t* p_certchain, uint16_t chain_siz
 
 int32_t qi_auth_prx_init(void)
 {
-	return (qi_auth_prx_crypt_init(0));
+    return (qi_auth_prx_crypt_init(0));
 }
 
 int32_t qi_auth_prx_deinit(void)
 {
-	return (qi_auth_prx_crypt_deinit(0));
+    return (qi_auth_prx_crypt_deinit(0));
 }
 

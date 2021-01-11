@@ -46,11 +46,11 @@
 #define PTX_CRYPT_CERT_FAILED                   0x26
 #define PTX_CRYPT_SIGN_FAILED                   0x27
 
-#define QI_AUTH_ERROR_INVALID_REQUEST			0x01
-#define QI_AUTH_ERROR_UNSUPPORTED_PROTOCOL		0x02
-#define QI_AUTH_ERROR_BUSY						0x03
-#define QI_AUTH_ERROR_UNSPECIFIED				0x04
-#define QI_AUTH_ERROR_COMMUNCIATION_ERROR		0x01
+#define QI_AUTH_ERROR_INVALID_REQUEST           0x01
+#define QI_AUTH_ERROR_UNSUPPORTED_PROTOCOL      0x02
+#define QI_AUTH_ERROR_BUSY                      0x03
+#define QI_AUTH_ERROR_UNSPECIFIED               0x04
+#define QI_AUTH_ERROR_COMMUNCIATION_ERROR       0x01
 
 /**
  * \brief Initialises the PAL Crypt module
@@ -112,7 +112,7 @@ uint16_t qi_auth_ptx_certificate(uint8_t slot, uint8_t offset, uint8_t* p_resp, 
 * \retval No Error - 0
 */
 uint16_t qi_auth_ptx_challenge_auth(uint8_t slot, uint8_t* p_challreq, uint16_t challreq_size,
-		                                    uint8_t* p_resp, uint16_t* resp_size);
+                                            uint8_t* p_resp, uint16_t* resp_size);
 
 
 #endif

@@ -182,9 +182,9 @@ uint16_t qi_auth_prx_crypt_verify_certchain(uint8_t* p_qi_auth_chain_buf, uint16
 * \retval #CRYPTO_LIB_SUCCESS
 */
 uint16_t qi_auth_prx_crypt_get_certchain_info(uint8_t* p_certchain, uint16_t chain_size,
- 		                                uint8_t* p_puc_rsid, uint16_t* p_puc_rsid_size,
- 									    uint8_t* p_sha256,
- 									    uint8_t* p_puc_pubkey, uint16_t* p_puc_pubkey_size);
+                                         uint8_t* p_puc_rsid, uint16_t* p_puc_rsid_size,
+                                         uint8_t* p_sha256,
+                                         uint8_t* p_puc_pubkey, uint16_t* p_puc_pubkey_size);
 
 /**
 * Verifies the signature using the given public key.<br>
