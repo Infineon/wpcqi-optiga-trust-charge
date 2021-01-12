@@ -84,6 +84,34 @@ This API is implemented with a support of a secure element as well as with a 3rd
 [tocend]: # (toc end)
 
 
+## qi_auth_ptx_init
+
+* **Prototype**
+	```c
+    int32_t  qi_auth_ptx_init(void);
+	```
+* **Description:**  Initialises the library
+* **Returns:** 
+	* `0` On success
+	* Error code
+
+[Top](#top)
+
+
+## qi_auth_ptx_deinit
+
+* **Prototype**
+	```c
+    int32_t  qi_auth_ptx_deinit(void);
+	```
+* **Description:**  Initialises the library
+* **Returns:** 
+	* `0` On success
+	* Error code
+
+[Top](#top)
+
+
 ## qi_auth_ptx_error
 
 * **Prototype**
@@ -96,23 +124,6 @@ This API is implemented with a support of a secure element as well as with a 3rd
 	* `error_data`: Error data to be transmitted
 	* `p_resp`: Output buffer
 	* `resp_size`: Length of the buffer
-* **Returns:** 
-	* `0` On success
-	* Error code
-
-[Top](#top)
-
-## qi_auth_prx_get_digests
-
-* **Prototype**
-	```c
-    uint16_t qi_auth_prx_get_digests(uint8_t slot, uint8_t* p_req, uint16_t* req_size);
-	```
-* **Description:**  Returns a GET DIGESTS message in a form defined by WPC Qi Auth Rel 1.3
-* **Arguments:**
-	* `slot`: Slot number
-	* `p_req`: Output buffer
-	* `req_size`: Length of the buffer
 * **Returns:** 
 	* `0` On success
 	* Error code
@@ -136,29 +147,6 @@ This API is implemented with a support of a secure element as well as with a 3rd
 
 [Top](#top)
 
-## qi_auth_prx_get_certificate
-
-* **Prototype**
-	```c
-	uint16_t qi_auth_prx_get_certificate(uint32_t offset, uint32_t length, uint8_t slot,
-		                                    uint8_t* p_req, uint16_t* req_size);
-	```
-* **Description:**  Returns a GET_CERTIFICATE message in a form defined by WPC Qi Auth Rel 1.3
-* **Arguments:**
-	* `offset`: Offset.	These two fields combine to form the offset in bytes from
-                the start of the Certificate Chain to where the read request begins offset value
-
-	* `length`: Length in bytes to read. The length value is length98*256+length70. It is an error to specify a length that
-                would result in reading beyond end of the Certificate Chain
-	* `slot`: Slot number
-	* `p_req`: Output buffer
-	* `req_size`: Pointer to he length of the buffer
-* **Returns:** 
-	* `0` On success
-	* Error code
-
-[Top](#top)
-
 ## qi_auth_ptx_certificate
 
 * **Prototype**
@@ -171,23 +159,6 @@ This API is implemented with a support of a secure element as well as with a 3rd
 	* `offset`: Offset
 	* `p_resp`: Output buffer where the certificate message will be stored
 	* `resp_size`: Length of the buffer
-* **Returns:** 
-	* `0` On success
-	* Error code
-
-[Top](#top)
-
-## qi_auth_prx_challenge
-
-* **Prototype**
-	```c
-    uint16_t qi_auth_prx_challenge(uint8_t slot, uint8_t* p_req, uint16_t* req_size);
-	```
-* **Description:**  Returns a Challenge message in a form defined by WPC Qi Auth Rel 1.3
-* **Arguments:**
-	* `slot`: Slot number
-	* `p_req`: Output buffer
-	* `req_size`: Length of the buffer
 * **Returns:** 
 	* `0` On success
 	* Error code
@@ -213,6 +184,66 @@ This API is implemented with a support of a secure element as well as with a 3rd
 	* Error code
 
 [Top](#top)
+
+## qi_auth_prx_get_digests
+
+* **Prototype**
+	```c
+    uint16_t qi_auth_prx_get_digests(uint8_t slot, uint8_t* p_req, uint16_t* req_size);
+	```
+* **Description:**  Returns a GET DIGESTS message in a form defined by WPC Qi Auth Rel 1.3
+* **Arguments:**
+	* `slot`: Slot number
+	* `p_req`: Output buffer
+	* `req_size`: Length of the buffer
+* **Returns:** 
+	* `0` On success
+	* Error code
+
+[Top](#top)
+
+
+## qi_auth_prx_get_certificate
+
+* **Prototype**
+	```c
+	uint16_t qi_auth_prx_get_certificate(uint32_t offset, uint32_t length, uint8_t slot,
+		                                    uint8_t* p_req, uint16_t* req_size);
+	```
+* **Description:**  Returns a GET_CERTIFICATE message in a form defined by WPC Qi Auth Rel 1.3
+* **Arguments:**
+	* `offset`: Offset.	These two fields combine to form the offset in bytes from
+                the start of the Certificate Chain to where the read request begins offset value
+
+	* `length`: Length in bytes to read. The length value is length98*256+length70. It is an error to specify a length that
+                would result in reading beyond end of the Certificate Chain
+	* `slot`: Slot number
+	* `p_req`: Output buffer
+	* `req_size`: Pointer to he length of the buffer
+* **Returns:** 
+	* `0` On success
+	* Error code
+
+[Top](#top)
+
+
+## qi_auth_prx_challenge
+
+* **Prototype**
+	```c
+    uint16_t qi_auth_prx_challenge(uint8_t slot, uint8_t* p_req, uint16_t* req_size);
+	```
+* **Description:**  Returns a Challenge message in a form defined by WPC Qi Auth Rel 1.3
+* **Arguments:**
+	* `slot`: Slot number
+	* `p_req`: Output buffer
+	* `req_size`: Length of the buffer
+* **Returns:** 
+	* `0` On success
+	* Error code
+
+[Top](#top)
+
 
 ## qi_auth_prx_verify_chall_auth
 
