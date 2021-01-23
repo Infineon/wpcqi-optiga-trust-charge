@@ -1,4 +1,0 @@
-Hash file ...
-C:\Users\hoener\projects\WPC\X.509\CR660draf5_PlugfestNr4\IFX_CR660_Draft5_Root_Certificate.crt
-Hash: F053506DC5759905F6A54C9831A15E03740EA7F708679052DDCA52855026EE05
-... finished
