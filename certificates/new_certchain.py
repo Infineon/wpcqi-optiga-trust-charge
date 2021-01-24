@@ -22,7 +22,7 @@ def calculate_root_ca_hash(root_ca_path: str):
         print(e)
 
 
-def write_cert_chain_os(root_ca_path: str, man_ca_cert_path: str, prod_unit_cert_path: str) -> bytes:
+def write_cert_chain_os(root_ca_path: str, man_ca_cert_path: str, prod_unit_cert_path: str, chip_id) -> bytes:
     # Calculate Hash of the certificate, it comes first in teh chain
     root_ca_hash = calculate_root_ca_hash(root_ca_path)
 
@@ -33,7 +33,7 @@ def write_cert_chain_os(root_ca_path: str, man_ca_cert_path: str, prod_unit_cert
     chain_size_bytes = (root_ca_size + man_ca_size + prod_unit_size).to_bytes(2, 'big')
 
     # Consolidate all information in one file
-    path_final_certchain = os.path.abspath('IFX_WPC_QI_13_Certificate_chain.bin')
+    path_final_certchain = os.path.abspath('IFX_WPC_QI_13_Certificate_chain_{0}.bin'.format(chip_id))
     try:
         with open(man_ca_cert_path, 'rb') as man_ca_file:
             # Here we add our manufacturer ca certificate
@@ -119,6 +119,9 @@ def main():
     csr_key.generate(curve='secp256r1')
     # lock back the key slot
     csr_key.meta = {'change': 'never'}
+    # store the chip id
+    uid = csr_key.optiga.settings.uid
+    chip_id = hex(uid.batch_num).lstrip("0x") + hex(uid.x_coord).lstrip("0x") + hex(uid.y_coord).lstrip("0x")
 
     # initialise the builder object to create the csr
     builder = cert.Builder(
@@ -158,7 +161,7 @@ def main():
     path_man_ca = os.path.abspath(path + '/IFX_WPC_QI_13_Manufacturing_Certificate.crt')
     path_prod_unit = os.path.abspath(path + '/IFX_WPC_QI_13_ProductUnit_Certificate.crt')
 
-    cert_chain_bytes = write_cert_chain_os(path_root_ca, path_man_ca, path_prod_unit)
+    cert_chain_bytes = write_cert_chain_os(path_root_ca, path_man_ca, path_prod_unit, chip_id)
     write_cert_chain_optiga(cert_chain_bytes)
 
 
