@@ -2,16 +2,17 @@
 
 ## Requirements
 
-* install Python 3.8+
-* install OpenSSL for Windows
-* Open Windows Commander 
-* run `python --version`
-* `cd <path-to-the-folder-with-this-document>/python-optiga-trust`
-* `pip install -r requirements.txt`
-* `pip install .`
-* connect the OPTIGA Trust Sample to the Perso2Go Board, connect the latter to you PC
-* `python`
-* As a test try the following
+1. Install [Python 3.8+](https://www.python.org/downloads/)
+    * During installation don't forget to include python executable in PATH of your windows
+1. install [OpenSSL for Windows](https://slproweb.com/products/Win32OpenSSL.html)
+1. Open Windows Command Line
+1. run `python --version`
+1. `cd <path-to-the-folder-with-this-document>/python-optiga-trust`
+1. `pip install -r requirements.txt`
+1. `pip install .`
+1. connect the OPTIGA Trust Sample to the Perso2Go Board, connect the latter to you PC
+1. `python`
+1. As a test try the following, check whetehr the output is similar to the one below
     ```bash
     C:\git\wpcqi-optiga-trust-charge\certificates\python-optiga-trust>python
     Python 3.8.1 (tags/v3.8.1:1b293b6, Dec 18 2019, 22:39:24) [MSC v.1916 32 bit (Intel)] on win32
@@ -31,11 +32,11 @@
     b'C\xd6TZ\x1crJ\xf8'
     >>> quit()
     ```
- * Return to the original working directory
+ 1. Return to the original working directory
     ```bash
     C:\git\wpcqi-optiga-trust-charge\certificates\python-optiga-trust>cd ..
     ```
- * Configure your certificate chain by modifying the `new_certchain_conf.json` file
+ 1. Configure your certificate chain by modifying the `new_certchain_conf.json` file
    ```json
    {
         "openssl_path": "<absolute_path_to_the_openssl>",
@@ -45,7 +46,7 @@
         "slot": "<one_of_two_certificates_slots_to_populate>"
     }
    ```
- * Certificate Chain generation
+ 1. Certificate Chain generation
  
     ```bash
     C:\git\wpcqi-optiga-trust-charge\certificates>python new_certchain.py
@@ -171,8 +172,8 @@
     
     C:\Users\Yushev\git\wpcqi-optiga-trust-charge\certificates>
     ```
-* For your reference, the resulting certificate chain is stored in DER format in `IFX_WPC_QI_13_Certificate_chain.bin`
-* Test Root CA, Test Manufacturer CA and Test Product Unit CA are stored in the folder `new_certchain_scripts`
+1. For your reference, the resulting certificate chain is stored in DER format in `IFX_WPC_QI_13_Certificate_chain.bin`
+1. Test Root CA, Test Manufacturer CA and Test Product Unit CA are stored in the folder `new_certchain_scripts`
 
 ## How does it work
 
