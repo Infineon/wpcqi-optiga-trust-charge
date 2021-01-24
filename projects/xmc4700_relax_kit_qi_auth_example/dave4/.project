@@ -47,6 +47,11 @@
 			<locationURI>OPTIGA_DAVE_PROJ/optiga/optiga</locationURI>
 		</link>
 		<link>
+			<name>optiga_hostlib/examples</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>optiga_hostlib/examples/utilities</name>
 			<type>2</type>
 			<locationURI>OPTIGA_DAVE_PROJ/optiga/examples/utilities</locationURI>
