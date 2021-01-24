@@ -2,6 +2,9 @@
 
 ## Requirements
 
+1. Make sure you have either an Optiga Trust Personalisation Board or at least a board based on a FT260 chip
+    * For instance, an UMFT260EV1A USB to I2C bridge can be used. This bridge is available on distributors, such as Mouser and DigiKey.
+    * <img src="https://github.com/Infineon/trustsculptor-optiga/blob/main/doc/pictures/connect.svg" width="40%" align="middle">
 1. Install [Python 3.8+](https://www.python.org/downloads/)
     * During installation don't forget to include python executable in PATH of your windows
 1. install [OpenSSL for Windows](https://slproweb.com/products/Win32OpenSSL.html)
@@ -179,8 +182,8 @@
 
 * The script `new_certchain.py`
     * reads out the configuration file `new_certchain_conf.json`
-    * initialises connected OPTIGA chip and generates a new keypair on the chip
-    * read out fom the chip the public key pair of newly generated keypair
+    * initializes connected OPTIGA chip and generates a new keypair on the chip
+    * read out from the chip the public key pair of newly generated keypair
     * constructs a Certificate Signing Request according to the configuration file. The result is stored in `wpc_qi_testchain.csr.pem`
     * using openssl calls constructs a new certificate chain based on existing Test Root CA
     * collects the resulting files and prepares one certificate chain
