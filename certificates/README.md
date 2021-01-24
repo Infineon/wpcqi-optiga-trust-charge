@@ -39,7 +39,7 @@
  1. Configure your certificate chain by modifying the `new_certchain_conf.json` file
    ```json
    {
-        "openssl_path": "<absolute_path_to_the_openssl>",
+        "openssl_path": "<absolute_path_to_the_openssl_exe>",
         "user_id": "<optional_data_for_the_user_id_max_32_symobols>",
         "common_name": "<data_for_the_common_name_includes_wpc_qi_id_max35_symbols>",
         "rsid": "<revocation_sequential_number_max_18_symbols>",
