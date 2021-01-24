@@ -110,6 +110,7 @@ int qi_auth_ptx_prx_test(void)
 
         //  PRx: Verify the CERTIFICATE message
         // We feed here the certificate without length at the beggining
+        // Use qi_auth_test_new_certchain insetad of qi_auth_cr660_draft5_ifx_root_cert if you have generated a new certificate chain
         if (0 != qi_auth_prx_verify_cert(certchain+1+2, certchain_size-1-2, qi_auth_cr660_draft5_ifx_root_cert, sizeof(qi_auth_cr660_draft5_ifx_root_cert)))
         {
             optiga_lib_print_string_with_newline("Error #5: Verify Certificate response\r\n");
