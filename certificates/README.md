@@ -182,8 +182,8 @@
 
 * The script `new_certchain.py`
     * reads out the configuration file `new_certchain_conf.json`
-    * initialises connected OPTIGA chip and generates a new keypair on the chip
-    * read out fom the chip the public key pair of newly generated keypair
+    * initializes connected OPTIGA chip and generates a new keypair on the chip
+    * read out from the chip the public key pair of newly generated keypair
     * constructs a Certificate Signing Request according to the configuration file. The result is stored in `wpc_qi_testchain.csr.pem`
     * using openssl calls constructs a new certificate chain based on existing Test Root CA
     * collects the resulting files and prepares one certificate chain
