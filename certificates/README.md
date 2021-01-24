@@ -2,6 +2,9 @@
 
 ## Requirements
 
+1. Make sure you have either an Optiga Trust Personalisation Board or at least a board based on a FT260 chip
+    * For instance, an UMFT260EV1A USB to I2C bridge can be used. This bridge is available on distributors, such as Mouser and DigiKey.
+    * <img src="https://github.com/Infineon/trustsculptor-optiga/blob/main/doc/pictures/connect.svg" width="40%" align="middle">
 1. Install [Python 3.8+](https://www.python.org/downloads/)
     * During installation don't forget to include python executable in PATH of your windows
 1. install [OpenSSL for Windows](https://slproweb.com/products/Win32OpenSSL.html)
