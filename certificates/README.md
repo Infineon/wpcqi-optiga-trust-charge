@@ -43,7 +43,7 @@
    ```json
    {
         "openssl_path": "<absolute_path_to_the_openssl_exe>",
-        "user_id": "<optional_data_for_the_user_id_max_32_symobols>",
+        "ptmc": "<your_ptmc_value>",
         "common_name": "<data_for_the_common_name_includes_wpc_qi_id_max35_symbols>",
         "rsid": "<revocation_sequential_number_max_18_symbols>",
         "slot": "<one_of_two_certificates_slots_to_populate>"
@@ -69,8 +69,8 @@
             1 Datei(en) verschoben.
     read EC key
     writing EC key
-    C:\Users\Yushev\git\wpcqi-optiga-trust-charge\certificates\new_certchain_scripts\serial.txt* konnte nicht gefunden werden
-    C:\Users\Yushev\git\wpcqi-optiga-trust-charge\certificates\new_certchain_scripts\certindex.txt* konnte nicht gefunden werden
+    C:\Users\Yushev\git\wpcqi-optiga-trust-charge\certificates\new_certchain\serial.txt* konnte nicht gefunden werden
+    C:\Users\Yushev\git\wpcqi-optiga-trust-charge\certificates\new_certchain\certindex.txt* konnte nicht gefunden werden
             1 Datei(en) kopiert.
             1 Datei(en) kopiert.
     Using configuration from IFX_WPC_QI_13_CA_Config.cfg
@@ -176,7 +176,7 @@
     C:\Users\Yushev\git\wpcqi-optiga-trust-charge\certificates>
     ```
 1. For your reference, the resulting certificate chain is stored in DER format in `IFX_WPC_QI_13_Certificate_chain.bin`
-1. Test Root CA, Test Manufacturer CA and Test Product Unit CA are stored in the folder `new_certchain_scripts`
+1. Test Root CA, Test Manufacturer CA and Test Product Unit CA are stored in the folder `new_certchain`
 
 ## How does it work
 
