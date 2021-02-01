@@ -181,7 +181,7 @@ def to_otc(path):
     meta = to_json()
     filepath = os.path.abspath(path + '/' + 'OPTIGA_Trust.xml')
     # OTC understands only UTF-8, so the file should be encoded in it
-    with codecs.open(filepath, 'w+', encoding='utf8') as f:
+    with open(filepath, 'w+', encoding='utf8') as f:
         supermeta = _to_xml(meta)
         f.write(supermeta)
 
@@ -189,5 +189,5 @@ def to_otc(path):
         if 'data' in value:
             if 'used_size' in value['pretty_metadata']:
                 formatted_data = re.sub("(.{64})", "\\1\n", value['data'].upper(), 0, re.DOTALL)
-                with open('{0}/{1}.dat'.format(path, key.upper()), 'w+') as f:
+                with open('{0}/{1}.dat'.format(path, key.upper()), 'w+', encoding='utf-8') as f:
                     f.write(formatted_data)

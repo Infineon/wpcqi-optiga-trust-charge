@@ -159,7 +159,7 @@ def main():
 
     # get path to openssl
     try:
-        with open(os.path.abspath(os.getcwd() + '/new_certchain_conf.json'), 'r') as f:
+        with open(os.path.abspath(os.getcwd() + '/new_certchain_conf.json'), 'r', encoding='utf-8') as f:
             data = json.load(f)
             path_openssl = data['openssl_path']
             ptmc = data['ptmc']
