@@ -37,11 +37,10 @@
 #include "qi_auth_prx_crypt.h"
 #include "qi_auth_fixtures.h"
 
-#define MAXCMD_LEN            255
-#define HEXDUMP_COLS        16
+#define MAXCMD_LEN                         255
+#define HEXDUMP_COLS                       16
 
-#define QI_AUTH_ROOT_HASH                  qi_auth_cr660_draft5_root_hash
-#define QI_AUTH_ROOT_CERT                  qi_auth_cr660_draft5_root_cert
+#define QI_AUTH_ROOT_HASH_SIZE             32
 #define QI_AUTH_PTMC_VALUE                 qi_auth_ptmc_value
 #define QI_AUTH_REVOKED_RSID               qi_auth_revoked_rsid
 
@@ -222,7 +221,7 @@ uint16_t qi_auth_prx_crypt_get_certchain_info(uint8_t* p_certchain, uint16_t cha
 
         // Parse the Manufacturer CA Certificate in DER Format (from the chain we've received)
         mbedtls_x509_crt_init( &manufacturer_ca );
-        return_status = mbedtls_x509_crt_parse_der(&manufacturer_ca, p_certchain + 2 + sizeof(QI_AUTH_ROOT_HASH), chain_size - 2 - sizeof(QI_AUTH_ROOT_HASH));
+        return_status = mbedtls_x509_crt_parse_der(&manufacturer_ca, p_certchain + 2 + QI_AUTH_ROOT_HASH_SIZE, chain_size - 2 - QI_AUTH_ROOT_HASH_SIZE);
         if( 0 != return_status )
         {
             return_status = CRYPT_LIB_ERROR_PARSE_MANUF_CERT;
@@ -231,8 +230,8 @@ uint16_t qi_auth_prx_crypt_get_certchain_info(uint8_t* p_certchain, uint16_t cha
 
         // Parse the Product Unit Certificate in DER Format (from the chain we've received)
         mbedtls_x509_crt_init( &product_unit );
-        return_status = mbedtls_x509_crt_parse_der(&product_unit, p_certchain + 2 + sizeof(QI_AUTH_ROOT_HASH) + manufacturer_ca.raw.len,
-                chain_size - 2 - sizeof(QI_AUTH_ROOT_HASH) - manufacturer_ca.raw.len);
+        return_status = mbedtls_x509_crt_parse_der(&product_unit, p_certchain + 2 + QI_AUTH_ROOT_HASH_SIZE + manufacturer_ca.raw.len,
+                chain_size - 2 - QI_AUTH_ROOT_HASH_SIZE - manufacturer_ca.raw.len);
         if( 0 != return_status )
         {
             return_status = CRYPT_LIB_ERROR_PARSE_PRODUCT_CERT;
