@@ -152,12 +152,22 @@ static void optiga_util_callback(void * context, optiga_lib_status_t return_stat
 			break; \
 	}
 
+
+
+
 void update_certificate_chain(void)
 {
     optiga_lib_status_t return_status = !OPTIGA_LIB_SUCCESS;
-    uint8_t certchain_buffer[600];
-    uint16_t certchain_buffer_size = 600;
-    uint16_t mca_cert_size = 0;
+    uint8_t mca_cert[400];
+    uint8_t mca_asn1_certsize[2];
+    uint16_t mca_asn1_certsize_size = 2;
+    uint16_t mca_cert_size = 400;
+    // 3 bytes OPTIGA Tags + 2 bytes length + 32 bytes hash + 4 bytes ASN.1 Tag (2 last bytes is length)
+    uint16_t mca_cert_offset = OPTIGA_IDENTITY_SIZE + WPCQI_AUTH_CERTCHAIN_SIZE_SIZE + WPCQI_AUTH_ROOT_HASH_SIZE;
+    uint8_t pu_cert[400];
+	uint16_t pu_cert_size = 400;
+    uint8_t new_certchain[800];
+    uint16_t new_certchain_size = 800;
 
     do
     {
@@ -170,92 +180,83 @@ void update_certificate_chain(void)
             break;
         }
 
+        /*
+         * Step 1. Read out the length and the Manufacturer CA Certificate into the internal buffer
+         */
 		optiga_lib_status = OPTIGA_LIB_BUSY;
-		// At first read only the length of the Manufacturer CA certificate
-		// 3 bytes OPTIGA Tags + 2 bytes length + 32 bytes hash + 4 bytes ASN.1 Tag (2 last bytes is length)
-		certchain_buffer_size = OPTIGA_IDENTITY_SIZE + WPCQI_AUTH_CERTCHAIN_SIZE_SIZE + WPCQI_AUTH_ROOT_HASH_SIZE + 4;
-		return_status = optiga_util_read_data(p_util, 0xE0E0,
-                                              0,
-											  certchain_buffer,
-											  &certchain_buffer_size);
+		// Step 1.1 read only the length of the Manufacturer CA certificate. Length is part of the certificate, and located in the 3rd and 4th bytes
+		return_status = optiga_util_read_data(p_util, 0xE0E0, mca_cert_offset + 2, mca_asn1_certsize, &mca_asn1_certsize_size);
+		WAIT_FOR_COMPLETION(return_status);
+		// 4 is for the first 4 bytes of the certificate (which includes an ASN.1 Sequence Tag and a length)
+		mca_cert_size = ((mca_asn1_certsize[0] << 8) + mca_asn1_certsize[1]) + 4;
 
+		optiga_lib_status = OPTIGA_LIB_BUSY;
+		// Step 1.2. Read the Manufacturer CA certificate based on the retried length
+		return_status = optiga_util_read_data(p_util, 0xE0E0, mca_cert_offset, mca_cert, &mca_cert_size);
 		WAIT_FOR_COMPLETION(return_status);
 
-		optiga_lib_status = OPTIGA_LIB_BUSY;
-		// At first read only the length of the Manufacturer CA certificate
-		certchain_buffer_size = ((certchain_buffer[WPCQI_AUTH_MCA_CERT_SIZE_OFFSET] << 8) + certchain_buffer[WPCQI_AUTH_MCA_CERT_SIZE_OFFSET + 1]) + 2;
-		return_status = optiga_util_read_data(p_util, 0xE0E0,
-                                              WPCQI_AUTH_MCA_CERT_OFFSET,
-											  &certchain_buffer[WPCQI_AUTH_MCA_CERT_OFFSET],
-											  &certchain_buffer_size);
 
+		optiga_lib_status = OPTIGA_LIB_BUSY;
+		/*
+		 * Step 2. Read out the the Product Unit certificate.
+		 * We will read till end of the chain, as there is nothing after the certificate and optiga won't read beyond this
+		 */
+		return_status = optiga_util_read_data(p_util, 0xE0E0, mca_cert_offset + mca_cert_size, pu_cert, &pu_cert_size);
 		WAIT_FOR_COMPLETION(return_status);
 
-		if (memcmp(&certchain_buffer[WPCQI_AUTH_MCA_CERT_OFFSET], nok_ifx_manufacturer_ca, certchain_buffer_size) != 0)
+		/*
+		 * Step 3. Compare the Manufacturer CA Certificate with the one we want to substitute
+		 */
+		if (sizeof(nok_ifx_manufacturer_ca) < mca_cert_size)
 		{
-			// it's not the certificate which should be replaced, return from the function
-			break;
+			if (memcmp(mca_cert, nok_ifx_manufacturer_ca, sizeof(nok_ifx_manufacturer_ca)) != 0)
+			{
+				// it's not the certificate which should be replaced, return from the function
+				break;
+			}
+		}
+		else {
+			if (memcmp(mca_cert, nok_ifx_manufacturer_ca, mca_cert_size) != 0)
+			{
+				// it's not the certificate which should be replaced, return from the function
+				break;
+			}
 		}
 
-		memcpy(&certchain_buffer[WPCQI_AUTH_ROOT_HASH_OFFSET], test_ifx_test_chain, sizeof(test_ifx_test_chain));
-		// Store temporally size of the manufacturer CA in the existing chain on the chip. We will use it later to determine start of
-		// the product unit certificate
-		mca_cert_size = certchain_buffer_size;
-
-		// read the rest of the chain
-		optiga_lib_status = OPTIGA_LIB_BUSY;
-		certchain_buffer_size = 600;
-		return_status = optiga_util_read_data(p_util, 0xE0E0,
-				                              WPCQI_AUTH_MCA_CERT_OFFSET + mca_cert_size,
-											  &certchain_buffer[WPCQI_AUTH_MCA_CERT_OFFSET + mca_cert_size],
-											  &certchain_buffer_size);
-
-		WAIT_FOR_COMPLETION(return_status);
-
-		certchain_buffer_size += WPCQI_AUTH_CERTCHAIN_SIZE_SIZE + WPCQI_AUTH_ROOT_HASH_SIZE + mca_cert_size;
-
-		// We need to update the length as well. it should be the length calculated earlier + 2 bytes for the certchain length at the beggining of the chain
-		certchain_buffer[OPTIGA_IDENTITY_CHAINSIZE_OFFSET] = ((certchain_buffer_size) & 0xff00) >> 8;
-		certchain_buffer[OPTIGA_IDENTITY_CHAINSIZE_OFFSET + 1] = ((certchain_buffer_size) & 0xff);
-		certchain_buffer[WPCQI_AUTH_CERTCHAIN_SIZE_OFFSET] = ((certchain_buffer_size) & 0xff00) >> 8;
-		certchain_buffer[WPCQI_AUTH_CERTCHAIN_SIZE_OFFSET + 1] = ((certchain_buffer_size) & 0xff);
+		/*
+		 * Step 4. We need now to substitute the certificate in the optiga with the one we expect
+		 */
+		new_certchain[0] = 0xc6;
+		new_certchain[OPTIGA_IDENTITY_CHAINSIZE_OFFSET] = (uint8_t)(((sizeof(test_ifx_test_chain) + pu_cert_size) >> 8) & 0xff);
+		new_certchain[OPTIGA_IDENTITY_CHAINSIZE_OFFSET + 1] = (uint8_t)((sizeof(test_ifx_test_chain) + pu_cert_size) & 0xff);
+		new_certchain[WPCQI_AUTH_CERTCHAIN_SIZE_OFFSET] = new_certchain[1];
+		new_certchain[WPCQI_AUTH_CERTCHAIN_SIZE_OFFSET + 1] = new_certchain[2];
+		new_certchain_size = 5;
+		// we offset some bytes. 1 byte for the C6 tag, 4 bytes for the doubled length of the chain
+		memcpy(new_certchain + 5, test_ifx_test_chain, sizeof(test_ifx_test_chain));
+		new_certchain_size += sizeof(test_ifx_test_chain);
+		memcpy(new_certchain + 5 + sizeof(test_ifx_test_chain), pu_cert, pu_cert_size);
+		new_certchain_size += pu_cert_size;
 
 		/**
-		 *
-		 * Unlock the certificate object 0xE0E0
-		 * using optiga_util_write_metadata.
-		 *
+		 * Step 5. Unlock the certificate object 0xE0E0 using optiga_util_write_metadata.
 		 */
 		optiga_lib_status = OPTIGA_LIB_BUSY;
-		return_status = optiga_util_write_metadata(p_util,
-												   0xE0E0,
-												   unlock_write_metadata,
-												   sizeof(unlock_write_metadata));
-
-		WAIT_FOR_COMPLETION(return_status);
-
-		optiga_lib_status = OPTIGA_LIB_BUSY;
-		// write a new certificate chain back
-		return_status = optiga_util_write_data(p_util, 0xE0E0,
-											  OPTIGA_UTIL_ERASE_AND_WRITE,
-											  0,
-											  certchain_buffer,
-											  certchain_buffer_size + OPTIGA_IDENTITY_SIZE);
-
+		return_status = optiga_util_write_metadata(p_util, 0xE0E0, unlock_write_metadata, sizeof(unlock_write_metadata));
 		WAIT_FOR_COMPLETION(return_status);
 
 		/**
-         *
-         * Lock back the certificate object 0xE0E0
-         * using optiga_util_write_metadata.
-         *
+		 * Step 6. write a new certificate chain back
+		 */
+		optiga_lib_status = OPTIGA_LIB_BUSY;
+		return_status = optiga_util_write_data(p_util, 0xE0E0, OPTIGA_UTIL_ERASE_AND_WRITE, 0, new_certchain, new_certchain_size);
+		WAIT_FOR_COMPLETION(return_status);
+
+		/**
+         * Step 7. Lock back the certificate object 0xE0E0 using optiga_util_write_metadata.
          */
         optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_util_write_metadata(p_util,
-                                                   0xE0E0,
-                                                   lock_write_metadata,
-                                                   sizeof(lock_write_metadata));
-
+        return_status = optiga_util_write_metadata(p_util, 0xE0E0, lock_write_metadata, sizeof(lock_write_metadata));
         WAIT_FOR_COMPLETION(return_status);
 
         return_status = OPTIGA_LIB_SUCCESS;
