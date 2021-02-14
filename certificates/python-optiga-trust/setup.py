@@ -110,7 +110,7 @@ __packages = [
 ]
 
 __package_data = {
-	'optigatrust.csrc.lib': ['*.dll', '*.so'],
+	'optigatrust.csrc.lib': ['*.dll', '*.so', '*.ini'],
 	'optigatrust.rules': [
 		'csrc/optiga-trust-x/pal/libusb/include/90-optigatrust.rules'
 	]

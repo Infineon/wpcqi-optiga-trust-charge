@@ -3,5 +3,6 @@
 	"ptmc": "CAFE-1A",
 	"common_name": "006386-Model5",
 	"rsid": "000000000000000001",
-	"slot": "0"
+	"slot": "0",
+	"com_port": "COM4"
 }

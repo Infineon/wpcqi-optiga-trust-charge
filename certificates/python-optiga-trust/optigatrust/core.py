@@ -24,6 +24,7 @@
 import os
 import platform
 import sys
+from re import match
 from ctypes import *
 from collections import namedtuple
 import struct
@@ -92,6 +93,7 @@ def _get_lib_name(interface='libusb'):
 
 
 def _load_lib(interface):
+    global _com_port
     libname = _get_lib_name(interface)
 
     old_path = os.getcwd()
@@ -99,6 +101,16 @@ def _load_lib(interface):
     curr_path = os.path.abspath(os.path.dirname(__file__) + "/csrc/lib/")
 
     os.chdir(curr_path)
+
+    if interface == 'uart':
+        if not match(r"COM[0-9][0-9]", _com_port) and not match(r"COM[0-9]", _com_port):
+            raise ValueError(
+                'opts is specified, but value parameter is given: expected COMXX, your provided {0}. '
+                'Use set_com_port(\'COM39\')'.format(_com_port)
+            )
+        with open('optiga_comms.ini', 'w', encoding='utf-8') as f:
+            f.write(_com_port)
+
     if os.path.exists(os.path.join(curr_path, libname)):
         api = cdll.LoadLibrary(os.path.join(curr_path, libname))
     else:
@@ -117,6 +129,7 @@ def _load_lib(interface):
 
 UID = namedtuple("UID", "cim_id platform_id model_id rommask_id chip_type batch_num x_coord y_coord fw_id fw_build")
 _optiga_descriptor = None
+_com_port = 'COM39'
 
 
 class Settings:
@@ -210,6 +223,11 @@ class Descriptor:
         self._settings = data
 
 
+def set_com_port(com_port):
+    global _com_port
+    _com_port = com_port
+
+
 def init():
     """
     This function either initialises non-initialised communication channel between the chip and the application, or
@@ -227,17 +245,25 @@ def init():
     global _optiga_descriptor
 
     if _optiga_descriptor is None:
-        try:
-            """
-            Here we try to probe which interface is actually in use, might be either libusb or i2c
-            We suppress stderr output of the libusb interface in case it's npot connected to not confuse
-            a user
-            """
-            api = _load_lib('libusb')
-            print('Loaded: {0}'.format(_get_lib_name('libusb')))
-        except OSError:
-            api = _load_lib('i2c')
-            print('Loaded: {0}'.format(_get_lib_name('i2c')))
+        supported_interfaces = {'libusb', 'uart', 'i2c'}
+        initialised = False
+        e = None
+        """
+        Here we try to probe which interface is actually in use, might be either libusb or i2c
+        We suppress stderr output of the libusb interface in case it's npot connected to not confuse
+        a user
+        """
+        for interface in supported_interfaces:
+            try:
+                api = _load_lib(interface)
+                print('Loaded: {0}'.format(_get_lib_name(interface)))
+                initialised = True
+            except OSError as e:
+                pass
+
+        if not initialised:
+            print('Failed to connect to the chip. Exit.')
+            exit()
 
         consts, name = _lookup_optiga(api)
         _optiga_descriptor = Descriptor(
