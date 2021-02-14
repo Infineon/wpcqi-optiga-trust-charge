@@ -2,9 +2,16 @@
 
 ## Requirements
 
-1. Make sure you have either an Optiga Trust Personalisation Board (SP005405452) or at least a board based on a FT260 chip
-    * For instance, an UMFT260EV1A USB to I2C bridge can be used. This bridge is available on distributors, such as Mouser and DigiKey.
-    * <img src="https://github.com/Infineon/trustsculptor-optiga/blob/main/doc/pictures/connect.svg" width="40%" align="middle">
+1. Make sure you have flashed your Evaluation Kit with [this hex image](optiga_trust_charge_evalkit_uart_python.hex).
+    * Make sure you have connected your Evaluation Kit as depicted below (USB Port **X1002**)
+    * <img src="https://raw.githubusercontent.com/Infineon/Assets/master/Pictures/optiga_trust_charge_evalkit_debug_mode.jpg" width="60%" align="middle">
+    * Make usre you have Segger J-Link tool v6.00 installed. J-Link tool [Download for Windows, Linux, Mac](https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack)
+    * Click on **Device** to select a target device: Select Infineon as Manufacturer
+    * Run JFlashLite.exe from JLink installation folder. It shows a notice window. Click OK.
+    * Select Infineon as Manufacturer and Device as XMC4700-2048, and then click OK.
+    * Select [hex file](optiga_trust_charge_evalkit_uart_python.hex) to be flashed under **Data File** and click on **Program Device**. It then shows the programming progress window.
+    * Once done make sure to change the connection of the USB cable to a differt USB port located on the other side of the Evaluation Kit (USB Port **X100**)
+    * <img src="https://github.com/Infineon/Assets/blob/master/Pictures/optiga_trust_charge_evalkit_provisioning_mode.jpg" width="60%" align="middle">
 1. Install [Python 3.8+](https://www.python.org/downloads/)
     * During installation don't forget to include python executable in PATH of your windows
 1. install [OpenSSL for Windows](https://slproweb.com/products/Win32OpenSSL.html)
@@ -15,7 +22,7 @@
 1. `pip install .`
 1. connect the OPTIGA Trust Sample to the Perso2Go Board, connect the latter to you PC
 1. `python`
-1. As a test try the following, check whetehr the output is similar to the one below
+1. As a test try the following, check whether the output is similar to the one below
     ```bash
     C:\git\wpcqi-optiga-trust-charge\certificates\python-optiga-trust>python
     Python 3.8.1 (tags/v3.8.1:1b293b6, Dec 18 2019, 22:39:24) [MSC v.1916 32 bit (Intel)] on win32
@@ -47,8 +54,10 @@
         "common_name": "<data_for_the_common_name_includes_wpc_qi_id_max35_symbols>",
         "rsid": "<revocation_sequential_number_max_18_symbols>",
         "slot": "<one_of_two_certificates_slots_to_populate>"
+        "com_port": "<com_port_allocated_for_the_evakit_should_be_name_USB_Serial_Device>"
     }
    ```
+   **Note: Make sure to select the right COM Port of the Evaluation Kit connected to your laptop. It should apper as an USB Serial Device.**
  1. Certificate Chain generation
  
     ```bash
