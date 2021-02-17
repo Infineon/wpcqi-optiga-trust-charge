@@ -98,7 +98,7 @@ def _load_lib(interface):
 
     old_path = os.getcwd()
 
-    curr_path = os.path.abspath(os.path.dirname(__file__) + "/csrc/lib/")
+     curr_path = os.path.join(os.path.dirname(__file__), "csrc", "lib")
 
     os.chdir(curr_path)
 
