@@ -15,14 +15,14 @@
 1. Install [Python 3.8+](https://www.python.org/downloads/)
     * During installation don't forget to include python executable in PATH of your windows
 1. install [OpenSSL for Windows](https://slproweb.com/products/Win32OpenSSL.html)
-1. Open Windows Command Line
-1. run `python --version`
-1. `cd <path-to-the-folder-with-this-document>/python-optiga-trust`
-1. `pip install -r requirements.txt`
-1. `pip install .`
-1. connect the OPTIGA Trust Sample to the Perso2Go Board, connect the latter to you PC
-1. `python`
-1. As a test try the following, check whether the output is similar to the one below
+2. Open Windows Command Line
+3. run `python --version` (output shall be: `Python 3.8` (or higher))
+4. `cd <path-to-the-folder-with-this-document>/python-optiga-trust`
+5. `pip install -r requirements.txt`
+6. `pip install .`
+7. connect the OPTIGA Trust Sample to the Perso2Go Board, connect the latter to you PC
+8. `python`
+9. As a test try the following, check whether the output is similar to the one below
     ```bash
     C:\git\wpcqi-optiga-trust-charge\certificates\python-optiga-trust>python
     Python 3.8.1 (tags/v3.8.1:1b293b6, Dec 18 2019, 22:39:24) [MSC v.1916 32 bit (Intel)] on win32
