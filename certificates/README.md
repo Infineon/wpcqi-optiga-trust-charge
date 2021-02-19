@@ -2,7 +2,7 @@
 
 ## Requirements
 
-Before you start please make sure you clone on download this repository. `clone https://github.com/Infineon/wpcqi-optiga-trust-charge`
+Before you start please make sure you clone or download this repository. `clone https://github.com/Infineon/wpcqi-optiga-trust-charge`
 
 1. Make sure you have flashed your Evaluation Kit with [this hex image](optiga_trust_charge_evalkit_uart_python.hex).
     * Make sure you have connected your Evaluation Kit as depicted below (USB Port **X1002**)
