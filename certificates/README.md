@@ -7,7 +7,7 @@ Before you start please make sure you clone or download this repository. `clone 
 1. Make sure you have flashed your Evaluation Kit with [this hex image](optiga_trust_charge_evalkit_uart_python.hex).
     * Make sure you have connected your Evaluation Kit as depicted below (USB Port **X1002**)
     * <img src="https://raw.githubusercontent.com/Infineon/Assets/master/Pictures/optiga_trust_charge_evalkit_debug_mode.jpg" width="60%" align="middle">
-    * Make usre you have Segger J-Link tool v6.00 installed. J-Link tool [Download for Windows, Linux, Mac](https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack)
+    * Make sure you have Segger J-Link tool v6.00 installed. J-Link tool [Download for Windows, Linux, Mac](https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack)
     * Click on **Device** to select a target device: Select Infineon as Manufacturer
     * Run JFlashLite.exe from JLink installation folder. It shows a notice window. Click OK.
     * Select Infineon as Manufacturer and Device as XMC4700-2048, and then click OK.
