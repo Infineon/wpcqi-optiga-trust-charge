@@ -4,12 +4,12 @@ import hashlib
 import json
 from asn1crypto import core as c
 
-from . import wpcqi_csr as csr
-
 import optigatrust as optiga
 from optigatrust import objects, crypto
 
 from jinja2 import Environment, FileSystemLoader
+
+import wpcqi_csr as csr
 
 # Certificate and key oids which are used to create a new key. The user might affect this by defining the slot in config
 certificate_slot = 0xe0e0
@@ -83,11 +83,11 @@ def write_cert_chain_optiga(cert_chain: bytes, slot):
 
 def build_new_csr(slot, common_name, rsid):
     # check for input parameters
-    csr_key = objects.EccKey(slot)
+    csr_key = objects.ECCKey(slot)
     # unlock the key object, as the lcso for samples is in initialisation
     csr_key.meta = {'change': 'always', 'execute': 'always'}
     # generate a new key for the slot. it will become a base for the CSR
-    csr_key.generate(curve='secp256r1')
+    public_key, _ = crypto.generate_pair(csr_key, curve='secp256r1')
     # lock back the key slot
     csr_key.meta = {'change': 'never'}
 
@@ -96,7 +96,7 @@ def build_new_csr(slot, common_name, rsid):
         {
             'common_name': common_name,
         },
-        csr_key
+        public_key
     )
 
     # build the CSR with the required extension
@@ -142,6 +142,12 @@ def build_certificates(path_openssl, path_csr):
     # we store current working directory to come back here afterwards
     old_wd = os.getcwd()
     os.chdir(certchain_conf_dir)
+    if not os.path.exists(path_to_script):
+        print('This path doesn\'t exist: {0}'.format(path_to_script))
+    if not os.path.exists(path_openssl):
+        print('This path doesn\'t exist: {0}'.format(path_openssl))
+    if not os.path.exists(path_csr):
+        print('This path doesn\'t exist: {0}'.format(path_csr))
     subprocess.call([path_to_script, path_openssl, path_csr])
     # come back to the directory
     os.chdir(old_wd)
@@ -209,6 +215,12 @@ def main():
     path_prod_unit = norm_path(certchain_dir, prefix, 'ProductUnit_Certificate.crt')
 
     # Concatenate all certificates and store them locally
+    if not os.path.exists(path_root_ca):
+        print("This path doesn't exist: {0}".format(path_root_ca))
+    if not os.path.exists(path_man_ca):
+        print("This path doesn't exist: {0}".format(path_man_ca))
+    if not os.path.exists(path_prod_unit):
+        print("This path doesn't exist: {0}".format(path_prod_unit))
     cert_chain_bytes = write_cert_chain_os(path_root_ca, path_man_ca, path_prod_unit, rsid)
 
     # Store the resulting certificate chain on optiga

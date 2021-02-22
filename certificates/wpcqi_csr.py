@@ -421,11 +421,11 @@ class WPCQiBuilder(object):
             An asn1crypto.csr.CertificationRequest object of the request
         """
 
-        if not isinstance(signing_key, objects.EccKey):
+        if not isinstance(signing_key, objects.ECCKey):
             raise TypeError(_pretty_message(
                 '''
                 signing_private_key must be an instance of
-                optigatrust.pk.EccKey, not %s
+                optigatrust.pk.ECCKey, not %s
                 ''',
                 _type_name(signing_key)
             ))
