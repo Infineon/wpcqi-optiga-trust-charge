@@ -2,35 +2,33 @@
 
 ## Requirements
 
-Before you start please make sure you clone or download this repository. `clone https://github.com/Infineon/wpcqi-optiga-trust-charge`
+Before you start please make sure you clone or download this repository. `git clone https://github.com/Infineon/wpcqi-optiga-trust-charge`
 
-1. Make sure you have flashed your Evaluation Kit with [this hex image](optiga_trust_charge_evalkit_uart_python.hex).
+1. Make sure you have flashed your Evaluation Kit with the provided hex image.
     * Make sure you have connected your Evaluation Kit as depicted below (USB Port **X1002**)
     * <img src="https://raw.githubusercontent.com/Infineon/Assets/master/Pictures/optiga_trust_charge_evalkit_debug_mode.jpg" width="60%" align="middle">
     * Make sure you have Segger J-Link tool v6.00 installed. J-Link tool [Download for Windows, Linux, Mac](https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack)
     * Click on **Device** to select a target device: Select Infineon as Manufacturer
     * Run JFlashLite.exe from JLink installation folder. It shows a notice window. Click OK.
     * Select Infineon as Manufacturer and Device as XMC4700-2048, and then click OK.
-    * Select [hex file](optiga_trust_charge_evalkit_uart_python.hex) to be flashed under **Data File** and click on **Program Device**. It then shows the programming progress window.
-    * Once done make sure to change the connection of the USB cable to a differt USB port located on the other side of the Evaluation Kit (USB Port **X100**)
+    * Select [hex file](optiga_trust_charge_evalkit_uart_python.hex) (from the cloned repository) to be flashed under **Data File** and click on **Program Device**. It then shows the programming progress window.
+    * Once done make sure to change the connection of the USB cable to a different USB port located on the other side of the Evaluation Kit (USB Port **X100**)
     * <img src="https://github.com/Infineon/Assets/blob/master/Pictures/optiga_trust_charge_evalkit_provisioning_mode.jpg" width="60%" align="middle">
 1. Install [Python 3.8+](https://www.python.org/downloads/)
     * During installation don't forget to include python executable in PATH of your windows
 1. install [OpenSSL for Windows](https://slproweb.com/products/Win32OpenSSL.html)
 2. Open Windows Command Line
 3. run `python --version` (output shall be: `Python 3.8` (or higher))
-4. `cd <path-to-the-folder-of-cloned-repo>/certificates/python-optiga-trust`
-5. `pip install -r requirements.txt`
-6. `pip install .`
-7. connect the OPTIGA Trust Sample to the Perso2Go Board, connect the latter to you PC
+6. `pip install optigatrust`
+7. connect the OPTIGA Trust Sample to the Perso2Go Board or to the evaluation kit, connect the latter to you PC
 8. `python`
 9. As a test try the following, check whether the output is similar to the one below
     ```bash
     C:\git\wpcqi-optiga-trust-charge\certificates\python-optiga-trust>python
     Python 3.8.1 (tags/v3.8.1:1b293b6, Dec 18 2019, 22:39:24) [MSC v.1916 32 bit (Intel)] on win32
     Type "help", "copyright", "credits" or "license" for more information.
-    >>> from optigatrust import core
-    >>> core.random(8)
+    >>> from optigatrust import crypto
+    >>> crypto.random(8)
     Loaded: liboptigatrust-libusb-win-i686.dll
     ================== OPTIGA Trust Chip Info ==================
     Firmware Identifier           [dwFirmwareIdentifier]:0x80101071
@@ -44,11 +42,9 @@ Before you start please make sure you clone or download this repository. `clone 
     b'C\xd6TZ\x1crJ\xf8'
     >>> quit()
     ```
- 1. Return to the original working directory
-    ```bash
-    C:\git\wpcqi-optiga-trust-charge\certificates\python-optiga-trust>cd ..
-    ```
- 1. Configure your certificate chain by modifying the `new_certchain_conf.json` file
+ 1. Configure your setup by modifying the `new_certchain_conf.json` file.
+    
+    **Note: if you use an evaluation kit, please define at least the COM Port field**
    ```json
    {
         "openssl_path": "<absolute_path_to_the_openssl_exe>",
