@@ -1,5 +1,6 @@
 import subprocess
 import os
+import sys
 import hashlib
 import json
 from asn1crypto import core as c
@@ -137,18 +138,28 @@ def build_manufacturer_ca_conf(ptmc):
         exit()
 
 
+def detect_correct_script_name():
+    if sys.platform in ('linux', 'lunux1', 'linux2'):
+        return 'testperso_wpc_qi.sh', True
+    elif sys.platform == 'win32':
+        return 'testperso_wpc_qi.cmd', False
+    else:
+        raise OSError('You target OS might be not supported')
+
+
 def build_certificates(path_openssl, path_csr):
-    path_to_script = os.path.normpath(os.path.abspath(os.path.join(certchain_conf_dir, 'testperso_wpc_qi.cmd')))
+    script_name, linux = detect_correct_script_name()
     # we store current working directory to come back here afterwards
     old_wd = os.getcwd()
     os.chdir(certchain_conf_dir)
-    if not os.path.exists(path_to_script):
-        print('This path doesn\'t exist: {0}'.format(path_to_script))
     if not os.path.exists(path_openssl):
         print('This path doesn\'t exist: {0}'.format(path_openssl))
     if not os.path.exists(path_csr):
         print('This path doesn\'t exist: {0}'.format(path_csr))
-    subprocess.call([path_to_script, path_openssl, path_csr])
+    if linux:
+        subprocess.call('sh {0} {1} {2}'.format(script_name, path_openssl, path_csr), shell=True)
+    else:
+        subprocess.call([script_name, path_openssl, path_csr])
     # come back to the directory
     os.chdir(old_wd)
 
