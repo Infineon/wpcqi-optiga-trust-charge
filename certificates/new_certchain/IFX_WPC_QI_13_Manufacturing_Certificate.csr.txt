@@ -1,0 +1,29 @@
+Certificate Request:
+    Data:
+        Version: 1 (0x0)
+        Subject: CN = CAFE-1A
+        Subject Public Key Info:
+            Public Key Algorithm: id-ecPublicKey
+                Public-Key: (256 bit)
+                pub:
+                    03:29:20:9f:ce:6f:ee:9c:d0:a6:89:cb:35:96:01:
+                    7e:24:8d:6b:c1:75:e1:e2:08:ad:99:9b:84:c3:8e:
+                    55:57:cc
+                ASN1 OID: prime256v1
+                NIST CURVE: P-256
+        Attributes:
+            X509v3 Basic Constraints :critical, CA:true, pathlen:0
+            2.23.255.1.1             :critical, ASN1:FORMAT:HEX, OCT:00000000
+    Signature Algorithm: ecdsa-with-SHA256
+         30:45:02:21:00:c0:bd:65:8b:db:3e:21:9c:ae:50:98:70:1d:
+         2c:46:8a:8d:c9:bd:54:41:8c:d5:82:4d:c6:97:ef:a9:8c:9d:
+         60:02:20:6c:9b:fd:6b:6a:6f:81:69:10:02:17:d9:3c:c7:5b:
+         9b:8b:53:7f:b1:33:96:a4:a8:2a:dc:33:8f:2e:38:80:17
+-----BEGIN CERTIFICATE REQUEST-----
+MIIBCDCBrwIBADASMRAwDgYDVQQDDAdDQUZFLTFBMDkwEwYHKoZIzj0CAQYIKoZI
+zj0DAQcDIgADKSCfzm/unNCmics1lgF+JI1rwXXh4gitmZuEw45VV8ygWzAlBgNV
+HRMxHgwcY3JpdGljYWwsIENBOnRydWUsIHBhdGhsZW46MDAyBgVngX8BATEpDCdj
+cml0aWNhbCwgQVNOMTpGT1JNQVQ6SEVYLCBPQ1Q6MDAwMDAwMDAwCgYIKoZIzj0E
+AwIDSAAwRQIhAMC9ZYvbPiGcrlCYcB0sRoqNyb1UQYzVgk3Gl++pjJ1gAiBsm/1r
+am+BaRACF9k8x1ubi1N/sTOWpKgq3DOPLjiAFw==
+-----END CERTIFICATE REQUEST-----

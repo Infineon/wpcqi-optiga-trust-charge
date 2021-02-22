@@ -4,7 +4,11 @@ import hashlib
 import json
 from asn1crypto import core as c
 
-from optigatrust import core, cert, asymmetric
+from . import wpcqi_csr as csr
+
+import optigatrust as optiga
+from optigatrust import objects, crypto
+
 from jinja2 import Environment, FileSystemLoader
 
 # Certificate and key oids which are used to create a new key. The user might affect this by defining the slot in config
@@ -45,7 +49,7 @@ def write_cert_chain_os(root_ca_path: str, man_ca_cert_path: str, prod_unit_cert
     chain_size_bytes = (root_ca_size + man_ca_size + prod_unit_size).to_bytes(2, 'big')
 
     # Consolidate all information in one file
-    path_final_certchain = os.path.abspath('IFX_WPC_QI_13_Certificate_chain_{0}.bin'.format(rsid))
+    path_final_certchain = os.path.normpath(os.path.abspath('IFX_WPC_QI_13_Certificate_chain_{0}.bin'.format(rsid)))
     try:
         with open(man_ca_cert_path, 'rb') as man_ca_file:
             # Here we add our manufacturer ca certificate
@@ -66,8 +70,7 @@ def write_cert_chain_os(root_ca_path: str, man_ca_cert_path: str, prod_unit_cert
 
 
 def write_cert_chain_optiga(cert_chain: bytes, slot):
-
-    cert_obj = core.Object(slot)
+    cert_obj = optiga.Object(slot)
 
     # This will work only if the lcso is less than operational
     old_meta = cert_obj.meta['change']
@@ -80,7 +83,7 @@ def write_cert_chain_optiga(cert_chain: bytes, slot):
 
 def build_new_csr(slot, common_name, rsid):
     # check for input parameters
-    csr_key = asymmetric.EccKey(slot)
+    csr_key = objects.EccKey(slot)
     # unlock the key object, as the lcso for samples is in initialisation
     csr_key.meta = {'change': 'always', 'execute': 'always'}
     # generate a new key for the slot. it will become a base for the CSR
@@ -89,7 +92,7 @@ def build_new_csr(slot, common_name, rsid):
     csr_key.meta = {'change': 'never'}
 
     # initialise the builder object to create the csr
-    builder = cert.Builder(
+    builder = csr.WPCQiBuilder(
         {
             'common_name': common_name,
         },
@@ -102,7 +105,7 @@ def build_new_csr(slot, common_name, rsid):
     request = builder.build_wpcqi(csr_key)
 
     # store the csr file locally
-    path_csr = os.path.join(certchain_dir, 'wpc_qi_testchain.csr')
+    path_csr = os.path.normpath(os.path.abspath(os.path.join(certchain_dir, 'wpc_qi_testchain.csr')))
     try:
         with open(path_csr, 'wb+') as f:
             f.write(request.dump())
@@ -125,7 +128,7 @@ def build_manufacturer_ca_conf(ptmc):
         'ptmc': ptmc,
     }
     output = template_env.get_template(fname).render(context)
-    path_to_template = os.path.join(certchain_conf_dir, "{0}.conf".format(name))
+    path_to_template = os.path.normpath(os.path.abspath(os.path.join(certchain_conf_dir, "{0}.conf".format(name))))
     try:
         with open(path_to_template, "w+", encoding='utf8') as conf_file:
             conf_file.write(output)
@@ -135,7 +138,7 @@ def build_manufacturer_ca_conf(ptmc):
 
 
 def build_certificates(path_openssl, path_csr):
-    path_to_script = os.path.join(certchain_conf_dir, 'testperso_wpc_qi.cmd')
+    path_to_script = os.path.normpath(os.path.abspath(os.path.join(certchain_conf_dir, 'testperso_wpc_qi.cmd')))
     # we store current working directory to come back here afterwards
     old_wd = os.getcwd()
     os.chdir(certchain_conf_dir)
@@ -153,6 +156,10 @@ def sanitize(field, max_size):
         )
 
 
+def norm_path(core_path, file_prefix, file_name):
+    return os.path.normpath( os.path.abspath( os.path.join(core_path, '{0}_{1}'.format(file_prefix, file_name))))
+
+
 def main():
     global certificate_slot
     global key_slot
@@ -166,6 +173,7 @@ def main():
             common_name = data['common_name']
             rsid = data['rsid']
             slot = data['slot']
+            com_port = data['com_port']
     except IOError as e:
         print(e)
         exit()
@@ -178,6 +186,9 @@ def main():
     except ValueError as e:
         print(e)
         exit()
+
+    if com_port != '':
+        optiga.set_com_port(com_port)
 
     # detect which certificate and key slots to use on optiga based on slot selection
     slot = int(slot)
@@ -193,9 +204,9 @@ def main():
     build_certificates(path_openssl, path_csr)
 
     # Detect paths of the DER encoded certificates produced by the script
-    path_root_ca = os.path.join(certchain_conf_dir, '{0}_Root_Certificate.crt'.format(prefix))
-    path_man_ca = os.path.join(certchain_dir, '{0}_Manufacturing_Certificate.crt'.format(prefix))
-    path_prod_unit = os.path.join(certchain_dir, '{0}_ProductUnit_Certificate.crt'.format(prefix))
+    path_root_ca = norm_path(certchain_conf_dir, prefix, 'Root_Certificate.crt')
+    path_man_ca = norm_path(certchain_dir, prefix, 'Manufacturing_Certificate.crt')
+    path_prod_unit = norm_path(certchain_dir, prefix, 'ProductUnit_Certificate.crt')
 
     # Concatenate all certificates and store them locally
     cert_chain_bytes = write_cert_chain_os(path_root_ca, path_man_ca, path_prod_unit, rsid)
@@ -206,10 +217,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-

@@ -1,0 +1,7 @@
+    0:d=0  hl=2 l=  87 cons: SEQUENCE          
+    2:d=1  hl=2 l=   1 prim: INTEGER           :01
+    5:d=1  hl=2 l=  32 prim: OCTET STRING      [HEX DUMP]:2A929B1A59C30B4D13CEC342F7CEB5A0F9504A0FDB25C669A60E704F2EDFB687
+   39:d=1  hl=2 l=  10 cons: cont [ 0 ]        
+   41:d=2  hl=2 l=   8 prim: OBJECT            :prime256v1
+   51:d=1  hl=2 l=  36 cons: cont [ 1 ]        
+   53:d=2  hl=2 l=  34 prim: BIT STRING        
