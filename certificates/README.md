@@ -1,5 +1,7 @@
 # How to generate a new WPC Qi 1.3 compliant certificate chain
 
+A similar guidance for setups in [Linux](README_Linux.md)
+
 ## Requirements
 
 Before you start please make sure you clone or download this repository. `git clone https://github.com/Infineon/wpcqi-optiga-trust-charge`
