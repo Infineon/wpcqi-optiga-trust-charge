@@ -46,7 +46,6 @@ Before you start please make sure you clone or download this repository. `git cl
     ```
  1. Configure your setup by modifying the `new_certchain_conf.json` file.
     
-     **Note: if you use an evaluation kit, please define at least the COM Port field**
     ```json
     {
          "openssl_path": "<absolute_path_to_the_openssl_exe>",
@@ -57,7 +56,9 @@ Before you start please make sure you clone or download this repository. `git cl
          "com_port": "<com_port_allocated_for_the_evakit_should_be_name_USB_Serial_Device>"
      }
     ```
-    **Note: Make sure to select the right COM Port of the Evaluation Kit connected to your laptop. It should apper as an USB Serial Device.**
+    **Note: \[Windows\]: `opensll_path` should be used with an escape character; e.g. `C:\Program Files (x86)\OpenSSL-Win32\bin\openssl.exe`**
+    
+    **Note: \[Windows\]: Make sure to select the right COM Port of the Evaluation Kit connected to your laptop. It should apper as an USB Serial Device.**
  1. Certificate Chain generation
  
     ```bash
