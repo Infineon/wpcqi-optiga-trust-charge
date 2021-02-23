@@ -159,7 +159,7 @@ def build_certificates(path_openssl, path_csr):
     if linux:
         subprocess.call('sh {0} {1} {2}'.format(script_name, path_openssl, path_csr), shell=True)
     else:
-        subprocess.call([script_name, path_openssl, path_csr])
+        subprocess.run([script_name, path_openssl, path_csr], shell=True)
     # come back to the directory
     os.chdir(old_wd)
 
