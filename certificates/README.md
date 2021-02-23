@@ -1,5 +1,7 @@
 # How to generate a new WPC Qi 1.3 compliant certificate chain
 
+A similar guidance for setups in [Linux](README_Linux.md)
+
 ## Requirements
 
 Before you start please make sure you clone or download this repository. `git clone https://github.com/Infineon/wpcqi-optiga-trust-charge`
@@ -44,18 +46,18 @@ Before you start please make sure you clone or download this repository. `git cl
     ```
  1. Configure your setup by modifying the `new_certchain_conf.json` file.
     
-    **Note: if you use an evaluation kit, please define at least the COM Port field**
-   ```json
-   {
-        "openssl_path": "<absolute_path_to_the_openssl_exe>",
-        "ptmc": "<your_ptmc_value>",
-        "common_name": "<data_for_the_common_name_includes_wpc_qi_id_max35_symbols>",
-        "rsid": "<revocation_sequential_number_max_18_symbols>",
-        "slot": "<one_of_two_certificates_slots_to_populate>"
-        "com_port": "<com_port_allocated_for_the_evakit_should_be_name_USB_Serial_Device>"
-    }
-   ```
-   **Note: Make sure to select the right COM Port of the Evaluation Kit connected to your laptop. It should apper as an USB Serial Device.**
+     **Note: if you use an evaluation kit, please define at least the COM Port field**
+    ```json
+    {
+         "openssl_path": "<absolute_path_to_the_openssl_exe>",
+         "ptmc": "<your_ptmc_value>",
+         "common_name": "<data_for_the_common_name_includes_wpc_qi_id_max35_symbols>",
+         "rsid": "<revocation_sequential_number_max_18_symbols>",
+         "slot": "<one_of_two_certificates_slots_to_populate>"
+         "com_port": "<com_port_allocated_for_the_evakit_should_be_name_USB_Serial_Device>"
+     }
+    ```
+    **Note: Make sure to select the right COM Port of the Evaluation Kit connected to your laptop. It should apper as an USB Serial Device.**
  1. Certificate Chain generation
  
     ```bash
