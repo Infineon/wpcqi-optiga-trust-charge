@@ -199,6 +199,14 @@ Before you start please make sure you clone or download this repository. `git cl
 1. Test Root CA, Test Manufacturer CA and Test Product Unit CA are stored in the folder `new_certchain`
 1. To use this new certificate chain with the appnote, don't forget to update the Root CA Certificate you use in [the code](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/master/wpc/qi_auth_self_test.c#L114). Instead of `qi_auth_cr660_draft5_ifx_root_cert` use `qi_auth_test_new_certchain`  
 
+## Troubleshooting
+
+* I have an EvalKit and I see `!!!Error in opening serial port : 2Error: 0x202` error
+   Try to configure your com port as explained in teh step 10
+   
+* I have an EvalKit and the python script hangs once I try to connect to the OPTIGA
+   Ensure that your EvalKit is connected directly to you laptop and press the reset button on it
+
 ## How does it work
 
 * The script `new_certchain.py`
