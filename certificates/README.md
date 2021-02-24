@@ -21,7 +21,7 @@ Before you start please make sure you clone or download this repository. `git cl
 1. install [OpenSSL for Windows](https://slproweb.com/products/Win32OpenSSL.html)
 2. Open Windows Command Line
 3. run `python --version` (output shall be: `Python 3.8` (or higher))
-6. `pip install optigatrust`
+6. `pip install optigatrust` or `pip install optigatrust --upgrade`
 7. connect the OPTIGA Trust Sample to the Perso2Go Board or to the evaluation kit, connect the latter to you PC
 8. `python`
 9. As a test try the following, check whether the output is similar to the one below
