@@ -16,7 +16,7 @@ Before you start please make sure you clone or download this repository. `git cl
     * Select [hex file](optiga_trust_charge_evalkit_uart_python.hex) (from the cloned repository) to be flashed under **Data File** and click on **Program Device**. It then shows the programming progress window.
     * Once done make sure to change the connection of the USB cable to a different USB port located on the other side of the Evaluation Kit (USB Port **X100**)
     * <img src="https://github.com/Infineon/Assets/blob/master/Pictures/optiga_trust_charge_evalkit_provisioning_mode.jpg" width="60%" align="middle">
-1. Install [Python 3.8+](https://www.python.org/downloads/)
+1. Install [Python 3.7+](https://www.python.org/downloads/), please install the 32bit version.
     * During installation don't forget to include python executable in PATH of your windows
 1. install [OpenSSL for Windows](https://slproweb.com/products/Win32OpenSSL.html)
 2. Open Windows Command Line
@@ -24,9 +24,19 @@ Before you start please make sure you clone or download this repository. `git cl
 6. `pip install optigatrust` or `pip install optigatrust --upgrade`
 7. connect the OPTIGA Trust Sample to the Perso2Go Board or to the evaluation kit, connect the latter to you PC
 8. `python`
-9. As a test try the following, check whether the output is similar to the one below
+9. If you are using one of Evaluation Kits, you need to find the Communication Port ('COM') used for the connection. It typically has the name "USB Serial Device"
+10. \[optional\] This step is required only once and only if you have an evalution kit.
     ```bash
-    C:\git\wpcqi-optiga-trust-charge\certificates\python-optiga-trust>python
+    C:\git\wpcqi-optiga-trust-charge\certificates> python
+    Python 3.8.1 (tags/v3.8.1:1b293b6, Dec 18 2019, 22:39:24) [MSC v.1916 32 bit (Intel)] on win32
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> import optigatrust as optiga
+    >>> optiga.set_com_port('<YOUR_COM_PORT_EG_COM39>')
+    >>> quit()
+    ```
+12. As a test try the following, check whether the output is similar to the one below
+    ```bash
+    C:\git\wpcqi-optiga-trust-charge\certificates> python
     Python 3.8.1 (tags/v3.8.1:1b293b6, Dec 18 2019, 22:39:24) [MSC v.1916 32 bit (Intel)] on win32
     Type "help", "copyright", "credits" or "license" for more information.
     >>> from optigatrust import crypto
