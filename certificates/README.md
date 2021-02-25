@@ -188,7 +188,7 @@ Before you start please make sure you clone or download this repository. `git cl
 1. For your reference, the resulting certificate chain is stored in DER format in `IFX_WPC_QI_13_Certificate_chain_000000000000000001.bin`
 2. Test Root CA(_static/IFX_WPC_QI_13_Root_Certificate.crt), Test Manufacturer CA (IFX_WPC_QI_13_Manufacturing_Certificate.crt) and Test Product Unit CA (IFX_WPC_QI_13_ProductUnit_Certificate.crt) are stored in the folder `new_certchain`
 3. To use this new certificate chain with the appnote, don't forget to update the Root CA Certificate you use in [the code](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/master/wpc/qi_auth_self_test.c#L114). Instead of `qi_auth_cr660_draft5_ifx_root_cert` use `qi_auth_test_new_certchain`
-You can use xxd -i wpc_qi_testchain.csr outfile.h to create a c-style array that you can use in [here](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/3da56852b3f5c4515f3fc0ea7fc115df9867130f/wpc/qi_auth_fixtures.h#L82).
+You can use `xxd -i wpc_qi_testchain.csr outfile.h´ to create a c-style array that you can use in [here](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/3da56852b3f5c4515f3fc0ea7fc115df9867130f/wpc/qi_auth_fixtures.h#L82).
 
 ## Troubleshooting
    
