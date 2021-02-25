@@ -24,16 +24,6 @@ Before you start please make sure you clone or download this repository. `git cl
 6. `pip install optigatrust` or `pip install optigatrust --upgrade`
 7. connect the OPTIGA Trust Sample to the Perso2Go Board or to the evaluation kit, connect the latter to you PC
 8. `python`
-9. If you are using one of Evaluation Kits, you need to find the Communication Port ('COM') used for the connection. It typically has the name "USB Serial Device"
-10. \[optional\] This step is required only once and only if you have an evalution kit.
-    ```bash
-    C:\git\wpcqi-optiga-trust-charge\certificates> python
-    Python 3.8.1 (tags/v3.8.1:1b293b6, Dec 18 2019, 22:39:24) [MSC v.1916 32 bit (Intel)] on win32
-    Type "help", "copyright", "credits" or "license" for more information.
-    >>> import optigatrust as optiga
-    >>> optiga.set_com_port('<YOUR_COM_PORT_EG_COM39>')
-    >>> quit()
-    ```
 12. As a test try the following, check whether the output is similar to the one below
     ```bash
     C:\git\wpcqi-optiga-trust-charge\certificates> python
@@ -200,9 +190,6 @@ Before you start please make sure you clone or download this repository. `git cl
 1. To use this new certificate chain with the appnote, don't forget to update the Root CA Certificate you use in [the code](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/master/wpc/qi_auth_self_test.c#L114). Instead of `qi_auth_cr660_draft5_ifx_root_cert` use `qi_auth_test_new_certchain`  
 
 ## Troubleshooting
-
-* I have an EvalKit and I see `!!!Error in opening serial port : 2Error: 0x202` error
-   Try to configure your com port as explained in teh step 10
    
 * I have an EvalKit and the python script hangs once I try to connect to the OPTIGA
    Ensure that your EvalKit is connected directly to you laptop and press the reset button on it
