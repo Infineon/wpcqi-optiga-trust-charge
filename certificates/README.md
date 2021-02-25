@@ -56,7 +56,7 @@ Before you start please make sure you clone or download this repository. `git cl
          "com_port": "<com_port_allocated_for_the_evakit_should_be_name_USB_Serial_Device>"
      }
     ```
-    **Note: \[Windows\]: `opensll_path` should be used with an escape character; e.g. `C:\Program Files (x86)\OpenSSL-Win32\bin\openssl.exe`**
+    **Note: \[Windows\]: `opensll_path` should be used with an escape character; e.g. `C:\\Program Files (x86)\\OpenSSL-Win32\\bin\\openssl.exe`**
     
     **Note: \[Windows\]: Make sure to select the right COM Port of the Evaluation Kit connected to your laptop. It should apper as an USB Serial Device.**
  1. Certificate Chain generation
@@ -185,7 +185,7 @@ Before you start please make sure you clone or download this repository. `git cl
     
     C:\Users\Yushev\git\wpcqi-optiga-trust-charge\certificates>
     ```
-1. For your reference, the resulting certificate chain is stored in DER format in `IFX_WPC_QI_13_Certificate_chain.bin`
+1. For your reference, the resulting certificate chain is stored in DER format in `IFX_WPC_QI_13_Certificate_chain_000000000000000001.bin`
 1. Test Root CA, Test Manufacturer CA and Test Product Unit CA are stored in the folder `new_certchain`
 1. To use this new certificate chain with the appnote, don't forget to update the Root CA Certificate you use in [the code](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/master/wpc/qi_auth_self_test.c#L114). Instead of `qi_auth_cr660_draft5_ifx_root_cert` use `qi_auth_test_new_certchain`  
 
