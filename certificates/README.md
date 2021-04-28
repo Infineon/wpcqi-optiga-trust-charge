@@ -53,12 +53,10 @@ Before you start please make sure you clone or download this repository. `git cl
          "common_name": "<data_for_the_common_name_includes_wpc_qi_id_max35_symbols>",
          "rsid": "<revocation_sequential_number_max_18_symbols>",
          "slot": "<one_of_two_certificates_slots_to_populate>"
-         "com_port": "<com_port_allocated_for_the_evakit_should_be_name_USB_Serial_Device>"
      }
     ```
     **Note: \[Windows\]: `opensll_path` should be used with an escape character; e.g. `C:\\Program Files (x86)\\OpenSSL-Win32\\bin\\openssl.exe`**
-    
-    **Note: \[Windows\]: Make sure to select the right COM Port of the Evaluation Kit connected to your laptop. It should apper as an USB Serial Device.**
+
  1. Certificate Chain generation
  
     ```bash
