@@ -204,9 +204,6 @@ def main():
         print(e)
         exit()
 
-    if com_port != '':
-        optiga.set_com_port(com_port)
-
     # detect which certificate and key slots to use on optiga based on slot selection
     slot = int(slot)
     if slot != 0 and slot != 1:
