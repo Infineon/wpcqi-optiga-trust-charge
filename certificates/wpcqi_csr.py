@@ -108,7 +108,7 @@ class WPCQiBuilder(object):
         self._hash_algo = 'sha256'
         self._other_extensions = {}
         # Here are two new extensions which we need for the library
-        x509.ExtensionId._map['2.23.255.1.2'] = 'wpc-qi-authRSID'
+        x509.ExtensionId._map['2.23.148.1.2'] = 'wpc-qi-authRSID'
         x509.Extension._oid_specs['wpc-qi-authRSID'] = c.OctetString
 
     @_writer
