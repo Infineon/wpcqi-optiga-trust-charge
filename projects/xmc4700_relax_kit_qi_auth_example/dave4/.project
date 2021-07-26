@@ -27,6 +27,16 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>3rd_party</name>
+			<type>2</type>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/externals</locationURI>
+		</link>
+		<link>
+			<name>main_xmc4700_example.c</name>
+			<type>1</type>
+			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/main_xmc4700_example.c</locationURI>
+		</link>
+		<link>
 			<name>optiga_hostlib</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -37,34 +47,14 @@
 			<locationURI>OPTIGA_DAVE_PROJ/wpc</locationURI>
 		</link>
 		<link>
-			<name>3rd_party</name>
-			<type>2</type>
-			<locationURI>OPTIGA_DAVE_PROJ/optiga/externals</locationURI>
-		</link>
-		<link>
-			<name>optiga_hostlib/optiga</name>
-			<type>2</type>
-			<locationURI>OPTIGA_DAVE_PROJ/optiga/optiga</locationURI>
-		</link>
-		<link>
 			<name>optiga_hostlib/examples</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>optiga_hostlib/examples/utilities</name>
+			<name>optiga_hostlib/optiga</name>
 			<type>2</type>
-			<locationURI>OPTIGA_DAVE_PROJ/optiga/examples/utilities</locationURI>
-		</link>
-		<link>
-			<name>optiga_hostlib/examples/mbedtls_port</name>
-			<type>2</type>
-			<locationURI>OPTIGA_DAVE_PROJ/optiga/examples/mbedtls_port</locationURI>
-		</link>
-		<link>
-			<name>main_xmc4700_example.c</name>
-			<type>1</type>
-			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/main_xmc4700_example.c</locationURI>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/optiga</locationURI>
 		</link>
 		<link>
 			<name>optiga_hostlib/pal</name>
@@ -77,6 +67,16 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>optiga_hostlib/examples/mbedtls_port</name>
+			<type>2</type>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/examples/mbedtls_port</locationURI>
+		</link>
+		<link>
+			<name>optiga_hostlib/examples/utilities</name>
+			<type>2</type>
+			<locationURI>OPTIGA_DAVE_PROJ/optiga/examples/utilities</locationURI>
+		</link>
+		<link>
 			<name>optiga_hostlib/pal/pal.c</name>
 			<type>1</type>
 			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/xmc4700/pal.c</locationURI>
@@ -85,6 +85,36 @@
 			<name>optiga_hostlib/pal/pal_crypt_mbedtls.c</name>
 			<type>1</type>
 			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/pal_crypt_mbedtls.c</locationURI>
+		</link>
+		<link>
+			<name>optiga_hostlib/pal/xmc4700</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>optiga_hostlib/xmc/CMSIS</name>
+			<type>2</type>
+			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS</locationURI>
+		</link>
+		<link>
+			<name>optiga_hostlib/xmc/Dave</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>optiga_hostlib/xmc/Newlib</name>
+			<type>2</type>
+			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/Newlib</locationURI>
+		</link>
+		<link>
+			<name>optiga_hostlib/xmc/Startup</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>optiga_hostlib/xmc/XMCLib</name>
+			<type>2</type>
+			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib</locationURI>
 		</link>
 		<link>
 			<name>optiga_hostlib/pal/xmc4700/pal_gpio.c</name>
@@ -130,31 +160,6 @@
 			<name>optiga_hostlib/pal/xmc4700/pal_os_timer.c</name>
 			<type>1</type>
 			<locationURI>OPTIGA_DAVE_PROJ/optiga/pal/xmc4700/pal_os_timer.c</locationURI>
-		</link>
-		<link>
-			<name>optiga_hostlib/xmc/CMSIS</name>
-			<type>2</type>
-			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/CMSIS</locationURI>
-		</link>
-		<link>
-			<name>optiga_hostlib/xmc/Dave</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>optiga_hostlib/xmc/Newlib</name>
-			<type>2</type>
-			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/Newlib</locationURI>
-		</link>
-		<link>
-			<name>optiga_hostlib/xmc/Startup</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>optiga_hostlib/xmc/XMCLib</name>
-			<type>2</type>
-			<locationURI>OPTIGA_DAVE_PROJ/projects/xmc4700_relax_kit_qi_auth_example/common/Libraries/XMCLib</locationURI>
 		</link>
 		<link>
 			<name>optiga_hostlib/xmc/Dave/Generated</name>
