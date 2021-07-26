@@ -190,7 +190,6 @@ def main():
             common_name = data['common_name']
             rsid = data['rsid']
             slot = data['slot']
-            com_port = data['com_port']
     except IOError as e:
         print(e)
         exit()
