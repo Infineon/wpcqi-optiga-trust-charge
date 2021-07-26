@@ -62,7 +62,7 @@ int32_t qi_auth_ptx_crypt_deinit(uint8_t hibernate_chip);
 *\retval  #CRYPT_LIB_OK
 *
 */
-uint16_t qi_auth_ptx_crypt_certchain(uint8_t slot, uint8_t offset, uint8_t* p_certchain, uint16_t* p_certchain_size);
+uint16_t qi_auth_ptx_crypt_certchain(uint8_t slot, uint16_t offset, uint8_t* p_certchain, uint16_t* p_certchain_size);
 
 /**
 *

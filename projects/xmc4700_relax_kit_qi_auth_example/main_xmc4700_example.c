@@ -42,7 +42,7 @@
 *  function prototypes
 *************************************************************************/
 //extern void optiga_shell_wait_for_user(void);
-extern int qi_auth_ptx_prx_test(void);
+extern int qi_auth_self_test(void);
 /*************************************************************************
 *  Global
 *************************************************************************/
@@ -76,7 +76,7 @@ int main(Void)
 
     pal_os_timer_delay_in_milliseconds(100);
 
-    qi_auth_ptx_prx_test();
+    qi_auth_self_test();
 
     return ((status == 0)? 0:1);
 }

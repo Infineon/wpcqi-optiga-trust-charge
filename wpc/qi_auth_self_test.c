@@ -36,7 +36,7 @@
 
 extern void update_certificate_chain(void);
 
-int qi_auth_ptx_prx_test(void)
+int qi_auth_self_test(void)
 {
     uint8_t req[500];
     uint16_t req_size = 500;
@@ -111,7 +111,7 @@ int qi_auth_ptx_prx_test(void)
         //  PRx: Verify the CERTIFICATE message
         // We feed here the certificate without length at the beggining
         // Use qi_auth_test_new_certchain insetad of qi_auth_cr660_draft5_ifx_root_cert if you have generated a new certificate chain
-        if (0 != qi_auth_prx_verify_cert(certchain+1+2, certchain_size-1-2, qi_auth_cr660_draft5_ifx_root_cert, sizeof(qi_auth_cr660_draft5_ifx_root_cert)))
+        if (0 != qi_auth_prx_verify_cert(certchain+1+2, certchain_size-1-2, qi_auth_ifx_root_cert, sizeof(qi_auth_ifx_root_cert)))
         {
             optiga_lib_print_string_with_newline("Error #5: Verify Certificate response\r\n");
         }
@@ -159,8 +159,8 @@ int qi_auth_ptx_prx_test(void)
         }
 
         // PRx: Test against fixtures
-        if (0 != qi_auth_prx_verify_cert((uint8_t *)(qi_auth_cr660_draft5_pf4_test_cert + 2), sizeof(qi_auth_cr660_draft5_pf4_test_cert)-2,
-                                         qi_auth_cr660_draft5_pf4_root_cert, sizeof(qi_auth_cr660_draft5_pf4_root_cert)))
+        if (0 != qi_auth_prx_verify_cert((uint8_t *)(qi_auth_13_test_cert_chain + 2), sizeof(qi_auth_13_test_cert_chain)-2,
+                                         qi_auth_13_test_root_cert, sizeof(qi_auth_13_test_root_cert)))
         {
             optiga_lib_print_string_with_newline("Error #9:  Verify Certificate\r\n");
         }
@@ -170,13 +170,13 @@ int qi_auth_ptx_prx_test(void)
         }
 
         // PRx:
-        qi_auth_prx_get_certchain_info((uint8_t *)qi_auth_cr660_draft5_pf4_test_cert, sizeof(qi_auth_cr660_draft5_pf4_test_cert),
+        qi_auth_prx_get_certchain_info((uint8_t *)qi_auth_13_test_cert_chain, sizeof(qi_auth_13_test_cert_chain),
                                              rsid, &rsid_size, sha256, pubkey, &pubkey_size);
 
         // PRx:
         if (0 != qi_auth_prx_verify_chall_auth( sha256, pubkey, pubkey_size,
-                (uint8_t *)qi_auth_cr660_draft5_test_challenge, sizeof(qi_auth_cr660_draft5_test_challenge),
-                (uint8_t *)qi_auth_cr660_draft5_test_challenge_auth, sizeof(qi_auth_cr660_draft5_test_challenge_auth)))
+                (uint8_t *)qi_auth_test_challenge, sizeof(qi_auth_test_challenge),
+                (uint8_t *)qi_auth_test_challenge_auth, sizeof(qi_auth_test_challenge_auth)))
         {
             optiga_lib_print_string_with_newline("Error #10: Verify Challenge Auth\r\n");
         }

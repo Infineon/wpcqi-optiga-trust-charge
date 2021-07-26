@@ -383,7 +383,7 @@ uint16_t qi_auth_ptx_crypt_certchain_sha256(uint8_t slot, uint8_t* p_digest)
 {
     uint16_t return_status = CRYPT_LIB_ERROR;
     uint16_t oid = 0;
-    optiga_hash_context_t hash_ctx;
+    //optiga_hash_context_t hash_ctx;
     uint8_t hash_context_buffer [130];
     // We use the saeme buffer here to save up some space
     uint8_t* certificate_metadata = hash_context_buffer;
@@ -419,18 +419,19 @@ uint16_t qi_auth_ptx_crypt_certchain_sha256(uint8_t slot, uint8_t* p_digest)
 
         certificate_size = (hash_context_buffer[11] << 8) + hash_context_buffer[12];
 
-        hash_ctx.hash_algo = OPTIGA_HASH_TYPE_SHA_256;
-        hash_ctx.context_buffer = hash_context_buffer;
-        hash_ctx.context_buffer_length = sizeof(hash_context_buffer);
+//        hash_ctx.hash_algo = OPTIGA_HASH_TYPE_SHA_256;
+//        hash_ctx.context_buffer = hash_context_buffer;
+//        hash_ctx.context_buffer_length = sizeof(hash_context_buffer);
 
         hash_data_in_optiga_t optiga_hash = {
                 .oid = oid,
                 .offset = 0x03,
                 .length = certificate_size - 3
         };
-        CHECK_RESULT(optiga_crypt_hash_start(p_crypt, &hash_ctx));
-        CHECK_RESULT(optiga_crypt_hash_update(p_crypt, &hash_ctx, OPTIGA_CRYPT_OID_DATA, &optiga_hash));
-        CHECK_RESULT(optiga_crypt_hash_finalize(p_crypt, &hash_ctx, p_digest));
+        CHECK_RESULT(optiga_crypt_hash(p_crypt, OPTIGA_HASH_TYPE_SHA_256, OPTIGA_CRYPT_OID_DATA, &optiga_hash, p_digest));
+//        CHECK_RESULT(optiga_crypt_hash_start(p_crypt, &hash_ctx));
+//        CHECK_RESULT(optiga_crypt_hash_update(p_crypt, &hash_ctx, OPTIGA_CRYPT_OID_DATA, &optiga_hash));
+//        CHECK_RESULT(optiga_crypt_hash_finalize(p_crypt, &hash_ctx, p_digest));
 
     }while(FALSE);
 
@@ -461,7 +462,7 @@ uint16_t qi_auth_ptx_crypt_sign(uint8_t* p_digest_tbs, uint16_t digest_tbs_size,
     return return_status;
 }
 
-uint16_t qi_auth_ptx_crypt_certchain(uint8_t slot, uint8_t offset, uint8_t* p_certchain, uint16_t* p_certchain_size)
+uint16_t qi_auth_ptx_crypt_certchain(uint8_t slot, uint16_t offset, uint8_t* p_certchain, uint16_t* p_certchain_size)
 {
     uint16_t  return_status = CRYPT_LIB_ERROR;
     uint16_t  optiga_oid = QI_AUTH_CERTCAIN_OID;
@@ -489,4 +490,3 @@ int32_t qi_auth_ptx_crypt_deinit(uint8_t hibernate_chip)
 {
     return (optiga_deinit(hibernate_chip));
 }
-
