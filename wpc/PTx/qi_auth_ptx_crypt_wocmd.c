@@ -167,13 +167,13 @@ static uint16_t optiga_init(uint8_t restore_from_hibernate)
     // Initialize the hardware
     pal_init();
 
+    // Wait till the chip will wake-up
+    pal_os_timer_delay_in_milliseconds(15);
+
     if(!comms_open(&p_comms))
     {
         return CRYPT_LIB_ERROR;
     }
-
-    // Wait till the chip will wake-up
-    pal_os_timer_delay_in_milliseconds(15);
 
     transceive_to_chip(p_comms, open_application_apdu, sizeof(open_application_apdu), open_application_apdu, &apdu_response_length);
 
@@ -292,7 +292,7 @@ static uint16_t calculate_hash_generic(uint8_t internally, uint8_t* p_input, uin
     // Sta[1] + UnDef[1] + OutLen[2] + OutData[1 + 1 + 32]
     if (apdu_resp_length == 39)
     {
-        memcpy(p_digest, &apdu[7], 32);
+        memcpy(p_digest, &apdu[4 + 2], 32);
         return 0;
     }
 
@@ -339,9 +339,9 @@ uint16_t qi_auth_ptx_crypt_certchain_sha256(uint8_t slot, uint8_t* p_digest)
 
 uint16_t qi_auth_ptx_crypt_sign(uint8_t* p_digest_tbs, uint16_t digest_tbs_size, uint8_t* p_signature, uint16_t* p_signature_len)
 {
-    uint8_t      apdu[82]; // We should not have here more than 59 bytes of data including headers
+    uint8_t     apdu[82]; // We should not have here more than 59 bytes of data including headers
     uint16_t    apdu_resp_length = 82;
-    uint16_t     apdu_length = 0;
+    uint16_t    apdu_length = 0;
 
     if (NULL == p_signature || NULL == p_signature_len || NULL == p_digest_tbs || 0 == digest_tbs_size || 32 != digest_tbs_size)
         return CRYPT_LIB_ERROR_BAD_PARAMETERS;
@@ -363,10 +363,11 @@ uint16_t qi_auth_ptx_crypt_sign(uint8_t* p_digest_tbs, uint16_t digest_tbs_size,
 
     transceive_to_chip(p_comms, apdu, apdu_length, apdu, &apdu_resp_length);
 
-    // Sta[1] + UnDef[1] + OutLen[2] + OutData[6 + signature]
+    // Sta[1] + UnDef[1] + OutLen[2] + OutData[signature]
     if (apdu_resp_length > 20)
     {
-        asn1_to_ecdsa_rs(&apdu[6], apdu_resp_length-6, p_signature, *p_signature_len);
+    	// First four bytes contain the response headers
+        asn1_to_ecdsa_rs(&apdu[4], apdu_resp_length-4, p_signature, *p_signature_len);
         return 0;
     }
 
@@ -375,9 +376,9 @@ uint16_t qi_auth_ptx_crypt_sign(uint8_t* p_digest_tbs, uint16_t digest_tbs_size,
 
 uint16_t qi_auth_ptx_crypt_certchain(uint8_t slot, uint16_t offset, uint8_t* p_certchain, uint16_t* p_certchain_size)
 {
-    uint16_t      oid;
-    uint8_t      apdu[10];
-    uint16_t     apdu_length = 0;
+    uint16_t    oid;
+    uint8_t     apdu[10];
+    uint16_t    apdu_length = 0;
     uint16_t    data_length_to_be_read;
 
     switch (slot)
@@ -417,6 +418,7 @@ uint16_t qi_auth_ptx_crypt_certchain(uint8_t slot, uint16_t offset, uint8_t* p_c
 
     transceive_to_chip(p_comms, apdu, apdu_length, p_certchain, p_certchain_size);
 
+    // Sta[1] + UnDef[1] + OutLen[2] + OutData[Certificate Chain]
     if (*p_certchain_size > 20)
     {
         return 0;
