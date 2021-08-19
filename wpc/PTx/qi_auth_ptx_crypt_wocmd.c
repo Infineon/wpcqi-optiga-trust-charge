@@ -377,8 +377,8 @@ uint16_t qi_auth_ptx_crypt_certchain(uint8_t slot, uint16_t offset, uint8_t* p_c
 {
     uint16_t  	oid;
     uint8_t  	apdu[10];
-	uint16_t 	apdu_length = 0;
-	uint16_t	data_length_to_be_read;
+    uint16_t 	apdu_length = 0;
+    uint16_t	data_length_to_be_read;
 
     switch (slot)
 	{
@@ -410,7 +410,7 @@ uint16_t qi_auth_ptx_crypt_certchain(uint8_t slot, uint16_t offset, uint8_t* p_c
 	apdu[4] = (uint8_t)(oid >> 8);
 	apdu[5] = (uint8_t)(oid & 0x00ff);
 	apdu[6] = (uint8_t)(offset >> 8);
-	apdu[7] = (uint8_t)(offset & 0x00ff);
+	apdu[7] = (uint8_t)(offset & 0x00ff) + 3;
 	apdu[8] = (uint8_t)(data_length_to_be_read >> 8);
 	apdu[9] = (uint8_t)(data_length_to_be_read & 0x00ff);
 	apdu_length = 10;
