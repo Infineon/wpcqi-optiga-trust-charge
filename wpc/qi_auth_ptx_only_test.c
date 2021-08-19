@@ -67,8 +67,15 @@ int qi_auth_self_test(void)
         }
         else
         {
+        	/* To save up some memory we don't do buffer rearrangement inside the
+        	 * function, but here externally
+        	 */
+        	uint8_t tag = buffer[0];
+        	buffer[4] = tag;
+        	// &buffer[4] onwards of (buffer_size-4) contain the message
         	// Test #2: Get Certificate response OK
         	status |= 1 << 5;
+        	//optiga_lib_print_array_hex_format(&buffer[4], (buffer_size-4), OPTIGA_LIB_LOGGER_COLOR_GREEN);
         }
 
         //  PTx: Feed the CHALLENGE message and prepare the CHALLENGE_AUTH message
