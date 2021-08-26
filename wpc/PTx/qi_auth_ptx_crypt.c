@@ -57,7 +57,6 @@
     while (optiga_lib_status == OPTIGA_LIB_BUSY) \
     {\
         pal_os_timer_delay_in_milliseconds(1);\
-        pal_os_event_trigger_registered_callback();\
     } \
     \
     if (OPTIGA_LIB_SUCCESS != optiga_lib_status)\
