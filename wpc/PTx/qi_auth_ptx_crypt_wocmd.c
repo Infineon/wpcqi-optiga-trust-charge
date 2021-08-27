@@ -96,7 +96,7 @@ int transceive_to_chip( optiga_comms_t * p_comms,
         return CRYPT_LIB_ERROR;
     }
     //async wait
-    while(OPTIGA_COMMS_SUCCESS != optiga_comms_status);
+    while(optiga_lib_status == OPTIGA_LIB_BUSY);
 
     return 0;
 }
@@ -125,7 +125,7 @@ int comms_open(optiga_comms_t** pp_comms)
         return 0;
     }
     //async wait
-    while(0 != optiga_comms_status);
+    while(optiga_lib_status == OPTIGA_LIB_BUSY);
     return 1;
 
 }
