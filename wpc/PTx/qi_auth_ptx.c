@@ -203,10 +203,10 @@ uint16_t qi_auth_ptx_challenge_auth(uint8_t slot, uint8_t* p_challreq, uint16_t 
 
         memcpy(&tbs_auth[1], certchain_hash, 32);
 
-        // Table 15. B0 to B17 of the Challenge Request Message to which the CHALLENGE_AUTH is a response
+        // Table 19. B0 to B17 of the Challenge Request Message to which the CHALLENGE_AUTH is a response
         memcpy(&tbs_auth[1 + 32], p_challreq, 18);
 
-        // Table 15. B0 to B2 of the Challenge Auth Response (Without the signature)
+        // Table 19. B0 to B2 of the Challenge Auth Response (Without the signature)
         memcpy(&tbs_auth[1 + 32 + 18], p_challresp, 3);
 
         // We need to hash TBS Auth Data and sign it afterwards
