@@ -153,6 +153,75 @@ static void optiga_util_callback(void * context, optiga_lib_status_t return_stat
     }
 
 
+#ifdef UPDATE_CERTCHAIN
+/* If your eval kit was affected by the problem of the wrong Length provisioning
+ * during the update_certificate_chain() call this function might help you to 
+ * restore the correct length. It gets the certificate chain length and update it
+ * on the chip
+ */
+void update_certificate_chain_length(void)
+{
+	optiga_lib_status_t return_status = !OPTIGA_LIB_SUCCESS;
+    uint8_t certchain[800];
+    uint16_t certchain_size = 800;
+    uint8_t new_certchain_size[2];
+
+	do
+	{
+		/**
+		 * 1. Create OPTIGA Util Instance.
+		 */
+		p_util = optiga_util_create(0, optiga_util_callback, NULL);
+		if (NULL == p_util)
+		{
+			break;
+		}
+
+		/*
+		 * Step 1. Extract the certificate chain and get it's size
+		 */
+		optiga_lib_status = OPTIGA_LIB_BUSY;
+		// Step 1.1 read only the length of the Manufacturer CA certificate. Length is part of the certificate, and located in the 3rd and 4th bytes
+		return_status = optiga_util_read_data(p_util, 0xE0E0, 0x00, certchain, &certchain_size);
+		WAIT_FOR_COMPLETION(return_status);
+
+		// Minus three bytes as they are occupied by the C6 tag and an internal infor about the length.
+		certchain_size -= 3;
+		new_certchain_size[0] = (uint8_t)((certchain_size >> 8) & 0xff);
+		new_certchain_size[1] = (uint8_t)(certchain_size & 0xff);
+
+		/**
+		 * Step 2. Unlock the certificate object 0xE0E0 using optiga_util_write_metadata.
+		 */
+		optiga_lib_status = OPTIGA_LIB_BUSY;
+		return_status = optiga_util_write_metadata(p_util, 0xE0E0, unlock_write_metadata, sizeof(unlock_write_metadata));
+		WAIT_FOR_COMPLETION(return_status);
+
+		/**
+		 * Step 3. write a new certificate chain back
+		 */
+		optiga_lib_status = OPTIGA_LIB_BUSY;
+		return_status = optiga_util_write_data(p_util, 0xE0E0, OPTIGA_UTIL_WRITE_ONLY, 3, new_certchain_size, 2);
+		WAIT_FOR_COMPLETION(return_status);
+
+		/**
+		 * Step 4. Lock back the certificate object 0xE0E0 using optiga_util_write_metadata.
+		 */
+		optiga_lib_status = OPTIGA_LIB_BUSY;
+		return_status = optiga_util_write_metadata(p_util, 0xE0E0, lock_write_metadata, sizeof(lock_write_metadata));
+		WAIT_FOR_COMPLETION(return_status);
+
+		return_status = OPTIGA_LIB_SUCCESS;
+
+	} while (FALSE);
+
+	if (p_util)
+	{
+		//Destroy the instance after the completion of usecase if not required.
+		optiga_util_destroy(p_util);
+	}
+}
+#endif
 
 
 void update_certificate_chain(void)
