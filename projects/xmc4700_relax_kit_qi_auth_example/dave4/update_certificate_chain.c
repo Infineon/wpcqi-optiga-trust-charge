@@ -297,9 +297,9 @@ void update_certificate_chain(void)
          */
         new_certchain[0] = 0xc6;
         new_certchain[OPTIGA_IDENTITY_CHAINSIZE_OFFSET] = (uint8_t)(((sizeof(test_ifx_test_chain) + pu_cert_size) >> 8) & 0xff);
-        new_certchain[OPTIGA_IDENTITY_CHAINSIZE_OFFSET + 1] = (uint8_t)((sizeof(test_ifx_test_chain) + pu_cert_size) & 0xff);
-        new_certchain[WPCQI_AUTH_CERTCHAIN_SIZE_OFFSET] = new_certchain[1];
-        new_certchain[WPCQI_AUTH_CERTCHAIN_SIZE_OFFSET + 1] = new_certchain[2];
+        new_certchain[OPTIGA_IDENTITY_CHAINSIZE_OFFSET + 1] = (uint8_t)((sizeof(test_ifx_test_chain) + pu_cert_size) & 0xff) + 2;
+        new_certchain[WPCQI_AUTH_CERTCHAIN_SIZE_OFFSET] = new_certchain[OPTIGA_IDENTITY_CHAINSIZE_OFFSET];
+        new_certchain[WPCQI_AUTH_CERTCHAIN_SIZE_OFFSET + 1] = new_certchain[OPTIGA_IDENTITY_CHAINSIZE_OFFSET + 1];
         new_certchain_size = 5;
         // we offset some bytes. 1 byte for the C6 tag, 4 bytes for the doubled length of the chain
         memcpy(new_certchain + 5, test_ifx_test_chain, sizeof(test_ifx_test_chain));
