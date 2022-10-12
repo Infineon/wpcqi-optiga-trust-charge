@@ -354,6 +354,7 @@ uint16_t  qi_auth_prx_crypt_get_random(uint16_t random_len, uint8_t *p_random, u
             break;
         }
 
+        // Additionally MBEDTLS_NO_PLATFORM_ENTROPY MBEDTLS_ENTROPY_C and MBEDTLS_ENTROPY_HARDWARE_ALT shall be defined
         mbedtls_ctr_drbg_random(&ctx, p_random, random_size);
 
         return_status = CRYPT_LIB_OK;
