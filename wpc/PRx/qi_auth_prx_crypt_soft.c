@@ -305,11 +305,12 @@ uint16_t  qi_auth_prx_crypt_verify_signature(const signature_container_t *p_sign
 int32_t qi_auth_prx_crypt_init(uint8_t restore_from_hibernate)
 {
     char *personalization = "not_a_valid_rng";
-   
+    int ret;
+
     mbedtls_entropy_init( &entropy );
-    
+
     mbedtls_ctr_drbg_init(&ctx);
-    
+
     ret = mbedtls_ctr_drbg_seed( &ctx , mbedtls_entropy_func, &entropy,
                      (const unsigned char *) personalization,
                      strlen( personalization ) );
@@ -352,6 +353,10 @@ uint16_t  qi_auth_prx_crypt_get_random(uint16_t random_len, uint8_t *p_random, u
         {
             break;
         }
+
+        mbedtls_ctr_drbg_random(&ctx, p_random, random_size);
+
+        mbedtls_ctr_drbg_random(&ctx, p_random, random_size);
 
         mbedtls_ctr_drbg_random(&ctx, p_random, random_size);
 
