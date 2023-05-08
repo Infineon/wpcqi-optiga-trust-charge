@@ -60,7 +60,7 @@ The Demo project creates an USB HID device which can be opened in a tool like Te
 
 ## Downloading the Code
 
-To get the code you need either download one of existing releases or Git CLone this repository.
+To get the code you need either download one of existing [releases](https://github.com/Infineon/wpcqi-optiga-trust-charge/releases) or Git clone this repository as below.
 
 `git clone --recurse-submodules https://github.com/infineon/wpcqi-optiga-trust-charge`
 
