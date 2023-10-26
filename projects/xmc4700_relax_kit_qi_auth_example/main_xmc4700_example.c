@@ -65,7 +65,7 @@ int main(Void)
     //Return value
     int32_t status = (int32_t) 0;
 
-    // Initialisation of DAVE Apps
+    // Initialization of DAVE Apps
     if (DAVE_Init() == DAVE_STATUS_FAILURE)
     {
         /* Placeholder for error handler code. The while loop below can be replaced with an user error handler. */
@@ -76,9 +76,9 @@ int main(Void)
 
     pal_os_timer_delay_in_milliseconds(100);
 
-    qi_auth_self_test();
+    status = qi_auth_self_test();
 
-    return ((status == 0)? 0:1);
+    return ((status == 0x70)? 0:1);
 }
 
 

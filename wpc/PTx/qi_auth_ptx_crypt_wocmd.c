@@ -96,7 +96,7 @@ int transceive_to_chip( optiga_comms_t * p_comms,
         return CRYPT_LIB_ERROR;
     }
     //async wait
-    while(optiga_lib_status == OPTIGA_LIB_BUSY);
+    while(optiga_comms_status == OPTIGA_COMMS_BUSY);
 
     return 0;
 }
@@ -125,7 +125,7 @@ int comms_open(optiga_comms_t** pp_comms)
         return 0;
     }
     //async wait
-    while(optiga_lib_status == OPTIGA_LIB_BUSY);
+    while(optiga_comms_status == OPTIGA_COMMS_BUSY);
     return 1;
 
 }
@@ -289,10 +289,10 @@ static uint16_t calculate_hash_generic(uint8_t internally, uint8_t* p_input, uin
 
     transceive_to_chip(p_comms, apdu, apdu_length, apdu, &apdu_resp_length);
 
-    // Sta[1] + UnDef[1] + OutLen[2] + OutData[1 + 1 + 32]
+    // Sta[1] + UnDef[1] + OutLen[2] + OutData[1 + 2 + 32]
     if (apdu_resp_length == 39)
     {
-        memcpy(p_digest, &apdu[4 + 2], 32);
+        memcpy(p_digest, &apdu[7], 32);
         return 0;
     }
 
