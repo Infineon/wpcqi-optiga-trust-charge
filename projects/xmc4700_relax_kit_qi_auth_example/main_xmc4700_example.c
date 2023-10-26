@@ -78,7 +78,7 @@ int main(Void)
 
     status = qi_auth_self_test();
 
-    return ((status == 0x70)? 0:1);
+    return status;
 }
 
 

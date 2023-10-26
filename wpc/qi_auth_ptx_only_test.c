@@ -95,5 +95,5 @@ int qi_auth_self_test(void)
 
     }while(0);
 
-    return status;
+    return (status == 0x70)? 0:1;
 }
