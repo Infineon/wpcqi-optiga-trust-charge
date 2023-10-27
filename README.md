@@ -2,13 +2,13 @@
 
 ## Description
 
-This application note demonstrates partial immplementatio of the WPC Qi 1.3 Authentication Flow with help of the OPTIGA&trade; Trust Charge device authentication solution.
-In paricular this AppNote shows several things:
-* API to form correct messages according to the WPC Qi 1.3. Authentication. It's important to highlight, that this code doesn't implement the authentication flow itself, rather just prepares messages whcih might be forwarded to the respective endpoint.
+This application note demonstrates partial implementation of the WPC Qi 1.3 Authentication Flow with help of the OPTIGA&trade; Trust Charge device authentication solution.
+In particular this AppNote shows several things:
+* API to form correct messages according to the WPC Qi 1.3. Authentication. It's important to highlight, that this code doesn't implement the authentication flow itself, rather just prepares messages which might be forwarded to the respective endpoint.
 * Example usage of the API with a test flow
 * Test Vectors against the API
 
-WPC Qi 1.3 API Description can be found [here](WPC-Qi-Authentication-API.md)
+Please check out also our description of the [WPC Qi 1.3 Authentication API](docs/WPC-Qi-Authentication-API.md) that shows you the essential message exchange and respective function calls.
 
 ## Hardware Setup
 
@@ -72,7 +72,7 @@ To get the code you need either download one of existing [releases](https://gith
 
 3. In the Import DAVE Projects window, choose Select Root Directory, choose Browse, and then choose the XMC4700 demo project.
 
-4. In the directory where you have your cloned/dwnloaded sources the XMC4700 demo project is located in `projects/xmc4700_relax_kit_qi_auth_example/`
+4. In the directory where you have your cloned/downloaded sources the XMC4700 demo project is located in `projects/xmc4700_relax_kit_qi_auth_example/`
 
 5. Make sure that Copy Projects Into Workspace is cleared.
 
@@ -82,13 +82,13 @@ The `xmc4700_qi_auth_example` project should be imported into your workspace and
 
 ## Selecting the right Build configuration
 
-This example project tests the implementation of both sides PRx and PTx at the same time. However there is one detail, the Power Receiver can optionaly do all crypto relevat function either using OPTIGA or Third Party Crypto library as backend. You can choose it by selecting the corresponding configuration: Right Click on the Project and select "Build Configurations" -> "Set Active" -> Make a choice between the following configurations.
+This example project tests the implementation of both sides PRx and PTx at the same time. However there is one detail, the Power Receiver can optionally do all crypto relevant functions either using OPTIGA or Third Party Crypto library as backend. You can choose it by selecting the corresponding configuration: Right Click on the Project and select "Build Configurations" -> "Set Active" -> Make a choice between the following configurations.
 
-| Configuration            | Role                  | Crypto Backend              | Description                                           |
-| -------------------------|---------------------- | --------------------------- | ----------------------------------------------------- |
-| `optiga_prx_crypto`      | Power Receiver PRx    | OPTIGA&trade; Trust Charge  | Standard setup using OPTIGA&trade; Trust host library |
-| `software_prx_crypto`    | Power Receiver PRx    | mbedTLS software library    | Purely software based configuration using mbedTLS     |
-| `optiga_ptx_without_cmd` | Power Transmitter PTx | OPTIGA&trade; Trust Charge  | Minimalistic setup with minimum RAM and FLASH memory consumed and is based on a pure ifx_i2c communication protocol implementation. In general the difference to the standard PTx iplementation is [this file](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/master/wpc/PTx/qi_auth_ptx_crypt_wocmd.c). |
+| Configuration            | PRx Crypto Backend         | PTx Crypto Backend                    | Description                                           |
+| -------------------------|--------------------------- | ------------------------------------- | ----------------------------------------------------- |
+| `optiga_prx_crypto`      | OPTIGA&trade; Trust Charge | OPTIGA&trade; Trust Charge            | Standard setup using OPTIGA&trade; Trust Charge for both PRx and PTx using the [OPTIGA&trade; Trust Charge Software Framework](https://github.com/Infineon/optiga-trust-charge) |
+| `software_prx_crypto`    | mbedTLS software library   | OPTIGA&trade; Trust Charge            | PRx role: Using a purely software based approach using mbedTLS for the PRx side               |
+| `optiga_ptx_without_cmd` | OPTIGA&trade; Trust Charge | OPTIGA&trade; Trust Charge (minimal)  | PTx role: Minimalistic setup with minimum RAM and FLASH memory consumed and is based on a pure ifx_i2c communication protocol implementation. In general the difference to the standard PTx implementation is [this file](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/master/wpc/PTx/qi_auth_ptx_crypt_wocmd.c). |
 
 NOTE: The performance of the pure software based approach is significantly lower than the configuration based on the OPTIGA&trade; Trust Charge security controller.
 
