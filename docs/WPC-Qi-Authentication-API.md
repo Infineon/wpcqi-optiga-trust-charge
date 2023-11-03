@@ -180,6 +180,33 @@ This API is implemented with the OPTIGA&trade; Trust Charge security controller 
 
 [Top](#top)
 
+#### qi_auth_prx_init
+
+* **Prototype**
+	```c
+    int32_t  qi_auth_prx_init(void);
+	```
+* **Description:**  Initializes the library
+* **Returns:** 
+	* `0` On success
+	* Error code
+
+[Top](#top)
+
+
+#### qi_auth_prx_deinit
+
+* **Prototype**
+	```c
+    int32_t  qi_auth_prx_deinit(void);
+	```
+* **Description:**  Initializes the library
+* **Returns:** 
+	* `0` On success
+	* Error code
+
+[Top](#top)
+
 #### qi_auth_prx_get_digests
 
 * **Prototype**
