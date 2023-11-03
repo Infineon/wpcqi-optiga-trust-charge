@@ -1,4 +1,4 @@
-<a name="top"></a>
+# WPC Qi authentication
 
 The WPC Qi Authentication API comprises two components
 * Qi Auth Crypt to perform crypto related operations
@@ -7,71 +7,43 @@ The WPC Qi Authentication API comprises two components
 Almost all of the below mentioned functions are used in [this](../master/wpc/qi_auth_self_test.c#L39) test routine
 
 As per WPC Qi Authentication Protocol there are two counterparts in the authentication flow: Power Transmitter (PTx) and Power Receiver (PRx). The latter initiates the communication with the PTx to charge itself.
-There are three basic flows proposed by the protocol:
 
-      PRx                                                     PTx
+## WPC Qi authentication flows
 
-      GET_CERTIFICATE              -------->
-                                   <--------          CERTIFICATE
-      CHALLENGE                    -------->
-                                   <--------       CHALLENGE_AUTH  
-      Charging                     <--------
+There are three basic flows proposed by the WPC Qi Authentication protocol.
 
-             Figure 1.  Simple flow 
+### Authentication - Simple flow
 
+![WPC Qi Authentication - Simple flow](images/WPCQi_Authentication_simple_flow.png)
 
-      PRx                                                     PTx
+### Authentication - Simple flow with caching
 
-      GET_DIGESTS                  -------->
-                                   <--------              DIGESTS
-      Optional, if the Chain isn't cached
-      (GET_CERTIFICATE             -------->
-                                   <--------         CERTIFICATE)
-      CHALLENGE                    -------->
-                                   <--------       CHALLENGE_AUTH  
-      Charging                     <--------
+![WPC Qi Authentication - Simple flow with caching](images/WPCQi_Authentication_simple_flow_with_caching.png)
 
-             Figure 2.  Simple flow with caching
+### Authentication - Challenge first flow
 
+![WPC Qi Authentication - Challenge first flow](images/WPCQi_Authentication_challenge_first_flow.png)
 
-      PRx                                                     PTx
+## Summary of API functions
 
-      CHALLENGE                    -------->
-                                   <--------       CHALLENGE_AUTH
-      Optional, if the chain isn't cached
-      (GET_CERTIFICATE             -------->
-                                   <--------         CERTIFICATE)
-      Charging                     <--------
+The following API is split into two groups: PRx and PTx, they are independent and can be used separately. A case when they can be used together might be a device with a reverse charging feature. 
 
-             Figure 3.  Challenge first flow
+### Power Receiver (PRx) API
 
+#### High-level messages
 
-In general, as you see, the PRx side should be able to send the following messages:
-GET_DIGESTS, GET_CERTIFICATE, CHALLENGE (involves cryptographically secure random data) + be able to verify the incoming certificate (involved SH256 and ECDSA Verify functions), and the CHALLENGE_AUTH message
+The PRx entity should be able to send the following messages:
+* `GET_DIGESTS`
+* `GET_CERTIFICATE`
+* `CHALLENGE` 
+  * includes cryptographically secure random data
+  * verify the incoming certificate (includes SH256 and ECDSA verify functions)
 
-From another side, the PTx, should be able to send the following messages:
-DIGESTS (involves SH256 operation), CERTIFICATE, CHALLENGE_AUTH (involves SHA256 and ECDSA Sign functions)
+#### API overview
 
-Thus the following API is spitted on two groups: PRx and PTx, they are independent and can be used separately. A case when they can be used together might be a device with a reverse charging feature. 
+This API is implemented with either the OPTIGA&trade; Trust Charge security controller or a 3rd-party software crypto library (custom mbedTLS version) as crypto backend. You can switch between the two variants by including either [`qi_auth_prx_crypt.c`](../master/wpc/PRx/qi_auth_prx_crypt.c) or [`qi_auth_prx_crypt_soft.c`](../master/wpc/PRx/qi_auth_prx_crypt_soft.c) files.
 
-[tocstart]: # (toc start)
-
-## Power Transmitter (PTx) API
-
-  * User API: qi_auth_ptx.h
-    * [qi_auth_ptx_init](#qi_auth_ptx_init)
-    * [qi_auth_ptx_deinit](#qi_auth_ptx_deinit)
-    * [qi_auth_ptx_error](#qi_auth_ptx_error)
-    * [qi_auth_ptx_digests](#qi_auth_ptx_digests)
-    * [qi_auth_ptx_certificate](#qi_auth_ptx_certificate)
-    * [qi_auth_ptx_challenge_auth](#qi_auth_ptx_challenge_auth)
-      
-      
-## Power Receiver PRx API
-
-This API is implemented with a support of a secure element as well as with a 3rd-party crypto library (custom mbedTLS version). You can switch between modules by including either [`qi_auth_prx_crypt.c`](../master/wpc/PRx/qi_auth_prx_crypt.c) or [`qi_auth_prx_crypt_soft.c`](../master/wpc/PRx/qi_auth_prx_crypt_soft.c) files 
-
-  * User API: qi_auth_prx.h
+  * User API: `qi_auth_prx.h`
     * [qi_auth_prx_init](#qi_auth_prx_init)
     * [qi_auth_prx_deinit](#qi_auth_prx_deinit)
     * [qi_auth_prx_get_digests](#qi_auth_prx_get_digests)
@@ -81,10 +53,33 @@ This API is implemented with a support of a secure element as well as with a 3rd
     * [qi_auth_prx_verify_cert](#qi_auth_prx_verify_cert)
     * [qi_auth_prx_get_certchain_info](#qi_auth_prx_get_certchain_info)
 
-[tocend]: # (toc end)
 
+### Power Transmitter (PTx) API
 
-## qi_auth_ptx_init
+#### High-level messages
+
+The PTx entity should be able to send the following messages:
+* `DIGESTS`
+  * includes SHA256 operation
+* `CERTIFICATE`
+* `CHALLENGE_AUTH` 
+  * includes SHA256 and ECDSA sign functions
+
+#### API overview
+
+This API is implemented with the OPTIGA&trade; Trust Charge security controller as crypto backend using either  the extensive  OPTIGA™ Trust Charge Software Framework or a minimalistic variant with a pure implementation of the Infineon I2C communication protocol. You can switch between the two variants by including either [`qi_auth_ptx_crypt.c`](../master/wpc/PTx/qi_auth_ptx_crypt.c) or [`qi_auth_ptx_crypt_wocmd.c`](../master/wpc/PRx/qi_auth_ptx_crypt_wocmd.c) files.
+
+  * User API: `qi_auth_ptx.h`
+    * [qi_auth_ptx_init](#qi_auth_ptx_init)
+    * [qi_auth_ptx_deinit](#qi_auth_ptx_deinit)
+    * [qi_auth_ptx_error](#qi_auth_ptx_error)
+    * [qi_auth_ptx_digests](#qi_auth_ptx_digests)
+    * [qi_auth_ptx_certificate](#qi_auth_ptx_certificate)
+    * [qi_auth_ptx_challenge_auth](#qi_auth_ptx_challenge_auth)
+
+### Detailed API description
+
+#### qi_auth_ptx_init
 
 * **Prototype**
 	```c
@@ -98,7 +93,7 @@ This API is implemented with a support of a secure element as well as with a 3rd
 [Top](#top)
 
 
-## qi_auth_ptx_deinit
+#### qi_auth_ptx_deinit
 
 * **Prototype**
 	```c
@@ -112,7 +107,7 @@ This API is implemented with a support of a secure element as well as with a 3rd
 [Top](#top)
 
 
-## qi_auth_ptx_error
+#### qi_auth_ptx_error
 
 * **Prototype**
 	```c
@@ -130,7 +125,7 @@ This API is implemented with a support of a secure element as well as with a 3rd
 
 [Top](#top)
 
-## qi_auth_ptx_digests
+#### qi_auth_ptx_digests
 
 * **Prototype**
 	```c
@@ -147,7 +142,7 @@ This API is implemented with a support of a secure element as well as with a 3rd
 
 [Top](#top)
 
-## qi_auth_ptx_certificate
+#### qi_auth_ptx_certificate
 
 * **Prototype**
 	```c
@@ -165,7 +160,7 @@ This API is implemented with a support of a secure element as well as with a 3rd
 
 [Top](#top)
 
-## qi_auth_ptx_challenge_auth
+#### qi_auth_ptx_challenge_auth
 
 * **Prototype**
 	```c
@@ -185,7 +180,7 @@ This API is implemented with a support of a secure element as well as with a 3rd
 
 [Top](#top)
 
-## qi_auth_prx_get_digests
+#### qi_auth_prx_get_digests
 
 * **Prototype**
 	```c
@@ -203,7 +198,7 @@ This API is implemented with a support of a secure element as well as with a 3rd
 [Top](#top)
 
 
-## qi_auth_prx_get_certificate
+#### qi_auth_prx_get_certificate
 
 * **Prototype**
 	```c
@@ -227,7 +222,7 @@ This API is implemented with a support of a secure element as well as with a 3rd
 [Top](#top)
 
 
-## qi_auth_prx_challenge
+#### qi_auth_prx_challenge
 
 * **Prototype**
 	```c
@@ -245,7 +240,7 @@ This API is implemented with a support of a secure element as well as with a 3rd
 [Top](#top)
 
 
-## qi_auth_prx_verify_chall_auth
+#### qi_auth_prx_verify_chall_auth
 
 * **Prototype**
 	```c
@@ -269,7 +264,7 @@ This API is implemented with a support of a secure element as well as with a 3rd
 
 [Top](#top)
 
-## qi_auth_prx_verify_cert
+#### qi_auth_prx_verify_cert
 
 * **Prototype**
 	```c

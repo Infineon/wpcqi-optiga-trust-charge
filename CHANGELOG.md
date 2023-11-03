@@ -1,10 +1,10 @@
-## 1.2.1 (TODO)
+## 1.2.1 (2023-11-06)
 
 Bugfix:
   - Fixed parsing of hash value in `qi_auth_ptx_crypt_wocmd.c`
 
 Maintenance:
-  - Updated documentation
+  - Updated documentation (README, CHANGELOG, WPC Qi authentication protocol description)
 
 ## 1.2.0 (2022-08-19)
 
