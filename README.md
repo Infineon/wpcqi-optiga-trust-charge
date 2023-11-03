@@ -106,3 +106,11 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## 3rd party software
+
+This project uses the following projects:
+* LUFA - Lightweight USB Framework for AVRs
+* CMSIS MPU API for Armv7-M MPU
+
+For more information on the relevant licenses, please see [LICENSE-3RD-PARTY](LICENSE-3RD-PARTY).
