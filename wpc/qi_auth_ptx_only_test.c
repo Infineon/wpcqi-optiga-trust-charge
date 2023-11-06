@@ -1,7 +1,7 @@
 /**
 * MIT License
 *
-* Copyright (c) 2020 Infineon Technologies AG
+* Copyright (c) 2020-2023 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -95,5 +95,5 @@ int qi_auth_self_test(void)
 
     }while(0);
 
-    return status;
+    return (status == 0x70)? 0:1;
 }

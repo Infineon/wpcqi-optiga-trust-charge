@@ -2,61 +2,51 @@
 
 ## Description
 
-This application note demonstrates partial immplementatio of the WPC Qi 1.3 Authentication Flow with help of the OPTIGA&trade; Trust Charge device authentication solution.
-In paricular this AppNote shows several things:
-* API to form correct messages according to the WPC Qi 1.3. Authentication. It's important to highlight, that this code doesn't implement the authentication flow itself, rather just prepares messages whcih might be forwarded to the respective endpoint.
+This application note demonstrates partial implementation of the WPC Qi 1.3 Authentication Flow with help of the OPTIGA&trade; Trust Charge device authentication solution.
+In particular this application note shows several things:
+* API to form correct messages according to the WPC Qi 1.3. Authentication. It's important to highlight, that this code doesn't implement the authentication flow itself, rather just prepares messages which might be forwarded to the respective endpoint.
 * Example usage of the API with a test flow
 * Test Vectors against the API
 
-WPC Qi 1.3 API Description can be found [here](WPC-Qi-Authentication-API.md)
+Please check out also our description of the [WPC Qi 1.3 Authentication API](docs/WPC-Qi-Authentication-API.md) that shows you the essential message exchange and respective function calls.
 
-## Hardware Setup
+## Hardware setup
 
-For this AppNote, you need an official OPTIGA&trade; Trust Charge [Evaluation Kit](https://www.infineon.com/cms/en/product/evaluation-boards/optiga-trust-ch-eval-kit/)
+For this application note, you need an official [OPTIGA&trade; Trust Charge Evaluation Kit](https://www.infineon.com/cms/en/product/evaluation-boards/optiga-trust-ch-eval-kit/)
 
-<details> 
- <summary><em> OPTIGA&trade; Trust Charge Evaluation Kit </em></summary>
- <img src="https://www.infineon.com/export/sites/default/_images/product/security-smart-card-solutions/OPTIGA-Trust-Charge-Board.png_1681483313.png">
-</details>
+![OPTIGA&trade; Trust Charge Evaluation Kit](/docs/images/OPTIGA_Trust_Charge_Evaluation_Kit.png)
 
-## Software Setup
+## Software setup
 
-### Install DAVE IDE
+### Install DAVE&trade; IDE
 
-Note that DAVE is supported on Windows platforms.
+NOTE: The DAVE&trade; IDE supports Windows platforms up to Windows 10.
 
-Go to Infineon's DAVE software download page.
+Please follow these steps to install the DAVE&trade; IDE:
 
-Choose the DAVE package for your operating system and submit your registration information. After you register, you should receive a confirmation email with a link to download a .zip file.
+1. Go to Infineon Developer Center and download [DAVE&trade; IDE](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.daveide).
+2. Choose the DAVE&trade; package for your operating system and submit your registration information. After you register, you should receive a confirmation email with a link to download a .zip file.
+3. To install the DAVE&trade; IDE run the executable `daveide_<version>.exe`.
 
-Download the DAVE package .zip file (DAVE_version_os_date.zip), and unzip it to the location where you want to install DAVE (for example, C:\DAVE4). Note
-Some Windows users have reported problems using Windows Explorer to unzip the file. We recommend that you use a third-party program such as 7-Zip.
-
-To launch DAVE, run the executable file found in the unzipped DAVE_version_os_date.zip folder.
-
-Go to the next Section to install JLink
+After installing the DAVE&trade; IDE, please continue with the next section to install SEGGER J-Link.
 
 ### Install SEGGER J-Link
 
-To communicate with the XMC4700 Relax Kit's on-board debugging probe, you need the drivers included in the J-Link Software and Documentation pack. You can download the J-Link Software and Documentation pack from Segger's J-Link [software download page](https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack).
+To communicate with the XMC4700 Relax Kit's on-board debugging probe, you need the drivers included in the J-Link Software and Documentation pack. You can download the J-Link software and documentation from the [SEGGER J-Link software download page](https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack).
 
 ### Additional Software References
 
-For more information on DAVE IDE, see the [DAVE Quick Start Guide](https://www.infineon.com/dgdl/Infineon-DAVE_Quick_Start-GS-v02_00-EN.pdf) and visit [DAVE Forum](https://www.infineonforums.com/threads/6212-Install-DAVE%C2%99-IDE-for-XMC%C2%99-microcontrollers).
+For more information on the DAVE&trade; IDE visit [DAVE&trade; Forum](https://www.infineonforums.com/threads/6212-Install-DAVE%C2%99-IDE-for-XMC%C2%99-microcontrollers).
 
 ##  Setting up your hardware
 
-To set up the OPTIGA&trade; Trust Charge Evaluation Kit:
+To set up the OPTIGA&trade; Trust Charge Evaluation Kit, please follow these steps:
 
-Connect your computer to the Debugger Micro USB port on your XMC4700 RelaxKit. The On-board USB debug probe is used to program the board.
+1. To program the board connect your computer to the Debugger Micro USB port X101.
+2. For logging purpose connect an additional USB cable to the Micro USB port X100 at the opposite side of the board.
 
-For logging purpose please connect additional USB cable to the X100 Connector on the board (an opposite side of the board).
-
-Ensure that the Shield2Go Security OPTIGA™ Trust Charge in Socket 1 of the Infineon MyIoT Adapter
-
-## Establishing a serial connection for debugging
-
-The Demo project creates an USB HID device which can be opened in a tool like Terra Term.
+NOTE: You can keep both Micro USB interfaces connected at the same time for an improved flashing and testing experience.
+NOTE: Ensure that the Shield2Go Security OPTIGA&trade; Trust Charge in Socket 1 of the Infineon MyIoT Adapter
 
 ## Downloading the Code
 
@@ -64,33 +54,51 @@ To get the code you need either download one of existing [releases](https://gith
 
 `git clone --recurse-submodules https://github.com/infineon/wpcqi-optiga-trust-charge`
 
-## Importing the WPC Qi 1.3 Auth AppNote project into DAVE
+## Importing the WPC Qi 1.3 Auth application note project into DAVE&trade;
 
-1. Start DAVE.
-
-2. In DAVE, choose File, and then choose Import. Expand the Infineon folder, choose DAVE Project, and then choose Next.
-
-3. In the Import DAVE Projects window, choose Select Root Directory, choose Browse, and then choose the XMC4700 demo project.
-
-4. In the directory where you have your cloned/dwnloaded sources the XMC4700 demo project is located in `projects/xmc4700_relax_kit_qi_auth_example/`
-
+1. Start the DAVE&trade; IDE.
+2. Choose File, and then choose Import. Expand the Infineon folder, choose DAVE&trade; Project, and then choose Next.
+3. In the Import DAVE&trade; Projects window, choose Select Root Directory, choose Browse, and then choose the XMC4700 demo project.
+4. In the directory where you have your cloned/downloaded sources the XMC4700 demo project is located in `projects/xmc4700_relax_kit_qi_auth_example/`
 5. Make sure that Copy Projects Into Workspace is cleared.
-
 6. Choose Finish.
 
 The `xmc4700_qi_auth_example` project should be imported into your workspace and activated.
 
-## Selecting the right Build configuration
+## Build configurations
 
-The demo project tests the implementaion of both sides PRx and PTX at the same time. However there is one detail, the Power Receiver can optionaly do all crypto relevat function either using OPTIGA or Third Party Crypto library as backend. You can choose it by selecting the corresponding configuration: Right CLick on the Project and select "Build Configurations" -> "Set Active" -> Make a choise between either `optiga_prx_crypto` or `software_prx_crypto`. In addition to to this both configurations another exists - `optiga_ptx_without_cmd`, which shows a minimalistic setup with minimum RAM and FLASH memeory consumed, this configuration doesn't use most of the features and based on a pure ifx_i2c communication protocol. In general the difference to the standard PTx iplementation is [this file](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/master/wpc/PTx/qi_auth_ptx_crypt_wocmd.c).
-Please note that performance of the pure software based approach is significantly lower than the configuration based on the Security Element
+This example project showcases the implementation of both sides, the Power Receiver (PRx) and the Power Transmitter (PTx), at the same time. You can choose between different variants of crypto backends and between the use of the extensive OPTIGA&trade; Trust Charge Software Framework or a minimalistic variant with a pure implementation of the Infineon I2C communication protocol.
 
-In case the certificate and the corresponding private key are located in slots other than 0xE0E0/0xE0F0, you can change this [here](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/15d8e7142f150832284054f6bb99414bcf832643/wpc/PTx/qi_auth_ptx_crypt.c#L46-L48)
+To select the build configuration, please follow these steps:
+ * Right Click on the Project and select "Build Configurations" 
+ * -> "Set Active" 
+ * -> Make a choice between the following configurations.
+
+| Configuration            | PRx Crypto Backend         | PTx Crypto Backend                    | Description                                           |
+| :------------------------|:-------------------------- | :------------------------------------ | :---------------------------------------------------- |
+| `optiga_prx_crypto`      | OPTIGA&trade; Trust Charge | OPTIGA&trade; Trust Charge            | Standard setup using OPTIGA&trade; Trust Charge for both PRx and PTx using the [OPTIGA&trade; Trust Charge Software Framework](https://github.com/Infineon/optiga-trust-charge) |
+| `software_prx_crypto`    | mbedTLS software library   | OPTIGA&trade; Trust Charge            | PRx role: Using a purely software based approach using mbedTLS for the PRx side               |
+| `optiga_ptx_without_cmd` | N/A                        | OPTIGA&trade; Trust Charge (minimal)  | PTx only minimalistic setup with minimum RAM and FLASH memory consumed and based on a pure Infineon I2C protocol communication protocol implementation. In general the difference to the standard PTx implementation is [this file](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/master/wpc/PTx/qi_auth_ptx_crypt_wocmd.c). |
+
+NOTE: The performance of the purely software based variant `software_prx_crypto` is significantly lower than the `optiga_prx_crypto` configuration based on the OPTIGA&trade; Trust Charge security controller.
+
+NOTE: The `optiga_ptx_without_cmd` build configuration does not output any log messages to the serial port as the goal is to provide a minimalistic scenario.
+
+NOTE: In case the certificate and the corresponding private key are located in slots other than `0xE0E0`/`0xE0F0`, you can change this [here](https://github.com/Infineon/wpcqi-optiga-trust-charge/blob/15d8e7142f150832284054f6bb99414bcf832643/wpc/PTx/qi_auth_ptx_crypt.c#L46-L48)
+
+## Establishing a serial connection for debugging
+
+For the build configurations `optiga_prx_crypto` and `software_prx_crypto`, this project offers debug output on the serial interface via the Micro USB port X100.
+
+We highly recommend, to use [Tera Term](https://ttssh2.osdn.jp/index.html.en) for displaying the logging output. Under  
+
+![Tera Term serial port configuration for OPTIGA&trade; Trust Charge WPC Qi on XMC4700](docs/images/OPTIGA_Trust_Charge_WPCQi_XMC4700_Tera_Term_configuration.png)
 
 ## Output
 
-![](https://github.com/Infineon/Assets/raw/master/Pictures/optiga_trust_charge_wpcqi.png)
+The following screenshot shows example output for the `optiga_prx_crypto` and `software_prx_crypto` build configurations.
 
+![Example log output for OPTIGA&trade; Trust Charge WPC Qi on XMC4700](docs/images/OPTIGA_Trust_Charge_WPCQi_example_output.png)
 
 ## Contributing
 
@@ -98,3 +106,11 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## 3rd party software
+
+This project uses the following projects:
+* LUFA - Lightweight USB Framework for AVRs
+* CMSIS MPU API for Armv7-M MPU
+
+For more information on the relevant licenses, please see [LICENSE-3RD-PARTY](LICENSE-3RD-PARTY).
